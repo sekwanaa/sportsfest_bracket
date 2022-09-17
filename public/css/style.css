@@ -1,0 +1,68 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    background-color: rgb(108, 109, 108);
+    opacity: 95%;
+    padding: 20px;
+}
+
+header::after {
+    display: table;
+    content: '';
+    clear: both;
+}
+
+header a, nav li {
+    text-decoration: none;
+    list-style: none;
+    float: left;
+    color: black;
+}
+
+header a:hover, li:hover {
+    color: rgb(255, 255, 255);
+}
+
+nav {
+    float: right;
+}
+
+body {
+    background-image: url('/public/images/lake_louise.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+main {
+    padding: 50px;
+}
+
+form {
+    background-color: grey;
+    width: 400px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    margin: auto;
+    border: 1px solid black;
+    text-align: center;
+    opacity: 95%;
+}
+
+form input, button {
+    padding: 5px;
+    margin: 10px;
+}
+
+form input::placeholder, textarea::placeholder {
+    text-align: center;
+}
+
+form div textarea {
+    resize: none;
+    padding: 5px;
+    margin: 10px;
+}
