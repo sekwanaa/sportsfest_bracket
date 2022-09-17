@@ -1,0 +1,20 @@
+{
+  "name": "sportsfest_bracket",
+  "version": "1.0.0",
+  "description": "site to create sports brackets",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sekwanaa/sportsfest_bracket.git"
+  },
+  "author": "Sekwang Chia, Bhavin Mistry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sekwanaa/sportsfest_bracket/issues"
+  },
+  "homepage": "https://github.com/sekwanaa/sportsfest_bracket#readme"
+}
