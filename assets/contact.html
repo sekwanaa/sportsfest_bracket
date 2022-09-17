@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sekwanaa Portfolio</title>
+    <link rel="stylesheet" href="contact_style.css">
+  </head>
+  <body>
+    <header>
+      <div id="nav_bar_container">
+        <a id="my_name"href="test_webpage.html">Sekwang Chia</a>
+          <nav>
+            <ul>
+              <li><a href="test_webpage.html">Home</a></li>
+              <li><a href="portfolio.html">Portfolio</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav>
+      </div>
+      <style>
+        body {
+          background-image: url('images/sekwang-chia-atWE7T-MW7U-unsplash.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: 1600px, 900px;
+          background-size: cover;
+          background-position-x: center;
+        }
+      </style>
+    </header>
+    <main>
+      <form id="contact_form">
+        <div>
+          <input type="email" name="email_address" id="email_address" required minlength="5" placeholder="Email Address" size="40">
+        </div>
+        <div>
+          <input type="text" name="message_subject" id="message_subject" required maxlength="75" placeholder="Subject" size="40">
+        </div>
+        <br><br>
+        <div>
+          <textarea name="message" id="contact_message" placeholder = "Message" cols="35" rows="15"></textarea>
+        </div>
+        <br>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </main>
+    <!-- <footer>
+      <div id="footer">
+        <p>Follow us on instagram</p>
+      </div>
+    </footer> -->
+  </body>
+</html>

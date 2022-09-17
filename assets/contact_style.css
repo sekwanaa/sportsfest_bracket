@@ -1,0 +1,114 @@
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  
+  body{
+    margin: 0;
+  }
+  
+  #nav_bar_container {
+    width: 90%;
+    margin: 0 auto;
+    font-family: Helvetica;
+  }
+  
+  #my_name {
+    color: rgb(221, 221, 221);
+    text-decoration: none;
+    float: left;
+    padding-top: 25px;
+    font-size: 18px;
+  }
+  
+  nav {
+    float: right;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    font-size: 10px;
+    padding-top: 10px;
+    padding-left: 30px;
+  }
+  
+  nav ul li a {
+    font-family: Helvetica;
+    font-size: 16px;
+    color: rgb(221, 221, 221);
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+  }
+  
+  nav ul li a:hover{
+    color: rgb(83, 112, 143);
+    transition: ease-in-out 150ms;
+  }
+  
+  nav ul li a::before{
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: rgb(77, 120, 91);
+  
+    position: absolute;
+    bottom: 0;
+    width: 0%;
+  
+    transition: ease-in-out 150ms;
+  }
+  
+  nav ul li a:hover::before {
+    width: 100%;
+  }
+  
+  #my_name:hover {
+    color: rgb(0, 0, 0);
+    transition: ease-in-out 250ms;
+  }
+  main {
+    padding-top: 60px;
+    margin: auto;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  form {
+    text-align: center;
+    background-color: rgb(104, 104, 104);
+    margin: auto; 
+    width: 400px; 
+    padding-top: 20px; 
+    padding-bottom: 20px;
+    opacity: 95%;
+  }
+  
+  form div input {
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  form div textarea {
+    resize: none;
+    padding: 10px;
+    margin: 10px;
+  
+  }
+  
+  form div input::placeholder {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+  
+  }
+  
+  form div textarea::placeholder {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+  
+  }
+  
+  form div button {
+      font-family: Arial, Helvetica, sans-serif;
+      block-size: 30px;
+  }
