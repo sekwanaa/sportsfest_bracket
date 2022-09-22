@@ -6,5 +6,4 @@ router.get("/", async (req, res) => {
     res.render("partials/team_input");
 });
 
-
 module.exports = router;
