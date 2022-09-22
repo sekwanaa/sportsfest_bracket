@@ -1,13 +1,16 @@
-<form>
+<form id="teamInputForm" method="post">
     <div>
-        <input id="teamName" type="text" placeholder="Team Name">
+        <input id="teamName" type="text" placeholder="Team Name" required>
     </div>
     <div id="teamMembers">
-        <input id="teamMemberName" type="text" placeholder="Team Member Name">
+        <input name="teamMemberName" id="teamMemberName" type="text" placeholder="Team Member Name" required>
     </div>
     <div id="add_remove_buttons">
         <button id="add_more_button" type="button">add another member</button>
         <button id="remove_button" type="button">remove member</button>
+    </div>
+    <div>
+        <button id="submit" type="submit">Si Papi</button>
     </div>
 </form>
 <script src="/public/js/team_input.js"></script>

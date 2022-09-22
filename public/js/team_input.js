@@ -1,7 +1,9 @@
 (function ($) {
     var addMoreButton = $('#add_more_button')
     var removeMember = $('#remove_button')
+    var teamInputForm = $('#teamInputForm')
     var i = 2
+    removeMember.hide()
     addMoreButton.click(function () {
         removeMember.show()
         const div = $("#teamMembers");
@@ -17,4 +19,28 @@
         const input = $("#teamMemberName" + i);
         input.remove();
     });
+
+    teamInputForm.submit(function (event) {
+        event.preventDefault();
+        var one = $('#teamName').val();
+        var two = $('#teamMemberName').val();
+
+        //try{
+            let req = {
+                method: 'POST',
+                url: '/team_input/submitTeams',
+                //contentType: 'applciation/json',
+                data: JSON.stringify({
+                    teamName: one,
+                    teamMember1: two,
+                })
+            }
+            $.ajax(req).then(function (res) {
+                console.log("Ye Boi")
+            })
+        //} 
+       // catch (e) {
+            //console.log(e)
+       // }
+    })
 })(window.jQuery);
