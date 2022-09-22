@@ -1,5 +1,6 @@
 const aboutRoutes = require("./about");
 const reportBugRoutes = require("./report_bugs");
+const teamInput = require("./team_input");
 const path = require('path');
 
 const constructorMethod = app => {
@@ -12,6 +13,7 @@ const constructorMethod = app => {
 
     app.use("/about", aboutRoutes);
     app.use("/report_bug", reportBugRoutes);
+    app.use("/team_input", teamInput);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});
