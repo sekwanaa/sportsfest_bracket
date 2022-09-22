@@ -30,6 +30,8 @@ nav {
     float: right;
 }
 
+/* Report Bugs CSS starts here */
+
 body {
     background-image: url('/public/images/lake_louise.jpg');
     background-size: cover;
@@ -66,3 +68,5 @@ form div textarea {
     padding: 5px;
     margin: 10px;
 }
+
+/* Report Bugs CSS ends here */
