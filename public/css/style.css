@@ -24,10 +24,16 @@ header a, nav li {
 
 header a:hover, li:hover {
     color: rgb(255, 255, 255);
+    transition: 150ms ease-in-out;
 }
 
 nav {
     float: right;
+}
+
+nav ul li {
+    display: inline-flexbox;
+    padding: 0 35px;
 }
 
 /* Report Bugs CSS starts here */
