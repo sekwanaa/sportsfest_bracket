@@ -3,7 +3,11 @@
     margin: 0;
 }
 
-header {
+html {
+    height: 100%;
+}
+
+header, footer {
     background-color: rgb(108, 109, 108);
     opacity: 95%;
     padding: 20px;
@@ -36,18 +40,37 @@ nav ul li {
     padding: 0 35px;
 }
 
-/* Report Bugs CSS starts here */
-
 body {
     background-image: url('/public/images/lake_louise.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
+    min-height: 100%;
+    border: 1px solid blue;
 }
 
 main {
-    padding: 50px;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 90vh auto auto;
+    position: relative;
+    padding: 2%;
 }
+
+.container {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    border: 1px solid red;
+}
+
+footer {
+    height: 3em;
+    background-color: grey;
+    text-align: right;
+    border: 1px solid pink;
+}
+
+/* Report Bugs CSS starts here */
 
 form {
     background-color: grey;
