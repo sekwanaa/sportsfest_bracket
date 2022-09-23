@@ -7,7 +7,7 @@ const path = require('path');
 const constructorMethod = app => {
     app.get('/', (req, res) => {
 
-        res.render('partials/landingPage', {title: 'Bracket Generator'})
+        res.render('partials/landingPage', {title: 'Bracket Generator', shortcode: 'landingPage'})
         //res.sendFile(path.resolve('static/report_bug.html'));
     });
 

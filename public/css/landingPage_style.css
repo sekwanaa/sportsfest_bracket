@@ -1,0 +1,28 @@
+div {
+    text-align: center;
+}
+
+h1 {
+    padding: 2%;
+    text-shadow: 0 5px 8px white;
+}
+
+form {
+    background-color: grey;
+    width: 400px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    margin: auto;
+    border: 1px solid black;
+    text-align: center;
+    opacity: 95%;
+}
+
+form input, button, h3 {
+    padding: 5px;
+    margin: 10px;
+}
+
+form input::placeholder, textarea::placeholder {
+    text-align: center;
+}
