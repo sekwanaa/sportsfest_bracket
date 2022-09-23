@@ -24,11 +24,27 @@ header a, nav li {
     list-style: none;
     float: left;
     color: black;
+    position: relative;
 }
 
 header a:hover, li:hover {
-    color: rgb(255, 255, 255);
-    transition: 150ms ease-in-out;
+    color: rgb(209, 209, 209);
+    transition: 250ms ease-in-out;
+}
+
+header a::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: rgb(209, 209, 209);
+    position: absolute;
+    width: 0%;
+    bottom: -1px;
+}
+
+header a:hover::before {
+    width: 100%;
+    transition: 250ms ease-in-out;
 }
 
 nav {
@@ -36,7 +52,7 @@ nav {
 }
 
 nav ul li {
-    display: inline-flexbox;
+    display: inline-block;
     padding: 0 35px;
 }
 
