@@ -4,6 +4,7 @@ form {
     padding-top: 2vh;
     padding-bottom: 2vh;
     margin: auto;
+    margin-top: 0;
     border: 1px solid black;
     text-align: center;
     opacity: 95%;
