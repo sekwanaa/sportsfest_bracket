@@ -4,7 +4,7 @@ form {
     padding-top: 2vh;
     padding-bottom: 2vh;
     margin: auto;
-    margin-top: 0;
+    margin-top: 3%;
     border-radius: 10%;
     border: 1px solid black;
     text-align: center;
@@ -12,8 +12,14 @@ form {
 }
 
 form input, button {
+    border-width: 1px;
+    border-radius: 8%;
     padding: 5px;
     margin: 10px;
+}
+
+form button {
+    border-radius: 10%;
 }
 
 form input::placeholder, textarea::placeholder {
@@ -21,7 +27,9 @@ form input::placeholder, textarea::placeholder {
 }
 
 form div textarea {
+    border-width: 1px;
+    border-radius: 8%;
     resize: none;
-    padding: 5px;
+    padding: 20px;
     margin: 10px;
 }
