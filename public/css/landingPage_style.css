@@ -20,8 +20,15 @@ form {
 }
 
 form input, button, h3 {
+    border-width: 1px;
+    border-radius: 8%;
     padding: 5px;
     margin: 10px;
+}
+
+form button {
+    border-width: 1px;
+    border-radius: 10%;
 }
 
 form input::placeholder, textarea::placeholder {
