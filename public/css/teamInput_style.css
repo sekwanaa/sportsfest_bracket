@@ -1,0 +1,27 @@
+form {
+    background-color: grey;
+    width: 400px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    margin: auto;
+    border: 1px solid black;
+    text-align: center;
+    opacity: 95%;
+}
+
+form input, button {
+    padding: 5px;
+    margin: 10px;
+}
+
+form input::placeholder, textarea::placeholder {
+    text-align: center;
+}
+
+form div textarea {
+    resize: none;
+    padding: 5px;
+    margin: 10px;
+}
+
+/* Report Bugs CSS ends here */

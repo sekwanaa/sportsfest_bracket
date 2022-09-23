@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
 
-    res.render("partials/team_input", {title: "Team Input Form"});
+    res.render("partials/team_input", {title: "Team Input Form", shortcode: 'teamInput'});
 });
 
 router.post("/submitTeams", async (req, res) => {
