@@ -68,11 +68,6 @@ main {
     padding: 2%;
 }
 
-.container {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-}
-
 footer {
     height: 3em;
     background-color: grey;
