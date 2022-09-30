@@ -1,6 +1,6 @@
 {
   "mongoConfig": {
-    "serverUrl": "mongodb://localhost:27017/",
+    "serverUrl": "mongodb://mongoAdmin:B852e43b84!12@mistrysharenas.ddns.net:25581/",
     "database": "sportsfest"
   }
 }

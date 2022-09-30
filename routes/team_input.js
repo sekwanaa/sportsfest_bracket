@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const data = require("../data/");
+const teamsData = data.teamsData
+
 router.get("/", async (req, res) => {
 
     res.render("partials/team_input", {title: "Team Input Form", shortcode: 'teamInput'});
@@ -25,5 +28,19 @@ router.post("/submitTeams", async (req, res) => {
 
     return {test: "this"};
 });
+
+router.get("/allTeams", async (req, res) => {
+    try {
+        // console.log(await teamsData.getAllTeams());
+
+        const teamName = await teamsData.getAllTeams()
+        console.log(teamName[0].name);
+        return res.json(teamName);
+    }
+
+    catch(e) {
+        console.log(e);
+    }
+})
 
 module.exports = router;
