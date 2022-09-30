@@ -1,0 +1,57 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 50%;
+    text-align: center;
+}
+
+#team1, #team2 {
+    margin: 0 auto;
+    background-color: grey;
+    opacity: 95%;
+    max-width: 400px;
+}
+
+@media (max-width: 900px) {
+    .column {
+        flex: 100%;
+    }
+  }
+
+@keyframes fadein {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 95%;
+    }
+}
+
+form, body {
+    animation: fadein 1.25s ease-in-out;
+}
+
+body {
+    background-image: url('/public/images/scoreboard_bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center; 
+}
+
+form input, button {
+    border-width: 1px;
+    border-radius: 8%;
+    padding: 5px;
+    margin: 10px;
+}
+
+form button {
+    border-radius: 10%;
+}
+
+form input::placeholder, textarea::placeholder {
+    text-align: center;
+} 
