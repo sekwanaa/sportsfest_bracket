@@ -29,15 +29,15 @@
             let req = {
                 method: 'POST',
                 url: '/team_input/submitTeams',
-                //contentType: 'applciation/json',
+                contentType: 'application/json',
                 data: JSON.stringify({
                     teamName: one,
                     teamMember1: two,
                 })
-            }
+            };
             $.ajax(req).then(function (res) {
                 console.log("Ye Boi")
-            })
+            });
         //} 
        // catch (e) {
             //console.log(e)
