@@ -32,7 +32,7 @@ router.post("/submitTeams", async (req, res) => {
 router.get("/allTeams", async (req, res) => {
     try {
         // console.log(await teamsData.getAllTeams());
-
+        //new edit
         const teamName = await teamsData.getAllTeams()
         console.log(teamName[0].name);
         return res.json(teamName);
