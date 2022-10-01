@@ -10,19 +10,38 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/submitTeams", async (req, res) => {
-    const reqBody = req.body;
 
     try {
-        console.log("reqBody: " + reqBody.teamName + " " + reqBody.teamMember1);
-        console.log(reqBody)
-        const teamName  = req.body.teamName
-        const teamMember1 = req.body.teamMember1;
-        // console.log(teamMember1)
-        // console.log(teamName)
+        
+        const teamName  = req.body.teamName;
+        const district = req.body.district;
+        const players = req.body.players;
+
+        console.log("Team Name: " + teamName);
+        console.log("District: " + district);
+        console.log("Players: " + players);
+
+        const count = 1;
+        playersArray = [];
+
+        for(i = 0; i < count; i++) {
+            playersArray.push(players)    
+        }
+
+        console.log(playersArray);
+        
+        for(i=0; i < playersArray.length; i++) {
+            console.log("player: " + playersArray[i])
+            console.log("player: " + playersArray[i])
+        }
+
+
+
+        // const insertTeam = teamsData.addTeam(teamName, district, players)
     }
 
     catch(e) {
-        console.log("failed");
+        console.log(e);
     }
 
 
@@ -41,6 +60,6 @@ router.get("/allTeams", async (req, res) => {
     catch(e) {
         console.log(e);
     }
-})
+});
 
 module.exports = router;

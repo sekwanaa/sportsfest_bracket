@@ -32,7 +32,8 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     teamName: one,
-                    teamMember1: two,
+                    district: 1,
+                    players: [two],
                 })
             };
             $.ajax(req).then(function (res) {
