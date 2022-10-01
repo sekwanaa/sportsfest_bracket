@@ -1,5 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const teams = mongoCollections.teams;
+const playersData = mongoCollections.players;
 
 const { ObjectId } = require("mongodb");
 
@@ -20,13 +21,19 @@ let exportedMethods = {
     let newTeam = {
       name: teamName,
       district: district,
-      players: players
+      players: []
     };
 
     const teamsCollection = await teams();
+    const playersCollection = await playersData();
+
+    for(i = 0; i < players.length; i++) {
+      const insertPlayer = await playersCollection.insertOne(players[i]);
+      const insertPlayerId = insertPlayer.insertedId.toString();
+      newTeam.players.push(insertPlayerId);
+    }
 
     const insertTeam = await teamsCollection.insertOne(newTeam);
-
     const teamsId = insertTeam.insertedId.toString();
     
     // const checkExists = await userCollection.find({_id: ObjectId(beingReviewedId)}, {_id: 1}).limit(1);

@@ -1,13 +1,17 @@
 (function ($) {
-    var addMoreButton = $('#add_more_button')
-    var removeMember = $('#remove_button')
-    var teamInputForm = $('#teamInputForm')
-    var i = 2
-    removeMember.hide()
+    var addMoreButton = $('#add_more_button');
+    var removeMember = $('#remove_button');
+    var teamInputForm = $('#teamInputForm');
+    var i = 2;
+    var teamMemberCount = i;
+
+    removeMember.hide();
+
     addMoreButton.click(function () {
         removeMember.show()
         const div = $("#teamMembers");
         div.append('<input id="teamMemberName' + i++ +'" type="text" placeholder="Team Member Name"></input>');
+        teamMemberCount = i;
     });
 
     removeMember.click(function () {
@@ -15,33 +19,46 @@
             $(this).hide()
         }
         i -= 1
-        console.log(i)
         const input = $("#teamMemberName" + i);
         input.remove();
+        teamMemberCount = i;
     });
 
     teamInputForm.submit(function (event) {
         event.preventDefault();
-        var one = $('#teamName').val();
-        var two = $('#teamMemberName').val();
+        var teamName = $('#teamName').val();
+        var district = $('#districtSelection').val();
+        let teamMembers = [];
+        
 
-        //try{
+        for(i = 1; i < teamMemberCount; i++) {
+            let playerData = {};
+            playerData.name = $("#teamMemberName" + i).val();
+            playerData.shirtNum = i;
+            teamMembers.push(playerData);
+        }
+
+        try {
             let req = {
                 method: 'POST',
                 url: '/team_input/submitTeams',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    teamName: one,
-                    district: 1,
-                    players: [two],
+                    teamName: teamName,
+                    district: district,
+                    players: teamMembers,
                 })
             };
             $.ajax(req).then(function (res) {
-                console.log("Ye Boi")
+                console.log("Team Added")
+                console.log("Team ID: " + res);
             });
-        //} 
-       // catch (e) {
-            //console.log(e)
-       // }
-    })
+        } 
+        catch (e) {
+            console.log(e)
+        }
+
+        //clear all input fields
+        teamInputForm[0].reset();
+    });
 })(window.jQuery);

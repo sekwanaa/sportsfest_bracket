@@ -17,35 +17,17 @@ router.post("/submitTeams", async (req, res) => {
         const district = req.body.district;
         const players = req.body.players;
 
-        console.log("Team Name: " + teamName);
-        console.log("District: " + district);
-        console.log("Players: " + players);
+        const teamId = await teamsData.addTeam(teamName, district, players);
 
-        const count = 1;
-        playersArray = [];
-
-        for(i = 0; i < count; i++) {
-            playersArray.push(players)    
-        }
-
-        console.log(playersArray);
-        
-        for(i=0; i < playersArray.length; i++) {
-            console.log("player: " + playersArray[i])
-            console.log("player: " + playersArray[i])
-        }
-
-
-
-        // const insertTeam = teamsData.addTeam(teamName, district, players)
+        return res.json(teamId);
     }
 
     catch(e) {
         console.log(e);
     }
 
+    return;
 
-    return {test: "this"};
 });
 
 router.get("/allTeams", async (req, res) => {
