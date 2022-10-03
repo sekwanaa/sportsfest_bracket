@@ -1,26 +1,3 @@
-.row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.column {
-    flex: 50%;
-    text-align: center;
-}
-
-#team1, #team2 {
-    margin: 0 auto;
-    background-color: grey;
-    opacity: 95%;
-    max-width: 400px;
-}
-
-@media (max-width: 900px) {
-    .column {
-        flex: 100%;
-    }
-  }
-
 @keyframes fadein {
     from {
         opacity: 0%;
@@ -35,13 +12,25 @@ form, body {
 }
 
 body {
-    background-image: url('/public/images/soccer_field_bg.jpg');
+    background-image: url('/public/images/gym_bg.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-position: center; 
 }
 
-form input, button {
+form {
+    background-color: grey;
+    width: 400px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 10%;
+    text-align: center;
+    opacity: 95%;
+}
+
+form input, button, h3 {
     border-width: 1px;
     border-radius: 8%;
     padding: 5px;
@@ -49,9 +38,10 @@ form input, button {
 }
 
 form button {
+    border-width: 1px;
     border-radius: 10%;
 }
 
 form input::placeholder, textarea::placeholder {
     text-align: center;
-} 
+}
