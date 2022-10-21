@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const { requiresAuth } = require('express-openid-connect');
 
 const data = require("../data/");
 const teamsData = data.teamsData
 
-router.get("/", async (req, res) => {
+router.get("/", requiresAuth(), async (req, res) => {
 
     res.render("partials/team_input", {title: "Team Input Form", shortcode: 'teamInput'});
 });
