@@ -12,11 +12,6 @@ const config = {
     clientID: 'CmnHPslBTHdjgE08RMzwfjDM70F3ez7L',
     issuerBaseURL: 'https://dev-e6dfhqdzli1uevwb.us.auth0.com'
 }
-const { requiresAuth } = require('express-openid-connect');
-
-app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
 
 const configRoutes = require('./routes');
 
@@ -27,9 +22,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(auth(config));
-app.get('/', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? '/landingPage' : 'Logged out');
-});
 
 app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
