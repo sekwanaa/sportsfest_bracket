@@ -3,13 +3,17 @@ const reportBugRoutes = require("./report_bugs");
 const teamInputRoutes = require("./team_input");
 const bracketViewRoutes = require("./bracket_view");
 const scoreInputRoutes = require("./score_input");
-const loginRoutes = require("./login")
 const path = require('path');
+// const userData = require('../data/userData')
+// const userRoleData = userData.getAllUsers()
 
 const constructorMethod = app => {
     app.get('/', (req, res) => {
-
-        res.render('partials/landingPage', {title: 'Bracket Generator', shortcode: 'landingPage'})
+        res.render('partials/landingPage', {
+            title: 'Bracket Generator',
+            shortcode: 'landingPage',
+            isAuthenticated: req.oidc.isAuthenticated(),
+        })
         //res.sendFile(path.resolve('static/report_bug.html'));
     });
 
@@ -19,7 +23,6 @@ const constructorMethod = app => {
     app.use("/team_input", teamInputRoutes);
     app.use("/bracket_view", bracketViewRoutes);
     app.use("/score_input", scoreInputRoutes);
-    app.use("/login", loginRoutes);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});

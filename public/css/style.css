@@ -37,9 +37,9 @@ header a::before {
     display: block;
     height: 2px;
     background-color: rgb(209, 209, 209);
-    position: absolute;
+    position: relative;
     width: 0%;
-    bottom: -1px;
+    bottom: -20px;
 }
 
 header a:hover::before {
@@ -51,8 +51,13 @@ nav {
     float: right;
 }
 
-nav ul li {
+nav ul li .basic {
     display: inline-block;
+    padding: 0 35px;
+}
+
+.coordinator {
+    display: none;
     padding: 0 35px;
 }
 

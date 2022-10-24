@@ -7,7 +7,11 @@ const teamsData = data.teamsData
 
 router.get("/", requiresAuth(), async (req, res) => {
 
-    res.render("partials/team_input", {title: "Team Input Form", shortcode: 'teamInput'});
+    res.render("partials/team_input", {
+        title: "Team Input Form", 
+        shortcode: 'teamInput',
+        isAuthenticated: req.oidc.isAuthenticated(),
+    });
 });
 
 router.post("/submitTeams", async (req, res) => {
