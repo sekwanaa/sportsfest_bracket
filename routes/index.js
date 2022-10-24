@@ -9,6 +9,7 @@ const path = require('path');
 
 const constructorMethod = app => {
     app.get('/', (req, res) => {
+        console.log(req.oidc.user)
         res.render('partials/landingPage', {
             title: 'Bracket Generator',
             shortcode: 'landingPage',
