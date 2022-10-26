@@ -18,7 +18,7 @@ const constructorMethod = app => {
 
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
-            const user = await userData.getUser(email);
+            const user = await userData.getUserByEmail(email);
             loggedInUser = user;
             userRole = loggedInUser.user_metadata.role;
         }

@@ -11,8 +11,9 @@ router.get("/", async (req, res) => {
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
-        const user = await userData.getUser(email);
+        const user = await userData.getUserByEmail(email);
         loggedInUser = user;
+        nickname = loggedInUser.nickname
         userRole = loggedInUser.user_metadata.role;
     }
 
@@ -21,6 +22,7 @@ router.get("/", async (req, res) => {
         shortcode: 'roleChange',
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
+        nickname: nickname,
         role: userRole,
     });
 });

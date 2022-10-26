@@ -1,0 +1,11 @@
+.grid-column {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-auto-rows: 50px;
+}
+
+.grid-row {
+    background-color: rgb(225, 225, 225);
+    padding: 10px;
+    border: 1px solid black;
+}
