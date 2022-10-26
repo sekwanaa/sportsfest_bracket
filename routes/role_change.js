@@ -8,10 +8,12 @@ router.get("/", async (req, res) => {
     let email = "not authenticated";
     let loggedInUser = {};
     let userRole = "";
+    let allUsers = []
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
         const user = await userData.getUserByEmail(email);
+        allUsers = await userData.getAllUsers();
         loggedInUser = user;
         nickname = loggedInUser.nickname
         userRole = loggedInUser.user_metadata.role;
@@ -22,9 +24,15 @@ router.get("/", async (req, res) => {
         shortcode: 'roleChange',
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
-        nickname: nickname,
         role: userRole,
+        allUsers: allUsers,
+        length: allUsers.length
     });
+});
+
+router.post("/", async (req, res) => {
+    const matchInfo = req.body;
+    console.log(matchInfo)
 });
 
 module.exports = router;

@@ -11,6 +11,8 @@ let exportedMethods = {
     
         const allUsers = await userCollection.find({}).toArray();
     
+        // console.log(allUsers)
+
         return allUsers;
     },
 
@@ -25,6 +27,16 @@ let exportedMethods = {
     },
 
     async getUserByRole(userRole) {
+        const userCollection = await users();
+
+        const user = await userCollection.find({role: userRole}).toArray();
+
+        // console.log(user);
+
+        return user;
+    },
+
+    async updateUser(email, role) {
         const userCollection = await users();
 
         const user = await userCollection.find({role: userRole}).toArray();

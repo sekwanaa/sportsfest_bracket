@@ -1,11 +1,15 @@
 .grid-column {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: auto auto 200px;
     grid-auto-rows: 50px;
 }
 
-.grid-row {
+.grid-row, .header{
     background-color: rgb(225, 225, 225);
     padding: 10px;
     border: 1px solid black;
+}
+
+.header {
+    background-color: rgb(203, 203, 203);
 }

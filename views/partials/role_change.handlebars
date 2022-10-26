@@ -1,6 +1,24 @@
-<div class="grid-column">
-    <div class="grid-row">Nickname</div> <div class="grid-row">{{role}}</div>
-    <div class="grid-row">Nickname</div> <div class="grid-row">{{role}}</div>
-    <div class="grid-row">Nickname</div> <div class="grid-row">{{role}}</div>
-    <div class="grid-row">Hello</div> <div class="grid-row">world</div>
+<div>
+    <p id="totalUsers">Total Users: {{allUsers.length}}</p>
+    <div class="grid-column">
+        <div class="header" class="grid-row"><p>Email</p></div> 
+        <div class="header" class="grid-row"><p>Current Role</p></div> 
+        <div class="header" class="grid-row"><p>Change Role to:</p></div>
+        {{#each allUsers}}
+            <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
+            <div class="grid-row" id="role{{@index}}">{{this.user_metadata.role}}</div> 
+            <div class="grid-row" id="roleChange{{@index}}">
+                <form id="roleChangeForm">
+                    <input list="roles" name="role" id="role">
+
+                    <datalist id="roles">
+                    <option value="Coordinator">
+                    <option value="Captain">
+                    </datalist>
+                </form>
+            </div>
+        {{/each}}
+    </div> 
 </div>
+
+<button class="button" type="submit">Submit</button>
