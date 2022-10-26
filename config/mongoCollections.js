@@ -20,5 +20,6 @@ module.exports = {
   // put collection modules in here from data folder
   teams: getCollectionFn("teams"),
   players: getCollectionFn("players"),
-  users: getCollectionFn("users")
+  users: getCollectionFn("users"),
+  matches: getCollectionFn("matches")
 };
