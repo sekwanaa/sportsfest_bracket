@@ -51,8 +51,11 @@ nav {
     float: right;
 }
 
-nav ul li .basic {
+nav ul li {
     display: inline-block;
+}
+
+nav ul li .basic {
     padding: 0 35px;
 }
 

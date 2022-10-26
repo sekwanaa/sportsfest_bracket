@@ -23,6 +23,16 @@ let exportedMethods = {
 
         return user;
     },
+
+    async getUserByRole(userRole) {
+        const userCollection = await users();
+
+        const user = await userCollection.find({role: userRole}).toArray();
+
+        console.log(user);
+
+        return user;
+    },
   }
   
   

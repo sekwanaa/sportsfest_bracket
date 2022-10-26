@@ -16,9 +16,9 @@ router.get("/", async (req, res) => {
         userRole = loggedInUser.user_metadata.role;
     }
 
-    res.render("partials/bracket_view", {
-        title: 'View Bracket', 
-        shortcode: 'bracketView',
+    res.render("partials/role_change", {
+        title: "Role Change", 
+        shortcode: 'roleChange',
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
         role: userRole,
