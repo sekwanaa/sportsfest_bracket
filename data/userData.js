@@ -13,6 +13,16 @@ let exportedMethods = {
     
         return allUsers;
     },
+
+    async getUser(userEmail) {
+        const userCollection = await users();
+
+        const user = await userCollection.findOne({email: userEmail});
+
+        // console.log(user);
+
+        return user;
+    },
   }
   
   

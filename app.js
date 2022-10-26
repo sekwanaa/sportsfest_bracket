@@ -26,6 +26,19 @@ app.use(auth(config));
 app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+var hbs = exphbs.create({});
+
+// register new function
+hbs.handlebars.registerHelper('compareRole', function(handlebarRole, userRole, options) {
+    if(handlebarRole == userRole) {
+        return options.fn(this)
+    }
+    else { 
+        return options.inverse(this);
+    }
+});
+
+
 configRoutes(app);
 
 app.listen(3000, () => {
