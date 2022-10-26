@@ -2,25 +2,40 @@
 <html lang="en">
 <head>
     
-    {{!-- <title>Bracket Generator</title> --}}
+    <title>{{{title}}}</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="Sports bracket generator">
 
-
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/public/css/style.css">
+    {{#if shortcode}}
+    <link rel="stylesheet" href="/public/css/{{shortcode}}_style.css">
+    {{/if}}
 </head>
 <body>
     <header>
         <a href="/">Big Booty Generator</a>
         <nav>
             <ul>
-                <li><a href="/report_bug">Report Bug</a></li>
+                <li><a class="basic" href="/bracket_view">View Current Bracket</a></li>
+                {{#compareRole "coordinator" role}}
+                <li><a class="coordinator" href="/team_input">Input Teams</a></li>
+                <li><a class="coordinator" href="/score_input">Input Scores</a></li>
+                {{/compareRole}}
+                {{#if isAuthenticated}}
+                <li><a class="basic" href="/logout">Logout</a></li>
+                <li><a class="basic" href="/report_bug">Report Bug</a></li>
+                {{else}}
+                <li><a class="basic" href="/login">Login/Sign Up</a></li>
+                {{/if}}
             </ul>
         </nav>
     </header>
     <main>{{{body}}}</main>
-    <footer></footer>
+    <footer>
+        copyright Bhavin Mistry and Sekwang Chia
+    </footer>
 </body>
 </html>

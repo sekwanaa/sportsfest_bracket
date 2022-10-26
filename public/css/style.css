@@ -3,7 +3,11 @@
     margin: 0;
 }
 
-header {
+html {
+    height: 100%;
+}
+
+header, footer {
     background-color: rgb(108, 109, 108);
     opacity: 95%;
     padding: 20px;
@@ -20,53 +24,56 @@ header a, nav li {
     list-style: none;
     float: left;
     color: black;
+    position: relative;
 }
 
 header a:hover, li:hover {
-    color: rgb(255, 255, 255);
+    color: rgb(209, 209, 209);
+    transition: 250ms ease-in-out;
+}
+
+header a::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: rgb(209, 209, 209);
+    position: relative;
+    width: 0%;
+    bottom: -20px;
+}
+
+header a:hover::before {
+    width: 100%;
+    transition: 250ms ease-in-out;
 }
 
 nav {
     float: right;
 }
 
-/* Report Bugs CSS starts here */
+nav ul li .basic {
+    display: inline-block;
+    padding: 0 35px;
+}
+
+.coordinator {
+    padding: 0 35px;
+}
 
 body {
-    background-image: url('/public/images/lake_louise.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
+    min-height: 100%;
 }
 
 main {
-    padding: 50px;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 90vh auto auto;
+    position: relative;
+    padding: 2%;
 }
 
-form {
+footer {
+    height: 3em;
     background-color: grey;
-    width: 400px;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
-    margin: auto;
-    border: 1px solid black;
-    text-align: center;
-    opacity: 95%;
+    text-align: right;
 }
-
-form input, button {
-    padding: 5px;
-    margin: 10px;
-}
-
-form input::placeholder, textarea::placeholder {
-    text-align: center;
-}
-
-form div textarea {
-    resize: none;
-    padding: 5px;
-    margin: 10px;
-}
-
-/* Report Bugs CSS ends here */
