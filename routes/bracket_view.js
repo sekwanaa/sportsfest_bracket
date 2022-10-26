@@ -3,7 +3,11 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
 
-    res.render("partials/bracket_view", {title: 'View Bracket', shortcode: 'bracketView'});
+    res.render("partials/bracket_view", {
+        title: 'View Bracket', 
+        shortcode: 'bracketView',
+        isAuthenticated: req.oidc.isAuthenticated(),
+    });
 });
 
 module.exports = router;

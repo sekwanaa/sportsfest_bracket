@@ -4,6 +4,7 @@
   "description": "site to create sports brackets",
   "main": "app.js",
   "scripts": {
+    "devStart": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
@@ -19,10 +20,14 @@
   "homepage": "https://github.com/sekwanaa/sportsfest_bracket#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "express-handlebars": "^6.0.6",
+    "express-openid-connect": "^2.9.0",
     "handlebars": "^4.7.7",
     "mongodb": "^4.10.0",
     "router": "^1.3.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

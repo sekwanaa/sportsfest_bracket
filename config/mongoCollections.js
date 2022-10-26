@@ -19,5 +19,6 @@ const getCollectionFn = (collection) => {
 module.exports = {
   // put collection modules in here from data folder
   teams: getCollectionFn("teams"),
-  players: getCollectionFn("players")
+  players: getCollectionFn("players"),
+  users: getCollectionFn("users")
 };
