@@ -41,6 +41,7 @@ const constructorMethod = app => {
     app.use("/team_input", teamInputRoutes);
     app.use("/bracket_view", bracketViewRoutes);
     app.use("/score_input", scoreInputRoutes);
+    app.use("/role_change", roleChangeRoutes);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});
