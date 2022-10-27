@@ -37,15 +37,13 @@
                 })
             };
             $.ajax(req).then(function (res) {
-                console.log("Team Added")
-                console.log("Team ID: " + res);
             });
         } 
         catch (e) {
             console.log(e)
         }
 
-        //clear all input fields
+        //clear all input fields and reload page
         roleChangeForm[0].reset();
         location.reload();
 
