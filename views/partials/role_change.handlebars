@@ -9,7 +9,7 @@
             <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
             <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
             <div class="grid-row" id="roleChange{{@index}}">
-                    <form id="roleChangeForm">
+                <form id="roleChangeForm">
                     <input list="roles" name="role" id="newRole{{@index}}">
 
                     <datalist id="roles">
@@ -17,10 +17,9 @@
                     <option value="captain">
                     <option value="player">
                     </datalist>
-                
             </div>
         {{/each}}
-        <button id="button" type="submit">Submit</button>
+            <button id="button" type="submit">Submit</button>
         </form>
     </div> 
 </div>
