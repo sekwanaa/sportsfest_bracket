@@ -1,14 +1,31 @@
 (function ($) {
     var roleChangeForm = $('#roleChangeForm');
-    var totalUsers = $('#totalUsers')
+    var totalUsers = $('#totalUsers')[0].attributes[1].value
 
     roleChangeForm.submit(function (event) {
         event.preventDefault();
+        console.log("test")
+
+        $('#totalUsers')
+
+        let personArray = [];
+
         for (i=0;i<totalUsers;i++) {
             // TODO iterate through emails//
+            let email = $('#email'+ i +'')[0].textContent
+            let role = $('#newRole'+ i + '').val()
+
+            if (role == "") {
+                continue;
+            }
+
+            let personObject = {
+                email: email,
+                role: role,
+            }
+
+            personArray.push(personObject);
         }
-        var email = 'poop';
-        var role = $('#role').val();
         
         try {
             let req = {
@@ -16,7 +33,7 @@
                 url: '/role_change/',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    role: role,
+                    personArray: personArray,
                 })
             };
             $.ajax(req).then(function (res) {
@@ -30,5 +47,8 @@
 
         //clear all input fields
         roleChangeForm[0].reset();
+        location.reload();
+
+
     });
 })(window.jQuery);

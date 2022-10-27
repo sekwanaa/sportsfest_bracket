@@ -1,5 +1,5 @@
 <div>
-    <p id="totalUsers">Total Users: {{allUsers.length}}</p>
+    <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
     <br>
     <div class="grid-column">
         <div class="header" class="grid-row"><p>Email</p></div> 
@@ -7,19 +7,21 @@
         <div class="header" class="grid-row"><p>Change Role to:</p></div>
         {{#each allUsers}}
             <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
-            <div class="grid-row" id="role{{@index}}">{{this.user_metadata.role}}</div> 
+            <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
             <div class="grid-row" id="roleChange{{@index}}">
-                <form id="roleChangeForm">
-                    <input list="roles" name="role" id="role">
+                    <form id="roleChangeForm">
+                    <input list="roles" name="role" id="newRole{{@index}}">
 
                     <datalist id="roles">
-                    <option value="Coordinator">
-                    <option value="Captain">
+                    <option value="coordinator">
+                    <option value="captain">
+                    <option value="player">
                     </datalist>
-                </form>
+                
             </div>
         {{/each}}
+        <button id="button" type="submit">Submit</button>
+        </form>
     </div> 
 </div>
-
-<button class="button" type="submit">Submit</button>
+<script src="/public/js/role_change.js"></script>

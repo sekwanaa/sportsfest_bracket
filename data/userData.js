@@ -39,11 +39,16 @@ let exportedMethods = {
     async updateUser(email, role) {
         const userCollection = await users();
 
-        const user = await userCollection.find({role: userRole}).toArray();
+        const roleChanged = await userCollection.findOneAndUpdate(
+            {email: email}, 
+            {$set: {
+                user_metadata: {
+                    role: role,
+                }
+            }
+        });
 
-        // console.log(user);
-
-        return user;
+        return;
     },
   }
   
