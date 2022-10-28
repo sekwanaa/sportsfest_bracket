@@ -1,16 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const { requiresAuth } = require('express-openid-connect');
-
-const data = require("../data/");
-const teamsData = data.teamsData
+const data = require('../data')
+const userData = data.usersData;
 
 router.get("/", requiresAuth(), async (req, res) => {
+
+    let email = "not authenticated";
+    let loggedInUser = {};
+    let userRole = "";
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        loggedInUser = user;
+        userRole = loggedInUser.user_metadata.role;
+    }
 
     res.render("partials/team_input", {
         title: "Team Input Form", 
         shortcode: 'teamInput',
         isAuthenticated: req.oidc.isAuthenticated(),
+        loggedInUser: loggedInUser,
+        role: userRole,
     });
 });
 

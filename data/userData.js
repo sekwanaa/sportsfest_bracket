@@ -11,10 +11,12 @@ let exportedMethods = {
     
         const allUsers = await userCollection.find({}).toArray();
     
+        // console.log(allUsers)
+
         return allUsers;
     },
 
-    async getUser(userEmail) {
+    async getUserByEmail(userEmail) {
         const userCollection = await users();
 
         const user = await userCollection.findOne({email: userEmail});
@@ -22,6 +24,31 @@ let exportedMethods = {
         // console.log(user);
 
         return user;
+    },
+
+    async getUserByRole(userRole) {
+        const userCollection = await users();
+
+        const user = await userCollection.find({role: userRole}).toArray();
+
+        // console.log(user);
+
+        return user;
+    },
+
+    async updateUser(email, role) {
+        const userCollection = await users();
+
+        const roleChanged = await userCollection.findOneAndUpdate(
+            {email: email}, 
+            {$set: {
+                user_metadata: {
+                    role: role,
+                }
+            }
+        });
+
+        return;
     },
   }
   

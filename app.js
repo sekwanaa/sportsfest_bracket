@@ -30,6 +30,8 @@ var hbs = exphbs.create({});
 
 // register new function
 hbs.handlebars.registerHelper('compareRole', function(handlebarRole, userRole, options) {
+    // console.log(handlebarRole)
+    // console.log(userRole)
     if(handlebarRole == userRole) {
         return options.fn(this)
     }
