@@ -30,9 +30,9 @@ router.get("/", requiresAuth(), async (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", requiresAuth(), async (req, res) => {
     const matchInfo = req.body;
-    console.log(req.body);
+    
     const insertMatch = await matchesData.insertMatch
     (
         matchInfo.team1, 

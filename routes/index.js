@@ -3,7 +3,6 @@ const reportBugRoutes = require("./report_bugs");
 const teamInputRoutes = require("./team_input");
 const bracketViewRoutes = require("./bracket_view");
 const scoreInputRoutes = require("./score_input");
-const matchInsertRoutes = require("./match_insert");
 const roleChangeRoutes = require("./role_change")
 // const path = require('path');
 const data = require('../data')
