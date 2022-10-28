@@ -8,7 +8,7 @@
     text-align: center;
 }
 
-#team1, #team2 {
+#team1, #team2, #year {
     margin: 0 auto;
     background-color: grey;
     opacity: 95%;
