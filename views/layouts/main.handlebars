@@ -25,6 +25,10 @@
                 <li><a class="coordinator" href="/score_input">Input Scores</a></li>
                 <li><a class="coordinator" href="/role_change">Edit Roles</a></li>
                 {{/compareRole}}
+                {{#compareRole "captain" role}}
+                <li><a class="captain" href="/team_input">Input Teams</a></li>
+                <li><a class="captain" href="/score_input">Input Scores</a></li>
+                {{/compareRole}}
                 {{#if isAuthenticated}}
                 <li><a class="basic" href="/logout">Logout</a></li>
                 <li><a class="basic" href="/report_bug">Report Bug</a></li>
