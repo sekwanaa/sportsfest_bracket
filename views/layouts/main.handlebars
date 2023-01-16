@@ -16,7 +16,7 @@
 </head>
 <body>
     <header>
-        <a href="/">Sportsfest Bracket Generator</a>
+        <a class="anchor-button" href="/">Sportsfest Bracket Generator</a>
         <nav>
             <ul>
                 <li><a class="basic" href="/bracket_view">View Current Bracket</a></li>
@@ -30,8 +30,14 @@
                 <li><a class="captain" href="/score_input">Input Scores</a></li>
                 {{/compareRole}}
                 {{#if isAuthenticated}}
-                <li><a class="basic" href="/logout">Logout</a></li>
+                {{!-- <li><a class="basic" href="/logout">Logout</a></li> --}}
                 <li><a class="basic" href="/report_bug">Report Bug</a></li>
+                <li><a class="profile-menu" href="#">Profile</a>
+                    <ul class="dropdown">
+                        <li class="dropdown-menu"><a href="#">View Profile</a></li>
+                        <li class="dropdown-menu"><a href="/logout">Logout</a></li>
+                    </ul>
+                </li>
                 {{else}}
                 <li><a class="basic" href="/login">Login/Sign Up</a></li>
                 {{/if}}

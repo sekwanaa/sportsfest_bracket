@@ -7,7 +7,16 @@ html {
     height: 100%;
 }
 
-header, footer {
+header {
+    background-color: rgb(108, 109, 108);
+    /* background-color: transparent; */
+    opacity: 95%;
+    padding: 20px;
+    padding-right: 60px;
+    padding-bottom: 100px;
+}
+
+footer {
     background-color: rgb(108, 109, 108);
     opacity: 95%;
     padding: 20px;
@@ -24,15 +33,19 @@ header a, nav li {
     list-style: none;
     float: left;
     color: black;
-    position: relative;
 }
 
-header a:hover, li:hover {
+header nav ul li > a:hover, li:hover {
     color: rgb(209, 209, 209);
     transition: 250ms ease-in-out;
 }
 
-header a::before {
+header .anchor-button:hover {
+    color: rgb(209, 209, 209);
+    transition: 250ms ease-in-out;
+}
+
+header nav ul li > a::before {
     content: '';
     display: block;
     height: 2px;
@@ -42,7 +55,22 @@ header a::before {
     bottom: -20px;
 }
 
-header a:hover::before {
+header .anchor-button::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: rgb(209, 209, 209);
+    position: relative;
+    width: 0%;
+    bottom: -20px;
+}
+
+header nav ul li > a:hover::before {
+    width: 100%;
+    transition: 250ms ease-in-out;
+}
+
+header .anchor-button:hover::before {
     width: 100%;
     transition: 250ms ease-in-out;
 }
@@ -52,19 +80,34 @@ nav {
 }
 
 nav ul li {
-    display: inline-block;
+    position: relative;
+    float: left;
 }
 
-nav ul li .basic {
-    padding: 0 35px;
+/* nav ul li a {
+    display: block;
+} */
+
+nav ul li ul {
+    display: none;
+    position: absolute;
+    width: 100px;
+    padding: 20px 0;
 }
 
-.coordinator {
-    padding: 0 35px;
+nav ul li:hover ul {
+    display: block;
 }
 
-.captain {
-    padding: 0 35px;
+nav ul li ul a {
+    display: block;
+    padding: 10px 0;
+    background-color: white;
+    width: 100px;
+}
+
+nav ul li .basic, .captain, .coordinator {
+    padding: 0 50px;
 }
 
 body {
