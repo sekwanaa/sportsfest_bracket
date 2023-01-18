@@ -8,12 +8,10 @@ html {
 }
 
 header {
-    /* background-color: rgb(108, 109, 108); */
-    background-color: transparent;
+    background-color: rgb(108, 109, 108);
     opacity: 95%;
     padding: 20px;
     padding-right: 60px;
-    padding-bottom: 80px;
 }
 
 footer {
@@ -45,7 +43,7 @@ header .anchor-button:hover {
     transition: 250ms ease-in-out;
 }
 
-header nav ul > li a::before {
+header nav ul li > a::before {
     content: '';
     display: block;
     height: 2px;
@@ -65,7 +63,7 @@ header .anchor-button::before {
     bottom: -20px;
 }
 
-header nav ul > li a:hover::before {
+header nav ul li > a:hover::before {
     width: 100%;
     transition: 250ms ease-in-out;
 }
@@ -91,8 +89,8 @@ nav ul li a {
 nav ul li ul {
     display: none;
     position: absolute;
-    min-width: 100px;
-    padding: 20px 0;
+    min-width: 90px;
+    padding: 10px 0;
 }
 
 nav ul li:hover ul {
@@ -101,9 +99,9 @@ nav ul li:hover ul {
 
 nav ul li ul a {
     display: block;
-    padding: 10px 0;
+    padding: 10px 5px;
     background-color: white;
-    min-width: 100px;
+    min-width: 90px;
 }
 
 nav ul li .basic, .captain, .coordinator {
@@ -118,7 +116,6 @@ main {
     min-height: 100%;
     display: grid;
     grid-template-rows: 90vh auto auto;
-    position: relative;
     padding: 2%;
 }
 
