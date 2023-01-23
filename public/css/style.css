@@ -10,8 +10,8 @@ html {
 header {
     background-color: rgb(108, 109, 108);
     opacity: 95%;
-    padding: 20px;
-    padding-right: 60px;
+    padding: 20px 60px;
+    /* padding-right: 60px; */
 }
 
 footer {
@@ -63,7 +63,7 @@ header .anchor-button::before {
     bottom: -20px;
 }
 
-header nav ul li > a:hover::before {
+header nav > ul > li:not(:nth-last-child(1)) a:hover::before {
     width: 100%;
     transition: 250ms ease-in-out;
 }
@@ -87,14 +87,17 @@ nav ul li a {
 }
 
 nav ul li ul {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     position: absolute;
     min-width: 90px;
-    padding: 10px 0;
+    padding: 10px 3px;
 }
 
 nav ul li:hover ul {
-    display: block;
+    visibility: visible;
+    opacity: 1;
+    transition: 250ms ease-in-out;
 }
 
 nav ul li ul a {
