@@ -19,9 +19,9 @@ router.get("/", async (req, res) => {
         userRole = loggedInUser.user_metadata.role;
     }
 
-    res.render("partials/player_dashboard", {
-        title: "Profile", 
-        shortcode: 'playerDashboard',
+    res.render("partials/create_pool", {
+        title: "Create Pool", 
+        shortcode: 'createPool',
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
         role: userRole,

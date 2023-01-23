@@ -5,6 +5,7 @@ const bracketViewRoutes = require("./bracket_view");
 const scoreInputRoutes = require("./score_input");
 const roleChangeRoutes = require("./role_change");
 const playerDashboardRoutes = require("./player_dashboard");
+const createPoolRoutes = require("./create_pool")
 // const path = require('path');
 const data = require('../data')
 const userData = data.usersData;
@@ -26,7 +27,7 @@ const constructorMethod = app => {
 
 
         res.render('partials/landingPage', {
-            title: 'Bracket Generator',
+            title: 'Sportsfest Bracket Generator',
             shortcode: 'landingPage',
             isAuthenticated: req.oidc.isAuthenticated(),
             loggedInUser: loggedInUser,
@@ -42,6 +43,7 @@ const constructorMethod = app => {
     app.use("/score_input", scoreInputRoutes);
     app.use("/role_change", roleChangeRoutes);
     app.use("/player_dashboard", playerDashboardRoutes);
+    app.use("/create_pool", createPoolRoutes);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});
