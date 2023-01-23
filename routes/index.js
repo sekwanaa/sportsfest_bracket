@@ -3,7 +3,8 @@ const reportBugRoutes = require("./report_bugs");
 const teamInputRoutes = require("./team_input");
 const bracketViewRoutes = require("./bracket_view");
 const scoreInputRoutes = require("./score_input");
-const roleChangeRoutes = require("./role_change")
+const roleChangeRoutes = require("./role_change");
+const playerDashboardRoutes = require("./player_dashboard");
 // const path = require('path');
 const data = require('../data')
 const userData = data.usersData;
@@ -31,7 +32,6 @@ const constructorMethod = app => {
             loggedInUser: loggedInUser,
             role: userRole,
         })
-        //res.sendFile(path.resolve('static/report_bug.html'));
     });
 
 
@@ -41,6 +41,7 @@ const constructorMethod = app => {
     app.use("/bracket_view", bracketViewRoutes);
     app.use("/score_input", scoreInputRoutes);
     app.use("/role_change", roleChangeRoutes);
+    app.use("/player_dashboard", playerDashboardRoutes);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});
