@@ -3,9 +3,53 @@
     max-height: 400px;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    grid-column-start: 1;
+    grid-column-end: 2;
 }
 
-h1 {
+.manageTeamCard {
+    max-width: 100%;
+    max-height: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
+
+.editUserRoles {
+    max-width: 100%;
+    max-height: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
+
+.grid-column {
+    display: grid;
+    grid-template-columns: auto auto 300px;
+    grid-auto-rows: 50px;
+}
+
+.grid-row, .header{
+    background-color: rgb(225, 225, 225);
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.header {
+    background-color: rgb(203, 203, 203);
+}
+
+#button {
+    grid-column-start: 3;
+    grid-column-end: 3;
+}
+
+main {
+    grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
+}
+
+h2 {
     font-size: 18px;
     padding: 10px 5px;
 }

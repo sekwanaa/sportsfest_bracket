@@ -32,4 +32,12 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.post("/", async (req, res) => {
+    const personArray = req.body.personArray;
+
+    for(i=0; i<personArray.length; i++) {
+        const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
+    }
+});
+
 module.exports = router;
