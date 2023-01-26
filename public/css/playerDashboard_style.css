@@ -49,6 +49,10 @@ main {
     grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
 }
 
+h1 {
+    text-align: center;
+}
+
 h2 {
     font-size: 18px;
     padding: 10px 5px;
