@@ -3,6 +3,7 @@ const router = express.Router();
 const { requiresAuth } = require('express-openid-connect');
 const data = require('../data')
 const userData = data.usersData;
+const teamsData = data.teamsData;
 
 router.get("/", requiresAuth(), async (req, res) => {
 
