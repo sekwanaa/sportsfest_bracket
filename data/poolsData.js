@@ -19,6 +19,24 @@ let exportedMethods = {
       
       return poolId;
     },
+
+    async roundRobinSelection(teams) {
+        let roundRobinTeamList = [];
+        let teamObj = {};
+
+        for(i=0; i < teams.length; i++) {
+            teamObj.teamName = teams[i].name;
+            teamObj.gamesSet = 0;
+            teamObj.matchAgainst = [];
+            roundRobinTeamList.push(teamObj);
+        }
+
+        
+
+        return roundRobin;
+    },
+
+
   }
   
   module.exports = exportedMethods;
