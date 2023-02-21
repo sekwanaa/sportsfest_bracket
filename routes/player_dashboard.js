@@ -8,14 +8,15 @@ router.get("/", async (req, res) => {
     let email = "not authenticated";
     let loggedInUser = {};
     let userRole = "";
-    let allUsers = []
+    let allUsers = [];
+    let nickname = "";
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
         const user = await userData.getUserByEmail(email);
         allUsers = await userData.getAllUsers();
         loggedInUser = user;
-        nickname = loggedInUser.nickname
+        nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
     }
 
@@ -26,8 +27,17 @@ router.get("/", async (req, res) => {
         loggedInUser: loggedInUser,
         role: userRole,
         allUsers: allUsers,
-        length: allUsers.length
+        length: allUsers.length,
+        nickname: nickname,
     });
+});
+
+router.post("/", async (req, res) => {
+    const personArray = req.body.personArray;
+
+    for(i=0; i<personArray.length; i++) {
+        const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
+    }
 });
 
 module.exports = router;

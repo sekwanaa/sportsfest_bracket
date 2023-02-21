@@ -1,9 +1,7 @@
 const aboutRoutes = require("./about");
 const reportBugRoutes = require("./report_bugs");
-const teamInputRoutes = require("./team_input");
 const bracketViewRoutes = require("./bracket_view");
 const scoreInputRoutes = require("./score_input");
-const roleChangeRoutes = require("./role_change");
 const playerDashboardRoutes = require("./player_dashboard");
 const createPoolRoutes = require("./create_pool")
 // const path = require('path');
@@ -38,10 +36,8 @@ const constructorMethod = app => {
 
     app.use("/about", aboutRoutes);
     app.use("/report_bug", reportBugRoutes);
-    app.use("/team_input", teamInputRoutes);
     app.use("/bracket_view", bracketViewRoutes);
     app.use("/score_input", scoreInputRoutes);
-    app.use("/role_change", roleChangeRoutes);
     app.use("/player_dashboard", playerDashboardRoutes);
     app.use("/create_pool", createPoolRoutes);
 
