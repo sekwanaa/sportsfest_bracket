@@ -30,7 +30,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/role_change/',
+                url: '/player_dashboard/',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     personArray: personArray,

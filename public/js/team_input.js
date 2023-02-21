@@ -2,11 +2,18 @@
     var addMoreButton = $('#add_more_button');
     var removeMember = $('#remove_button');
     var teamInputForm = $('#teamInputForm');
+    var createTeamButton = $('#create_team_button');
     var i = 2;
     var teamMemberCount = i;
+    
 
+    teamInputForm.hide();
     removeMember.hide();
 
+    createTeamButton.click(function () {
+        teamInputForm.show();
+    })
+    
     addMoreButton.click(function () {
         removeMember.show()
         const div = $("#teamMembers");
@@ -60,5 +67,7 @@
 
         //clear all input fields
         teamInputForm[0].reset();
+        createTeamButton.hide()
+        teamInputForm.hide()
     });
 })(window.jQuery);

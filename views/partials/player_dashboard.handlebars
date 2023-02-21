@@ -1,1 +1,90 @@
-<p>Hello</p>
+<div class="userCard">
+    <img src="../../public/images/R.png" alt="Profile Picture">
+    <br>
+    <h2>{{nickname}}</h2>
+    <p>{{role}}</p>
+    <p>Shirt Number: 12</p>
+    <p>Team: NJ X</p>
+    <p>Position: Outside Hitter</p>
+</div>
+{{#compareRole "captain" role}}
+<div class="manageTeamCard">
+    <h1>Your Current Team</h1>
+    {{!-- {{#if noTeam}} --}}
+    <p>You don't currently have a team right now</p>
+    <button type="button" id="create_team_button">Create a Team</button>
+    <form id="teamInputForm" method="post">
+    <div>
+        <input id="teamName" type="text" placeholder="Team Name" required>
+        <br>
+        <input id="districtSelection" type="text" list="districts" placeholder="District" required>
+        <datalist id="districts">
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="7"></option>
+            <option value="8"></option>
+            <option value="9"></option>
+            <option value="10"></option>
+            <option value="11"></option>
+            <option value="12"></option>
+            <option value="13"></option>
+        </datalist>
+    </div>
+    <div id="teamMembers">
+        <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
+    </div>
+    <div id="add_remove_buttons">
+        <button id="add_more_button" type="button">Add Member</button>
+        <button id="remove_button" type="button">Remove Member</button>
+    </div>
+    <div>
+        <button id="submit" type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </div>
+    </form>
+    {{!-- {{/if noTeam}} --}}
+
+    {{!-- {{#if hasTeam}} --}}
+        {{!-- <p>Captain: captainName</p>
+        <p>TeamMember: playerName</p>
+        <p>Position: positionName</p>
+        <p>ShirtNum: playerShirtNum</p>
+        <button id="edit_team_btn">Edit Team</button> --}}
+    {{!-- {{/if}} --}}
+</div>
+<script src="/public/js/team_input.js"></script>
+{{/compareRole}}
+{{#compareRole "coordinator" role}}
+<div class="editUserRoles">
+    <h1>Edit User Roles</h1>
+    <div>
+    <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
+    <br>
+    <div class="grid-column">
+        <div class="header" class="grid-row"><p>Email</p></div> 
+        <div class="header" class="grid-row"><p>Current Role</p></div> 
+        <div class="header" class="grid-row"><p>Change Role to:</p></div>
+        {{#each allUsers}}
+            <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
+            <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
+            <div class="grid-row" id="roleChange{{@index}}">
+                <form id="roleChangeForm">
+                    <input list="roles" name="role" id="newRole{{@index}}">
+
+                    <datalist id="roles">
+                    <option value="captain">
+                    <option value="player">
+                    </datalist>
+            </div>
+        {{/each}}
+            <button id="button" type="submit">Submit</button>
+        </form>
+    </div> 
+</div>
+</div>
+<script src="/public/js/role_change.js"></script>
+{{/compareRole}}

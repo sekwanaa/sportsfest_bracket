@@ -22,12 +22,9 @@
                 <li><a class="basic" href="/bracket_view">View Current Bracket</a></li>
                 {{#compareRole "coordinator" role}}
                 <li><a class="coordinator" href="/create_pool">Create Pool</a></li>
-                <li><a class="coordinator" href="/team_input">Input Teams</a></li>
                 <li><a class="coordinator" href="/score_input">Input Scores</a></li>
-                <li><a class="coordinator" href="/role_change">Edit Roles</a></li>
                 {{/compareRole}}
                 {{#compareRole "captain" role}}
-                <li><a class="captain" href="/team_input">Input Teams</a></li>
                 <li><a class="captain" href="/score_input">Input Scores</a></li>
                 {{/compareRole}}
                 {{#if isAuthenticated}}
