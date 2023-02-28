@@ -29,6 +29,7 @@ router.get("/", async (req, res) => {
         allUsers: allUsers,
         length: allUsers.length,
         nickname: nickname,
+        hasTeam: true,
     });
 });
 

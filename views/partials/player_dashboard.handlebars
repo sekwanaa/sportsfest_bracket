@@ -10,7 +10,7 @@
 {{#compareRole "captain" role}}
 <div class="manageTeamCard">
     <h1>Your Current Team</h1>
-    {{!-- {{#if noTeam}} --}}
+    {{#unless hasTeam}}
     <p>You don't currently have a team right now</p>
     <button type="button" id="create_team_button">Create a Team</button>
     <form id="teamInputForm" method="post">
@@ -46,15 +46,15 @@
         <button type="reset">Reset</button>
     </div>
     </form>
-    {{!-- {{/if noTeam}} --}}
+    {{/unless}}
 
-    {{!-- {{#if hasTeam}} --}}
-        {{!-- <p>Captain: captainName</p>
+    {{#if hasTeam}}
+        <p>Captain: captainName</p>
         <p>TeamMember: playerName</p>
         <p>Position: positionName</p>
         <p>ShirtNum: playerShirtNum</p>
-        <button id="edit_team_btn">Edit Team</button> --}}
-    {{!-- {{/if}} --}}
+        <button id="edit_team_btn">Edit Team</button>
+    {{/if}}
 </div>
 <script src="/public/js/team_input.js"></script>
 {{/compareRole}}
