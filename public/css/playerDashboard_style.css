@@ -49,6 +49,11 @@
     background-color: rgb(203, 203, 203);
 }
 
+#teamMembers {
+    max-height: 20px;
+    overflow-y: auto;
+}
+
 #button {
     grid-column-start: 3;
     grid-column-end: 3;
