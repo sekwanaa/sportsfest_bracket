@@ -1,7 +1,9 @@
 <div class="userCard">
     <img src="../../public/images/R.png" alt="Profile Picture">
     <br>
-    <h2>{{nickname}}</h2>
+    {{#if name}}
+    <h2>{{name}}</h2>
+    {{/if}}
     <p>{{role}}</p>
     <p>Shirt Number: 12</p>
     <p>Team: NJ X</p>
