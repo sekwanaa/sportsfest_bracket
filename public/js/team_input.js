@@ -48,7 +48,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/team_input/submitTeams',
+                url: '/player_dashboard/submitTeams',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     teamName: teamName,
