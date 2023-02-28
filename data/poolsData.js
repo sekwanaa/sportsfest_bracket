@@ -1,4 +1,5 @@
 const mongoCollections = require("../config/mongoCollections");
+const { all } = require("../routes/about");
 
 const teamData = require("./teamData");
 
@@ -32,15 +33,18 @@ let exportedMethods = {
 
         //create a collection of teams 
         for(i=0; i < allTeams.length; i++) {
-            teamObj.teamName = teams[i].name;
+            teamObj.teamName = allTeams[i].name;
+            teamObj.district = allTeams[i].district;
+            teamObj.players = allTeams[i].players;
             teamObj.gamesSet = 0;
             teamObj.matchAgainst = [];
             roundRobinTeamList.push(teamObj);
+            console.log(allTeams[i]);
         }
 
-        
+        console.log(roundRobinTeamList);
 
-        return roundRobin;
+        return roundRobinTeamList;
     },
 
 

@@ -4,6 +4,7 @@ const bracketViewRoutes = require("./bracket_view");
 const scoreInputRoutes = require("./score_input");
 const playerDashboardRoutes = require("./player_dashboard");
 const createPoolRoutes = require("./create_pool")
+const roundRobin = require("./roundRobin")
 // const path = require('path');
 const data = require('../data')
 const userData = data.usersData;
@@ -40,6 +41,7 @@ const constructorMethod = app => {
     app.use("/score_input", scoreInputRoutes);
     app.use("/player_dashboard", playerDashboardRoutes);
     app.use("/create_pool", createPoolRoutes);
+    app.use("/roundRobin", roundRobin);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});
