@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
     let userRole = "";
     let allUsers = [];
     let nickname = "";
+    let name = "";
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -18,6 +19,7 @@ router.get("/", async (req, res) => {
         loggedInUser = user;
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
+        name = loggedInUser.user_metadata.name;
     }
 
     res.render("partials/player_dashboard", {
@@ -29,7 +31,8 @@ router.get("/", async (req, res) => {
         allUsers: allUsers,
         length: allUsers.length,
         nickname: nickname,
-        hasTeam: true,
+        name: name,
+        hasTeam: false,
     });
 });
 
