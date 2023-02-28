@@ -1,5 +1,9 @@
 const mongoCollections = require("../config/mongoCollections");
+
+const teamData = require("./teamData");
+
 const pools = mongoCollections.pools;
+const teams = mongoCollections.teams;
 
 let exportedMethods = {
   
@@ -19,6 +23,27 @@ let exportedMethods = {
       
       return poolId;
     },
+
+    async roundRobinSelection() {
+        let roundRobinTeamList = [];
+        let teamObj = {};
+
+        const allTeams = await teamData.getAllTeams();
+
+        //create a collection of teams 
+        for(i=0; i < allTeams.length; i++) {
+            teamObj.teamName = teams[i].name;
+            teamObj.gamesSet = 0;
+            teamObj.matchAgainst = [];
+            roundRobinTeamList.push(teamObj);
+        }
+
+        
+
+        return roundRobin;
+    },
+
+
   }
   
   module.exports = exportedMethods;
