@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
-const teamsData = data.teamsData;
+const teamData = data.teamsData;
 
 router.get("/", async (req, res) => {
 
@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
     let loggedInUser = {};
     let userRole = "";
     let allUsers = [];
+    let allTeams = [];
     let nickname = "";
     let name = "";
 
@@ -17,45 +18,26 @@ router.get("/", async (req, res) => {
         email = req.oidc.user.name;
         const user = await userData.getUserByEmail(email);
         allUsers = await userData.getAllUsers();
+        allTeams = await teamData.getAllTeams();
         loggedInUser = user;
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
     }
 
-    res.render("partials/player_dashboard", {
-        title: "Profile", 
-        shortcode: 'playerDashboard',
+    res.render("partials/team_list", {
+        title: "Team List", 
+        shortcode: 'teamList',
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
         role: userRole,
         allUsers: allUsers,
+        allTeams: allTeams,
         length: allUsers.length,
         nickname: nickname,
         name: name,
         hasTeam: false,
     });
-});
-
-router.post("/submitTeams", async (req, res) => {
-
-    try {
-        
-        const teamName  = req.body.teamName;
-        const district = req.body.district;
-        const players = req.body.players;
-
-        const teamId = await teamsData.addTeam(teamName, district, players);
-
-        return res.json(teamId);
-    }
-
-    catch(e) {
-        console.log(e);
-    }
-
-    return;
-
 });
 
 router.post("/", async (req, res) => {
