@@ -21,5 +21,6 @@ module.exports = {
   teams: getCollectionFn("teams"),
   players: getCollectionFn("players"),
   users: getCollectionFn("users"),
-  matches: getCollectionFn("matches")
+  matches: getCollectionFn("matches"),
+  pools: getCollectionFn("pools")
 };

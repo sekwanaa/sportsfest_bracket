@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
+const poolsData = data.poolsData;
 
 router.get("/", async (req, res) => {
 
@@ -28,6 +29,20 @@ router.get("/", async (req, res) => {
         allUsers: allUsers,
         length: allUsers.length
     });
+});
+
+router.post("/", async (req, res) => {
+    const poolInfo = req.body;
+    
+    const insertPool = await poolsData.insertPool
+    (
+        poolInfo.seedingGames, 
+        poolInfo.numOfTeams, 
+        poolInfo.numOfFields, 
+        poolInfo.numOfPlayoffTeams
+    );
+
+    return res.json(insertPool);
 });
 
 module.exports = router;
