@@ -82,7 +82,7 @@ form, body {
     animation: fadein 1.25s ease-in-out;
 }
 
-form {
+/* form {
     background-color: grey;
     width: 80%;
     padding-top: 2vh;
@@ -93,7 +93,7 @@ form {
     border: 1px solid black;
     text-align: center;
     opacity: 95%;
-}
+} */
 
 form input, button {
     text-align: center;
