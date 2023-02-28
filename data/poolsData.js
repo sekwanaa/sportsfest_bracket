@@ -33,16 +33,15 @@ let exportedMethods = {
 
         //create a collection of teams 
         for(i=0; i < allTeams.length; i++) {
+            teamObj.id = i + 1;
             teamObj.teamName = allTeams[i].name;
             teamObj.district = allTeams[i].district;
             teamObj.players = allTeams[i].players;
             teamObj.gamesSet = 0;
             teamObj.matchAgainst = [];
             roundRobinTeamList.push(teamObj);
-            console.log(allTeams[i]);
+            teamObj = {};
         }
-
-        console.log(roundRobinTeamList);
 
         return roundRobinTeamList;
     },
