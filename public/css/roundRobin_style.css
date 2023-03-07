@@ -1,0 +1,52 @@
+@keyframes fadein {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 95%;
+    }
+}
+
+.grid-column {
+    display: grid;
+    grid-template-columns: auto 100px;
+    grid-auto-rows: 50px;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.grid-row-name, .grid-row-district, .header{
+    background-color: rgb(225, 225, 225);
+    padding: 10px;
+}
+
+.header {
+    background-color: rgb(203, 203, 203);
+}
+
+.teamList {
+    grid-column-start: 2;
+    grid-column-end: 5;
+}
+
+main {
+    grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    font-size: 18px;
+    padding: 10px 5px;
+}
+
+b {
+    font-size: 16px;
+    padding: 10px 5px;
+}
+
+body {
+    animation: fadein 1.25s ease-in-out;
+}
