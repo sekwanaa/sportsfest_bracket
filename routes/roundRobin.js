@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
         name = loggedInUser.user_metadata.name;
         rounds = await poolsData.roundRobinSelection();
         console.log("here");
-        console.log(rounds.team1);        
+        console.log(rounds.team1);
     }
 
     res.render("partials/round_robin", {
