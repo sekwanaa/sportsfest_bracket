@@ -23,8 +23,6 @@ router.get("/", async (req, res) => {
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
         rounds = await poolsData.roundRobinSelection();
-        console.log("here");
-        console.log(rounds.team1);        
     }
 
     res.render("partials/round_robin", {
