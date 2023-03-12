@@ -40,8 +40,6 @@ let exportedMethods = {
             teamObj = {};
         }
 
-        //console.log(roundRobinTeamList);
-
         let pool = [];
         let possibleGames = [];
         let gameObj = {};
@@ -50,20 +48,14 @@ let exportedMethods = {
         for(i=0; i<roundRobinTeamList.length; i++) {
             //match team with every other team
             team = roundRobinTeamList[i];
-            // console.log(team);
-            //console.log(pool);
             for (j=0; j<roundRobinTeamList.length; j++) {
                 if(team.id == roundRobinTeamList[j].id) {
-                    // console.log(team);
                     continue;
                 }
                 gameObj = {};
                 gameObj.team1 = team;
                 gameObj.team2 = roundRobinTeamList[j];
                 possibleGames.push(gameObj);
-                //console.log(possibleGames);
-                
-                // console.log(team.teamName + " vs "+ j.teamName)
             }
         }
 
@@ -91,8 +83,6 @@ let exportedMethods = {
             match.team2.gamesSet++;
             match.team1.matchAgainst.push(match.team2.teamName)
             match.team2.matchAgainst.push(match.team1.teamName)
-
-            // console.log(possibleGames.length);
         }
 
         let fields = 0;
@@ -104,8 +94,6 @@ let exportedMethods = {
         while (rounds.length > 1 && count > 1) {                        
             gameIndex = Math.floor((Math.random())*rounds.length);
             match = rounds[gameIndex];
-            // console.log(gameIndex);
-            // console.log(match);
             if((rounds[gameIndex].team1.gameNum-gameNum <= gameCount && rounds[gameIndex].team2.gameNum-gameNum <= gameCount) || (rounds[gameIndex].team1.gameNum == 0 && rounds[gameIndex].team2.gameNum == 0)) {
                 match.field = fields+1;
                 match.gameNum = gameNum;
@@ -119,22 +107,14 @@ let exportedMethods = {
                 finalRounds.push(match);  
                 rounds.splice(gameIndex, 1);
                 count = 1000;
-                console.log("gameNum: " + gameNum);
             }
             else {
-                console.log(rounds[gameIndex].team1.gameNum);
-                console.log(rounds[gameIndex].team2.gameNum);                
-                console.log("gameNum: " + gameNum);
-                // console.log("rounds length: " + rounds.length);
-                count--;
-                // console.log(count);
+                count--;                
             }
         }
 
         return finalRounds;
     },
-
-
   }
   
   module.exports = exportedMethods;
