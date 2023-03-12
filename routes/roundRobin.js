@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
-        rounds = await poolsData.roundRobinSelection();
+        rounds = await poolsData.roundRobinSelection();        
     }
 
     res.render("partials/round_robin", {
