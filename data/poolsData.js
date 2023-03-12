@@ -34,6 +34,7 @@ let exportedMethods = {
             teamObj.district = allTeams[i].district;
             teamObj.players = allTeams[i].players;
             teamObj.gamesSet = 0;
+            teamObj.gameNum = 0;
             teamObj.matchAgainst = [];
             roundRobinTeamList.push(teamObj);
             teamObj = {};
@@ -95,16 +96,42 @@ let exportedMethods = {
         }
 
         let fields = 0;
+        let gameNum = 1;
+        let finalRounds = [];
+        let count = 1000;
+        let gameCount = -1;
 
-        for(i=0; i < rounds.length; i++) {
-            console.log(rounds[i]);
-            rounds[i].field = fields+1;
-            fields++;
-            fields = fields%4;
+        while (rounds.length > 1 && count > 1) {                        
+            gameIndex = Math.floor((Math.random())*rounds.length);
+            match = rounds[gameIndex];
+            // console.log(gameIndex);
+            // console.log(match);
+            if((rounds[gameIndex].team1.gameNum-gameNum <= gameCount && rounds[gameIndex].team2.gameNum-gameNum <= gameCount) || (rounds[gameIndex].team1.gameNum == 0 && rounds[gameIndex].team2.gameNum == 0)) {
+                match.field = fields+1;
+                match.gameNum = gameNum;
+                match.team1.gameNum = gameNum;
+                match.team2.gameNum = gameNum;
+                fields++;
+                fields = fields%4;            
+                if(fields == 0) {
+                    gameNum++;
+                }
+                finalRounds.push(match);  
+                rounds.splice(gameIndex, 1);
+                count = 1000;
+                console.log("gameNum: " + gameNum);
+            }
+            else {
+                console.log(rounds[gameIndex].team1.gameNum);
+                console.log(rounds[gameIndex].team2.gameNum);                
+                console.log("gameNum: " + gameNum);
+                // console.log("rounds length: " + rounds.length);
+                count--;
+                // console.log(count);
+            }
         }
 
-
-        return rounds;
+        return finalRounds;
     },
 
 
