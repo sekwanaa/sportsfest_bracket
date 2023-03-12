@@ -59,9 +59,6 @@ let exportedMethods = {
             }
         }
 
-        let numOfGamesToPlay = 12;
-
-        let gameSelection = 0;
         let rounds = [];
         let match;
 
