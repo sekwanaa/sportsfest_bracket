@@ -1,0 +1,38 @@
+@keyframes fadein {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 95%;
+    }
+}
+
+body {
+    animation: fadein 1.25s ease-in-out;
+}
+
+.allCourts{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.court{
+    width: 300px;
+    height: 250px;
+    margin: 20px;
+    border: 3px solid black;
+    background-color: aliceblue;
+    padding: 15px;
+    text-align: center;
+}
+
+
+.inputScoresButton {
+    display: block;
+}
+
+
+/* Need to create logged-in class? */
+
+

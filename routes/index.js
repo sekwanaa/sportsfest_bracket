@@ -1,13 +1,14 @@
 const aboutRoutes = require("./about");
 const reportBugRoutes = require("./report_bugs");
 const bracketViewRoutes = require("./bracket_view");
+const courtViewRoutes = require("./court_view"); 
 const scoreInputRoutes = require("./score_input");
 const playerDashboardRoutes = require("./player_dashboard");
 const createPoolRoutes = require("./create_pool");
 const teamListRoutes = require("./team_list");
-const roundRobinRoutes = require("./roundRobin")
+const roundRobinRoutes = require("./roundRobin");
 // const path = require('path');
-const data = require('../data')
+const data = require('../data');
 const userData = data.usersData;
 // const userRoleData = userData.getAllUsers()
 
@@ -39,6 +40,7 @@ const constructorMethod = app => {
     app.use("/about", aboutRoutes);
     app.use("/report_bug", reportBugRoutes);
     app.use("/bracket_view", bracketViewRoutes);
+    app.use("/court_view", courtViewRoutes);
     app.use("/score_input", scoreInputRoutes);
     app.use("/player_dashboard", playerDashboardRoutes);
     app.use("/create_pool", createPoolRoutes);
