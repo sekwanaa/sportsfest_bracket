@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const teamData = require("./teamData");
 const pools = mongoCollections.pools;
+const roundRobin = mongoCollections.roundRobin;
 
 let exportedMethods = {
   
@@ -21,6 +22,7 @@ let exportedMethods = {
       return poolId;
     },
 
+    //method to create a potential round robin schedule
     async roundRobinSelection() {
         let roundRobinTeamList = [];
         let teamObj = {};
@@ -112,6 +114,21 @@ let exportedMethods = {
 
         return finalRounds;
     },
+
+    //method to insert finalized round robin schedule
+    async insertRoundRobin(roundRobinArray) {
+
+        let newRoundRobin = {
+            roundRobinArray: roundRobinArray,
+        };
+    
+        const roundRobinCollection = await roundRobin();
+        const insertRoundRobin = await roundRobinCollection.insertOne(newRoundRobin);
+        const roundRobinId = insertRoundRobin.insertedId.toString();
+        
+        return roundRobinId;
+    },
+
   }
   
   module.exports = exportedMethods;
