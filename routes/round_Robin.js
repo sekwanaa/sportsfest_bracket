@@ -40,9 +40,15 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/round_robin_schedule", async (req, res) => {
-    let roundRobinInfo = req.body;
-    let roundRobinArray = roundRobinInfo.roundRobinMatches;
-    const roundRobinId = await poolsData.insertRoundRobin(roundRobinArray);
+    let roundRobinInfo = req.body.roundRobinMatches;
+    
+    let gameNum = roundRobinInfo.gameNum;
+    let team1 = roundRobinInfo.team1;
+    let team2 = roundRobinInfo.team2;
+    let field = roundRobinInfo.field;
+    let complete = roundRobinInfo.complete;
+
+    const roundRobinId = await poolsData.insertRoundRobin(gameNum, team1, team2, field, complete);
 
     return res.json(roundRobinId);
 });

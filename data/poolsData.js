@@ -116,10 +116,14 @@ let exportedMethods = {
     },
 
     //method to insert finalized round robin schedule
-    async insertRoundRobin(roundRobinArray) {
+    async insertRoundRobin(gameNum, team1, team2, field, complete) {
 
         let newRoundRobin = {
-            roundRobinArray: roundRobinArray,
+            gameNum: gameNum,
+            team1: team1,
+            team2: team2,
+            field: field,
+            complete: complete,
         };
     
         const roundRobinCollection = await roundRobin();
