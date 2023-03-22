@@ -23,14 +23,15 @@ router.get("/", async (req, res) => {
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
         role: userRole,
-        year: "2023",
         teamName1: "NJ A", //need code here to take a team from court xyz 
         teamName2: "NJ X", //need code here to take a team from court xyz 
         // might need more teamNames because there are 4 courts
     });
 });
 
-// Need a post here
+
+
+
 router.post("/", async (req, res) => {
     const matchInfo = req.body;
     
@@ -40,7 +41,7 @@ router.post("/", async (req, res) => {
         matchInfo.team2, 
         matchInfo.score1, 
         matchInfo.score2, 
-        matchInfo.DateObject.getFullYear()
+        matchInfo.year = new Date().getFullYear().toString() // gets the current year, court view can only submit current year scores
     );
 
     return res.json(insertMatch);
