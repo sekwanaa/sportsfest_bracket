@@ -52,5 +52,3 @@ router.post("/round_robin_schedule", async (req, res) => {
 
     return res.json(roundRobinId);
 });
-
-module.exports = router;
