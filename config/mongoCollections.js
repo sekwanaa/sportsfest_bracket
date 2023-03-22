@@ -23,5 +23,5 @@ module.exports = {
   users: getCollectionFn("users"),
   matches: getCollectionFn("matches"),
   pools: getCollectionFn("pools"),
-  roundRobin: getCollectionFn("roundrobin")
+  roundrobin: getCollectionFn("roundrobin")
 };
