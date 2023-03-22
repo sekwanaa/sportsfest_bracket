@@ -1,84 +1,67 @@
 {{! styling is done in courtView_style.css}}
-{{! 2 classes here: "allCourts" & "court"}}
+
 
 <div class = "allCourts"> {{! container for the 4 courts}}
     <div class="court"> {{! labelling courts but maybe don't need separate classes for each of them}}
         <h3>Court 1</h3>
-        <div> 
+        <br>    
+        <h1> {{teamName1}} vs {{teamName2}} </h1> {{! takes team names from court_view.js in routes}}
+        <br>
+
+        {{! Only captains/coordinators see this}}        
+        <div class="score-submission">
+            {{! "Input Score"}}
+            {{#compareRole "coordinator" role}}
             
-            {{! Do I need this div here? AND is it good practice to have another header?}}
+            <h3>Submit scores here</h3>
 
-
-            <br>    
-            <h1> Team 1 vs Team 2 </h1> {{! Need to insert what game it playing here}}
-            {{! Something like currentGame.team1Insert "vs" currentGame.team2Insert}}
             <br>
-            {{! if live: "Link for Live Game"}}
             
-            <div class="inputScoresButton">
-                {{! "Input Score"}}
-                {{#compareRole "coordinator" role}}
-                <a class="coordinator" href="/score_input">Input Scores</a></li>
-                {{/compareRole}}
+            <form id="scoreInputForm">
+                <div class="score-columns">
+                    <section id="team1">
+                        <label id="team1Name">{{teamName1}}</label>
+                        <br>
+                        <input type="number" name="score1" id="score1">
+                    </section>
+                
+                    <section id="team2">
+                        <label id="team2Name">{{teamName2}}</label>
+                        <br>
+                        <input type="number" name="score2" id="score2">
+                    </section>
+                </div>
 
-            </div>
+            <br>
+            
+            <button class="submit">Submit</button>
+
+            </form>
+            {{/compareRole}}
+
         </div>
+        <br>
+        {{! Everyone can see this}}    
+        <div class="live-stream-link">
+            <a href="https://www.youtube.com/@blessedcultureandsportsfes8608" target="_blank">Live Stream</a></li>
+        </div>
+    
     </div>
 
     <div class="court">
         <h3>Court 2</h3>
-        <div>
-            <br>    
-            <h1> Team 1 vs Team 2 </h1> {{! Need to insert what game it playing here}}
-            {{! Something like currentGame.team1Insert "vs" currentGame.team2Insert}}
-            <br>
-            {{! if live: "Link for Live Game"}}
-            {{! "Input Score"}}
-            <div class="inputScoresButton">
-                {{! "Input Score"}}
-                {{#compareRole "coordinator" role}}
-                <a class="coordinator" href="/score_input">Input Scores</a></li>
-                {{/compareRole}}
-
-            </div>
-        </div>
+        
     </div>
 
     <div class="court">
         <h3>Court 3</h3>
-        <div>
-            <br>    
-            <h1> Team 1 vs Team 2 </h1> {{! Need to insert what game it playing here}}
-            {{! Something like currentGame.team1Insert "vs" currentGame.team2Insert}}
-            <br>
-            {{! if live: "Link for Live Game"}}
-            {{! "Input Score"}}
-            <div class="inputScoresButton">
-                {{! "Input Score"}}
-                {{#compareRole "coordinator" role}}
-                <a class="coordinator" href="/score_input">Input Scores</a></li>
-                {{/compareRole}}
-
-            </div>
-        </div>
+        
     </div>
 
     <div class="court">
         <h3>Court 4</h3>
-        <div>
-            <br>    
-            <h1> Team 1 vs Team 2 </h1> {{! Need to insert what game it playing here}}
-            {{! Something like currentGame.team1Insert "vs" currentGame.team2Insert}}
-            <br>
-            {{! if live: "Link for Live Game"}}
-            {{! "Input Score"}}
-            <div class="inputScoresButton">
-                {{! "Input Score"}}
-                {{#compareRole "coordinator" role}}
-                <a class="coordinator" href="/score_input">Input Scores</a></li>
-                {{/compareRole}}
-
-            </div>
-        </div>
+        
     </div>
 </div>
+
+<script src="/public/js/court_view.js"></script>

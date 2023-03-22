@@ -28,10 +28,26 @@ body {
 }
 
 
-.inputScoresButton {
+.score-submission {
     display: block;
 }
 
+.score-columns{
+    columns: 2;
+}
+
+input{
+    width: 50px;
+}
+
+.live-stream-link{
+    font-weight: bold;
+}
+
+button{
+    padding: 3px;
+    cursor: pointer;
+}
 
 /* Need to create logged-in class? */
 
