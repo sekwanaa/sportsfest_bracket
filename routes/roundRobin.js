@@ -39,4 +39,12 @@ router.post("/", async (req, res) => {
     return res.json(roundRobin);
 });
 
+router.post("/round_robin_schedule", async (req, res) => {
+    let roundRobinInfo = req.body;
+    let roundRobinArray = roundRobinInfo.roundRobinMatches;
+    const roundRobinId = await poolsData.insertRoundRobin(roundRobinArray);
+
+    return res.json(roundRobinId);
+});
+
 module.exports = router;
