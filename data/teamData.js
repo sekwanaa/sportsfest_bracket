@@ -36,28 +36,6 @@ let exportedMethods = {
     const insertTeam = await teamsCollection.insertOne(newTeam);
     const teamsId = insertTeam.insertedId.toString();
     
-    // const checkExists = await userCollection.find({_id: ObjectId(beingReviewedId)}, {_id: 1}).limit(1);
-    // console.log(checkExists);
-    
-    // if (checkExists == 1) {
-    //   console.log("person");
-    //   const reviewPushed = await userCollection.findOneAndUpdate(
-    //     {_id: ObjectId(beingReviewedId)}, 
-    //     {$push: {
-    //       reviews: reviewId
-    //     }
-    //   });
-    // }
-    // else {
-    //   console.log("dog");
-    //   const reviewPushed = await dogsCollection.findOneAndUpdate(
-    //     {_id: ObjectId(beingReviewedId)}, 
-    //     {$push: {
-    //       reviews: reviewId
-    //     }
-    //   });
-    // }
-    
     return teamsId;
   },
 }
