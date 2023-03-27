@@ -35,6 +35,8 @@
         event.preventDefault();
         var teamName = $('#teamName').val();
         var district = $('#districtSelection').val();
+        var teamCaptain = $('#teamCaptain').val();
+        var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
         
 
@@ -54,6 +56,10 @@
                     teamName: teamName,
                     district: district,
                     players: teamMembers,
+                    teamCaptain: {
+                        name: teamCaptain,
+                        shirtNum: teamCaptainShirtNum,
+                    },
                 })
             };
             $.ajax(req).then(function (res) {

@@ -44,8 +44,16 @@ router.post("/submitTeams", async (req, res) => {
         const teamName  = req.body.teamName;
         const district = req.body.district;
         const players = req.body.players;
+        const teamCaptain = req.body.teamCaptain;
 
-        const teamId = await teamsData.addTeam(teamName, district, players);
+        let teamObj = {
+            teamName: teamName,
+            district: district,
+            players: players,
+            teamCaptain: teamCaptain,
+        };
+
+        const teamId = await teamsData.addTeam(teamObj);
 
         return res.json(teamId);
     }

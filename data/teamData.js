@@ -16,19 +16,24 @@ let exportedMethods = {
   },
 
   //method to insert team data information
-  async addTeam(teamName, district, players) {
+  async addTeam(teamObj) {
 
     let newTeam = {
-      name: teamName,
-      district: district,
-      players: []
+      name: teamObj.teamName,
+      district: teamObj.district,
+      players: [],
+      teamCaptain: null,
     };
 
     const teamsCollection = await teams();
     const playersCollection = await playersData();
 
-    for(i = 0; i < players.length; i++) {
-      const insertPlayer = await playersCollection.insertOne(players[i]);
+    const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
+    const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
+    newTeam.teamCaptain = insertTeamCaptainId;
+
+    for(i = 0; i < teamObj.players.length; i++) {
+      const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
       const insertPlayerId = insertPlayer.insertedId.toString();
       newTeam.players.push(insertPlayerId);
     }
