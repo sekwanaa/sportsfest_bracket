@@ -43,7 +43,7 @@
         for(i = 1; i < teamMemberCount; i++) {
             let playerData = {};
             playerData.name = $("#teamMemberName" + i).val();
-            playerData.shirtNum = i;
+            playerData.shirtNum = null;
             playerData.userId = null,
             playerData.hasTeam = true,
             teamMembers.push(playerData);
