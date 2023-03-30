@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
     let allUsers = [];
     let nickname = "";
     let name = "";
+    let hasTeam = false;
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -39,12 +40,22 @@ router.get("/", async (req, res) => {
 
 router.post("/submitTeams", async (req, res) => {
 
+    let userId;
+    
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
+
     try {
         
         const teamName  = req.body.teamName;
         const district = req.body.district;
         const players = req.body.players;
         const teamCaptain = req.body.teamCaptain;
+
+        teamCaptain.userId = userId;
 
         let teamObj = {
             teamName: teamName,

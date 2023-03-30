@@ -44,6 +44,7 @@
             let playerData = {};
             playerData.name = $("#teamMemberName" + i).val();
             playerData.shirtNum = i;
+            playerData.userId = null,
             teamMembers.push(playerData);
         }
 
@@ -59,6 +60,7 @@
                     teamCaptain: {
                         name: teamCaptain,
                         shirtNum: teamCaptainShirtNum,
+                        userId: null,
                     },
                 })
             };

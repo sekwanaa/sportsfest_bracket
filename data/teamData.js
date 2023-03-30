@@ -43,6 +43,19 @@ let exportedMethods = {
     
     return teamsId;
   },
+
+  async hasTeam(userId) {
+      const teamsCollection = await teams();
+
+      const team = await teamsCollection.find({_id: userId});
+
+      if (team) {
+          return true;
+      }
+      else {
+          return false;
+      }
+  }
 }
 
 
