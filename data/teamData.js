@@ -45,11 +45,11 @@ let exportedMethods = {
   },
 
   async hasTeam(userId) {
-      const teamsCollection = await teams();
+      const playersCollection = await playersData();
 
-      const team = await teamsCollection.find({_id: userId});
+      const playerInfo = await playersCollection.find({userId: userId}).toArray();
 
-      if (team) {
+      if (playerInfo.hasTeam) {
           return true;
       }
       else {

@@ -22,6 +22,7 @@ router.get("/", async (req, res) => {
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
+        hasTeam = await teamsData.hasTeam(user._id).toString();
     }
 
     res.render("partials/player_dashboard", {
@@ -34,14 +35,14 @@ router.get("/", async (req, res) => {
         length: allUsers.length,
         nickname: nickname,
         name: name,
-        hasTeam: false,
+        hasTeam: hasTeam,
     });
 });
 
 router.post("/submitTeams", async (req, res) => {
 
     let userId;
-    
+
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
         const user = await userData.getUserByEmail(email);
