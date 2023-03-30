@@ -12,6 +12,11 @@ router.get("/", async (req, res) => {
     let allUsers = [];
     let nickname = "";
     let name = "";
+    let hasTeam = false;
+    let teamCaptain = null;
+    let teamMembers = null;
+    let teamName = null;
+    let userId = null;
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -21,6 +26,15 @@ router.get("/", async (req, res) => {
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
+        userId = user._id.toString();
+        hasTeam = await teamsData.hasTeam(userId);
+        if (hasTeam) {
+            let team = await teamsData.getTeam(userId);
+
+            teamCaptain = team.teamCaptain;
+            teamMembers = team.players;
+            teamName = team.name;
+        }
     }
 
     res.render("partials/player_dashboard", {
@@ -33,19 +47,40 @@ router.get("/", async (req, res) => {
         length: allUsers.length,
         nickname: nickname,
         name: name,
-        hasTeam: false,
+        hasTeam: hasTeam,
+        teamCaptain: teamCaptain,
+        teamMembers: teamMembers,
+        teamName: teamName,
     });
 });
 
 router.post("/submitTeams", async (req, res) => {
+
+    let userId;
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
 
     try {
         
         const teamName  = req.body.teamName;
         const district = req.body.district;
         const players = req.body.players;
+        const teamCaptain = req.body.teamCaptain;
 
-        const teamId = await teamsData.addTeam(teamName, district, players);
+        teamCaptain.userId = userId;
+
+        let teamObj = {
+            teamName: teamName,
+            district: district,
+            players: players,
+            teamCaptain: teamCaptain,
+        };
+
+        const teamId = await teamsData.addTeam(teamObj);
 
         return res.json(teamId);
     }

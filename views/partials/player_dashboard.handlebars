@@ -2,10 +2,10 @@
     <img src="../../public/images/R.png" alt="Profile Picture">
     <br>
     {{#if name}}
-    <h2>{{name}}</h2>
+    <h2 id="player_name">{{name}}</h2>
     {{/if}}
     <p>{{role}}</p>
-    <p>Shirt Number: 12</p>
+    <p id="shirt_number">Shirt Number: 12</p>
     <p>Team: NJ X</p>
     <p>Position: Outside Hitter</p>
 </div>
@@ -37,6 +37,7 @@
         </datalist>
     </div>
     <div id="teamMembers">
+        <input name="teamCaptain" id="teamCaptain" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
         <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
     </div>
     <div id="add_remove_buttons">
@@ -51,10 +52,11 @@
     {{/unless}}
 
     {{#if hasTeam}}
-        <p>Captain: captainName</p>
-        <p>TeamMember: playerName</p>
-        <p>Position: positionName</p>
-        <p>ShirtNum: playerShirtNum</p>
+        <h3>Team Name: {{teamName}}</h3>
+        <p>Captain: {{teamCaptain}}</p>
+        {{#each teamMembers}}
+            <p>TeamMember: {{this.name}}</p>
+        {{/each}}
         <button id="edit_team_btn">Edit Team</button>
     {{/if}}
 </div>

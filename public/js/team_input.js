@@ -35,6 +35,8 @@
         event.preventDefault();
         var teamName = $('#teamName').val();
         var district = $('#districtSelection').val();
+        var teamCaptain = $('#teamCaptain').val();
+        var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
         
 
@@ -42,6 +44,8 @@
             let playerData = {};
             playerData.name = $("#teamMemberName" + i).val();
             playerData.shirtNum = i;
+            playerData.userId = null,
+            playerData.hasTeam = true,
             teamMembers.push(playerData);
         }
 
@@ -54,6 +58,12 @@
                     teamName: teamName,
                     district: district,
                     players: teamMembers,
+                    teamCaptain: {
+                        name: teamCaptain,
+                        shirtNum: teamCaptainShirtNum,
+                        userId: null,
+                        hasTeam: true,
+                    },
                 })
             };
             $.ajax(req).then(function (res) {
