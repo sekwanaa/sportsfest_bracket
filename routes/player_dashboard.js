@@ -13,6 +13,10 @@ router.get("/", async (req, res) => {
     let nickname = "";
     let name = "";
     let hasTeam = false;
+    let teamCaptain = null;
+    let teamMembers = null;
+    let teamName = null;
+    let userId = null;
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -22,7 +26,15 @@ router.get("/", async (req, res) => {
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
-        hasTeam = await teamsData.hasTeam(user._id).toString();
+        userId = user._id.toString();
+        hasTeam = await teamsData.hasTeam(userId);
+        if (hasTeam) {
+            let team = await teamsData.getTeam(userId);
+
+            teamCaptain = team.teamCaptain;
+            teamMembers = team.players;
+            teamName = team.name;
+        }
     }
 
     res.render("partials/player_dashboard", {
@@ -36,6 +48,9 @@ router.get("/", async (req, res) => {
         nickname: nickname,
         name: name,
         hasTeam: hasTeam,
+        teamCaptain: teamCaptain,
+        teamMembers: teamMembers,
+        teamName: teamName,
     });
 });
 

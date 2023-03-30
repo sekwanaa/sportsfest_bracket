@@ -52,10 +52,11 @@
     {{/unless}}
 
     {{#if hasTeam}}
-        <p>Captain: captainName</p>
-        <p>TeamMember: playerName</p>
-        <p>Position: positionName</p>
-        <p>ShirtNum: playerShirtNum</p>
+        <h3>Team Name: {{teamName}}</h3>
+        <p>Captain: {{teamCaptain}}</p>
+        {{#each teamMembers}}
+            <p>TeamMember: {{this.name}}</p>
+        {{/each}}
         <button id="edit_team_btn">Edit Team</button>
     {{/if}}
 </div>
