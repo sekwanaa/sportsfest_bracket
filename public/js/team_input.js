@@ -46,6 +46,7 @@
             playerData.shirtNum = null;
             playerData.userId = null,
             playerData.hasTeam = true,
+            playerData.linked = false,
             teamMembers.push(playerData);
         }
 
@@ -63,6 +64,7 @@
                         shirtNum: teamCaptainShirtNum,
                         userId: null,
                         hasTeam: true,
+                        linked: true,
                     },
                 })
             };
