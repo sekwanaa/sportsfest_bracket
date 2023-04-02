@@ -55,7 +55,7 @@
         <h3>Team Name: {{teamName}}</h3>
         <p>Captain: {{teamCaptain}}</p>
         {{#each teamMembers}}
-            <p>TeamMember: {{this.name}}</p>
+            <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
         {{/each}}
         <button id="edit_team_btn">Edit Team</button>
     {{/if}}

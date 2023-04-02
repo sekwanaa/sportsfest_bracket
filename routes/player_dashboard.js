@@ -30,10 +30,20 @@ router.get("/", async (req, res) => {
         hasTeam = await teamsData.hasTeam(userId);
         if (hasTeam) {
             let team = await teamsData.getTeam(userId);
-
+            
             teamCaptain = team.teamCaptain;
-            teamMembers = team.players;
+            teamMembers = [];
             teamName = team.name;
+            let teamMember = {};
+
+            for(i=0; i < team.players.length; i++) {                
+                teamMember.name = team.players[i].name;
+                if(team.players[i].linked == false) {
+                    teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
+                }
+                teamMembers.push(teamMember);
+                teamMember = {};
+            }
         }
     }
 

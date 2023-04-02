@@ -95,6 +95,14 @@ let exportedMethods = {
 
       return teamObj;
   },
+
+  async getPlayerLinkCode(playerId) {
+        const playerLinkCollection = await playerLink();
+
+        const player = await playerLinkCollection.findOne({playerId: playerId});
+
+        return player.code;
+  },
 }
 
 
