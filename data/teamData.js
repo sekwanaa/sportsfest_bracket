@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const teams = mongoCollections.teams;
 const playersData = mongoCollections.players;
+const playerLink = mongoCollections.playerlink;
 
 const { ObjectId } = require("mongodb");
 
@@ -36,6 +37,16 @@ let exportedMethods = {
         const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
         const insertPlayerId = insertPlayer.insertedId.toString();
         newTeam.players.push(insertPlayerId);
+
+        if(teamObj.players[i].linked == false) {
+            let playerLinkObj = {
+                playerId: insertPlayerId,
+                code: Math.floor(Math.random() * (100000 - 10000) + 10000),
+            };
+
+            const playerLinkCollection = await playerLink();
+            const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
+        }
     }
 
     const insertTeam = await teamsCollection.insertOne(newTeam);
@@ -83,6 +94,14 @@ let exportedMethods = {
       }
 
       return teamObj;
+  },
+
+  async getPlayerLinkCode(playerId) {
+        const playerLinkCollection = await playerLink();
+
+        const player = await playerLinkCollection.findOne({playerId: playerId});
+
+        return player.code;
   },
 }
 

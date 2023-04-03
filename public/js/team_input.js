@@ -43,9 +43,10 @@
         for(i = 1; i < teamMemberCount; i++) {
             let playerData = {};
             playerData.name = $("#teamMemberName" + i).val();
-            playerData.shirtNum = i;
+            playerData.shirtNum = null;
             playerData.userId = null,
             playerData.hasTeam = true,
+            playerData.linked = false,
             teamMembers.push(playerData);
         }
 
@@ -63,6 +64,7 @@
                         shirtNum: teamCaptainShirtNum,
                         userId: null,
                         hasTeam: true,
+                        linked: true,
                     },
                 })
             };
