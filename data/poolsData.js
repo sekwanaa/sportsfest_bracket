@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const teamData = require("./teamData");
 const pools = mongoCollections.pools;
-const roundRobin = mongoCollections.roundRobin;
+const roundrobin = mongoCollections.roundrobin;
 
 let exportedMethods = {
   
@@ -118,6 +118,8 @@ let exportedMethods = {
     //method to insert finalized round robin schedule
     async insertRoundRobin(gameNum, team1, team2, field, complete) {
 
+        gameNum = parseInt(gameNum, 10);
+
         let newRoundRobin = {
             gameNum: gameNum,
             team1: team1,
@@ -126,7 +128,7 @@ let exportedMethods = {
             complete: complete,
         };
     
-        const roundRobinCollection = await roundRobin();
+        const roundRobinCollection = await roundrobin();
         const insertRoundRobin = await roundRobinCollection.insertOne(newRoundRobin);
         const roundRobinId = insertRoundRobin.insertedId.toString();
         
