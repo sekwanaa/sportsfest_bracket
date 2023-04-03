@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
 const matchesData = data.matchesData;
+const courtviewData = data.courtviewData;
 
 router.get("/", async (req, res) => {
 
@@ -49,6 +50,14 @@ router.post("/", async (req, res) => {
     );
 
     return res.json(insertMatch);
+});
+
+router.post("/get_current_game", async (req, res) => {
+    const fieldNum = req.body.fieldNum;
+
+    const currentGame = await courtviewData.getCurrentGameData(fieldNum);
+    
+    return res.json(currentGame);
 });
 
 module.exports = router;
