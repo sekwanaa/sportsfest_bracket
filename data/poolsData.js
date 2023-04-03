@@ -135,6 +135,23 @@ let exportedMethods = {
         return roundRobinId;
     },
 
+    async roundRobinCompleteMatch(fieldNum, team1, team2) {
+        const roundRobinCollection = await roundrobin();
+
+        const updateRoundRobin = await roundRobinCollection.findOneAndUpdate(
+            {
+                field: fieldNum,
+                team1: team1,
+                team2: team2,
+            },
+            {
+                $set: {
+                    complete: true,
+                }
+            }
+        )
+    }
+
   }
   
   module.exports = exportedMethods;

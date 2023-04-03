@@ -8,6 +8,7 @@
         var team2 = $('#team2Name').text();
         var team1Score = $('#score1').val();
         var team2Score = $('#score2').val();
+        var fieldNum = $('#court1').text();
         // don't need year because it's in the court view route
 
         let winner = "";
@@ -41,6 +42,7 @@
                     score2: team2Score,
                     winner: winner,
                     loser: loser,
+                    fieldNum: fieldNum,
                     team1PointDifferential: team1PointDifferential,
                     team2PointDifferential: team2PointDifferential,
                 })
