@@ -7,6 +7,7 @@ const playerDashboardRoutes = require("./player_dashboard");
 const createPoolRoutes = require("./create_pool");
 const teamListRoutes = require("./team_list");
 const roundRobinRoutes = require("./round_Robin");
+const seedingTableRoutes = require("./seeding_table")
 // const path = require('path');
 const data = require('../data');
 const userData = data.usersData;
@@ -46,6 +47,7 @@ const constructorMethod = app => {
     app.use("/create_pool", createPoolRoutes);
     app.use("/round_Robin", roundRobinRoutes);
     app.use("/team_list", teamListRoutes);
+    app.use("/seeding_table", seedingTableRoutes);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});

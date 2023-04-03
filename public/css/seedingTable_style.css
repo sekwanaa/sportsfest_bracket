@@ -1,0 +1,44 @@
+@keyframes fadein {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 95%;
+    }
+}
+
+body {
+    animation: fadein 1.25s ease-in-out;
+}
+
+body {
+    background-image: url('/public/images/basketball_bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center; 
+}
+
+button {
+    text-align: center;
+    border-width: 1px;
+    border-radius: 8%;
+    padding: 5px;
+    margin: 10px;
+}
+
+.header_bar, .seed_information {
+    display: grid;
+    grid-template-columns: 10% 30% 20% 20% 20%;
+    grid-auto-rows: 2em;
+    text-align: center;
+    padding: .5em;
+}
+
+.header_bar {
+    background-color: grey;
+}
+
+.seed_information {
+    background-color: lightgrey;
+    font-size: 18px;
+}

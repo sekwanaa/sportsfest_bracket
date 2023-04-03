@@ -1,0 +1,19 @@
+<div class="teamList">
+    {{!-- <h1>Current Seeds</h1> --}}
+    <div class="header_bar">
+        <h2>Seed #</h2>
+        <h2>Team Name</h2>
+        <h2>Wins</h2>
+        <h2>Losses</h2>
+        <h2>Point Differential</h2>
+    </div>
+    {{#each matches}}
+    <div class="seed_information">
+        <p>{{seedNumber}}</p>
+        <p>{{this.name}}</p>
+        <p>{{this.winnerCount}}</p>
+        <p>{{this.loserCount}}</p>
+        <p>{{this.pointDifferential}}</p>
+    </div>
+    {{/each}}
+</div>
