@@ -103,6 +103,29 @@ let exportedMethods = {
 
         return player.code;
   },
+
+  async linkPlayerCode(code, userId) {
+    const playerLinkCollection = await playerLink();
+
+    const player = await playerLinkCollection.findOne({code: code});
+    console.log(code)
+
+    const playersCollection = await playersData();
+
+    playersCollection.findOneAndUpdate(
+        {
+            _id: new ObjectId(player.playerId)
+        }, 
+        {
+            $set: 
+                {
+                    userId: userId,
+                    linked: true,
+                }
+        });
+    
+    return;
+},
 }
 
 

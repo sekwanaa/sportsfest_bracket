@@ -9,6 +9,29 @@
     <p>Team: {{teamName}}</p>
     <p>Position: {{position}}</p>
 </div>
+{{#compareRole "player" role}}
+<div id="manageTeamCard" class="dashboardCards">
+    <h1>Your Current Team</h1>
+    {{#unless hasTeam}}
+    <p>You don't currently have a team right now</p>
+    <button type="button" id="join_team_button">Join a Team</button>
+    <div id ="div_join_team_input">
+        <input id="team_code_input" type="text" placeholder="Team code">
+    </div>
+    <button id="submit_team_code_button" type="submit">Submit</button>
+    {{/unless}}
+
+    {{#if hasTeam}}
+        <h3>Team Name: {{teamName}}</h3>
+        <p>Captain: {{teamCaptain}}</p>
+        {{#each teamMembers}}
+            <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
+        {{/each}}
+        <button id="edit_team_btn">Edit Team</button>
+    {{/if}}
+</div>
+<script src="/public/js/player_dashboard.js"></script>
+{{/compareRole}}
 {{#compareRole "captain" role}}
 <div id="manageTeamCard" class="dashboardCards">
     <h1>Your Current Team</h1>

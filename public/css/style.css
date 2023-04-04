@@ -14,11 +14,11 @@ header {
     /* padding-right: 60px; */
 }
 
-footer {
+/* footer {
     background-color: rgb(108, 109, 108);
     opacity: 95%;
     padding: 20px;
-}
+} */
 
 header::after {
     display: table;
@@ -118,12 +118,12 @@ body {
 main {
     min-height: 100%;
     display: grid;
-    grid-template-rows: 90vh auto auto;
+    grid-template-rows: 75vh auto auto;
     padding: 2%;
 }
 
-footer {
+/* footer {
     height: 3em;
     background-color: grey;
     text-align: right;
-}
+} */

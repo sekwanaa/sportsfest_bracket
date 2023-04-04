@@ -7,8 +7,9 @@
         <h2>Losses</h2>
         <h2>Point Differential</h2>
     </div>
-    {{#each matches}}
     <div class="seed_information">
+    {{#each matches}}
+    <div class="seed_info">
         <p>{{@index}}</p>
         <p>{{this.name}}</p>
         <p>{{this.winnerCount}}</p>
@@ -16,4 +17,6 @@
         <p>{{this.pointDifferential}}</p>
     </div>
     {{/each}}
+    </div>
+    
 </div>
