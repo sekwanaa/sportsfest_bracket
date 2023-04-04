@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
     let teamMembers = null;
     let teamName = null;
     let userId = null;
+    let profilePic = "../../public/images/R.png";
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -61,6 +62,7 @@ router.get("/", async (req, res) => {
         teamCaptain: teamCaptain,
         teamMembers: teamMembers,
         teamName: teamName,
+        profilePic: profilePic,
     });
 });
 
