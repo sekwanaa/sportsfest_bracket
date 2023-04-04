@@ -36,7 +36,6 @@ let exportedMethods = {
     async getTeamRecords() {
 
         const allTeams = await teamData.getAllTeams();
-        console.log(allTeams.length);
         const matchesCollection = await matches();
 
         let matchHistory = [];
@@ -49,18 +48,12 @@ let exportedMethods = {
         let loserMatches = null;
 
         for(i=0; i < allTeams.length; i++) {
-            // console.log(allTeams[i]);
             winnerCount = await matchesCollection.count({
                 "winner": allTeams[i].name
             });
             loserCount = await matchesCollection.count({
                 "loser": allTeams[i].name
             });
-
-            // let sumArray = await matchesCollection.aggregate([
-            //     {$match: {"winner": allTeams[i].name}},
-            //     {$group: {"winner": allTeams[i].name, tmpPointDiff: {$sum: "winnerPointDifferential"}}}
-            // ])
 
             winnerMatches = await matchesCollection.find({"winner": allTeams[i].name}).toArray();
             loserMatches = await matchesCollection.find({"loser": allTeams[i].name}).toArray();
