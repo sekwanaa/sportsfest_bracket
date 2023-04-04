@@ -12,7 +12,7 @@
         var team2 = $("#court"+submitButtonNumber+'team2Name').text();
         var team1Score = parseInt($("#court"+submitButtonNumber+'score1').val());
         var team2Score = parseInt($("#court"+submitButtonNumber+'score2').val());
-        var fieldNum = $('#court'+submitButtonNumber).text();
+        var fieldNum = $('#court'+submitButtonNumber).text().split(" ")[1];
         // don't need year because it's in the court view route
 
         let winner = "";
