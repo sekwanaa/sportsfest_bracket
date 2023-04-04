@@ -33,6 +33,7 @@ router.get("/", async (req, res) => {
         allUsers: allUsers,
         length: allUsers.length,
         matches: matchHistory,
+        seedNumber: 0,
     });
 });
 

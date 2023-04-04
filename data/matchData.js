@@ -80,16 +80,24 @@ let exportedMethods = {
 
         matchHistory = this.sortMatchHistory(matchHistory);
 
-        console.log(matchHistory);
-
-
-
         return matchHistory;
     },
 
     async sortMatchHistory(matchHistory) {
 
-        return matchHistory.sort((a, b) => (a.winnerCount > b.winnerCount) ? -1 : (a.winnerCount < b.winnerCount) ? 1 : 0);
+        let sortedMatchHistory = matchHistory.sort((a, b) => (a.winnerCount > b.winnerCount) ? -1 : (a.winnerCount < b.winnerCount) ? 1 : 0);
+
+        sortedMatchHistory = sortedMatchHistory.sort((a,b) => 
+        {
+            if(a.winnerCount === b.winnerCount) {
+                return a.pointDifferential > b.pointDifferential ? -1 : (a.pointDifferential < b.pointDifferential) ? 1 : 0
+            }
+            else {
+                return a.pointDifferential < b.pointDifferential ? 1 : (a.pointDifferential < b.pointDifferential) ? -1 : 0
+            }
+        });
+
+        return sortedMatchHistory;
 
     },
 }
