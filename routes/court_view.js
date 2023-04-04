@@ -20,7 +20,6 @@ router.get("/", async (req, res) => {
     }
 
     let courtData = await courtviewData.getCurrentGameData(1);
-    // console.log(courtData);
 
     res.render("partials/court_view", {
         title: 'Current Games by Court', 

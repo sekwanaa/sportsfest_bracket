@@ -44,8 +44,10 @@ let exportedMethods = {
         let winnerCount = "";
         let loserCount = "";
         let pointDiff = 0;
+        let winnerMatches = null;
+        let loserMatches = null;
 
-        for(i=0; i<allTeams.length; i++) {
+        for(i=0; i < allTeams.length; i++) {
             winnerCount = await matchesCollection.count({
                 "winner": allTeams[i].name
             });
@@ -53,20 +55,15 @@ let exportedMethods = {
                 "loser": allTeams[i].name
             });
 
-            // let sumArray = await matchesCollection.aggregate([
-            //     {$match: {"winner": allTeams[i].name}},
-            //     {$group: {"winner": allTeams[i].name, tmpPointDiff: {$sum: "winnerPointDifferential"}}}
-            // ])
+            winnerMatches = await matchesCollection.find({"winner": allTeams[i].name}).toArray();
+            loserMatches = await matchesCollection.find({"loser": allTeams[i].name}).toArray();
 
-            let winnerMatches = await matchesCollection.find({"winner": allTeams[i].name}).toArray();
-            let loserMatches = await matchesCollection.find({"loser": allTeams[i].name}).toArray();
-
-            for(i=0; i<winnerMatches.length; i++) {
-                pointDiff += winnerMatches[i].winnerPointDifferential;
+            for(j=0; j<winnerMatches.length; j++) {
+                pointDiff += winnerMatches[j].winnerPointDifferential;
             }
 
-            for(i=0; i<loserMatches.length; i++) {
-                pointDiff += loserMatches[i].loserPointDifferential;
+            for(j=0; j<loserMatches.length; j++) {
+                pointDiff += loserMatches[j].loserPointDifferential;
             }
 
             matchObj.name = allTeams[i].name;
