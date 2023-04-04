@@ -12,7 +12,7 @@ let exportedMethods = {
         return allMatches;
     },
 
-    async insertMatch(team1, team2, score1, score2, winner, loser, team1PointDifferential, team2PointDifferential, year) {
+    async insertMatch(team1, team2, score1, score2, winner, loser, winnerPointDifferential, loserPointDifferential, year) {
         const matchesCollection = await matches();
 
         let newMatch = {
@@ -22,8 +22,8 @@ let exportedMethods = {
             score2: score2,
             winner: winner,
             loser: loser,
-            winnerPointDifferential: team1PointDifferential,
-            loserPointDifferential: team2PointDifferential,
+            winnerPointDifferential: winnerPointDifferential,
+            loserPointDifferential: loserPointDifferential,
             year: year,
         };
 
