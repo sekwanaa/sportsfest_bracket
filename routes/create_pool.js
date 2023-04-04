@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
         poolInfo.seedingGames, 
         poolInfo.numOfTeams, 
         poolInfo.numOfFields, 
-        poolInfo.numOfPlayoffTeams
+        poolInfo.numOfPlayOffTeams
     );
 
     return res.json(insertPool);
