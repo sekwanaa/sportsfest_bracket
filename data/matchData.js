@@ -77,7 +77,15 @@ let exportedMethods = {
             loserCount = "";
         }
 
+        matchHistory = this.sortMatchHistory(matchHistory);
+
         return matchHistory;
+    },
+
+    async sortMatchHistory(matchHistory) {
+
+        return matchHistory.sort((a, b) => (a.winnerCount > b.winnerCount) ? -1 : (a.winnerCount < b.winnerCount) ? 1 : 0);
+
     },
 }
 
