@@ -17,24 +17,24 @@
 
             <br>
             
-            <form id="scoreInputForm">
+            <form id="scoreInputForm{{this.numOfFields}}">
                 <div class="score-columns">
-                    <section id="team1">
-                        <label id="team1Name">{{this.teamName1}}</label>
+                    <section id="court{{this.numOfFields}}team1">
+                        <label id="court{{this.numOfFields}}team1Name">{{this.teamName1}}</label>
                         <br>
-                        <input type="number" name="score1" id="score1">
+                        <input type="number" name="score1" id="court{{this.numOfFields}}score1">
                     </section>
                 
-                    <section id="team2">
-                        <label id="team2Name">{{this.teamName2}}</label>
+                    <section id="court{{this.numOfFields}}team2">
+                        <label id="court{{this.numOfFields}}team2Name">{{this.teamName2}}</label>
                         <br>
-                        <input type="number" name="score2" id="score2">
+                        <input type="number" name="score2" id="court{{this.numOfFields}}score2">
                     </section>
                 </div>
 
             <br>
             
-            <button class="submit">Submit</button>
+            <button class="{{this.numOfFields}}">Submit</button>
 
             </form>
             {{/compareRole}}
