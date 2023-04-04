@@ -75,9 +75,14 @@ let exportedMethods = {
             matchObj = {};
             winnerCount = "";
             loserCount = "";
+            pointDiff = 0;
         }
 
         matchHistory = this.sortMatchHistory(matchHistory);
+
+        console.log(matchHistory);
+
+
 
         return matchHistory;
     },
