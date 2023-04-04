@@ -77,7 +77,11 @@ let exportedMethods = {
       const playerId = playerInfo._id.toString();
 
       const teamsCollection = await teams();
-      const teamInfo = await teamsCollection.findOne({teamCaptain: playerId});
+      let teamInfo = await teamsCollection.findOne({teamCaptain: playerId});
+      
+      if(teamInfo == null) {
+            teamInfo = await teamsCollection.findOne({players: {$in: [playerId]}});
+      }
 
       const teamCaptainId = new ObjectId(teamInfo.teamCaptain);
 
