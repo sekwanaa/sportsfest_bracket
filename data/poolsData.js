@@ -22,6 +22,14 @@ let exportedMethods = {
       return poolId;
     },
 
+    async getPoolInfo () {
+        const poolCollection = await pools();
+
+        const poolInfo = await poolCollection.findOne({});
+
+        return poolInfo;
+    },
+
     //method to create a potential round robin schedule
     async roundRobinSelection() {
         let roundRobinTeamList = [];

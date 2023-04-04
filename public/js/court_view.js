@@ -13,7 +13,6 @@
 
         let winner = "";
         let loser = "";
-        let pointDifferential = "";
         let winnerPointDifferential = "";
         let loserPointDifferential = "";
 
