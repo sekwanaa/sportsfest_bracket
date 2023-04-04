@@ -1,17 +1,17 @@
 {{! styling is done in courtView_style.css}}
-
-
 <div class = "allCourts"> {{! container for the 4 courts}}
-    <div class="court"> {{! labelling courts but maybe don't need separate classes for each of them}}
-        <h3 id="court1">1</h3>
-        <br>    
-        <h1> {{teamName1}} vs {{teamName2}} </h1> {{! takes team names from court_view.js in routes}}
+     {{! labelling courts but maybe don't need separate classes for each of them}}
+    {{#each courtArray}}
+    <div class="court">
+        <h3 id="court{{this.numOfFields}}">{{this.numOfFields}}</h3>
+        <br>        
+        <h1> {{this.teamName1}} vs {{this.teamName2}} </h1> {{! takes team names from court_view.js in routes}}
         <br>
 
         {{! Only captains/coordinators see this}}        
         <div class="score-submission">
             {{! "Input Score"}}
-            {{#compareRole "coordinator" role}}
+            {{#compareRole "coordinator" ../role}}
             
             <h3>Submit scores here</h3>
 
@@ -20,13 +20,13 @@
             <form id="scoreInputForm">
                 <div class="score-columns">
                     <section id="team1">
-                        <label id="team1Name">{{teamName1}}</label>
+                        <label id="team1Name">{{this.teamName1}}</label>
                         <br>
                         <input type="number" name="score1" id="score1">
                     </section>
                 
                     <section id="team2">
-                        <label id="team2Name">{{teamName2}}</label>
+                        <label id="team2Name">{{this.teamName2}}</label>
                         <br>
                         <input type="number" name="score2" id="score2">
                     </section>
@@ -47,21 +47,7 @@
         </div>
     
     </div>
-
-    {{!-- <div class="court">
-        <h3>Court 2</h3>
-        
-    </div>
-
-    <div class="court">
-        <h3>Court 3</h3>
-        
-    </div>
-
-    <div class="court">
-        <h3>Court 4</h3>
-        
-    </div> --}}
+    {{/each}}
 </div>
 
 <script src="/public/js/court_view.js"></script>

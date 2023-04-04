@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const data = require('../data')
+const data = require('../data');
 const userData = data.usersData;
 const matchesData = data.matchesData;
 const courtviewData = data.courtviewData;
@@ -19,7 +19,20 @@ router.get("/", async (req, res) => {
         userRole = loggedInUser.user_metadata.role;
     }
 
-    let courtData = await courtviewData.getCurrentGameData(1);
+    let numOfCourts = await poolsData.getPoolInfo();
+    let courtArray = [];
+    let courtObj = {};
+    let courtData = "";
+
+    for (i=0; i<numOfCourts.numOfFields; i++) {
+        courtData = await courtviewData.getCurrentGameData(i+1)
+        courtObj.numOfFields = i+1;
+        courtObj.teamName1 = courtData[0].team1;
+        courtObj.teamName2 = courtData[0].team2;
+        courtArray.push(courtObj);
+        courtObj = {};
+        courtData = "";
+    }
 
     res.render("partials/court_view", {
         title: 'Current Games by Court', 
@@ -27,9 +40,7 @@ router.get("/", async (req, res) => {
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
         role: userRole,
-        teamName1: courtData[0].team1, //need code here to take a team from court xyz 
-        teamName2: courtData[0].team2, //need code here to take a team from court xyz 
-        // might need more teamNames because there are 4 courts
+        courtArray: courtArray,
     });
 });
 
@@ -48,8 +59,8 @@ router.post("/", async (req, res) => {
         matchInfo.score2,
         matchInfo.winner,
         matchInfo.loser, 
-        matchInfo.team1PointDifferential,
-        matchInfo.team2PointDifferential,
+        matchInfo.winnerPointDifferential,
+        matchInfo.loserPointDifferential,
         matchInfo.year = new Date().getFullYear().toString() // gets the current year, court view can only submit current year scores
     );
 

@@ -6,28 +6,27 @@
 
         var team1 = $('#team1Name').text();
         var team2 = $('#team2Name').text();
-        var team1Score = $('#score1').val();
-        var team2Score = $('#score2').val();
+        var team1Score = parseInt($('#score1').val());
+        var team2Score = parseInt($('#score2').val());
         var fieldNum = $('#court1').text();
         // don't need year because it's in the court view route
 
         let winner = "";
         let loser = "";
-        let pointDifferential = "";
-        let team1PointDifferential = "";
-        let team2PointDifferential = "";
+        let winnerPointDifferential = "";
+        let loserPointDifferential = "";
 
         if (team1Score > team2Score) {
             winner = team1;
             loser = team2;
-            team1PointDifferential = team1Score - team2Score;
-            team2PointDifferential = -(team1Score - team2Score);
+            winnerPointDifferential = team1Score - team2Score;
+            loserPointDifferential = team2Score - team1Score;
         }
         else {
             winner = team2;
             loser = team1;
-            team1PointDifferential = team2Score - team1Score;
-            team2PointDifferential = -(team2Score - team1Score);
+            winnerPointDifferential = team2Score - team1Score;
+            loserPointDifferential = team1Score - team2Score;
         }
 
         try {
@@ -43,8 +42,8 @@
                     winner: winner,
                     loser: loser,
                     fieldNum: fieldNum,
-                    team1PointDifferential: team1PointDifferential,
-                    team2PointDifferential: team2PointDifferential,
+                    winnerPointDifferential: winnerPointDifferential,
+                    loserPointDifferential: loserPointDifferential,
                 })
             };
             $.ajax(req).then(function (res) {
