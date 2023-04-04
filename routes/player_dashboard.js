@@ -115,7 +115,7 @@ router.post("/", async (req, res) => {
 
 router.post("/join_team", async (req, res) => {
     const code = req.body.code;
-    console.log("route: " +code);
+    console.log("route: " + code);
 
     let userId;
 

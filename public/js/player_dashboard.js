@@ -18,7 +18,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/player_dashboard/join_Team',
+                url: '/player_dashboard/join_team',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     code: joinCode,
