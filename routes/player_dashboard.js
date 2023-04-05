@@ -115,7 +115,6 @@ router.post("/", async (req, res) => {
 
 router.post("/join_team", async (req, res) => {
     const code = req.body.code;
-    console.log("route: " + code);
 
     let userId;
 
@@ -127,9 +126,25 @@ router.post("/join_team", async (req, res) => {
 
     const playerId = await teamsData.linkPlayerCode(code, userId);
 
-
-
     return;
+});
+
+router.post("/submitProfile", async (req, res) => {
+    const userInfo = req.body;
+    const name = userInfo.name;
+    const shirtNum = userInfo.shirtNum;
+    const position = userInfo.position;
+    let userId = userInfo.userId;
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
+
+    const userUpdate = await userData.updateProfileInfo(userId, name, shirtNum, position);
+
+    return res.json(userUpdate);
 });
 
 module.exports = router;
