@@ -20,6 +20,13 @@
     grid-column-end: 2;
 }
 
+.edit_inputs {
+    text-align: center;
+    padding: .15em;
+    margin-top: .15em;
+    margin-bottom: .15em;
+}
+
 #manageTeamCard {
     max-width: 100%;
     max-height: 400px;

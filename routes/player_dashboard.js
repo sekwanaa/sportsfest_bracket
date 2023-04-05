@@ -32,12 +32,12 @@ router.get("/", async (req, res) => {
         name = loggedInUser.user_metadata.name;
         userId = user._id.toString();
         hasTeam = await teamsData.hasTeam(userId);
-        shirt_number = player.shirtNum;
-        position = player.position;
 
         if (hasTeam) {
             let team = await teamsData.getTeam(userId);
             
+            shirt_number = player.shirtNum;
+            position = player.position;
             teamCaptain = team.teamCaptain;
             teamMembers = [];
             teamName = team.name;

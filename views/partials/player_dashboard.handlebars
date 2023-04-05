@@ -3,11 +3,21 @@
     <br>
     {{#if name}}
     <h2 id="player_name">{{name}}</h2>
+    <div id="name_update_div">
+        <input class="edit_inputs" type="text" placeholder="Update name">
+    </div>
     {{/if}}
-    <p>{{role}}</p>
+    <h5>{{role}}</h5>
     <p id="shirt_number">Shirt Number: {{shirt_number}}</p>
-    <p>Team: {{teamName}}</p>
-    <p>Position: {{position}}</p>
+    <div id="shirt_number_update_div">
+        <input class="edit_inputs" type="text" placeholder="Update shirt number">
+    </div>
+    <p id="player_team">Team: {{teamName}}</p>
+    <p id="player_position">Position: {{position}}</p>
+    <div id="position_update_div">
+        <input class="edit_inputs" type="text" placeholder="Update position">
+    </div>
+    <button id="edit_profile_button">Edit</button>
 </div>
 {{#compareRole "player" role}}
 <div id="manageTeamCard" class="dashboardCards">
@@ -115,3 +125,4 @@
 </div>
 <script src="/public/js/role_change.js"></script>
 {{/compareRole}}
+<script src="/public/js/player_dashboard.js"></script>
