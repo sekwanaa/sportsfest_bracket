@@ -4,20 +4,21 @@
     {{#if name}}
     <h2 id="player_name">{{name}}</h2>
     <div id="name_update_div">
-        <input class="edit_inputs" type="text" placeholder="Update name">
+        <input class="edit_inputs" id="player_name_input" type="text" placeholder="Update name">
     </div>
     {{/if}}
     <h5>{{role}}</h5>
     <p id="shirt_number">Shirt Number: {{shirt_number}}</p>
     <div id="shirt_number_update_div">
-        <input class="edit_inputs" type="text" placeholder="Update shirt number">
+        <input class="edit_inputs" id="shirt_number_input" type="text" placeholder="Update shirt number">
     </div>
     <p id="player_team">Team: {{teamName}}</p>
     <p id="player_position">Position: {{position}}</p>
     <div id="position_update_div">
-        <input class="edit_inputs" type="text" placeholder="Update position">
+        <input class="edit_inputs" id="player_position_input" type="text" placeholder="Update position">
     </div>
     <button id="edit_profile_button">Edit</button>
+    <button id="submit_profile_changes_button">Submit</button>
 </div>
 {{#compareRole "player" role}}
 <div id="manageTeamCard" class="dashboardCards">
