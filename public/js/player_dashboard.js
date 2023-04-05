@@ -51,7 +51,7 @@
             nameUpdateDiv.show();
             playerShirtNumberInput.val(playerShirtNumContent.split(" ")[2])
             playerShirtNumber.hide();
-            playerPositionInput.val(playerPositionContent.split(" ")[1])
+            playerPositionInput.val(playerPositionContent.split(": ")[1])
             positionUpdateDiv.show();
             playerPosition.hide()
             shirtNumberUpdateDiv.show();
