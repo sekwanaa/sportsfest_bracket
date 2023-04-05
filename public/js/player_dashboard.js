@@ -86,6 +86,8 @@
         catch (e) {
             console.log(e)
         }
+        // reload the page
+        location.reload()
     });
 
     // team code input div
