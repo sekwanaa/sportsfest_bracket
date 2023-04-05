@@ -12,6 +12,12 @@ router.get("/", async (req, res) => {
     let allUsers = [];
     let nickname = "";
     let name = "";
+    let hasTeam = false;
+    let teamCaptain = null;
+    let teamMembers = null;
+    let teamName = null;
+    let userId = null;
+    let profilePic = "../../public/images/R.png";
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -21,6 +27,25 @@ router.get("/", async (req, res) => {
         nickname = loggedInUser.email
         userRole = loggedInUser.user_metadata.role;
         name = loggedInUser.user_metadata.name;
+        userId = user._id.toString();
+        hasTeam = await teamsData.hasTeam(userId);
+        if (hasTeam) {
+            let team = await teamsData.getTeam(userId);
+            
+            teamCaptain = team.teamCaptain;
+            teamMembers = [];
+            teamName = team.name;
+            let teamMember = {};
+
+            for(i=0; i < team.players.length; i++) {                
+                teamMember.name = team.players[i].name;
+                if(team.players[i].linked == false) {
+                    teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
+                }
+                teamMembers.push(teamMember);
+                teamMember = {};
+            }
+        }
     }
 
     res.render("partials/player_dashboard", {
@@ -33,19 +58,41 @@ router.get("/", async (req, res) => {
         length: allUsers.length,
         nickname: nickname,
         name: name,
-        hasTeam: false,
+        hasTeam: hasTeam,
+        teamCaptain: teamCaptain,
+        teamMembers: teamMembers,
+        teamName: teamName,
+        profilePic: profilePic,
     });
 });
 
 router.post("/submitTeams", async (req, res) => {
+
+    let userId;
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
 
     try {
         
         const teamName  = req.body.teamName;
         const district = req.body.district;
         const players = req.body.players;
+        const teamCaptain = req.body.teamCaptain;
 
-        const teamId = await teamsData.addTeam(teamName, district, players);
+        teamCaptain.userId = userId;
+
+        let teamObj = {
+            teamName: teamName,
+            district: district,
+            players: players,
+            teamCaptain: teamCaptain,
+        };
+
+        const teamId = await teamsData.addTeam(teamObj);
 
         return res.json(teamId);
     }
@@ -64,6 +111,25 @@ router.post("/", async (req, res) => {
     for(i=0; i<personArray.length; i++) {
         const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
     }
+});
+
+router.post("/join_team", async (req, res) => {
+    const code = req.body.code;
+    console.log("route: " + code);
+
+    let userId;
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
+
+    const playerId = await teamsData.linkPlayerCode(code, userId);
+
+
+
+    return;
 });
 
 module.exports = router;

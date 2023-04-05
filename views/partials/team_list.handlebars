@@ -2,14 +2,16 @@
     <h1>Current registered teams</h1>
     <div>
     <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
-    <br>
-        <div class="grid-column">
+        <br>
+        <div class="grid-column-header">
             <div class="header" class="grid-row-name"><b>Team Name</b></div> 
             <div class="header" class="grid-row-district"><b>District</b></div>
-                {{#each allTeams}}
-                <div class="grid-row-name" id="email{{@index}}">{{this.name}}</div> 
-                <div class="grid-row-district" id="currentRole{{@index}}">{{this.district}}</div>
-                {{/each}}
         </div> 
+        <div class="grid-column-teams">
+            {{#each allTeams}}
+            <div class="grid-row-name" id="email{{@index}}">{{this.name}}</div> 
+            <div class="grid-row-district" id="currentRole{{@index}}">{{this.district}}</div>
+            {{/each}}
+        </div>
     </div>
 </div>

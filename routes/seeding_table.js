@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
-const poolsData = data.poolsData;
+const matchesData = data.matchesData;
+const teamsData = data.teamsData;
 
 router.get("/", async (req, res) => {
 
@@ -10,6 +11,7 @@ router.get("/", async (req, res) => {
     let loggedInUser = {};
     let userRole = "";
     let allUsers = []
+    let matches = null;
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
@@ -20,29 +22,24 @@ router.get("/", async (req, res) => {
         userRole = loggedInUser.user_metadata.role;
     }
 
-    res.render("partials/create_pool", {
-        title: "Create Pool", 
-        shortcode: 'createPool',
+    const matchHistory = await matchesData.getTeamRecords();
+
+    res.render("partials/seeding_table", {
+        title: "Seeding Table", 
+        shortcode: 'seedingTable',
         isAuthenticated: req.oidc.isAuthenticated(),
         loggedInUser: loggedInUser,
         role: userRole,
         allUsers: allUsers,
-        length: allUsers.length
+        length: allUsers.length,
+        matches: matchHistory,
+        seedNumber: 0,
     });
 });
 
-router.post("/", async (req, res) => {
-    const poolInfo = req.body;
-    
-    const insertPool = await poolsData.insertPool
-    (
-        poolInfo.seedingGames, 
-        poolInfo.numOfTeams, 
-        poolInfo.numOfFields, 
-        poolInfo.numOfPlayOffTeams
-    );
+router.get("/seedCount", async (req, res) => {
 
-    return res.json(insertPool);
+    return res.json(await matchesData.getTeamRecords());
 });
 
 module.exports = router;

@@ -1,16 +1,39 @@
-<div class="userCard">
-    <img src="../../public/images/R.png" alt="Profile Picture">
+<div id="userCard" class="dashboardCards">
+    <img src="{{profilePic}}" alt="Profile Picture">
     <br>
     {{#if name}}
-    <h2>{{name}}</h2>
+    <h2 id="player_name">{{name}}</h2>
     {{/if}}
     <p>{{role}}</p>
-    <p>Shirt Number: 12</p>
-    <p>Team: NJ X</p>
-    <p>Position: Outside Hitter</p>
+    <p id="shirt_number">Shirt Number: {{shirt_number}}</p>
+    <p>Team: {{teamName}}</p>
+    <p>Position: {{position}}</p>
 </div>
+{{#compareRole "player" role}}
+<div id="manageTeamCard" class="dashboardCards">
+    <h1>Your Current Team</h1>
+    {{#unless hasTeam}}
+    <p>You don't currently have a team right now</p>
+    <button type="button" id="join_team_button">Join a Team</button>
+    <div id ="div_join_team_input">
+        <input id="team_code_input" type="text" placeholder="Team code">
+    </div>
+    <button id="submit_team_code_button" type="submit">Submit</button>
+    {{/unless}}
+
+    {{#if hasTeam}}
+        <h3>Team Name: {{teamName}}</h3>
+        <p>Captain: {{teamCaptain}}</p>
+        {{#each teamMembers}}
+            <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
+        {{/each}}
+        <button id="edit_team_btn">Edit Team</button>
+    {{/if}}
+</div>
+<script src="/public/js/player_dashboard.js"></script>
+{{/compareRole}}
 {{#compareRole "captain" role}}
-<div class="manageTeamCard">
+<div id="manageTeamCard" class="dashboardCards">
     <h1>Your Current Team</h1>
     {{#unless hasTeam}}
     <p>You don't currently have a team right now</p>
@@ -37,6 +60,7 @@
         </datalist>
     </div>
     <div id="teamMembers">
+        <input name="teamCaptain" id="teamCaptain" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
         <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
     </div>
     <div id="add_remove_buttons">
@@ -51,42 +75,43 @@
     {{/unless}}
 
     {{#if hasTeam}}
-        <p>Captain: captainName</p>
-        <p>TeamMember: playerName</p>
-        <p>Position: positionName</p>
-        <p>ShirtNum: playerShirtNum</p>
+        <h3>Team Name: {{teamName}}</h3>
+        <p>Captain: {{teamCaptain}}</p>
+        {{#each teamMembers}}
+            <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
+        {{/each}}
         <button id="edit_team_btn">Edit Team</button>
     {{/if}}
 </div>
 <script src="/public/js/team_input.js"></script>
 {{/compareRole}}
 {{#compareRole "coordinator" role}}
-<div class="editUserRoles">
+<div class="dashboardCards" id="editUserRoles">
     <h1>Edit User Roles</h1>
     <div>
-    <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
-    <br>
-    <div class="grid-column">
-        <div class="header" class="grid-row"><p>Email</p></div> 
-        <div class="header" class="grid-row"><p>Current Role</p></div> 
-        <div class="header" class="grid-row"><p>Change Role to:</p></div>
-        {{#each allUsers}}
-            <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
-            <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
-            <div class="grid-row" id="roleChange{{@index}}">
-                <form id="roleChangeForm">
-                    <input list="roles" name="role" id="newRole{{@index}}">
+        <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
+        <br>
+        <div class="grid-column">
+            <div class="header" class="grid-row"><p>Email</p></div> 
+            <div class="header" class="grid-row"><p>Current Role</p></div> 
+            <div class="header" class="grid-row"><p>Change Role to:</p></div>
+            {{#each allUsers}}
+                <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
+                <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
+                <div class="grid-row" id="roleChange{{@index}}">
+                    <form id="roleChangeForm">
+                        <input list="roles" name="role" id="newRole{{@index}}">
 
-                    <datalist id="roles">
-                    <option value="captain">
-                    <option value="player">
-                    </datalist>
-                </form>
-            </div>
-        {{/each}}
-            <button id="button" type="submit">Submit</button>
-    </div> 
-</div>
+                        <datalist id="roles">
+                        <option value="captain">
+                        <option value="player">
+                        </datalist>
+                    </form>
+                </div>
+            {{/each}}
+                <button id="button" type="submit">Submit</button>
+        </div> 
+    </div>
 </div>
 <script src="/public/js/role_change.js"></script>
 {{/compareRole}}

@@ -35,13 +35,18 @@
         event.preventDefault();
         var teamName = $('#teamName').val();
         var district = $('#districtSelection').val();
+        var teamCaptain = $('#teamCaptain').val();
+        var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
         
 
         for(i = 1; i < teamMemberCount; i++) {
             let playerData = {};
             playerData.name = $("#teamMemberName" + i).val();
-            playerData.shirtNum = i;
+            playerData.shirtNum = null;
+            playerData.userId = null,
+            playerData.hasTeam = true,
+            playerData.linked = false,
             teamMembers.push(playerData);
         }
 
@@ -54,6 +59,13 @@
                     teamName: teamName,
                     district: district,
                     players: teamMembers,
+                    teamCaptain: {
+                        name: teamCaptain,
+                        shirtNum: teamCaptainShirtNum,
+                        userId: null,
+                        hasTeam: true,
+                        linked: true,
+                    },
                 })
             };
             $.ajax(req).then(function (res) {

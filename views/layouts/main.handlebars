@@ -23,7 +23,7 @@
                 <li><a class="basic" href="/court_view">Current Games</a></li>
                 {{#compareRole "coordinator" role}}
                 <li><a class="coordinator" href="/create_pool">Create Pool</a></li>
-                <li><a class="coordinator" href="/score_input">Input Scores</a></li>
+                {{!-- <li><a class="coordinator" href="/score_input">Input Scores</a></li> --}}
                 {{/compareRole}}
                 {{#compareRole "captain" role}}
                 <li><a class="captain" href="/score_input">Input Scores</a></li>
@@ -31,11 +31,12 @@
                 {{#if isAuthenticated}}
                 {{!-- <li><a class="basic" href="/logout">Logout</a></li> --}}
                 <li><a class="basic" href="/team_list">Teams</a></li>
-                <li><a class="basic" href="/report_bug">Report Bug</a></li>
+                <li><a class="basic" href="/seeding_table">Current Seeds</a></li>
                 <li><a class="profile-menu" href="#">Profile</a>
                     <br>
                     <ul class="dropdown">
                         <li class="dropdown-menu"><a href="/player_dashboard">View Profile</a></li>
+                        <li class="dropdown-menu"><a href="/report_bug">Report Bug</a></li>
                         <li class="dropdown-menu"><a href="/logout">Logout</a></li>
                     </ul>
                 </li>
@@ -46,8 +47,5 @@
         </nav>
     </header>   
     <main>{{{body}}}</main>
-    <footer>
-        copyright Bhavin Mistry and Sekwang Chia
-    </footer>
 </body>
 </html>
