@@ -23,7 +23,12 @@
 
     editProfileButton.click(function() {
         count+=1
-        // on second click
+        if(editProfileButton.html() === "Cancel") {
+            editProfileButton.html("Edit");
+        }
+        else {
+            editProfileButton.html("Cancel");
+        }
         if (count%2==0) {
             playerName.show();
             nameUpdateDiv.hide();
