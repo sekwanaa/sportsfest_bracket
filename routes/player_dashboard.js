@@ -18,10 +18,13 @@ router.get("/", async (req, res) => {
     let teamName = null;
     let userId = null;
     let profilePic = "../../public/images/R.png";
+    let shirt_number = null;
+    let position = null;
 
     if(req.oidc.isAuthenticated()) {
         email = req.oidc.user.name;
         const user = await userData.getUserByEmail(email);
+        const player = await teamsData.getPlayerByUserId(user._id.toString());
         allUsers = await userData.getAllUsers();
         loggedInUser = user;
         nickname = loggedInUser.email
@@ -29,6 +32,9 @@ router.get("/", async (req, res) => {
         name = loggedInUser.user_metadata.name;
         userId = user._id.toString();
         hasTeam = await teamsData.hasTeam(userId);
+        shirt_number = player.shirtNum;
+        position = player.position;
+
         if (hasTeam) {
             let team = await teamsData.getTeam(userId);
             
@@ -63,6 +69,8 @@ router.get("/", async (req, res) => {
         teamMembers: teamMembers,
         teamName: teamName,
         profilePic: profilePic,
+        shirt_number: shirt_number,
+        position: position,
     });
 });
 
