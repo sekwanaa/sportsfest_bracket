@@ -14,7 +14,7 @@
     var playerShirtNumber = $("#shirt_number");
     var playerPosition = $("#player_position");
     var submitProfileChangesButton = $("#submit_profile_changes_button");
-    // console.log(playerName)
+    // console.log(playerPosition)
     nameUpdateDiv.hide();
     positionUpdateDiv.hide();
     shirtNumberUpdateDiv.hide();
@@ -26,9 +26,11 @@
         var playerNameInput = $("#player_name_input");
         var playerShirtNumberInput = $("#shirt_number_input");
         var playerPositionInput = $("#player_position_input");
+        // console.log(playerPositionInput)
         let playerNameContent = playerName.html();
         let playerShirtNumContent = playerShirtNumber.html();
         let playerPositionContent = playerPosition.html();
+        // console.log(playerPositionContent)
         count+=1
         if(editProfileButton.html() === "Cancel") {
             editProfileButton.html("Edit");
@@ -45,7 +47,7 @@
             shirtNumberUpdateDiv.hide();
             submitProfileChangesButton.hide()
         } else { //on first click
-            console.log(playerNameContent)
+            // console.log(playerPositionInput.val())
             playerNameInput.val(playerNameContent)
             playerName.hide();
             nameUpdateDiv.show();

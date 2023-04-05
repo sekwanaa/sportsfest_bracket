@@ -15,7 +15,14 @@
     <p id="player_team">Team: {{teamName}}</p>
     <p id="player_position">Position: {{position}}</p>
     <div id="position_update_div">
-        <input class="edit_inputs" id="player_position_input" type="text" placeholder="Update position">
+        <select id="player_position_input">
+            <option value="All Around">All Around</option>
+            <option value="Outside Hitter">Outside Hitter</option>
+            <option value="Setter">Setter</option>
+            <option value="Libero">Libero</option>
+            <option value="Middle Blocker">Middle Blocker</option>
+            <option value="Opposite">Opposite</option>
+        </select>
     </div>
     <button id="edit_profile_button">Edit</button>
     <button id="submit_profile_changes_button">Submit</button>
