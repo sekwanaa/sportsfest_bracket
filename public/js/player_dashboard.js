@@ -53,25 +53,28 @@
         var playerNameInput = $("#player_name_input").val();
         var playerShirtNumberInput = $("#shirt_number_input").val();
         var playerPositionInput = $("#player_position_input").val();
-        try {
-            let req = {
-                method: 'POST',
-                url: '/player_dashboard/submitProfile',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    name: playerNameInput,
-                    shirtNum: playerShirtNumberInput,
-                    position: playerPositionInput,
-                })
-            };
-            $.ajax(req).then(function (res) {
-                console.log("Team Added")
-                console.log("Team ID: " + res);
-            });
-        } 
-        catch (e) {
-            console.log(e)
-        }
+        console.log(playerNameInput);
+        console.log(playerPositionInput);
+        console.log(playerShirtNumberInput);
+        // try {
+        //     let req = {
+        //         method: 'POST',
+        //         url: '/player_dashboard/submitProfile',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({
+        //             name: playerNameInput,
+        //             shirtNum: playerShirtNumberInput,
+        //             position: playerPositionInput,
+        //         })
+        //     };
+        //     $.ajax(req).then(function (res) {
+        //         console.log("Team Added")
+        //         console.log("Team ID: " + res);
+        //     });
+        // } 
+        // catch (e) {
+        //     console.log(e)
+        // }
     });
 
     // team code input div
