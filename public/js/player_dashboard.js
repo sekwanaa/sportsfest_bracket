@@ -14,6 +14,7 @@
     var playerShirtNumber = $("#shirt_number");
     var playerPosition = $("#player_position");
     var submitProfileChangesButton = $("#submit_profile_changes_button");
+    // console.log(playerName)
     nameUpdateDiv.hide();
     positionUpdateDiv.hide();
     shirtNumberUpdateDiv.hide();
@@ -22,6 +23,12 @@
 
 
     editProfileButton.click(function() {
+        var playerNameInput = $("#player_name_input");
+        var playerShirtNumberInput = $("#shirt_number_input");
+        var playerPositionInput = $("#player_position_input");
+        let playerNameContent = playerName.html();
+        let playerShirtNumContent = playerShirtNumber.html();
+        let playerPositionContent = playerPosition.html();
         count+=1
         if(editProfileButton.html() === "Cancel") {
             editProfileButton.html("Edit");
@@ -38,9 +45,13 @@
             shirtNumberUpdateDiv.hide();
             submitProfileChangesButton.hide()
         } else { //on first click
+            console.log(playerNameContent)
+            playerNameInput.val(playerNameContent)
             playerName.hide();
             nameUpdateDiv.show();
+            playerShirtNumberInput.val(playerShirtNumContent.split(" ")[2])
             playerShirtNumber.hide();
+            playerPositionInput.val(playerPositionContent.split(" ")[1])
             positionUpdateDiv.show();
             playerPosition.hide()
             shirtNumberUpdateDiv.show();
@@ -56,25 +67,23 @@
         console.log(playerNameInput);
         console.log(playerPositionInput);
         console.log(playerShirtNumberInput);
-        // try {
-        //     let req = {
-        //         method: 'POST',
-        //         url: '/player_dashboard/submitProfile',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({
-        //             name: playerNameInput,
-        //             shirtNum: playerShirtNumberInput,
-        //             position: playerPositionInput,
-        //         })
-        //     };
-        //     $.ajax(req).then(function (res) {
-        //         console.log("Team Added")
-        //         console.log("Team ID: " + res);
-        //     });
-        // } 
-        // catch (e) {
-        //     console.log(e)
-        // }
+        try {
+            let req = {
+                method: 'POST',
+                url: '/player_dashboard/submitProfile',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: playerNameInput,
+                    shirtNum: parseInt(playerShirtNumberInput),
+                    position: playerPositionInput,
+                })
+            };
+            $.ajax(req).then(function (res) {
+            });
+        } 
+        catch (e) {
+            console.log(e)
+        }
     });
 
     // team code input div
