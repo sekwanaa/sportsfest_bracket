@@ -116,7 +116,7 @@ let exportedMethods = {
 
     const playersCollection = await playersData();
 
-    playersCollection.findOneAndUpdate(
+    const playerUpdate = playersCollection.findOneAndUpdate(
         {
             _id: new ObjectId(player.playerId)
         }, 
@@ -127,6 +127,8 @@ let exportedMethods = {
                     linked: true,
                 }
         });
+
+    const deletePlayerLink = playerLinkCollection.deleteOne({playerId: player.playerId});
     
     return;
 },
