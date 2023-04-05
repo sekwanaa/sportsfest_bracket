@@ -155,4 +155,19 @@ router.post("/submitProfile", async (req, res) => {
     return res.json(userUpdate);
 });
 
+router.post("/editTeam", async (req, res) => {
+    const teamInfo = req.body;
+
+    const teamObj = {
+        name: teamInfo.name,
+        district: teamInfo.district,
+        players: teamInfo.players,
+        teamCaptain: teamInfo.teamCaptain,
+    };
+
+    const updateTeamInfo = await teamsData.updateTeamInfo(teamObj);
+
+    return res.json(updateTeamInfo);
+});
+
 module.exports = router;

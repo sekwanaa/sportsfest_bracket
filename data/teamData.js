@@ -112,7 +112,6 @@ let exportedMethods = {
         const playerLinkCollection = await playerLink();
 
         const player = await playerLinkCollection.findOne({code: code});
-        console.log(code)
 
         const playersCollection = await playersData();
 
@@ -139,6 +138,29 @@ let exportedMethods = {
         const player = await playersCollection.findOne({userId: userId});
 
         return player;
+    },
+
+    async updateTeamInfo(teamObj) {
+        const teamsCollection = await teams();
+
+        console.log(teamObj);
+
+        const team = await teamsCollection.findOneAndUpdate(
+            {
+                userId: teamObj.userId,
+                teamCaptain: teamObj.teamCaptain,
+            },
+            {
+                $set: 
+                    {
+                        name: teamObj.name,
+                        district: teamObj.district,
+                        players: teamObj.players,
+                    }
+            }
+        );
+
+        return team;
     },
 }
 
