@@ -64,9 +64,9 @@
         var playerNameInput = $("#player_name_input").val();
         var playerShirtNumberInput = $("#shirt_number_input").val();
         var playerPositionInput = $("#player_position_input").val();
-        console.log(playerNameInput);
-        console.log(playerPositionInput);
-        console.log(playerShirtNumberInput);
+        // console.log(playerNameInput);
+        // console.log(playerPositionInput);
+        // console.log(playerShirtNumberInput);
         try {
             let req = {
                 method: 'POST',
@@ -98,7 +98,7 @@
         event.preventDefault();
         var teamCodeInput = $('#team_code_input');
         let joinCode = parseInt(teamCodeInput.val());
-        console.log(joinCode)
+        // console.log(joinCode)
 
         try {
             let req = {
