@@ -53,7 +53,17 @@ let exportedMethods = {
     },
 
     async updateProfileInfo(userId, name, shirtNum, position) {
+        const userCollection = await users();
         const playerCollection = await players();
+
+        const updateUser = await userCollection.findOneAndUpdate(
+            {_id: new ObjectId(userId)},
+            {$set:
+                {
+                    "user_metadata.name" : name
+                }
+            }
+        );
 
         const updatedProfile = await playerCollection.findOneAndUpdate(
             {userId: userId},
