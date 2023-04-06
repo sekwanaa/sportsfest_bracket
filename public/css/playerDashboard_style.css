@@ -40,8 +40,8 @@
     max-width: 100%;
     max-height: 400px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    grid-column-start: 2;
-    grid-column-end: 4;
+    grid-column-start: 3;
+    grid-column-end: 5;
 }
 
 .grid-column {
@@ -84,6 +84,7 @@
 
 main {
     grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
+    column-gap: 2%;
 }
 
 h1 {
