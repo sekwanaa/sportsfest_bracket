@@ -97,13 +97,14 @@
                 })
             };
             $.ajax(req).then(function (res) {
+                // reload the page AFTER everything is done
+                // console.log(res)
+                location.reload()
             });
         } 
         catch (e) {
             console.log(e)
         }
-        // reload the page
-        location.reload()
     });
 
     // team code input div
