@@ -30,6 +30,9 @@
     <button id="edit_profile_button">Edit</button>
     <button id="submit_profile_changes_button">Submit</button>
 </div>
+
+{{!-- Player dashboard --}}
+
 {{#compareRole "player" role}}
 <div id="manageTeamCard" class="dashboardCards">
     <h1>Your Current Team</h1>
@@ -113,6 +116,57 @@
 {{!-- Coordinator dashboard --}}
 
 {{#compareRole "coordinator" role}}
+<div id="manageTeamCard" class="dashboardCards">
+    <h1>Your Current Team</h1>
+    {{#unless hasTeam}}
+    <p>You don't currently have a team right now</p>
+    <button type="button" id="create_team_button">Create a Team</button>
+    <form id="teamInputForm" method="post">
+    <div>
+        <input id="teamName" type="text" placeholder="Team Name" required>
+        <br>
+        <input id="districtSelection" type="text" list="districts" placeholder="District" required>
+        <datalist id="districts">
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="7"></option>
+            <option value="8"></option>
+            <option value="9"></option>
+            <option value="10"></option>
+            <option value="11"></option>
+            <option value="12"></option>
+            <option value="13"></option>
+        </datalist>
+    </div>
+    <div id="teamMembers">
+        <input name="teamCaptain" id="teamCaptain" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
+        <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
+    </div>
+    <div id="add_remove_buttons">
+        <button id="add_more_button" type="button">Add Member</button>
+        <button id="remove_button" type="button">Remove Member</button>
+    </div>
+    <div>
+        <button id="submit" type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </div>
+    </form>
+    {{/unless}}
+
+    {{#if hasTeam}}
+        <h3>Team Name: {{teamName}}</h3>
+        <p>Captain: {{teamCaptain}}</p>
+        {{#each teamMembers}}
+            <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
+        {{/each}}
+        <button id="edit_team_btn">Edit Team</button>
+    {{/if}}
+</div>
+<script src="/public/js/team_input.js"></script>
 <div class="dashboardCards" id="editUserRoles">
     <h1>Edit User Roles</h1>
     <div>
