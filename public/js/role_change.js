@@ -1,10 +1,11 @@
 (function ($) {
+    // submit button is no longer part of the form, so we need to change how this works
     var roleChangeForm = $('#roleChangeForm');
     var totalUsers = $('#totalUsers')[0].attributes[1].value
+    var roleChangeSubmitButton = $("#button");
 
-    roleChangeForm.submit(function (event) {
+    roleChangeSubmitButton.click(function (event) {
         event.preventDefault();
-        console.log("test")
 
         $('#totalUsers')
 
@@ -26,7 +27,7 @@
 
             personArray.push(personObject);
         }
-        
+
         try {
             let req = {
                 method: 'POST',
@@ -46,7 +47,6 @@
         //clear all input fields and reload page
         roleChangeForm[0].reset();
         location.reload();
-
 
     });
 })(window.jQuery);
