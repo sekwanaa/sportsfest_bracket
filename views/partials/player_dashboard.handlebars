@@ -93,12 +93,20 @@
     {{/unless}}
 
     {{#if hasTeam}}
-        <h3>Team Name: {{teamName}}</h3>
-        <p>Captain: {{teamCaptain}}</p>
-        {{#each teamMembers}}
-            <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
-        {{/each}}
+        <div id="team_display_card">
+            <h3>Team Name: {{teamName}}</h3>
+            <p>Captain: {{teamCaptain}}</p>
+            {{#each teamMembers}}
+                <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
+            {{/each}}         
+        </div>
+        <div id="edit_team_display_card">
+            <input type="text"></input>
+        </div>
         <button id="edit_team_btn">Edit Team</button>
+        <div id="div_edit_team_submit_btn">
+            <button id="edit_team_submit_btn">Submit</button>
+        </div>   
     {{/if}}
 </div>
 <script src="/public/js/team_input.js"></script>
