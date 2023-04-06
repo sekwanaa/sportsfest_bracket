@@ -84,6 +84,7 @@
 
 main {
     grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
+    column-gap: 2%;
 }
 
 h1 {
