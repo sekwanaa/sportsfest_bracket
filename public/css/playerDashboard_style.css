@@ -48,6 +48,19 @@
     display: grid;
     grid-template-columns: auto auto 300px;
     grid-auto-rows: 50px;
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#users_submit_button_div {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+#role_change_submit_button_div {
+    grid-column-start: 5;
+    grid-column-end: 5;
 }
 
 .grid-row, .header{
@@ -66,12 +79,7 @@
 }
 
 #button {
-    grid-column-start: 3;
-    grid-column-end: 3;
-    justify-self: center;
-    width: 60px;
-    height: 30px;
-    padding: 5px;
+    padding: 2px;
 }
 
 main {
@@ -102,16 +110,12 @@ form, body {
     animation: fadein 1.25s ease-in-out;
 }
 
-form input, button {
+form input {
     text-align: center;
     border-width: 1px;
     border-radius: 8%;
     padding: 2px;
     margin: 10px 20px;
-}
-
-form button {
-    border-radius: 10%;
 }
 
 form input::placeholder, textarea::placeholder {

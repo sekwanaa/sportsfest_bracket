@@ -1,12 +1,18 @@
+{{!-- Public dashboard --}}
+
 <div id="userCard" class="dashboardCards">
     <img src="{{profilePic}}" alt="Profile Picture">
     <br>
-    {{#if name}}
+    {{#if name}} //if they have a name this will show
     <h2 id="player_name">{{name}}</h2>
     <div id="name_update_div">
         <input class="edit_inputs" id="player_name_input" type="text" placeholder="Update name">
     </div>
     {{/if}}
+    <h2 id="player_name"></h2>
+    <div id="name_update_div">
+        <input class="edit_inputs" id="player_name_input" type="text" placeholder="Update name">
+    </div>
     <h5>{{role}}</h5>
     <p id="shirt_number">Shirt Number: {{shirt_number}}</p>
     <div id="shirt_number_update_div">
@@ -50,6 +56,9 @@
 </div>
 <script src="/public/js/player_dashboard.js"></script>
 {{/compareRole}}
+
+{{!-- Captain dashboard --}}
+
 {{#compareRole "captain" role}}
 <div id="manageTeamCard" class="dashboardCards">
     <h1>Your Current Team</h1>
@@ -103,11 +112,19 @@
 </div>
 <script src="/public/js/team_input.js"></script>
 {{/compareRole}}
+
+{{!-- Coordinator dashboard --}}
+
 {{#compareRole "coordinator" role}}
 <div class="dashboardCards" id="editUserRoles">
     <h1>Edit User Roles</h1>
     <div>
-        <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
+        <div id="users_submit_button_div">
+            <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
+            <section id="role_change_submit_button_div">
+                <button id="button" type="submit">Submit</button>
+            </section>
+        </div>
         <br>
         <div class="grid-column">
             <div class="header" class="grid-row"><p>Email</p></div> 
@@ -127,7 +144,6 @@
                     </form>
                 </div>
             {{/each}}
-                <button id="button" type="submit">Submit</button>
         </div> 
     </div>
 </div>

@@ -38,7 +38,7 @@
         else {
             editProfileButton.html("Cancel");
         }
-        if (count%2==0) {
+        if (count%2==0) { //on second click
             playerName.show();
             nameUpdateDiv.hide();
             playerShirtNumber.show();
@@ -48,7 +48,12 @@
             submitProfileChangesButton.hide()
         } else { //on first click
             // console.log(playerPositionInput.val())
-            playerNameInput.val(playerNameContent)
+            if (playerNameContent) {
+                playerNameInput.val(playerNameContent)
+            } else {
+                nameUpdateDiv.show()
+                playerNameInput.val("No Name Chosen")
+            }
             playerName.hide();
             nameUpdateDiv.show();
             playerShirtNumberInput.val(playerShirtNumContent.split(" ")[2])
