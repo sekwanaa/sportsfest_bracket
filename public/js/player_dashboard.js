@@ -138,11 +138,35 @@
     editTeamSubmitButton.click(function () {
 
         //initialize inputs
+        let teamName = null;
+        let teamDistrict = null;
+        let players = [];
+        let teamCaptain = null;
+
+        //fill players array
 
         //ajax POST method to submit
-
-        //page reload on submit
-        location.reload();
+        try {
+            let req = {
+                method: 'POST',
+                url: '/player_dashboard/editTeam',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: teamName,
+                    district: teamDistrict,
+                    players: teamMembers,
+                    teamCaptain: teamCaptain,
+                })
+            };
+            $.ajax(req).then(function (res) {
+                
+                //page reload on submit
+                location.reload();
+            });
+        } 
+        catch (e) {
+            console.log(e)
+        }
     });
 
     // Submit code button stuff to join a team
