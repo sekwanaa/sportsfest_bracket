@@ -103,14 +103,26 @@
 
     {{#if hasTeam}}
         <div id="team_display_card">
-            <h3>Team Name: {{teamName}}</h3>
-            <p>Captain: {{teamCaptain}}</p>
+            <label for="teamName">Team Name:</label>
+            <h3 id="teamName">{{teamName}}</h3>
+            <label for="teamCaptain">Team Captain:</label>
+            <p id="teamCaptain">{{teamCaptain}}</p>
             {{#each teamMembers}}
-                <p>TeamMember: {{this.name}} {{#if this.code}} - {{this.code}}{{/if}}</p>
+                <label for="teamMember{{@index}}">TeamMember:</label>
+                <p id="teamMember{{@index}}">{{this.name}}</p>
+                {{#if this.code}} <label for="teamMember">- {{this.code}}</label>{{/if}}
             {{/each}}         
         </div>
         <div id="edit_team_display_card">
-            <input type="text"></input>
+            <label for="edit_team_name">Team Name:</label>
+            <input id="edit_team_name"type="text"></input>
+            <button id="submit_team_name_change_btn">Change</button>
+            </br>
+            <label for="edit_team_captain">Team Captain:</label>
+            <input id="edit_team_captain" type="text"></input>
+            <button id="submit_team_captain_change_btn">Change</button>
+            </br>
+            <div id="edit_team_member"></div>
         </div>
         <button id="edit_team_btn">Edit Team</button>
         <div id="div_edit_team_submit_btn">

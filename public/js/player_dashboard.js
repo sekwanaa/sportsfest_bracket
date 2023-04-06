@@ -8,6 +8,8 @@
     var editTeamSubmitButton = $("#edit_team_submit_btn");
     var editTeamSubmitButtonDiv = $("#div_edit_team_submit_btn");
     var teamDisplayCard = $("#team_display_card");
+    var editTeamDisplayCard = $("#edit_team_display_card");
+    var editTeamMembersDiv = $("#edit_team_member");
 
     // user profile card stuff
     var editProfileButton = $("#edit_profile_button");
@@ -28,10 +30,23 @@
     positionUpdateDiv.hide();
     shirtNumberUpdateDiv.hide();
     submitProfileChangesButton.hide();
+    
     let count = 0;
 
-    //hide buttons on page load
+    //hide edit team divs on page load
     editTeamSubmitButtonDiv.hide();
+    editTeamDisplayCard.hide();
+
+    //create input fields for making changes to the team
+    let teamMemberCount = 0;
+    var teamMember = $("#teamMember0");
+    
+    while(teamMember.length != 0) {
+        teamMember = $("#teamMember"+teamMemberCount);
+        editTeamMembersDiv.append('<p id="editTeamMemberInput'+teamMemberCount+'" type="text"></p><button id="submit_team_member_change_btn'+teamMemberCount+'">Remove</button></br>');
+        $("#editTeamMemberInput"+teamMemberCount).html(teamMember.html());
+        teamMemberCount++;
+    }
 
     editProfileButton.click(function() {
         var playerNameInput = $("#player_name_input");
@@ -117,17 +132,21 @@
     //when edit Team is clicked, user should see inputs for team info
     editTeamButton.click(function () {
 
-        //take current info and place them in editable inputs
+        //take current team info and place them in editable inputs
+        $("#edit_team_name").val($("#teamName").html());
+        $("#edit_team_captain").val($("#teamCaptain").html());
 
-        //toggle edit info for team changes
+        //toggle display for edit info for team changes
         if(editTeamButton.html() == "Cancel") {
             editTeamButton.html("Edit Team");
             editTeamSubmitButtonDiv.hide();
             teamDisplayCard.show();
+            editTeamDisplayCard.hide();
         }
         else {
             editTeamButton.html("Cancel");
             editTeamSubmitButtonDiv.show();
+            editTeamDisplayCard.show();
 
             //take current info and put them into input fields
             teamDisplayCard.hide();
@@ -143,31 +162,37 @@
         let teamDistrict = null;
         let players = [];
         let teamCaptain = null;
+        var teamMember = null;
 
         //fill players array
+        for(i=0; i<teamMemberCount; i++) {
+            teamMember = $("#editTeamMemberInput"+i);
+            players.push(teamMember.html());
+        }
+
 
         //ajax POST method to submit
-        try {
-            let req = {
-                method: 'POST',
-                url: '/player_dashboard/editTeam',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    name: teamName,
-                    district: teamDistrict,
-                    players: teamMembers,
-                    teamCaptain: teamCaptain,
-                })
-            };
-            $.ajax(req).then(function (res) {
+        // try {
+        //     let req = {
+        //         method: 'POST',
+        //         url: '/player_dashboard/editTeam',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify({
+        //             name: teamName,
+        //             district: teamDistrict,
+        //             players: players,
+        //             teamCaptain: teamCaptain,
+        //         })
+        //     };
+        //     $.ajax(req).then(function (res) {
                 
-                //page reload on submit
-                location.reload();
-            });
-        } 
-        catch (e) {
-            console.log(e)
-        }
+        //         //page reload on submit
+        //         location.reload();
+        //     });
+        // } 
+        // catch (e) {
+        //     console.log(e)
+        // }
     });
 
     // Submit code button stuff to join a team
