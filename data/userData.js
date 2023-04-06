@@ -43,11 +43,10 @@ let exportedMethods = {
         const roleChanged = await userCollection.findOneAndUpdate(
             {email: email}, 
             {$set: {
-                user_metadata: {
-                    role: role,
+                "user_metadata.role": role,
                 }
             }
-        });
+        );
 
         return;
     },
