@@ -1,5 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
+const players = mongoCollections.players;
 
 const { ObjectId } = require("mongodb");
 
@@ -42,14 +43,41 @@ let exportedMethods = {
         const roleChanged = await userCollection.findOneAndUpdate(
             {email: email}, 
             {$set: {
-                user_metadata: {
-                    role: role,
+                "user_metadata.role": role,
                 }
             }
-        });
+        );
 
         return;
     },
+
+    async updateProfileInfo(userId, name, shirtNum, position) {
+        const userCollection = await users();
+        const playerCollection = await players();
+
+        const updateUser = await userCollection.findOneAndUpdate(
+            {_id: new ObjectId(userId)},
+            {$set:
+                {
+                    "user_metadata.name" : name
+                }
+            }
+        );
+
+        const updatedProfile = await playerCollection.findOneAndUpdate(
+            {userId: userId},
+            {$set: 
+                {   
+                    name: name, 
+                    shirtNum: shirtNum,
+                    position: position,
+                }
+            }
+        );
+
+        return updatedProfile;
+    },
+
   }
   
   

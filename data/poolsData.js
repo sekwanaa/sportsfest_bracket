@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const teamData = require("./teamData");
 const pools = mongoCollections.pools;
-const roundRobin = mongoCollections.roundRobin;
+const roundrobin = mongoCollections.roundrobin;
 
 let exportedMethods = {
   
@@ -20,6 +20,14 @@ let exportedMethods = {
       const poolId = insertPool.insertedId.toString();
       
       return poolId;
+    },
+
+    async getPoolInfo () {
+        const poolCollection = await pools();
+
+        const poolInfo = await poolCollection.findOne({});
+
+        return poolInfo;
     },
 
     //method to create a potential round robin schedule
@@ -118,6 +126,8 @@ let exportedMethods = {
     //method to insert finalized round robin schedule
     async insertRoundRobin(gameNum, team1, team2, field, complete) {
 
+        gameNum = parseInt(gameNum, 10);
+
         let newRoundRobin = {
             gameNum: gameNum,
             team1: team1,
@@ -126,12 +136,29 @@ let exportedMethods = {
             complete: complete,
         };
     
-        const roundRobinCollection = await roundRobin();
+        const roundRobinCollection = await roundrobin();
         const insertRoundRobin = await roundRobinCollection.insertOne(newRoundRobin);
         const roundRobinId = insertRoundRobin.insertedId.toString();
         
         return roundRobinId;
     },
+
+    async roundRobinCompleteMatch(fieldNum, team1, team2) {
+        const roundRobinCollection = await roundrobin();
+
+        const updateRoundRobin = await roundRobinCollection.findOneAndUpdate(
+            {
+                field: fieldNum,
+                team1: team1,
+                team2: team2,
+            },
+            {
+                $set: {
+                    complete: true,
+                }
+            }
+        )
+    }
 
   }
   
