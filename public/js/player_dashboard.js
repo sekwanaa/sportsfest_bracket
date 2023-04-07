@@ -42,10 +42,10 @@
     var teamMember = $("#teamMember0");
     
     while(teamMember.length != 0) {
-        teamMember = $("#teamMember"+teamMemberCount);
         editTeamMembersDiv.append('<p id="editTeamMemberInput'+teamMemberCount+'" type="text"></p><button id="submit_team_member_change_btn'+teamMemberCount+'">Remove</button></br>');
         $("#editTeamMemberInput"+teamMemberCount).html(teamMember.html());
         teamMemberCount++;
+        teamMember = $("#teamMember"+teamMemberCount);
     }
 
     editProfileButton.click(function() {
@@ -147,9 +147,9 @@
             editTeamButton.html("Cancel");
             editTeamSubmitButtonDiv.show();
             editTeamDisplayCard.show();
+            teamDisplayCard.hide();
 
             //take current info and put them into input fields
-            teamDisplayCard.hide();
 
         }
     });
