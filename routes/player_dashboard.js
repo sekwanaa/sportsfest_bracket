@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
     let name = "";
     let hasTeam = false;
     let teamCaptain = null;
+    let district = null;
     let teamMembers = null;
     let teamName = null;
     let userId = null;
@@ -39,6 +40,7 @@ router.get("/", async (req, res) => {
             shirt_number = player.shirtNum;
             position = player.position;
             teamCaptain = team.teamCaptain;
+            district = team.district;
             teamMembers = [];
             teamName = team.name;
             let teamMember = {};
@@ -66,6 +68,7 @@ router.get("/", async (req, res) => {
         name: name,
         hasTeam: hasTeam,
         teamCaptain: teamCaptain,
+        district: district,
         teamMembers: teamMembers,
         teamName: teamName,
         profilePic: profilePic,
@@ -157,16 +160,23 @@ router.post("/submitProfile", async (req, res) => {
 
 router.post("/editTeam", async (req, res) => {
     const teamInfo = req.body;
+    let userId = null;
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
 
     const teamObj = {
         name: teamInfo.name,
         district: teamInfo.district,
         players: teamInfo.players,
         teamCaptain: teamInfo.teamCaptain,
+        userId: userId,
     };
 
     const updateTeamInfo = await teamsData.updateTeamInfo(teamObj);
-
     return res.json(updateTeamInfo);
 });
 

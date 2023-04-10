@@ -89,6 +89,7 @@ let exportedMethods = {
         
         let teamObj = {
             name: teamInfo.name,
+            district: teamInfo.district,
             teamCaptain: teamCaptain.name,
             players: [],
         }
@@ -142,25 +143,69 @@ let exportedMethods = {
 
     async updateTeamInfo(teamObj) {
         const teamsCollection = await teams();
+        const playersCollection = await playersData();
+        const playerLinkCollection = await playerLink();
 
-        console.log(teamObj);
+        let teamCaptainInfo = await this.getPlayerByUserId(teamObj.userId);
 
-        const team = await teamsCollection.findOneAndUpdate(
+        const updateTeam = await teamsCollection.findOneAndUpdate(
             {
-                userId: teamObj.userId,
-                teamCaptain: teamObj.teamCaptain,
+                teamCaptain: teamCaptainInfo._id.toString(),
             },
             {
                 $set: 
                     {
                         name: teamObj.name,
                         district: teamObj.district,
-                        players: teamObj.players,
                     }
             }
         );
 
-        return team;
+        let teamInfo = await this.getTeam(teamObj.userId);
+
+        let newPlayersArray = [];
+
+        for(i=0; i<teamObj.players.length; i++) {
+            let player = teamObj.players[i];
+            for(j=0; j<teamInfo.players.length; j++) {
+                if(player == teamInfo.players[j].name) {
+                    newPlayersArray.push(teamInfo.players[j]._id.toString());
+                    break;
+                }
+                if(j==teamInfo.players.length - 1) {
+                    const insertPlayer = await playersCollection.insertOne({
+                        name: player,
+                        shirtNumber: null,
+                        userId: null,
+                        hasTeam: true,
+                        linked: false,
+                    });
+                    const insertPlayerId = insertPlayer.insertedId.toString();
+                    newPlayersArray.push(insertPlayerId);
+
+                    let playerLinkObj = {
+                        playerId: insertPlayerId,
+                        code: Math.floor(Math.random() * (100000 - 10000) + 10000),
+                    };
+    
+                    const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
+                }
+            }
+            player = null;
+        }
+        
+        const updateTeamPlayers = await teamsCollection.findOneAndUpdate(
+            {
+                teamCaptain: teamCaptainInfo._id.toString(),
+            },
+            {
+                $set: 
+                    {
+                        players: newPlayersArray,
+                    }
+            }
+        );
+        return updateTeamPlayers;
     },
 }
 
