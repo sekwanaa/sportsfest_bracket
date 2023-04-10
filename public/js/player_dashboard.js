@@ -10,6 +10,8 @@
     var teamDisplayCard = $("#team_display_card");
     var editTeamDisplayCard = $("#edit_team_display_card");
     var editTeamMembersDiv = $("#edit_team_member");
+    var editAddMemberBtn = $("#edit_add_more_button");
+    var editRemoveMemberBtn = $("#edit_remove_button");
 
     // user profile card stuff
     var editProfileButton = $("#edit_profile_button");
@@ -40,10 +42,15 @@
     //create input fields for making changes to the team
     let teamMemberCount = 0;
     var teamMember = $("#teamMember0");
+
+    $("#edit_districtSelection").val($('#teamDistrict').html());
     
     while(teamMember.length != 0) {
-        editTeamMembersDiv.append('<p id="editTeamMemberInput'+teamMemberCount+'" type="text"></p><button id="submit_team_member_change_btn'+teamMemberCount+'">Remove</button></br>');
-        $("#editTeamMemberInput"+teamMemberCount).html(teamMember.html());
+        editTeamMembersDiv.append
+            (
+                '<input id="editTeamMemberInput'+teamMemberCount+'" type="text"></input><id="memberBreak'+teamMemberCount+'" br>'
+            );
+        $("#editTeamMemberInput"+teamMemberCount).val(teamMember.html());
         teamMemberCount++;
         teamMember = $("#teamMember"+teamMemberCount);
     }
@@ -158,41 +165,40 @@
     editTeamSubmitButton.click(function () {
 
         //initialize inputs
-        let teamName = null;
-        let teamDistrict = null;
+        let teamName = $("#edit_team_name").val();
+        let teamDistrict = parseInt($("#edit_districtSelection").val());
         let players = [];
-        let teamCaptain = null;
+        let teamCaptain = $("#edit_team_captain").val();
         var teamMember = null;
 
         //fill players array
         for(i=0; i<teamMemberCount; i++) {
             teamMember = $("#editTeamMemberInput"+i);
-            players.push(teamMember.html());
+            players.push(teamMember.val());
         }
 
-
         //ajax POST method to submit
-        // try {
-        //     let req = {
-        //         method: 'POST',
-        //         url: '/player_dashboard/editTeam',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify({
-        //             name: teamName,
-        //             district: teamDistrict,
-        //             players: players,
-        //             teamCaptain: teamCaptain,
-        //         })
-        //     };
-        //     $.ajax(req).then(function (res) {
+        try {
+            let req = {
+                method: 'POST',
+                url: '/player_dashboard/editTeam',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: teamName,
+                    district: teamDistrict,
+                    players: players,
+                    teamCaptain: teamCaptain,
+                })
+            };
+            $.ajax(req).then(function (res) {
                 
-        //         //page reload on submit
-        //         location.reload();
-        //     });
-        // } 
-        // catch (e) {
-        //     console.log(e)
-        // }
+                //page reload on submit
+                location.reload();
+            });
+        } 
+        catch (e) {
+            console.log(e)
+        }
     });
 
     // Submit code button stuff to join a team
@@ -212,8 +218,7 @@
                 })
             };
             $.ajax(req).then(function (res) {
-                console.log("Team Added")
-                console.log("Team ID: " + res);
+
             });
         } 
         catch (e) {
@@ -222,4 +227,24 @@
 
         //clear all input fields
     });
+
+    //add member button for edit team display
+    editAddMemberBtn.click(function (event) {
+        editRemoveMemberBtn.show();
+        editTeamMembersDiv.append
+        (
+        '<input id="editTeamMemberInput'+teamMemberCount+'" type="text"></input><id="memberBreak'+teamMemberCount+'" br>'
+        )
+        teamMemberCount++;
+    });
+
+    //remove member function for edit team display
+    editRemoveMemberBtn.click(function (event) {
+        $("#editTeamMemberInput"+(teamMemberCount-1)).remove();
+        teamMemberCount--;
+        if(teamMemberCount<1) {
+            $(this).hide();
+        }
+    });
+
 })(window.jQuery);
