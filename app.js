@@ -8,7 +8,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: 'a long, randomly-generated string stored in env',
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.baseURL,
     clientID: process.env.clientID,
     issuerBaseURL: 'https://dev-e6dfhqdzli1uevwb.us.auth0.com'
 }
