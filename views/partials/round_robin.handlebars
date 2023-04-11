@@ -1,19 +1,23 @@
 <div class="teamList">
     <h1>Round Robin Games List</h1>
+    <br>
+    <button id="rrGenerateRoundRobin">Create Schedule</button>
+    <br>
     <div>
-        <p id="totalGames" value="{{rounds.length}}">Total Games: {{rounds.length}}</p>
+        <label for="totalGames">Total Games:</label>
+        <p id="totalGames" value="0">0</p>
         <br>
-            <div class="grid-column">
+            <div id="roundRobinGrid" class="grid-column">
                 <div class="header" class="grid-row-name"><b>Game</b></div> 
                 <div class="header" class="grid-row-name"><b>Team 1</b></div> 
                 <div class="header" class="grid-row-name"><b>Team 2</b></div>
-                <div class="header" class="grid-row-name"><b>Field</b></div> 
-                    {{#each rounds}}
+                <div class="header" class="grid-row-name"><b>Field</b></div>
+                    {{!-- {{#each rounds}}
                     <div class="grid-row-name" id="gameNum{{@index}}">{{this.gameNum}}</div> 
                     <div class="grid-row-name" id="team1Name{{@index}}">{{this.team1.teamName}}</div> 
                     <div class="grid-row-name" id="team2Name{{@index}}">{{this.team2.teamName}}</div>
                     <div class="grid-row-name" id="field{{@index}}">{{this.field}}</div>
-                    {{/each}}
+                    {{/each}} --}}
             </div> 
             <br>
             <button id="rrSubmit" type="submit">Submit Round Robin</button>
