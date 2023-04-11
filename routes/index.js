@@ -8,10 +8,9 @@ const createPoolRoutes = require("./create_pool");
 const teamListRoutes = require("./team_list");
 const roundRobinRoutes = require("./round_robin");
 const seedingTableRoutes = require("./seeding_table")
-// const path = require('path');
+
 const data = require('../data');
 const userData = data.usersData;
-// const userRoleData = userData.getAllUsers()
 
 const constructorMethod = app => {
     app.get('/', async (req, res) => {
@@ -27,7 +26,6 @@ const constructorMethod = app => {
             userRole = loggedInUser.user_metadata.role;
         }
 
-
         res.render('partials/landingPage', {
             title: 'Sportsfest Bracket Generator',
             shortcode: 'landingPage',
@@ -36,7 +34,6 @@ const constructorMethod = app => {
             role: userRole,
         })
     });
-
 
     app.use("/about", aboutRoutes);
     app.use("/report_bug", reportBugRoutes);
