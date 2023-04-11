@@ -4,3 +4,21 @@ body {
     background-attachment: fixed;
     background-position: center; 
 }
+
+.bracket-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    gap: 1em;
+    text-align: center;
+}
+
+.playoffs, .quarter-finals, .semi-finals, .finals {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+p {
+    background-color: lightgray;
+    flex: 1 1 100%;
+}
