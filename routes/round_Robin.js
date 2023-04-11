@@ -14,29 +14,38 @@ router.get("/", async (req, res) => {
     let name = "";
     // let rounds;
 
-    if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        allUsers = await userData.getAllUsers();
-        loggedInUser = user;
-        nickname = loggedInUser.email
-        userRole = loggedInUser.user_metadata.role;
-        name = loggedInUser.user_metadata.name;
-        // rounds = await poolsData.roundRobinSelection();        
+    try {
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            allUsers = await userData.getAllUsers();
+            loggedInUser = user;
+            nickname = loggedInUser.email
+            userRole = loggedInUser.user_metadata.role;
+            name = loggedInUser.user_metadata.name;
+            // rounds = await poolsData.roundRobinSelection();        
+        }
+    
+        res.render("partials/round_robin", {
+            title: "Round-Robin", 
+            shortcode: 'roundRobin',
+            isAuthenticated: req.oidc.isAuthenticated(),
+            // rounds: rounds,
+        });
+    } catch (e) {
+        return res.status(500).json({ error: e});
     }
 
-    res.render("partials/round_robin", {
-        title: "Round-Robin", 
-        shortcode: 'roundRobin',
-        isAuthenticated: req.oidc.isAuthenticated(),
-        // rounds: rounds,
-    });
 });
 
 router.post("/", async (req, res) => {
-    const roundRobin = await poolsData.roundRobinSelection();
-
-    return res.json(roundRobin);
+    
+    try{
+        const roundRobin = await poolsData.roundRobinSelection();
+        return res.json(roundRobin);
+    } catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/round_robin_schedule", async (req, res) => {
@@ -47,10 +56,14 @@ router.post("/round_robin_schedule", async (req, res) => {
     let team2 = roundRobinInfo.team2;
     let field = roundRobinInfo.field;
     let complete = roundRobinInfo.complete;
+    
+    try {
+        const roundRobinId = await poolsData.insertRoundRobin(gameNum, team1, team2, field, complete);
 
-    const roundRobinId = await poolsData.insertRoundRobin(gameNum, team1, team2, field, complete);
-
-    return res.json(roundRobinId);
+        return res.json(roundRobinId);
+    } catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 module.exports = router;
