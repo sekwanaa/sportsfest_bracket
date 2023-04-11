@@ -25,6 +25,42 @@
                 {{!-- <li><a class="coordinator" href="/score_input">Input Scores</a></li> --}}
                 {{/compareRole}}
                 {{#if isAuthenticated}}
+                <li><a class="frisbee" href="#">Frisbee</a>
+                    <br>
+                    <ul class="dropdown">
+                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                        {{#compareRole "captain" role}}
+                        <li><a class="captain" href="/score_input">Input Scores</a></li>
+                        {{/compareRole}}
+                    </ul>
+                </li>
+                <li><a class="soccer" href="#">Soccer</a>
+                    <br>
+                    <ul class="dropdown">
+                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                        {{#compareRole "captain" role}}
+                        <li><a class="captain" href="/score_input">Input Scores</a></li>
+                        {{/compareRole}}
+                    </ul>
+                </li>
+                <li><a class="baskbetball" href="#">Basketball</a>
+                    <br>
+                    <ul class="dropdown">
+                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                        {{#compareRole "captain" role}}
+                        <li><a class="captain" href="/score_input">Input Scores</a></li>
+                        {{/compareRole}}
+                    </ul>
+                </li>
                 <li><a class="volleyball" href="#">Volleyball</a>
                     <br>
                     <ul class="dropdown">

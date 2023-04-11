@@ -25,6 +25,7 @@ header a, nav li {
 
 body {
     min-height: 100%;
+    z-index: 0;
 }
 
 main {
@@ -32,6 +33,7 @@ main {
     display: grid;
     grid-template-rows: 75vh auto auto;
     padding: 2%;
+    z-index: 0;
 }
 
 /* end */
@@ -95,12 +97,14 @@ nav {
     position: absolute;
     min-width: 90px;
     padding: 5px 3px;
+    z-index: 1;
 }
 
 .main-nav li:hover ul {
     visibility: visible;
     opacity: 1;
     transition: 250ms ease-in-out;
+    z-index: 1;
 }
 
 .main-nav li ul a {
@@ -109,6 +113,7 @@ nav {
     background-color: white;
     /* background-color: aqua; */
     min-width: 100px;
+    z-index: 1;
 }
 
 .main-nav > li {
