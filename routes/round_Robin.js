@@ -12,7 +12,8 @@ router.get("/", async (req, res) => {
     let allUsers = [];
     let nickname = "";
     let name = "";
-    // let rounds;
+    let rounds;
+    let isRounds = false;
 
     try {
         if(req.oidc.isAuthenticated()) {
@@ -23,14 +24,24 @@ router.get("/", async (req, res) => {
             nickname = loggedInUser.email
             userRole = loggedInUser.user_metadata.role;
             name = loggedInUser.user_metadata.name;
-            // rounds = await poolsData.roundRobinSelection();        
+        
+            rounds = await poolsData.getRoundRobinSchedule();
+            if(rounds.length > 0) {
+                isRounds = true;
+            }
+            else {
+                console.log("no schedule available");
+                isRounds = false;                
+            }
+            
         }
     
         res.render("partials/round_robin", {
             title: "Round-Robin", 
             shortcode: 'roundRobin',
             isAuthenticated: req.oidc.isAuthenticated(),
-            // rounds: rounds,
+            rounds: rounds,
+            isRounds: isRounds,
         });
     } catch (e) {
         return res.status(500).json({ error: e});

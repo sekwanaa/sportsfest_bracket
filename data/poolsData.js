@@ -158,8 +158,15 @@ let exportedMethods = {
                 }
             }
         )
-    }
+    },
 
+    async getRoundRobinSchedule() {
+        const roundRobinCollection = await roundrobin();
+
+        const roundRobinSchedule = await roundRobinCollection.find({}).toArray();
+
+        return roundRobinSchedule;
+    },
   }
   
   module.exports = exportedMethods;
