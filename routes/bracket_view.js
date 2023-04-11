@@ -141,6 +141,7 @@ router.get("/", async (req, res) => {
 
         if (team1.winner | team3.winner | team5.winner | team7.winner |team9.winner | team11.winner == true) {
             qteam1.name = team1.name;
+            team2.name = team2.name;
             qteam2.name = team3.name;
             qteam3.name = team5.name;
             qteam4.name = team7.name;
@@ -155,12 +156,6 @@ router.get("/", async (req, res) => {
             qteam6.name = team12.name;
         };
 
-        // if (team3.winner == true) {
-        //     qteam2.name = team3.name;
-        // } else {
-        //     qteam2.name = team3.name;
-        // };
-
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
             const user = await userData.getUserByEmail(email);
@@ -174,28 +169,28 @@ router.get("/", async (req, res) => {
             isAuthenticated: req.oidc.isAuthenticated(),
             loggedInUser: loggedInUser,
             role: userRole,
-            team1: team1.name,
-            team2: team2.name,
-            team3: team3.name,
-            team4: team4.name,
-            team5: team5.name,
-            team6: team6.name,
-            team7: team7.name,
-            team8: team8.name,
-            team9: team9.name,
-            team10: team10.name,
-            team11: team11.name,
-            team12: team12.name,
-            qteam1: qteam1.name,
-            qteam2: qteam2.name,
-            qteam3: qteam3.name,
-            qteam4: qteam4.name,
-            qteam5: qteam5.name,
-            qteam6: qteam6.name,
-            steam1: steam1.name,
-            steam2: steam2.name,
-            fteam1: fteam1.name,
-            fteam2: fteam2.name,
+            team1: team1,
+            team2: team2,
+            team3: team3,
+            team4: team4,
+            team5: team5,
+            team6: team6,
+            team7: team7,
+            team8: team8,
+            team9: team9,
+            team10: team10,
+            team11: team11,
+            team12: team12,
+            qteam1: qteam1,
+            qteam2: qteam2,
+            qteam3: qteam3,
+            qteam4: qteam4,
+            qteam5: qteam5,
+            qteam6: qteam6,
+            steam1: steam1,
+            steam2: steam2,
+            fteam1: fteam1,
+            fteam2: fteam2,
         });
 
         return;

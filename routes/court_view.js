@@ -77,4 +77,26 @@ router.post("/get_current_game", async (req, res) => {
     return res.json(currentGame);
 });
 
+router.post("/playoff", async (req, res) => {
+    const matchInfo = req.body;
+    const fieldNum = matchInfo.fieldNum;
+    
+    const insertMatch = await matchesData.insertMatch
+    (
+        matchInfo.team1, 
+        matchInfo.team2, 
+        matchInfo.score1, 
+        matchInfo.score2,
+        matchInfo.winner,
+        matchInfo.loser, 
+        matchInfo.winnerPointDifferential,
+        matchInfo.loserPointDifferential,
+        matchInfo.year = new Date().getFullYear().toString(), // gets the current year, court view can only submit current year scores
+    );
+
+    const roundRobin = await poolsData.roundRobinCompleteMatch(fieldNum, matchInfo.team1, matchInfo.team2);
+
+    return res.json(insertMatch);
+});
+
 module.exports = router;
