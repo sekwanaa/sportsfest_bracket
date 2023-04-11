@@ -80,44 +80,41 @@ nav {
 
 .main-nav li {
     flex: 0 1 100%;
+    position: relative;
 }
 
-.main-nav li {
-    position: relative;
-    /* float: left; */
+.main-nav > li {
+    padding: 0 50px;
 }
 
 .main-nav li a {
     display: block;
 }
 
-.main-nav li ul {
+.main-nav li:hover ul {
+    visibility: visible;
+    opacity: 1;
+    transition: 250ms ease-in-out;
+}
+
+.main-nav li .dropdown {
     visibility: hidden;
     opacity: 0;
     position: absolute;
     min-width: 90px;
     padding: 5px 3px;
-    z-index: 1;
 }
 
-.main-nav li:hover ul {
-    visibility: visible;
-    opacity: 1;
-    transition: 250ms ease-in-out;
-    z-index: 1;
-}
+/* .dropdown {
+    position: relative;
+} */
 
-.main-nav li ul a {
+.dropdown a {
     display: block;
     padding: 10px 5px;
     background-color: white;
     /* background-color: aqua; */
     min-width: 100px;
-    z-index: 1;
-}
-
-.main-nav > li {
-    padding: 0 50px;
 }
 
 /* end */
