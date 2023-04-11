@@ -40,6 +40,7 @@ router.get("/", async (req, res) => {
             title: "Round-Robin", 
             shortcode: 'roundRobin',
             isAuthenticated: req.oidc.isAuthenticated(),
+            role: userRole,
             rounds: rounds,
             isRounds: isRounds,
         });
