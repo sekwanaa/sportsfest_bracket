@@ -9,14 +9,16 @@
     </div>
     <div class="seed_information">
     {{#each matches}}
-    <div class="seed_info">
-        <p>{{@index}}</p>
-        <p>{{this.name}}</p>
-        <p>{{this.winnerCount}}</p>
-        <p>{{this.loserCount}}</p>
-        <p>{{this.pointDifferential}}</p>
-    </div>
+        <div class="seed_info">
+            <p id="seed{{@index}}">{{@index}}</p>
+            <p id="teamName{{@index}}">{{this.name}}</p>
+            <p id="wins{{@index}}">{{this.winnerCount}}</p>
+            <p id="losses{{@index}}">{{this.loserCount}}</p>
+            <p id="pointDiff{{@index}}">{{this.pointDifferential}}</p>
+        </div>
     {{/each}}
     </div>
-    
+    <button id="seed_submit_button" type="submit">Submit Seeds</button>
 </div>
+
+<script src="/public/js/seed_table.js"></script>

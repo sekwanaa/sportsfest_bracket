@@ -2,6 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const teamData = require("./teamData");
 const pools = mongoCollections.pools;
 const roundrobin = mongoCollections.roundrobin;
+const seeds = mongoCollections.seeds;
 
 let exportedMethods = {
   
@@ -167,6 +168,36 @@ let exportedMethods = {
 
         return roundRobinSchedule;
     },
+
+    async getPlayOffTeams(numOfSeeds) {
+        let finalizedSeed = [];
+        const seedsCollection = await seeds();
+
+        const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
+
+        for(i=0; i<seedData.length/2; i++) {
+            finalizedSeed.push(seedData[i]);
+            finalizedSeed.push(seedData[(seedData.length/2+i)]);
+        }
+
+        return finalizedSeed;
+    },
+
+    async seedInsert(seedsArray) {
+
+        const seedsCollection = await seeds();
+        let seedsIdArray = [];
+
+        for(i=0; i<seedsArray.length; i++) {
+            let insertSeed = await seedsCollection.insertOne(seedsArray[i]);
+            let seedId = insertSeed.insertedId.toString();
+
+            seedsIdArray.push(seedId);
+        }
+
+        return seedsIdArray;
+    },
+
   }
   
   module.exports = exportedMethods;
