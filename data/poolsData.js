@@ -2,6 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const teamData = require("./teamData");
 const pools = mongoCollections.pools;
 const roundrobin = mongoCollections.roundrobin;
+const seeds = mongoCollections.seeds;
 
 let exportedMethods = {
   
@@ -169,9 +170,15 @@ let exportedMethods = {
     },
 
     async getPlayOffTeams(numOfSeeds) {
+        let finalizedSeed = [];
         const seedsCollection = await seeds();
 
-        const finalizedSeed = await seedsCollection.find({}).sort(-1).limit(numOfSeeds).toArray();
+        const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
+
+        for(i=0; i<seedData.length/2; i++) {
+            finalizedSeed.push(seedData[i]);
+            finalizedSeed.push(seedData[(seedData.length/2+i)]);
+        }
 
         return finalizedSeed;
     },
