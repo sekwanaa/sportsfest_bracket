@@ -6,7 +6,7 @@ const scoreInputRoutes = require("./score_input");
 const playerDashboardRoutes = require("./player_dashboard");
 const createPoolRoutes = require("./create_pool");
 const teamListRoutes = require("./team_list");
-const roundRobinRoutes = require("./round_Robin");
+const roundRobinRoutes = require("./round_robin");
 const seedingTableRoutes = require("./seeding_table")
 // const path = require('path');
 const data = require('../data');
@@ -45,7 +45,7 @@ const constructorMethod = app => {
     app.use("/score_input", scoreInputRoutes);
     app.use("/player_dashboard", playerDashboardRoutes);
     app.use("/create_pool", createPoolRoutes);
-    app.use("/round_Robin", roundRobinRoutes);
+    app.use("/round_robin", roundRobinRoutes);
     app.use("/team_list", teamListRoutes);
     app.use("/seeding_table", seedingTableRoutes);
 
