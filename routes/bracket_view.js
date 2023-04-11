@@ -98,13 +98,13 @@ router.get("/", async (req, res) => {
             name: "",
             wnner: false
         };
-        let steam3 = {
+        let fteam1 = {
             name: "",
             winner: false,
         };
-        let steam4 = {
+        let fteam2 = {
             name: "",
-            wnner: false
+            winner: false,
         };
         let numOfSeeds = 12;
 
@@ -192,8 +192,10 @@ router.get("/", async (req, res) => {
             qteam4: qteam4.name,
             qteam5: qteam5.name,
             qteam6: qteam6.name,
-            qteam7: qteam7.name,
-            qteam8: qteam8.name,
+            steam1: steam1.name,
+            steam2: steam2.name,
+            fteam1: fteam1.name,
+            fteam2: fteam2.name,
         });
 
         return;
