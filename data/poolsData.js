@@ -198,6 +198,14 @@ let exportedMethods = {
         return seedsIdArray;
     },
 
+    async completeRoundRobin() {
+        const roundRobinCollection = await roundrobin();
+
+        const completeRoundRobinGames = await roundRobinCollection.updateMany({complete: false},{$set: {complete: true}});
+
+        return completeRoundRobinGames;
+    },
+
   }
   
   module.exports = exportedMethods;

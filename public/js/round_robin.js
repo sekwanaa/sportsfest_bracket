@@ -55,11 +55,11 @@
                 url: '/round_robin/round_robin_complete',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    roundRobinMatches: matchObj,
+
                 })
             };
             $.ajax(req).then(function (res) {
-                
+                console.log(res);
             });
         } catch (e) {
             console.log(e);
@@ -69,17 +69,17 @@
     submitBtn.click(function (event) {
         event.preventDefault();
 
-        let totalGamesSplit = totalGames.text().split(' ');
-        let numOfGames = totalGamesSplit[2];
-
+        // let totalGamesSplit = totalGames.text().split(' ');
+        // let numOfGames = totalGamesSplit[2];
+        let numOfGames = parseInt(totalGames.html());
         // let roundRobinMatches = [];
         let matchObj = {};
 
         for(i=0; i < numOfGames; i++) {
-            matchObj.gameNum = $('#gameNum'+i).text();
+            matchObj.gameNum = parseInt($('#gameNum'+i).text());
             matchObj.team1 = $('#team1Name'+i).text();
             matchObj.team2 = $('#team2Name'+i).text();
-            matchObj.field = $('#field'+i).text();
+            matchObj.field = parseInt($('#field'+i).text());
             matchObj.complete = false;
 
             // roundRobinMatches.push(matchObj);
