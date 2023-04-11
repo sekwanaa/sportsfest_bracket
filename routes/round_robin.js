@@ -78,4 +78,14 @@ router.post("/round_robin_schedule", async (req, res) => {
     }
 });
 
+router.post("/round_robin_complete", async (req, res) => {
+    
+    try{
+        const roundRobinComplete = await poolsData.completeRoundRobin();
+        return res.json(roundRobinComplete);
+    } catch (e) {
+        return res.status(500).json({ error: e});
+    }
+});
+
 module.exports = router;

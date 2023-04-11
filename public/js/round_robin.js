@@ -3,6 +3,7 @@
     var submitBtn = $('#rrSubmit');
     var totalGames = $('#totalGames');
     var roundRobinGrid = $('#roundRobinGrid');
+    var completeRoundRobinBtn = $("#completeRoundRobinButton");
 
     generaterrBtn.click(function (event) {
         if(generaterrBtn.html() == "Create Schedule") {
@@ -41,6 +42,27 @@
         } 
         catch (e) {
             console.log(e)
+        }
+    });
+
+    completeRoundRobinBtn.click(function (event) {
+        event.preventDefault();
+        // console.log("clicked");
+
+        try {
+            let req = {
+                method: 'POST',
+                url: '/round_robin/round_robin_complete',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    roundRobinMatches: matchObj,
+                })
+            };
+            $.ajax(req).then(function (res) {
+                
+            });
+        } catch (e) {
+            console.log(e);
         }
     });
 
