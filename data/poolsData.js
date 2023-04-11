@@ -167,6 +167,15 @@ let exportedMethods = {
 
         return roundRobinSchedule;
     },
+
+    async getPlayOffTeams(numOfSeeds) {
+        const seedsCollection = await seeds();
+
+        const finalizedSeed = await seedsCollection.find({}).sort(-1).limit(numOfSeeds).toArray();
+
+        return finalizedSeed;
+    },
+
   }
   
   module.exports = exportedMethods;
