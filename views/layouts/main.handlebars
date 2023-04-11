@@ -19,8 +19,8 @@
         <a class="anchor-button" href="/">Sportsfest Bracket Generator</a>
         <nav>
             <ul class="main-nav">
-                <li><a class="basic" href="/bracket_view">View Current Bracket</a></li>
-                <li><a class="basic" href="/court_view">Current Games</a></li>
+                {{!-- <li><a class="basic" href="/bracket_view">View Current Bracket</a></li>
+                <li><a class="basic" href="/court_view">Current Games</a></li> --}}
                 {{#compareRole "coordinator" role}}
                 <li><a class="coordinator" href="/create_pool">Create Pool</a></li>
                 <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
@@ -30,9 +30,17 @@
                 <li><a class="captain" href="/score_input">Input Scores</a></li>
                 {{/compareRole}}
                 {{#if isAuthenticated}}
-                {{!-- <li><a class="basic" href="/logout">Logout</a></li> --}}
-                <li><a class="basic" href="/team_list">Teams</a></li>
-                <li><a class="basic" href="/seeding_table">Current Seeds</a></li>
+                <li><a class="volleyball" href="#">Volleyball</a>
+                    <br>
+                    <ul class="dropdown">
+                        <li><a class="dropdown-menu" href="/bracket_view">View Current Bracket</a></li>
+                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                    </ul>
+                </li>
+                {{!-- <li><a class="basic" href="/team_list">Teams</a></li>
+                <li><a class="basic" href="/seeding_table">Current Seeds</a></li> --}}
                 <li><a class="profile-menu" href="#">Profile</a>
                     <br>
                     <ul class="dropdown">
