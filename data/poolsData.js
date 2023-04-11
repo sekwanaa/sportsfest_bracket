@@ -183,6 +183,21 @@ let exportedMethods = {
         return finalizedSeed;
     },
 
+    async seedInsert(seedsArray) {
+
+        const seedsCollection = await seeds();
+        let seedsIdArray = [];
+
+        for(i=0; i<seedsArray.length; i++) {
+            let insertSeed = await seedsCollection.insertOne(seedsArray[i]);
+            let seedId = insertSeed.insertedId.toString();
+
+            seedsIdArray.push(seedId);
+        }
+
+        return seedsIdArray;
+    },
+
   }
   
   module.exports = exportedMethods;

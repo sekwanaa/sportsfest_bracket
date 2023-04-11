@@ -4,7 +4,8 @@ const data = require('../data')
 const userData = data.usersData;
 const matchesData = data.matchesData;
 const teamsData = data.teamsData;
-//bhavin made this change
+const poolsData = data.poolsData;
+
 router.get("/", async (req, res) => {
 
     try {
@@ -54,7 +55,19 @@ router.get("/seedCount", async (req, res) => {
 router.post("/insertSeeds", async (req, res) => {
 
     try {
-        return res.json("done");
+        const seeds = req.body.seedsArray;
+
+        // let seedsObj = {
+        //     teamName: seeds.teamName,
+        //     seed: seeds.seed,
+        //     currentPlacement: null,
+        // };
+
+        // console.log(seeds);
+
+        const seedId = await poolsData.seedInsert(seeds);
+
+        return res.json(seedId);
     } catch (e) {
         return res.status(500).json({ error: e});
     }
