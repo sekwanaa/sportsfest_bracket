@@ -14,7 +14,8 @@ let exportedMethods = {
           seedingGames: seedingGames,
           numOfTeams: numOfTeams,
           numOfFields: numOfFields,
-          numOfPlayoffTeams: numOfPlayoffTeams
+          numOfPlayoffTeams: numOfPlayoffTeams,
+          stage: 1,
       };
   
       const poolsCollection = await pools();
@@ -22,6 +23,13 @@ let exportedMethods = {
       const poolId = insertPool.insertedId.toString();
       
       return poolId;
+    },
+
+    async incrementStage() {
+        const poolsCollection = await pools();
+        const incrementPoolStage = await poolsCollection.findOneAndUpdate({},{$inc: {stage: 1}});
+
+        return;
     },
 
     async getPoolInfo () {
@@ -269,6 +277,8 @@ let exportedMethods = {
         const createPlayoffs = await this.insertPlayOff();
 
         console.log(createPlayoffs);
+
+        const incrementStage = await this.incrementStage();
 
         return completeRoundRobinGames;
     },
