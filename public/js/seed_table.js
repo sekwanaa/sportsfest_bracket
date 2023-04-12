@@ -48,7 +48,7 @@
                 })
             };
             $.ajax(req).then(function (seedsIdArray) {
-                console.log(seedsIdArray);
+                location.reload();
             });
         } 
         catch (e) {
