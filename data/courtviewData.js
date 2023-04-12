@@ -14,7 +14,6 @@ let exportedMethods = {
         if(currentGame.length < 1) {
             const playOffCollection = await playoffs();
             currentGame = await playOffCollection.find({field: fieldNum, complete: false}).sort({gameNum: 1}).limit(1).toArray();
-            console.log(currentGame);
         }
 
         if(currentGame.length < 1) {
