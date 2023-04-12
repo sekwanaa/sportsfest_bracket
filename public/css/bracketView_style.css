@@ -4,3 +4,30 @@ body {
     background-attachment: fixed;
     background-position: center; 
 }
+
+.bracket-container {
+    display: flex;
+    gap: 1em;
+}
+
+.playoffs, .quarter-finals, .semi-finals, .finals {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 100%;
+    gap: 1em;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    background-color: lightgray;
+    display: flex;
+    flex: 0 1 15%;
+    width: 50%;
+    height: 1%;
+    max-width: 50%;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+}
