@@ -7,44 +7,33 @@
     }
 }
 
-.dashboardCards {
+#dashboard { /* Dashboard cards flex to fit the page */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+
+#dashboard > * { /* selects all direct children of #dashboard aka all cards*/
+    flex: 0 1 20%;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-height: 400px;
     padding: 10px 10px;
 }
 
-#userCard {
-    max-width: 300px;
-    max-height: 400px;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    grid-column-start: 1;
-    grid-column-end: 2;
+#dashboard > #editUserRoles {
+    flex: 1 1 40%;
 }
 
-.edit_inputs {
+.edit_inputs { /* for when you click edit on user card*/
     text-align: center;
     padding: .15em;
     margin-top: .15em;
     margin-bottom: .15em;
 }
 
-#manageTeamCard {
-    max-width: 100%;
-    max-height: 400px;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    grid-column-start: 2;
-    grid-column-end: 3;
-}
-
-#editUserRoles {
-    max-width: 100%;
-    max-height: 400px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    grid-column-start: 3;
-    grid-column-end: 5;
-}
-
-.grid-column {
+.grid-column { /* selects table columns for edit user role*/
     display: grid;
     grid-template-columns: auto auto 300px;
     grid-auto-rows: 50px;
@@ -53,7 +42,7 @@
     overflow-x: hidden;
 }
 
-#users_submit_button_div {
+#users_submit_button_div { /* trash way of styling submit button in edit user roles*/
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
 }
@@ -62,6 +51,8 @@
     grid-column-start: 5;
     grid-column-end: 5;
 }
+
+/* generic edit user roles styling  */
 
 .grid-row, .header{
     background-color: rgb(225, 225, 225);
@@ -73,6 +64,8 @@
     background-color: rgb(203, 203, 203);
 }
 
+/* random other styling */
+
 #teamMembers {
     max-height: 100px;
     overflow-y: auto;
@@ -80,11 +73,6 @@
 
 #button {
     padding: 2px;
-}
-
-main {
-    grid-template-columns: 20vw 20vw 20vw 20vw 20vw;
-    column-gap: 2%;
 }
 
 h1 {
