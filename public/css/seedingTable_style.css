@@ -29,18 +29,19 @@ button {
 .header_bar, .seed_info {
     display: grid;
     grid-template-columns: 10% 30% 20% 20% 20%;
-    grid-auto-rows: 2em;
+    grid-auto-rows: 3em;
     text-align: center;
-    padding: .5em;
 }
 
 .header_bar {
     background-color: grey;
+    padding: .5em;
 }
 
 .seed_information {
     background-color: lightgrey;
-    max-height: 70vh;
+    max-height: 60vh;
     overflow-y: scroll;
     font-size: 18px;
+    padding-top: .5em;
 }
