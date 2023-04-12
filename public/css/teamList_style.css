@@ -17,7 +17,7 @@
     display: grid;
     grid-template-columns: auto 100px;
     grid-auto-rows: 50px;
-    max-height: 75vh;
+    max-height: 60vh;
     overflow-y: auto;
 }
 
