@@ -73,4 +73,13 @@ router.post("/insertSeeds", async (req, res) => {
     }
 });
 
+router.post("/seeds", async (req, res) => {
+
+    try {
+        return res.json(await matchesData.getTeamRecords());
+    } catch (e) {
+        return res.status(500).json({ error: e});
+    }
+});
+
 module.exports = router;

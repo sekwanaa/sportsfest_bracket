@@ -11,7 +11,7 @@
     </div>
     <div class="seed_information">
     {{#each matches}}
-        <div class="seed_info">
+        <div class="seed_info" id="seed_info_div">
             <p id="seed{{@index}}">{{@index}}</p>
             <p id="teamName{{@index}}">{{this.name}}</p>
             <p id="wins{{@index}}">{{this.winnerCount}}</p>
