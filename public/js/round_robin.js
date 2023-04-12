@@ -59,7 +59,7 @@
                 })
             };
             $.ajax(req).then(function (res) {
-                console.log(res);
+                location.reload();
             });
         } catch (e) {
             console.log(e);
@@ -94,7 +94,7 @@
                     })
                 };
                 $.ajax(req).then(function (res) {
-                    
+                    location.reload();
                 });
             } 
             catch (e) {
