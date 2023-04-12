@@ -1,88 +1,76 @@
 <div class="bracket-container">
+    <button class="clickButton">click me</button>
     <div class="playoffs">
-        <p>{{team1.name}} 
-            <br> 
-            vs.
-            <br>
-            {{team2.name}}
-        </p>
-        <p>{{team3.name}}
-            <br> 
-            vs.
-            <br>
-            {{team4.name}}
-        </p>
-        <p>{{team5.name}}
-            <br> 
-            vs.
-            <br>
-            {{team6.name}}
-        </p>
-        <p>{{team7.name}}
-            <br> 
-            vs.
-            <br>
-            {{team8.name}}
-        </p>
-        <p>{{team9.name}}
-            <br> 
-            vs.
-            <br>
-            {{team10.name}}
-        </p>
-        <p>{{team11.name}}
-            <br> 
-            vs.
-            <br>
-            {{team12.name}}
-        </p>
+        <div>
+            <h5>{{team1.name}}</h5> 
+            <p>vs.</p>
+            <h5 id="playoffTeam2">{{team2.name}}</h5>
+        </div>
+        <div>
+            <h5>{{team3.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{team4.name}}</h5>
+        </div>
+        <div>
+            <h5>{{team5.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{team6.name}}</h5>
+        </div>
+        <div>
+            <h5>{{team7.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{team8.name}}</h5>
+        </div>
+        <div>
+            <h5>{{team9.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{team10.name}}</h5>
+        </div>
+        <div>
+            <h5>{{team11.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{team12.name}}</h5>
+        </div>
     </div>
     <div class="quarter-finals">
-        <p id="quarter-team1-team2">{{qteam1.name}}
-            <br> 
-            vs.
-            <br>
-            {{qteam2.name}}
-        </p>
-        <p id="quarter-team3-team4">{{qteam3.name}}
-            <br> 
-            vs.
-            <br>
-            {{qteam4.name}}
-        </p>
-        <p id="quarter-team5-team6">{{qteam5.name}}
-            <br> 
-            vs.
-            <br>
-            {{qteam6.name}}
-        </p>
-        {{!-- <p id="quarter-team7-team8">{{qteam7}}
-            <br> 
-            vs.
-            <br>
+        <div>
+            <h5>{{qteam1.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{qteam2.name}}</h5>
+        </div>
+        <div>
+            <h5>{{qteam3.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{qteam4.name}}</h5>
+        </div>
+        <div>
+            <h5>{{qteam5.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{qteam6.name}}</h5>
+        </div>
+        {{!-- <p id="quarter-team7-team8">{{qteam7}} 
+            <p>vs.</p>
             {{qteam8}}
-        </p> --}}
+        </h5> --}}
     </div>
     <div class="semi-finals">
-        <p id="semi-team1-team2">{{steam1.name}}
-            <br> 
-            vs.
-            <br>
-            {{steam2.name}}
-        </p>
-        {{!-- <p id="semi-team3-team4">{{steam3}}
-            <br> 
-            vs.
-            <br>
+        <div>
+            <h5>{{steam1.name}}</h5> 
+            <p>vs.</p>
+            <h5>{{steam1.name}}</h5>
+        </div>
+        {{!-- <p id="semi-team3-team4">{{steam3}} 
+            <p>vs.</p>
             {{steam4}}
-        </p> --}}
+        </h5> --}}
     </div>
     <div class="finals">
-        <p id="finals-team1-team2">{{fteam1.name}}
-            <br> 
-            vs.
-            <br>
-            {{fteam2.name}}
-        </p>
+        <div>
+            <h5>{{fteam1.name}}</h5> 
+            <h5><p>vs.</p></h5>
+            <h5>{{fteam2.name}}</h5>
+        </div>
     </div>
 </div>
+
+<script src="/public/js/bracket_view.js"></script>

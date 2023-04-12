@@ -5,29 +5,38 @@ body {
     background-position: center; 
 }
 
-.bracket-container {
+.bracket-container { /* affects playoff/quarters/semis/finals divs */
     display: flex;
     gap: 1em;
 }
 
-.playoffs, .quarter-finals, .semi-finals, .finals {
+.bracket-container > * { /* affects each matchup box within div */
     display: flex;
     flex-direction: column;
     flex: 1 1 100%;
     gap: 1em;
     text-align: center;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
 }
 
-p {
+.bracket-container > * > * { /* affects contents of each matchup box */
     background-color: lightgray;
     display: flex;
+    flex-direction: column;
     flex: 0 1 15%;
     width: 50%;
     height: 1%;
     max-width: 50%;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
+}
+
+h5, p {
     line-height: 1.5;
+}
+
+button {
+    height: 50px;
+    width: 80px;
 }
