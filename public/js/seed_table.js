@@ -1,5 +1,10 @@
 (function ($) {
     var submitSeedsBtn = $("#seed_submit_button");
+    var refreshSeedTableBtn = $("#refresh_seed_table_button");
+
+    refreshSeedTableBtn.click(function(event) {
+        // console.log("clicked");
+    });
 
     submitSeedsBtn.click(function (event) {
         event.preventDefault();
