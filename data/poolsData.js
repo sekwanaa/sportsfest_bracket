@@ -155,6 +155,12 @@ let exportedMethods = {
 
     //method to insert finalized playoff schedule
     async insertPlayOff() {
+        const numOfTeams = await teamData.getAllTeamsCount();
+        let numOfSeeds = Math.floor(0.6 * numOfTeams);
+        let numOfPlayoffTeams = (numOfSeeds * 2)/3;
+
+        console.log(numOfTeams);
+
         let finalizedSeed = [];
         let matchObj = {};
         let gameNum = 1;
@@ -166,15 +172,16 @@ let exportedMethods = {
         let insertPlayOffGame = null;
         let playOffId = null;
 
-        const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(12).toArray();
+        const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
 
-        for(i=0; i<seedData.length/2; i++) {
+        console.log(seedData);
+        for(i=seedData.length-numOfPlayoffTeams; i<seedData.length; i++) {
             finalizedSeed.push(seedData[i]);
-            finalizedSeed.push(seedData[(seedData.length/2)+i]);
+            finalizedSeed.push(seedData[i+seedData.length-numOfPlayoffTeams]);
             
             matchObj.gameNum = gameNum;
             matchObj.team1 = seedData[i].team;
-            matchObj.team2 = seedData[(seedData.length/2)+i].team;
+            matchObj.team2 = seedData[i+seedData.length-numOfPlayoffTeams].team;
             matchObj.field = fieldCount+1; 
             matchObj.complete = false;
 
@@ -193,43 +200,99 @@ let exportedMethods = {
         return finalizedSeed;
     },
 
-    async roundRobinCompleteMatch(fieldNum, team1, team2) {
-        const roundRobinCollection = await roundrobin();
+    async completeMatch(fieldNum, team1, team2) {
 
-        const updateRoundRobin = await roundRobinCollection.findOneAndUpdate(
-            {
-                field: fieldNum,
-                team1: team1,
-                team2: team2,
-            },
-            {
-                $set: {
-                    complete: true,
+        const poolsCollection = await pools();
+
+        // const stage = await poolsCollection.find({}, {stage: 1});
+        
+        const poolInfo = await poolsCollection.findOne({});
+
+        const stage = parseInt(poolInfo.stage);
+
+        // const stage = await poolsCollection.aggregate( [ { $project : { _id: 0, stage : 1 } } ] );
+
+        //if current stage is round robin
+        if (stage == 1) {
+            const roundRobinCollection = await roundrobin();
+
+            const updateRoundRobin = await roundRobinCollection.findOneAndUpdate(
+                {
+                    field: fieldNum,
+                    team1: team1,
+                    team2: team2,
+                },
+                {
+                    $set: {
+                        complete: true,
+                    }
                 }
-            }
-        )
+            )
+        }
+        else {
+            const playOffCollection = await playoffs();
+            const updatePlayOffs = await playOffCollection.findOneAndUpdate(
+                {
+                    field: fieldNum,
+                    team1: team1,
+                    team2: team2,
+                },
+                {
+                    $set: {
+                        complete: true,
+                    }
+                }
+            )
 
-        return;
+            //for each team, update seed collection currentPlacement
+
+            // const matchesColletion = await matches();
+            // const matchInfo = matchesColletion.findOne({team})
+            // const seedsCollection = await seeds();
+            // const updateTeam1 = await seedsCollection.findOneAndUpdate(
+            //     {
+            //         team: winnerTeam,
+            //     },
+            //     {
+            //         $set: {
+            //             currentPlacement: "quarters",
+            //         }
+            //     }
+            // )
+            // const updateTeam2 = await seedsCollection.findOneAndUpdate(
+            //     {
+            //         team: loserTeam
+            //     },
+            //     {
+            //         $set: {
+            //             currentPlacement: "eliminated",
+            //         }
+            //     }
+            // )
+        }
+
+        return stage;
     },
 
-    async playOffsCompleteMatch(fieldNum, team1, team2) {
-        const playoffsCollection = await playoffs();
+    //this should be able to be deleted
+    // async playOffsCompleteMatch(fieldNum, team1, team2) {
+    //     const playoffsCollection = await playoffs();
 
-        const updateRoundRobin = await playoffsCollection.findOneAndUpdate(
-            {
-                field: fieldNum,
-                team1: team1,
-                team2: team2,
-            },
-            {
-                $set: {
-                    complete: true,
-                }
-            }
-        )
+    //     const updateRoundRobin = await playoffsCollection.findOneAndUpdate(
+    //         {
+    //             field: fieldNum,
+    //             team1: team1,
+    //             team2: team2,
+    //         },
+    //         {
+    //             $set: {
+    //                 complete: true,
+    //             }
+    //         }
+    //     )
 
-        return;
-    },
+    //     return;
+    // },
 
     async getRoundRobinSchedule() {
         const roundRobinCollection = await roundrobin();
@@ -293,8 +356,6 @@ let exportedMethods = {
         const completeRoundRobinGames = await roundRobinCollection.updateMany({complete: false},{$set: {complete: true}});
 
         const createPlayoffs = await this.insertPlayOff();
-
-        console.log(createPlayoffs);
 
         const incrementStage = await this.incrementStage();
 

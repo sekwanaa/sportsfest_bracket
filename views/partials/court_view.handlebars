@@ -5,10 +5,16 @@
     <div class="court">
         <h3 id="court{{this.numOfFields}}">Court {{this.numOfFields}}</h3>
         <br>        
-        <h1> {{this.teamName1}} vs {{this.teamName2}} </h1> {{! takes team names from court_view.js in routes}}
+        {{#unless this.gamesFinished}}
+            <h1> {{this.teamName1}} vs {{this.teamName2}} </h1> {{! takes team names from court_view.js in routes}}
+        {{/unless}}
+        {{#if this.gamesFinished}}
+            <h1> No games scheduled </h1>
+        {{/if}}
         <br>
 
-        {{! Only captains/coordinators see this}}        
+        {{! Only captains/coordinators see this}} 
+        {{#unless this.gamesFinished}}       
         <div class="score-submission">
             {{! "Input Score"}}
             {{#compareRole "coordinator" ../role}}
@@ -40,11 +46,14 @@
             {{/compareRole}}
 
         </div>
+        {{/unless}}
         <br>
-        {{! Everyone can see this}}    
+        {{! Everyone can see this}}
+        {{#unless this.gamesFinished}}    
         <div class="live-stream-link">
             <a href="https://www.youtube.com/@blessedcultureandsportsfes8608" target="_blank">Live Stream</a></li>
         </div>
+        {{/unless}}
     
     </div>
     {{/each}}

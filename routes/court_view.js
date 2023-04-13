@@ -7,41 +7,55 @@ const courtviewData = data.courtviewData;
 const poolsData = data.poolsData;
 
 router.get("/", async (req, res) => {
+    try {
+        let email = "not authenticated";
+        let loggedInUser = {};
+        let userRole = "";
+    
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            loggedInUser = user;
+            userRole = loggedInUser.user_metadata.role;
+        }
+    
+        let numOfCourts = await poolsData.getPoolInfo();
+        let courtArray = [];
+        let courtObj = {};
+        let courtData = "";
+    
+        for (i=0; i<numOfCourts.numOfFields; i++) {
+            courtData = await courtviewData.getCurrentGameData(i+1)
+            if(courtData.length > 0) {
+                courtObj.numOfFields = i+1;
+                courtObj.teamName1 = courtData[0].team1;
+                courtObj.teamName2 = courtData[0].team2;
+                courtArray.push(courtObj);
+                courtObj = {};
+                courtData = "";
+            }
+            else {
+                courtObj.numOfFields = i+1;
+                courtObj.teamName1 = "No team scheduled";
+                courtObj.teamName2 = "No team scheduled";
+                courtObj.gamesFinished = true;
+                courtArray.push(courtObj);
+                courtObj = {};
+                courtData = "";
+            }
+        }
 
-    let email = "not authenticated";
-    let loggedInUser = {};
-    let userRole = "";
-
-    if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        loggedInUser = user;
-        userRole = loggedInUser.user_metadata.role;
+        res.render("partials/court_view", {
+            title: 'Current Games by Court', 
+            shortcode: 'courtView',
+            isAuthenticated: req.oidc.isAuthenticated(),
+            loggedInUser: loggedInUser,
+            role: userRole,
+            courtArray: courtArray,
+        });
+    } catch (e) {
+        return res.status(500).json({ error: e});
     }
-
-    let numOfCourts = await poolsData.getPoolInfo();
-    let courtArray = [];
-    let courtObj = {};
-    let courtData = "";
-
-    for (i=0; i<numOfCourts.numOfFields; i++) {
-        courtData = await courtviewData.getCurrentGameData(i+1)
-        courtObj.numOfFields = i+1;
-        courtObj.teamName1 = courtData[0].team1;
-        courtObj.teamName2 = courtData[0].team2;
-        courtArray.push(courtObj);
-        courtObj = {};
-        courtData = "";
-    }
-
-    res.render("partials/court_view", {
-        title: 'Current Games by Court', 
-        shortcode: 'courtView',
-        isAuthenticated: req.oidc.isAuthenticated(),
-        loggedInUser: loggedInUser,
-        role: userRole,
-        courtArray: courtArray,
-    });
 });
 
 
@@ -64,7 +78,7 @@ router.post("/", async (req, res) => {
         matchInfo.year = new Date().getFullYear().toString() // gets the current year, court view can only submit current year scores
     );
 
-    const roundRobin = await poolsData.roundRobinCompleteMatch(fieldNum, matchInfo.team1, matchInfo.team2);
+    const roundRobin = await poolsData.completeMatch(fieldNum, matchInfo.team1, matchInfo.team2);
 
     return res.json(insertMatch);
 });
