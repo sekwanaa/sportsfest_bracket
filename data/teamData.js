@@ -16,6 +16,14 @@ let exportedMethods = {
         return allTeams;
     },
 
+    async getAllTeamsCount() {
+        const teamsCollection = await teams();
+
+        const allTeams = await teamsCollection.find({}).count();
+
+        return allTeams;
+    },
+
     //method to insert team data information
     async addTeam(teamObj) {
 

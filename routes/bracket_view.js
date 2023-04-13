@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
 const poolsData = data.poolsData;
+const teamsData = data.teamsData;
 
 router.get("/", async (req, res) => {
 
@@ -10,151 +11,117 @@ router.get("/", async (req, res) => {
         let email = "not authenticated";
         let loggedInUser = {};
         let userRole = "";
-        let team1 = {
-            name: "team1",
-            winner: true,
-        };
-        let team2 = {
-            name: "team2",
-            winner: false,
-        };
-        let team3 = {
-            name: "team2",
-            winner: true,
-        };
-        let team4 = {
-            name: "team2",
-            winner: false,
-        };
-        let team5 = {
-            name: "team2",
-            winner: true,
-        };
-        let team6 = {
-            name: "team2",
-            winner: false,
-        };
-        let team7 = {
-            name: "team2",
-            winner: true,
-        };
-        let team8 = {
-            name: "team2",
-            winner: false,
-        };
-        let team9 = {
-            name: "team2",
-            winner: true,
-        };
-        let team10 = {
-            name: "team2",
-            winner: false,
-        };
-        let team11 = {
-            name: "team2",
-            winner: true,
-        };
-        let team12 = {
-            name: "team2",
-            winner: false,
-        };
-        let qteam1 = {
-            name: "",
-            winner: false,
-        };
-        let qteam2 = {
-            name: "",
-            wnner: false
-        };
-        let qteam3 = {
-            name: "",
-            winner: false,
-        };
-        let qteam4 = {
-            name: "",
-            wnner: false
-        };
-        let qteam5 = {
-            name: "",
-            winner: false,
-        };
-        let qteam6 = {
-            name: "",
-            wnner: false
-        };
-        let qteam7 = {
-            name: "",
-            winner: false,
-        };
-        let qteam8 = {
-            name: "",
-            wnner: false
-        };
-        let steam1 = {
-            name: "",
-            winner: false,
-        };
-        let steam2 = {
-            name: "",
-            wnner: false
-        };
-        let fteam1 = {
-            name: "",
-            winner: false,
-        };
-        let fteam2 = {
-            name: "",
-            winner: false,
-        };
-        let numOfSeeds = 12;
 
-        const bracketData = await poolsData.getPlayOffTeams(numOfSeeds);
+        const numOfTeams = await teamsData.getAllTeamsCount();
+        let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
+        let playOffTeamsCount = (numOfSeeds * 2) / 3; //2/3 of the qualified teams stay in playoffs
+        let byeTeamsCount = numOfSeeds-playOffTeamsCount; //1/3 of the qualified teams get a bye
+
+        // playoffs
+
+        let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds);
+
+        let playoffObj = {
+            team1: "team1",
+            team2: "team2",
+        };
+        let playoffArr = [];
         
-        team1.name = bracketData[0].team;
-        team2.name = bracketData[1].team;
-        team3.name = bracketData[2].team;
-        team4.name = bracketData[3].team;
-        team5.name = bracketData[4].team;
-        team6.name = bracketData[5].team;
-        team7.name = bracketData[6].team;
-        team8.name = bracketData[7].team;
-        team9.name = bracketData[8].team;
-        team10.name = bracketData[9].team;
-        team11.name = bracketData[10].team;
-        team12.name = bracketData[11].team;
+        for(i=0; i<bracketData.length; i++) { //bottom 2/3 of qualifiers are in playoffs
+            playoffObj.team1 = bracketData[i].team1;
+            playoffObj.team2 = bracketData[i].team2;
+
+            playoffArr.push(playoffObj);
+            
+            playoffObj = {
+                team1: "team1",
+                team2: "team2",
+            }
+        }
+
+        //update currentPlacement on remaining 4 teams (top 25% goes to semis rest go to quarters)
+
+        for(i=Math.floor(byeTeamsCount*.25); i<byeTeamsCount; i++) {
+            const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "quarters");
+        }
+
+        for(i=0; i<Math.floor(byeTeamsCount*.25); i++) {
+            const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "semis");
+        }
+
+        // quarters
+
+        bracketData = null;
+        bracketData = await poolsData.getAllSeeds("quarters");
+
+        let quarterObj = {
+            team1: "team1",
+            team2: "team2",
+        };
+
+        let quarterArr = [];
+
+        for(i=0; i<bracketData.length; i++) {
+            if(bracketData[i].seed <= byeTeamsCount && bracketData[i].currentPlacement == "quarters") {
+                quarterObj.team1 = bracketData[i].team;
+            } 
+
+            if (bracketData[i].seed > byeTeamsCount && bracketData[i].currentPlacement == "quarters") {
+                quarterObj.team2 = bracketData[i].team;
+            } 
+
+            quarterArr.push(quarterObj);
+            quarterObj = {
+                team1: "team1",
+                team2: "team2",
+            };
+        }
+
+        // semis
+
+        bracketData = null;
+        bracketData = await poolsData.getAllSeeds("semis");
+
+        let semiArr = [];
+        let semiObj = {
+            team1: "team1",
+            team2: "team2",
+        };
+        
+        for(i=0; i<bracketData.length; i++) {
+            if(bracketData[i].seed <= byeTeamsCount*.25 && bracketData[i].currentPlacement == "semis") {
+                semiObj.team1 = bracketData[i].team;
+            } 
+
+            if (bracketData[i].seed > byeTeamsCount*.25 && bracketData[i].currentPlacement == "semis") {
+                semiObj.team2 = bracketData[i].team;
+            } 
+
+            semiArr.push(semiObj);
+            semiObj = {
+                team1: "team1",
+                team2: "team2",
+            };
+        }
+
+        // finals
+
+        let finalsObj = {
+            team1: "team1",
+            team2: "team2",
+        }
+
+        bracketData = await poolsData.getAllSeeds("finals");
+
+        if(bracketData.length != 0) {
+            finalsObj[0].team1 = bracketData.team;
+            finalsObj[1].team2 = bracketData.team;
+        }
 
         // const playOffWinner = await poolsData.getPlayOffWinners(playOffWinnersArray);
         // const quarterWinner = await poolsData.getquarterWinners(quarterWinnersArray);
         // const semiWinner = await poolsData.getSemiWinners(semiWinnersArray);
         // const finalWinner = await poolsData.getFinalsWinners(finalsWinnersArray);
-
-        // qteam1.name = playOffWinner[0];
-        // qteam2.name = playOffWinner[1];
-        // qteam3.name = playOffWinner[2];
-        // qteam4.name = playOffWinner[3];
-        // qteam5.name = playOffWinner[4];
-        // qteam6.name = playOffWinner[5];
-        // steam1.name = quarterWinner[0];
-        // steam2.name = quarterWinner[1];
-        // steam3.name = quarterWinner[2];
-        // steam4.name = quarterWinner[3];
-
-        if (team1.winner | team3.winner | team5.winner | team7.winner |team9.winner | team11.winner == true) {
-            qteam1.name = team1.name;
-            team2.name = team2.name;
-            qteam2.name = team3.name;
-            qteam3.name = team5.name;
-            qteam4.name = team7.name;
-            qteam5.name = team9.name;
-            qteam6.name = team11.name;
-        } else {
-            qteam1.name = team2.name;
-            qteam2.name = team4.name;
-            qteam3.name = team6.name;
-            qteam4.name = team8.name;
-            qteam5.name = team10.name;
-            qteam6.name = team12.name;
-        };
 
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
@@ -169,28 +136,11 @@ router.get("/", async (req, res) => {
             isAuthenticated: req.oidc.isAuthenticated(),
             loggedInUser: loggedInUser,
             role: userRole,
-            team1: team1,
-            team2: team2,
-            team3: team3,
-            team4: team4,
-            team5: team5,
-            team6: team6,
-            team7: team7,
-            team8: team8,
-            team9: team9,
-            team10: team10,
-            team11: team11,
-            team12: team12,
-            qteam1: qteam1,
-            qteam2: qteam2,
-            qteam3: qteam3,
-            qteam4: qteam4,
-            qteam5: qteam5,
-            qteam6: qteam6,
-            steam1: steam1,
-            steam2: steam2,
-            fteam1: fteam1,
-            fteam2: fteam2,
+            bracketData: bracketData,
+            playoffArr: playoffArr,
+            quarterArr: quarterArr,
+            semiArr: semiArr,
+            finalsObj: finalsObj,
         });
 
         return;

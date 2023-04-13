@@ -239,19 +239,37 @@ let exportedMethods = {
         return roundRobinSchedule;
     },
 
-    async getPlayOffTeams(numOfSeeds) {
-        let finalizedSeed = [];
+    async getPlayOffTeams(numOfSeeds, startSeed, endSeed) {
+        let playOffTeamsArray = [];
+        let playOffGame = {};
 
         const seedsCollection = await seeds();
 
         const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
 
-        for(i=0; i<seedData.length/2; i++) {
-            finalizedSeed.push(seedData[i]);
-            finalizedSeed.push(seedData[(seedData.length/2)+i]);
+        for(i=startSeed; i<(startSeed+(endSeed-startSeed)/2); i++) {
+            playOffGame.team1 = seedData[i].team;
+            playOffGame.team1Placement = seedData[i].currentPlacement;
+            playOffGame.team2 = seedData[i+startSeed].team;
+            playOffGame.team2Placement = seedData[i+startSeed].currentPlacement;
+            playOffTeamsArray.push(playOffGame);
+            playOffGame = {};
+
+            // playOffTeamsArray.push(seedData[i]);
+            // playOffTeamsArray.push(seedData[(seedData.length/2)+i]);
         }
 
-        return finalizedSeed;
+        // console.log(playOffTeamsArray);
+
+        return playOffTeamsArray;
+    },
+
+    async getAllSeeds(placement) {
+        const seedsCollection = await seeds();
+
+        const seedData = await seedsCollection.find({currentPlacement: placement}).toArray();
+
+        return seedData;
     },
 
     async seedInsert(seedsArray) {
@@ -281,6 +299,26 @@ let exportedMethods = {
         const incrementStage = await this.incrementStage();
 
         return completeRoundRobinGames;
+    },
+
+    async updateCurrentPlacement(seedNum, placement) {
+
+        const seedsCollection = await seeds();
+
+        const updatePlacement = await seedsCollection.findOneAndUpdate(
+            {
+                seed: seedNum,
+            },
+            {
+                $set: {
+                    currentPlacement: placement,
+                }
+            }
+        )
+
+        // console.log(seedNum);
+
+        return updatePlacement;
     },
 
   }

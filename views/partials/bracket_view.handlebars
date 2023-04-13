@@ -1,74 +1,38 @@
 <div class="bracket-container">
-    <button class="clickButton">click me</button>
+    {{!-- <button class="clickButton">click me</button> --}}
     <div class="playoffs">
+        {{#each playoffArr}}
         <div>
-            <h5>{{team1.name}}</h5> 
+            <h5>{{this.team1}}</h5> 
             <p>vs.</p>
-            <h5 id="playoffTeam2">{{team2.name}}</h5>
+            <h5 id="playoffTeam2">{{this.team2}}</h5>
         </div>
-        <div>
-            <h5>{{team3.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{team4.name}}</h5>
-        </div>
-        <div>
-            <h5>{{team5.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{team6.name}}</h5>
-        </div>
-        <div>
-            <h5>{{team7.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{team8.name}}</h5>
-        </div>
-        <div>
-            <h5>{{team9.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{team10.name}}</h5>
-        </div>
-        <div>
-            <h5>{{team11.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{team12.name}}</h5>
-        </div>
+        {{/each}}
     </div>
     <div class="quarter-finals">
-        <div>
-            <h5>{{qteam1.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{qteam2.name}}</h5>
-        </div>
-        <div>
-            <h5>{{qteam3.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{qteam4.name}}</h5>
-        </div>
-        <div>
-            <h5>{{qteam5.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{qteam6.name}}</h5>
-        </div>
-        {{!-- <p id="quarter-team7-team8">{{qteam7}} 
-            <p>vs.</p>
-            {{qteam8}}
-        </h5> --}}
+        {{#each quarterArr}}
+            <div>
+                <h5>{{this.team1}}</h5> 
+                <p>vs.</p>
+                <h5>{{this.team2}}</h5>
+            </div>
+        {{/each}}
     </div>
+
     <div class="semi-finals">
-        <div>
-            <h5>{{steam1.name}}</h5> 
-            <p>vs.</p>
-            <h5>{{steam1.name}}</h5>
-        </div>
-        {{!-- <p id="semi-team3-team4">{{steam3}} 
-            <p>vs.</p>
-            {{steam4}}
-        </h5> --}}
+        {{#each semiArr}}
+            <div>
+                <h5>{{this.team1}}</h5> 
+                <p>vs.</p>
+                <h5>{{this.team2}}</h5>
+            </div>
+        {{/each}}
     </div>
     <div class="finals">
         <div>
-            <h5>{{fteam1.name}}</h5> 
+            <h5>{{finalsObj.team1}}</h5> 
             <h5><p>vs.</p></h5>
-            <h5>{{fteam2.name}}</h5>
+            <h5>{{finalsObj.team2}}</h5>
         </div>
     </div>
 </div>
