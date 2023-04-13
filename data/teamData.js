@@ -19,7 +19,7 @@ let exportedMethods = {
     async getAllTeamsCount() {
         const teamsCollection = await teams();
 
-        const allTeams = await teamsCollection.find({}).count();
+        const allTeams = await teamsCollection.countDocuments();
 
         return allTeams;
     },
