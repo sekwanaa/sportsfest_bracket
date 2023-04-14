@@ -200,7 +200,27 @@ let exportedMethods = {
         }
 
         //create playoff games for bye teams
+        for (i=0; i<seedData.length-numOfPlayoffTeams; i++) {
+            finalizedSeed.push(seedData[i]);
+            
+            matchObj.gameNum = gameNum;
+            matchObj.team1 = seedData[i].team;
+            matchObj.team2 = null;
+            matchObj.field = fieldCount+1; 
+            matchObj.complete = false;
 
+            insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
+            playOffId = insertPlayOffGame.insertedId.toString();
+            
+            fieldCount++;
+            fieldCount = fieldCount%4;            
+            if(fieldCount == 0) {
+                gameNum++;
+            }
+
+            matchObj = {};
+        }
+        
         console.log("insertPlayOff done");
 
         return finalizedSeed;
