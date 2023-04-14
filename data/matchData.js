@@ -1,6 +1,8 @@
 const mongoCollections = require("../config/mongoCollections");
 const matches = mongoCollections.matches;
-const teamData = require("./teamData");
+const data = require("../data");
+const teamData = data.teamsData;
+const poolsData = data.poolsData;
 
 let exportedMethods = {
 
@@ -12,7 +14,7 @@ let exportedMethods = {
         return allMatches;
     },
 
-    async insertMatch(team1, team2, score1, score2, winner, loser, winnerPointDifferential, loserPointDifferential, year) {
+    async insertMatch(fieldNum, team1, team2, score1, score2, winner, loser, winnerPointDifferential, loserPointDifferential, year) {
         const matchesCollection = await matches();
 
         let newMatch = {
@@ -29,6 +31,8 @@ let exportedMethods = {
 
         const insertMatch = await matchesCollection.insertOne(newMatch);
         const matchId = insertMatch.insertedId.toString();
+
+        const completeMatch = await poolsData.completeMatch(fieldNum, team1, team2, winner, loser);
 
         return matchId;
     },

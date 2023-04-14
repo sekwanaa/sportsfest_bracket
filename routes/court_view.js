@@ -67,6 +67,7 @@ router.post("/", async (req, res) => {
     
     const insertMatch = await matchesData.insertMatch
     (
+        matchInfo.fieldNum,
         matchInfo.team1, 
         matchInfo.team2, 
         matchInfo.score1, 

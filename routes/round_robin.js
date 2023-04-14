@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
                 isRounds = true;
             }
             else {
-                console.log("no schedule available");
                 isRounds = false;                
             }
             

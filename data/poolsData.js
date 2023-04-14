@@ -1,5 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
-const teamData = require("./teamData");
+const data = require("../data");
+const teamData = data.teamsData;
+
 const pools = mongoCollections.pools;
 const roundrobin = mongoCollections.roundrobin;
 const seeds = mongoCollections.seeds;
@@ -174,7 +176,7 @@ let exportedMethods = {
 
         const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
 
-        console.log(seedData);
+        // console.log(seedData);
         for(i=seedData.length-numOfPlayoffTeams; i<seedData.length; i++) {
             finalizedSeed.push(seedData[i]);
             finalizedSeed.push(seedData[i+seedData.length-numOfPlayoffTeams]);
@@ -200,7 +202,7 @@ let exportedMethods = {
         return finalizedSeed;
     },
 
-    async completeMatch(fieldNum, team1, team2) {
+    async completeMatch(fieldNum, team1, team2, winner, loser) {
 
         const poolsCollection = await pools();
 
@@ -229,7 +231,7 @@ let exportedMethods = {
                 }
             )
         }
-        else {
+        else if (stage == 2) {
             const playOffCollection = await playoffs();
             const updatePlayOffs = await playOffCollection.findOneAndUpdate(
                 {
@@ -246,29 +248,30 @@ let exportedMethods = {
 
             //for each team, update seed collection currentPlacement
 
-            // const matchesColletion = await matches();
-            // const matchInfo = matchesColletion.findOne({team})
-            // const seedsCollection = await seeds();
-            // const updateTeam1 = await seedsCollection.findOneAndUpdate(
-            //     {
-            //         team: winnerTeam,
-            //     },
-            //     {
-            //         $set: {
-            //             currentPlacement: "quarters",
-            //         }
-            //     }
-            // )
-            // const updateTeam2 = await seedsCollection.findOneAndUpdate(
-            //     {
-            //         team: loserTeam
-            //     },
-            //     {
-            //         $set: {
-            //             currentPlacement: "eliminated",
-            //         }
-            //     }
-            // )
+            const seedsCollection = await seeds();
+            const updateTeam1 = await seedsCollection.findOneAndUpdate(
+                {
+                    team: winner,
+                },
+                {
+                    $set: {
+                        currentPlacement: "quarters",
+                    }
+                }
+            )
+            const updateTeam2 = await seedsCollection.findOneAndUpdate(
+                {
+                    team: loser,
+                },
+                {
+                    $set: {
+                        currentPlacement: "eliminated",
+                    }
+                }
+            )
+        }
+        else {
+            console.log("stage 3");
         }
 
         return stage;
