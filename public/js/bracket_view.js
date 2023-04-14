@@ -1,14 +1,14 @@
 (function ($) {
-    var playoffTeamName2 = $("#playoffTeam2")[0].innerHTML;
-    let count = 0;
-    $(":button").click(function (event) {
-        count += 1
-        if(count%2==0) {
-            $("#playoffTeam2").replaceWith($('<h5 id="playoffTeam2">'+playoffTeamName2+'</h5>'))
-        } else {
-            $("#playoffTeam2").replaceWith($('<s id="playoffTeam2">'+playoffTeamName2+'</s>'))
-        };
-    });
+    // var playoffTeamName2 = $("#playoffTeam2")[0].innerHTML;
+    // let count = 0;
+    // $(":button").click(function (event) {
+    //     count += 1
+    //     if(count%2==0) {
+    //         $("#playoffTeam2").replaceWith($('<h5 id="playoffTeam2">'+playoffTeamName2+'</h5>'))
+    //     } else {
+    //         $("#playoffTeam2").replaceWith($('<s id="playoffTeam2">'+playoffTeamName2+'</s>'))
+    //     };
+    // });
     // try {
     //     let req = {
     //         method: 'POST',

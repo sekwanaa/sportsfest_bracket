@@ -57,6 +57,8 @@ router.get("/", async (req, res) => {
 
         let quarterArr = [];
 
+        
+
         for(i=0; i<playOffTeamsCount/2; i++) {
             if(bracketData[i].seed <= byeTeamsCount && bracketData[i].currentPlacement == 2) {
                 quarterObj.team1 = bracketData[i].team;
@@ -86,23 +88,41 @@ router.get("/", async (req, res) => {
             team2: "team2",
         };
         
-        for(i=0; i<playOffTeamsCount/4; i++) {
-            if(bracketData.length > 0) {
-                if(bracketData[i].seed <= byeTeamsCount*.25 && bracketData[i].currentPlacement == 3) {
-                    semiObj.team1 = bracketData[i].team;
-                } 
-    
-                if (bracketData[i].seed > byeTeamsCount*.25 && bracketData[i].currentPlacement == 3) {
-                    semiObj.team2 = bracketData[i].team;
-                }
-            } 
+        let bracketDataIndex = 0;
 
-            semiArr.push(semiObj);
+        for(i=0; i<playOffTeamsCount/4; i++) {
+            for (j=bracketDataIndex; j<bracketData.length; j++) {
+                if(bracketDataIndex < bracketData.length) {
+                    if(bracketData[j].seed%2 == 1 && bracketData[j].currentPlacement == 3) {
+                        //seed%4 == 1 for court 1
+                        semiObj.team1 = bracketData[j].team;
+                        //seed%4 == 3 for court 2
+                    } 
+        
+                    if (bracketData[j].seed%2 == 0 && bracketData[j].currentPlacement == 3) {
+                        //seed%4 == 2 for court 1
+                        
+                        semiObj.team2 = bracketData[j].team;
+
+                        //seed%4 == 4 for court 2
+                    }
+                    bracketDataIndex++;
+                }
+                if(bracketData.length < 2 || j%2 == 0) {
+                    semiArr.push(semiObj);
+                    semiObj = {
+                        team1: "team1",
+                        team2: "team2",
+                    };
+                }
+            }
             semiObj = {
                 team1: "team1",
                 team2: "team2",
             };
         }
+
+        console.log(semiArr);
 
         // finals
 

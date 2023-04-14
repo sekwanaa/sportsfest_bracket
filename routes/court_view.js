@@ -79,7 +79,7 @@ router.post("/", async (req, res) => {
         matchInfo.year = new Date().getFullYear().toString() // gets the current year, court view can only submit current year scores
     );
 
-    const roundRobin = await poolsData.completeMatch(fieldNum, matchInfo.team1, matchInfo.team2);
+    // const roundRobin = await poolsData.completeMatch(fieldNum, matchInfo.team1, matchInfo.team2);
 
     return res.json(insertMatch);
 });

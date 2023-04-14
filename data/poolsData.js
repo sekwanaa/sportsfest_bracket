@@ -202,9 +202,51 @@ let exportedMethods = {
         //create playoff games for bye teams
         for (i=0; i<seedData.length-numOfPlayoffTeams; i++) {
             finalizedSeed.push(seedData[i]);
+
+            let team2Seed = (i % 4) + 1;
             
             matchObj.gameNum = gameNum;
             matchObj.team1 = seedData[i].team;
+            matchObj.team2 = team2Seed;
+            matchObj.field = fieldCount+1; 
+            matchObj.complete = false;
+
+            insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
+            playOffId = insertPlayOffGame.insertedId.toString();
+            
+            fieldCount++;
+            fieldCount = fieldCount%4;            
+            if(fieldCount == 0) {
+                gameNum++;
+            }
+
+            matchObj = {};
+        }
+
+        //creating semi finals games
+        for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
+            matchObj.gameNum = gameNum;
+            matchObj.team1 = [1,2];
+            matchObj.team2 = [3,4];
+            matchObj.field = [fieldCount+1, fieldCount+2];
+            matchObj.complete = false;
+
+            insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
+            playOffId = insertPlayOffGame.insertedId.toString();
+            
+            fieldCount+=2;
+            fieldCount = fieldCount%4;    
+            if(fieldCount == 0) {
+                gameNum++;
+            }
+
+            matchObj = {};
+        }
+
+        //creating finals games
+        for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
+            matchObj.gameNum = gameNum;
+            matchObj.team1 = null;
             matchObj.team2 = null;
             matchObj.field = fieldCount+1; 
             matchObj.complete = false;
@@ -220,8 +262,7 @@ let exportedMethods = {
 
             matchObj = {};
         }
-        
-        console.log("insertPlayOff done");
+        // console.log("insertPlayOff done");
 
         return finalizedSeed;
     },
@@ -293,10 +334,90 @@ let exportedMethods = {
                     }
                 }
             )
+
+            console.log("now updating team2");
+            console.log(winner);
+            //add winning team to next placement match
+
+            let winnerSeedInfo = await seedsCollection.findOne({team: winner});
+            let winnerSeedNum = winnerSeedInfo.seed;
+
+            
+            
+            const playOffSeed = await playOffCollection.findOne({field: fieldNum, complete: false},{sort: {gameNum: 1}});
+            console.log(playOffSeed);
+
+            //if else block for quarters
+            if(playOffSeed.gameNum == 2) {
+                const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+                    {
+                        field: fieldNum, 
+                        complete: false,
+                    },
+                    {
+                        $set: {
+                            team2: winner
+                        }
+                    }, 
+                    {
+                        sort: 
+                        {
+                            gameNum: 1
+                        }
+                    }
+                )
+            }
+            //if else block for semis
+            else if(playOffSeed.gameNum == 3) {
+                if(winnerSeedNum%4 == 1) {
+                    const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+                        {
+                            field: fieldNum, 
+                            complete: false,
+                        },
+                        {
+                            $set: {
+                                team1: winner
+                            }
+                        }, 
+                        {
+                            sort: 
+                            {
+                                gameNum: 1
+                            }
+                        }
+                    )
+                }
+                else {
+                    const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+                        {
+                            field: fieldNum, 
+                            complete: false,
+                        },
+                        {
+                            $set: {
+                                team2: winner
+                            }
+                        }, 
+                        {
+                            sort: 
+                            {
+                                gameNum: 1
+                            }
+                        }
+                    )
+                }
+            }
+            else if (playOffSeed.gameNum == 4){
+
+            }
+
+            else {
+
+            }
+        } else if (stage == 3) {
+            
         }
-
-        //create match for winner and bye
-
 
         else {
             console.log("stage 3");
@@ -382,9 +503,20 @@ let exportedMethods = {
                 currentPlacement = 4;
             }
 
-            const seedData = await seedsCollection.find({currentPlacement: currentPlacement}).toArray();
+            const seedData = await seedsCollection.find({currentPlacement: {$gte: currentPlacement}}).toArray();
+            currentPlacement *= -1;
+            const loserSeedData = await seedsCollection.find({currentPlacement: {$lte: currentPlacement}}).toArray();
+            let allSeedData = [];
 
-            return seedData;
+            for(i=0; i<seedData.length; i++) {
+                allSeedData.push(seedData[i]);
+            }
+            for(i=0; i<loserSeedData.length; i++) {
+                allSeedData.push(loserSeedData[i]);
+            }
+            console.log(allSeedData);
+
+            return allSeedData;
         }
     },
 
