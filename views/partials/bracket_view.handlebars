@@ -3,9 +3,21 @@
     <div class="playoffs">
         {{#each playoffArr}}
         <div>
-            <h5>{{this.team1}}</h5> 
+            {{#eliminatedTeam ../eliminatedTeamsArr this.team1}}
+            <s>{{this.team1}}</s>
+            {{else}}
+            <h5>{{this.team1}}</h5>
+            {{/eliminatedTeam}}
             <p>vs.</p>
-            <h5 id="playoffTeam2">{{this.team2}}</h5>
+            {{#eliminatedTeam ../eliminatedTeamsArr this.team2}}
+            <s>{{this.team2}}</s>
+            {{else}}
+            <h5>{{this.team2}}</h5>
+            {{/eliminatedTeam}} 
+{{!-- 
+            {{#if this.team1Elim}}
+            {{else}}
+            {{/if}} --}}
         </div>
         {{/each}}
     </div>

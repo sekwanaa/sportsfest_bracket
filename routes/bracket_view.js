@@ -35,11 +35,13 @@ router.get("/", async (req, res) => {
             
             playoffObj = {
                 team1: "team1",
+                team1Elim: false,
                 team2: "team2",
+                team2Elim: false,
             }
         }
 
-        //update currentPlacement on remaining 4 teams (top 25% goes to semis rest go to quarters)
+        //top 1/3 of teams move onto quarters !!need to fix this so it doesn't apply this every time the page loads
 
         for(i=0; i<byeTeamsCount; i++) {
             const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "quarters");
@@ -57,6 +59,8 @@ router.get("/", async (req, res) => {
 
         bracketData = null;
         bracketData = await poolsData.getAllSeeds("quarters");
+        eliminatedTeams = await poolsData.getAllSeeds("eliminated");
+        eliminatedTeamsArr = [];
 
         let quarterObj = {
             team1: "team1",
@@ -124,6 +128,12 @@ router.get("/", async (req, res) => {
             finalsObj[1].team2 = bracketData.team;
         }
 
+        // eliminated teams get a strikethrough in bracket view
+
+        for (i=0; i<eliminatedTeams.length; i++) {
+            eliminatedTeamsArr.push(eliminatedTeams[i].team)
+        };
+
         // const playOffWinner = await poolsData.getPlayOffWinners(playOffWinnersArray);
         // const quarterWinner = await poolsData.getquarterWinners(quarterWinnersArray);
         // const semiWinner = await poolsData.getSemiWinners(semiWinnersArray);
@@ -147,6 +157,7 @@ router.get("/", async (req, res) => {
             quarterArr: quarterArr,
             semiArr: semiArr,
             finalsObj: finalsObj,
+            eliminatedTeamsArr: eliminatedTeamsArr,
         });
 
         return;

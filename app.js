@@ -40,6 +40,14 @@ hbs.handlebars.registerHelper('compareRole', function(handlebarRole, userRole, o
     }
 });
 
+hbs.handlebars.registerHelper('eliminatedTeam', function(eliminatedTeamsArr, userTeam, options) {
+    if (eliminatedTeamsArr.includes(userTeam)) {
+        return options.fn(this);
+    }
+    
+    return options.inverse(this)
+});
+
 
 configRoutes(app);
 
