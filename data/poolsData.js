@@ -199,6 +199,8 @@ let exportedMethods = {
             matchObj = {};
         }
 
+        //create playoff games for bye teams
+
         console.log("insertPlayOff done");
 
         return finalizedSeed;
@@ -256,8 +258,8 @@ let exportedMethods = {
                     team: winner,
                 },
                 {
-                    $set: {
-                        currentPlacement: "quarters",
+                    $inc: {
+                        currentPlacement: 1,
                     }
                 }
             )
@@ -266,12 +268,16 @@ let exportedMethods = {
                     team: loser,
                 },
                 {
-                    $set: {
-                        currentPlacement: "eliminated",
+                    $mul: {
+                        currentPlacement: -1,
                     }
                 }
             )
         }
+
+        //create match for winner and bye
+
+
         else {
             console.log("stage 3");
         }
@@ -333,11 +339,33 @@ let exportedMethods = {
     },
 
     async getAllSeeds(placement) {
+        let currentPlacement = 0;
+
         const seedsCollection = await seeds();
 
-        const seedData = await seedsCollection.find({currentPlacement: placement}).toArray();
+        if (placement == "eliminated") {
+            const seedData = await seedsCollection.find({currentPlacement: {$lt: 0}}).toArray();
+            return seedData;
+        }
 
-        return seedData;
+        else {
+            if(placement == "playoffs") {
+                currentPlacement = 1;
+            }
+            else if (placement == "quarters") {
+                currentPlacement = 2;
+            }
+            else if (placement == "semis") {
+                currentPlacement = 3;
+            }
+            else if(placement == "finals") {
+                currentPlacement = 4;
+            }
+
+            const seedData = await seedsCollection.find({currentPlacement: currentPlacement}).toArray();
+
+            return seedData;
+        }
     },
 
     async seedInsert(seedsArray) {
@@ -376,8 +404,8 @@ let exportedMethods = {
                 seed: seedNum,
             },
             {
-                $set: {
-                    currentPlacement: placement,
+                $inc: {
+                    currentPlacement: 1,
                 }
             }
         )

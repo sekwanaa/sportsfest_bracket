@@ -55,7 +55,10 @@ router.get("/seedCount", async (req, res) => {
 router.post("/insertSeeds", async (req, res) => {
 
     try {
-        const seeds = req.body.seedsArray;
+        const poolInfo = await poolsData.getPoolInfo();
+        let numOfSeeds = Math.floor((poolInfo.numOfTeams)*0.6);
+        let numOfPlayoffTeams = Math.floor((numOfSeeds*2)/3);
+        let seeds = req.body.seedsArray;
 
         // let seedsObj = {
         //     teamName: seeds.teamName,
@@ -64,6 +67,21 @@ router.post("/insertSeeds", async (req, res) => {
         // };
 
         // console.log(seeds);
+
+        for(i=0; i<seeds.length; i++) {
+            //made it to quarters - gets a bye
+            if(i < numOfSeeds - numOfPlayoffTeams) {
+                seeds[i].currentPlacement = 2;
+            } 
+            //eliminated - does not move on to playoffs
+            else if (i >= numOfSeeds) {
+                seeds[i].currentPlacement = 0;
+            } 
+            //made it to playoffs
+            else {
+                seeds[i].currentPlacement = 1;
+            }
+        }
 
         const seedId = await poolsData.seedInsert(seeds);
 

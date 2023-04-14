@@ -41,19 +41,7 @@ router.get("/", async (req, res) => {
             }
         }
 
-        //top 1/3 of teams move onto quarters !!need to fix this so it doesn't apply this every time the page loads
-
-        for(i=0; i<byeTeamsCount; i++) {
-            const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "quarters");
-        }
-
-        // for(i=Math.floor(byeTeamsCount*.25); i<byeTeamsCount; i++) {
-        //     const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "quarters");
-        // }
-
-        // for(i=0; i<Math.floor(byeTeamsCount*.25); i++) {
-        //     const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "semis");
-        // }
+        //top 1/3 of teams move onto quarters
 
         // quarters
 
@@ -70,12 +58,12 @@ router.get("/", async (req, res) => {
         let quarterArr = [];
 
         for(i=0; i<playOffTeamsCount/2; i++) {
-            if(bracketData[i].seed <= byeTeamsCount && bracketData[i].currentPlacement == "quarters") {
+            if(bracketData[i].seed <= byeTeamsCount && bracketData[i].currentPlacement == 2) {
                 quarterObj.team1 = bracketData[i].team;
             } 
 
             for(j=0; j<bracketData.length; j++) {
-                if (((bracketData[j].seed == byeTeamsCount + bracketData[i].seed) || (bracketData[j].seed == (2*byeTeamsCount + bracketData[i].seed))) && bracketData[j].currentPlacement == "quarters") {
+                if (((bracketData[j].seed == byeTeamsCount + bracketData[i].seed) || (bracketData[j].seed == (2*byeTeamsCount + bracketData[i].seed))) && bracketData[j].currentPlacement == 2) {
                     quarterObj.team2 = bracketData[j].team;
                 }
             }
@@ -98,13 +86,15 @@ router.get("/", async (req, res) => {
             team2: "team2",
         };
         
-        for(i=0; i<bracketData.length; i++) {
-            if(bracketData[i].seed <= byeTeamsCount*.25 && bracketData[i].currentPlacement == "semis") {
-                semiObj.team1 = bracketData[i].team;
-            } 
-
-            if (bracketData[i].seed > byeTeamsCount*.25 && bracketData[i].currentPlacement == "semis") {
-                semiObj.team2 = bracketData[i].team;
+        for(i=0; i<playOffTeamsCount/4; i++) {
+            if(bracketData.length > 0) {
+                if(bracketData[i].seed <= byeTeamsCount*.25 && bracketData[i].currentPlacement == 3) {
+                    semiObj.team1 = bracketData[i].team;
+                } 
+    
+                if (bracketData[i].seed > byeTeamsCount*.25 && bracketData[i].currentPlacement == 3) {
+                    semiObj.team2 = bracketData[i].team;
+                }
             } 
 
             semiArr.push(semiObj);
@@ -119,6 +109,8 @@ router.get("/", async (req, res) => {
         let finalsObj = {
             team1: "team1",
             team2: "team2",
+            team3: "team3",
+            team4: "team4",
         }
 
         bracketData = await poolsData.getAllSeeds("finals");
@@ -126,6 +118,8 @@ router.get("/", async (req, res) => {
         if(bracketData.length != 0) {
             finalsObj[0].team1 = bracketData.team;
             finalsObj[1].team2 = bracketData.team;
+            finalsObj[2].team3 = bracketData.team;
+            finalsObj[3].team4 = bracketData.team;
         }
 
         // eliminated teams get a strikethrough in bracket view
