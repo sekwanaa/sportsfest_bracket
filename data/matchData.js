@@ -1,8 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const matches = mongoCollections.matches;
-const data = require("../data");
-const teamData = data.teamsData;
-const poolsData = data.poolsData;
+const teamData = require("./teamData");
+const poolsData = require("./poolsData");
 
 let exportedMethods = {
 

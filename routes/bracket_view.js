@@ -41,13 +41,17 @@ router.get("/", async (req, res) => {
 
         //update currentPlacement on remaining 4 teams (top 25% goes to semis rest go to quarters)
 
-        for(i=Math.floor(byeTeamsCount*.25); i<byeTeamsCount; i++) {
+        for(i=0; i<byeTeamsCount; i++) {
             const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "quarters");
         }
 
-        for(i=0; i<Math.floor(byeTeamsCount*.25); i++) {
-            const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "semis");
-        }
+        // for(i=Math.floor(byeTeamsCount*.25); i<byeTeamsCount; i++) {
+        //     const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "quarters");
+        // }
+
+        // for(i=0; i<Math.floor(byeTeamsCount*.25); i++) {
+        //     const updateTeamPlacement = await poolsData.updateCurrentPlacement(i+1, "semis");
+        // }
 
         // quarters
 
@@ -61,14 +65,16 @@ router.get("/", async (req, res) => {
 
         let quarterArr = [];
 
-        for(i=0; i<bracketData.length; i++) {
+        for(i=0; i<playOffTeamsCount/2; i++) {
             if(bracketData[i].seed <= byeTeamsCount && bracketData[i].currentPlacement == "quarters") {
                 quarterObj.team1 = bracketData[i].team;
             } 
 
-            if (bracketData[i].seed > byeTeamsCount && bracketData[i].currentPlacement == "quarters") {
-                quarterObj.team2 = bracketData[i].team;
-            } 
+            for(j=0; j<bracketData.length; j++) {
+                if (((bracketData[j].seed == byeTeamsCount + bracketData[i].seed) || (bracketData[j].seed == (2*byeTeamsCount + bracketData[i].seed))) && bracketData[j].currentPlacement == "quarters") {
+                    quarterObj.team2 = bracketData[j].team;
+                }
+            }
 
             quarterArr.push(quarterObj);
             quarterObj = {

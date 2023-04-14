@@ -1,6 +1,5 @@
 const mongoCollections = require("../config/mongoCollections");
-const data = require("../data");
-const teamData = data.teamsData;
+const teamData = require("./teamData");
 
 const pools = mongoCollections.pools;
 const roundrobin = mongoCollections.roundrobin;
@@ -177,7 +176,8 @@ let exportedMethods = {
         const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
 
         // console.log(seedData);
-        for(i=seedData.length-numOfPlayoffTeams; i<seedData.length; i++) {
+        for(i=seedData.length-numOfPlayoffTeams; i<(seedData.length-numOfPlayoffTeams)+(numOfPlayoffTeams/2); i++) {
+            console.log(i);
             finalizedSeed.push(seedData[i]);
             finalizedSeed.push(seedData[i+seedData.length-numOfPlayoffTeams]);
             
@@ -198,6 +198,8 @@ let exportedMethods = {
 
             matchObj = {};
         }
+
+        console.log("insertPlayOff done");
 
         return finalizedSeed;
     },
