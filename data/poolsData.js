@@ -175,7 +175,6 @@ let exportedMethods = {
 
         // console.log(seedData);
         for(i=seedData.length-numOfPlayoffTeams; i<(seedData.length-numOfPlayoffTeams)+(numOfPlayoffTeams/2); i++) {
-            console.log(i);
             finalizedSeed.push(seedData[i]);
             finalizedSeed.push(seedData[i+seedData.length-numOfPlayoffTeams]);
             
@@ -221,11 +220,30 @@ let exportedMethods = {
             matchObj = {};
         }
 
+        matchObj = {
+            gameNum: null,
+            team1: [],
+            team2: [],
+            field: null,
+            complete: false,
+        }
+        let seedTeamCount = 0;
         //creating semi finals games
         for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
+            
+            let team1Seed = (seedTeamCount % (numOfPlayoffTeams+1)) + 1;
+            let team2Seed = (seedTeamCount % (numOfPlayoffTeams+1)) + 3;
+
+            seedTeamCount+=(numOfPlayoffTeams/2);
+
+            matchObj.team1.push(team1Seed);
+            matchObj.team1.push(team1Seed+1);
+            matchObj.team2.push(team2Seed);
+            matchObj.team2.push(team2Seed+1);
+
             matchObj.gameNum = gameNum;
-            matchObj.team1 = [1,2];
-            matchObj.team2 = [3,4];
+            // matchObj.team1 = [1,2];
+            // matchObj.team2 = [3,4];
             matchObj.field = [fieldCount+1, fieldCount+2];
             matchObj.complete = false;
 
@@ -238,7 +256,13 @@ let exportedMethods = {
                 gameNum++;
             }
 
-            matchObj = {};
+            matchObj = {
+                gameNum: null,
+                team1: [],
+                team2: [],
+                field: null,
+                complete: false,
+            }
         }
 
         //creating finals games
