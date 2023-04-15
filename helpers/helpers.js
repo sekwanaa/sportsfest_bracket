@@ -12,8 +12,6 @@ let exportedMethods= {
     eliminatedTeam: function(eliminatedTeamsArr, userTeam, placement, options) {
         for(i=0; i< eliminatedTeamsArr.length; i++) {
             if (eliminatedTeamsArr[i].team == userTeam) {
-                console.log(eliminatedTeamsArr[i].team);
-                console.log(eliminatedTeamsArr[i].currentPlacement);
                 if(Math.abs(eliminatedTeamsArr[i].currentPlacement) == placement && eliminatedTeamsArr[i].currentPlacement < 0) {
                     return options.fn(this);
                 }
