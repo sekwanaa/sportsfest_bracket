@@ -25,6 +25,12 @@ router.get("/", async (req, res) => {
         }
     
         const matchHistory = await matchesData.getTeamRecords();
+        const poolInfo = await poolsData.getPoolInfo();
+        const currentStage = poolInfo.stage;
+        let isStage1 = true;
+        if(currentStage == 2) {
+            isStage1 = false;
+        }
     
         res.render("partials/seeding_table", {
             title: "Seeding Table", 
@@ -36,6 +42,7 @@ router.get("/", async (req, res) => {
             length: allUsers.length,
             matches: matchHistory,
             seedNumber: 0,
+            stage1: isStage1,
         });
     } catch (e) {
 
