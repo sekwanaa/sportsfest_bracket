@@ -278,7 +278,8 @@ let exportedMethods = {
             matchObj.gameNum = gameNum;
             matchObj.team1 = null;
             matchObj.team2 = null;
-            matchObj.field = fieldCount+1; 
+            matchObj.field = [1,3];
+            // matchObj.field = fieldCount+1; 
             matchObj.complete = false;
 
             insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
@@ -286,9 +287,9 @@ let exportedMethods = {
             
             fieldCount++;
             fieldCount = fieldCount%4;            
-            if(fieldCount == 0) {
+            // if(fieldCount == 0) {
                 gameNum++;
-            }
+            // }
 
             matchObj = {};
         }
@@ -436,9 +437,88 @@ let exportedMethods = {
                 }
             }
             else if (playOffSeed.gameNum == 4){
+                //THIRD PLACE loser of semi game 1 vs winner of semi game 2
+
+                if(fieldNum == 1) {
+                    const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
+                        {
+                            field: 2, 
+                            complete: false,
+                        },
+                        {
+                            $set: {
+                                team1: loser,
+                            }
+                        }, 
+                        {
+                            sort: 
+                            {
+                                gameNum: 1
+                            }
+                        }
+                    )
+    
+                    //FINALS winner of semi game 1 vs winner of semi game 2
+                    
+                    const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+                        {
+                            field: 1, 
+                            complete: false,
+                        },
+                        {
+                            $set: {
+                                team1: winner,
+                            }
+                        }, 
+                        {
+                            sort: 
+                            {
+                                gameNum: 1
+                            }
+                        }
+                    )
+                }
+                else {
+                    const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
+                        {
+                            field: 2, 
+                            complete: false,
+                        },
+                        {
+                            $set: {
+                                team2: loser,
+                            }
+                        }, 
+                        {
+                            sort: 
+                            {
+                                gameNum: 1
+                            }
+                        }
+                    )
+    
+                    //FINALS winner of semi game 1 vs winner of semi game 2
+                    
+                    const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+                        {
+                            field: 1, 
+                            complete: false,
+                        },
+                        {
+                            $set: {
+                                team2: winner
+                            }
+                        }, 
+                        {
+                            sort: 
+                            {
+                                gameNum: 1
+                            }
+                        }
+                    )
+                }
 
             }
-
             else {
 
             }
