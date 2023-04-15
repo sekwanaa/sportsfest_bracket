@@ -160,8 +160,6 @@ let exportedMethods = {
         let numOfSeeds = Math.floor(0.6 * numOfTeams);
         let numOfPlayoffTeams = (numOfSeeds * 2)/3;
 
-        console.log(numOfTeams);
-
         let finalizedSeed = [];
         let matchObj = {};
         let gameNum = 1;
@@ -262,7 +260,6 @@ let exportedMethods = {
 
             matchObj = {};
         }
-        // console.log("insertPlayOff done");
 
         return finalizedSeed;
     },
@@ -335,8 +332,6 @@ let exportedMethods = {
                 }
             )
 
-            console.log("now updating team2");
-            console.log(winner);
             //add winning team to next placement match
 
             let winnerSeedInfo = await seedsCollection.findOne({team: winner});
@@ -426,26 +421,6 @@ let exportedMethods = {
         return stage;
     },
 
-    //this should be able to be deleted
-    // async playOffsCompleteMatch(fieldNum, team1, team2) {
-    //     const playoffsCollection = await playoffs();
-
-    //     const updateRoundRobin = await playoffsCollection.findOneAndUpdate(
-    //         {
-    //             field: fieldNum,
-    //             team1: team1,
-    //             team2: team2,
-    //         },
-    //         {
-    //             $set: {
-    //                 complete: true,
-    //             }
-    //         }
-    //     )
-
-    //     return;
-    // },
-
     async getRoundRobinSchedule() {
         const roundRobinCollection = await roundrobin();
 
@@ -473,8 +448,6 @@ let exportedMethods = {
             // playOffTeamsArray.push(seedData[i]);
             // playOffTeamsArray.push(seedData[(seedData.length/2)+i]);
         }
-
-        // console.log(playOffTeamsArray);
 
         return playOffTeamsArray;
     },
@@ -514,7 +487,6 @@ let exportedMethods = {
             for(i=0; i<loserSeedData.length; i++) {
                 allSeedData.push(loserSeedData[i]);
             }
-            console.log(allSeedData);
 
             return allSeedData;
         }
@@ -561,8 +533,6 @@ let exportedMethods = {
                 }
             }
         )
-
-        // console.log(seedNum);
 
         return updatePlacement;
     },
