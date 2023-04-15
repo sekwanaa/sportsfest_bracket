@@ -388,7 +388,7 @@ let exportedMethods = {
             }
             //if else block for semis
             else if(playOffSeed.gameNum == 3) {
-                if(winnerSeedNum%4 == 1) {
+                if(winnerSeedNum%4 == 1 || winnerSeedNum%4 == 3) {
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
                             field: fieldNum, 
