@@ -61,7 +61,6 @@ router.get("/", async (req, res) => {
 
         //top 1/3 of teams move onto quarters
 
-        console.log("starting quarters")
         // quarters
 
         bracketData = null;
@@ -104,7 +103,6 @@ router.get("/", async (req, res) => {
             }
         }
 
-        console.log("starting semis");
         // semis
 
         bracketData = null;
@@ -161,28 +159,6 @@ router.get("/", async (req, res) => {
             }
         }
 
-        // for(i=0; i<playOffTeamsCount/4; i++) {
-        //     for (j=bracketDataIndex; j<bracketData.length; j++) {
-        //         if(bracketDataIndex < bracketData.length) {
- 
-        
-
-        //             bracketDataIndex++;
-        //         }
-        //         if(bracketData.length < 2 || (semiObj.team1 != "team1" && semiObj.team2 != "team2")) {
-        //             semiArr.push(semiObj);
-        //             semiObj = {
-        //                 team1: "team1",
-        //                 team2: "team2",
-        //             };
-        //         }
-        //     }
-        //     semiObj = {
-        //         team1: "team1",
-        //         team2: "team2",
-        //     };
-        // }
-
         // // finals
 
         let finalsObj = {
@@ -201,27 +177,12 @@ router.get("/", async (req, res) => {
             finalsObj[3].team4 = bracketData.team;
         }
 
-        // eliminated teams get a strikethrough in bracket view
-
-        // if(eliminatedTeams.length>0) {
-        //     for (i=0; i<eliminatedTeams.length; i++) {
-        //         eliminatedTeamsArr.push(eliminatedTeams[i].team)
-        //     };
-        // }
-
-        // const playOffWinner = await poolsData.getPlayOffWinners(playOffWinnersArray);
-        // const quarterWinner = await poolsData.getquarterWinners(quarterWinnersArray);
-        // const semiWinner = await poolsData.getSemiWinners(semiWinnersArray);
-        // const finalWinner = await poolsData.getFinalsWinners(finalsWinnersArray);
-
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
             const user = await userData.getUserByEmail(email);
             loggedInUser = user;
             userRole = loggedInUser.user_metadata.role;
         }
-
-        // console.log("now rendering");
 
         res.render("partials/bracket_view", {
             title: 'View Bracket', 
