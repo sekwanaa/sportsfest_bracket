@@ -345,7 +345,7 @@ let exportedMethods = {
             
             
             const playOffSeed = await playOffCollection.findOne({field: fieldNum, complete: false},{sort: {gameNum: 1}});
-            console.log(playOffSeed);
+            // console.log(playOffSeed);
 
             //if else block for quarters
             if(playOffSeed.gameNum == 2) {

@@ -93,6 +93,10 @@ router.get("/", async (req, res) => {
         for(i=0; i<playOffTeamsCount/4; i++) {
             for (j=bracketDataIndex; j<bracketData.length; j++) {
                 if(bracketDataIndex < bracketData.length) {
+                    console.log(bracketData[j].team);
+                    console.log(bracketData[j].seed);
+                    console.log(bracketData[j].currentPlacement);
+
                     if(bracketData[j].seed%2 == 1 && bracketData[j].currentPlacement == 3) {
                         //seed%4 == 1 for court 1
                         semiObj.team1 = bracketData[j].team;
@@ -108,7 +112,7 @@ router.get("/", async (req, res) => {
                     }
                     bracketDataIndex++;
                 }
-                if(bracketData.length < 2 || j%2 == 0) {
+                if(bracketData.length < 2 || (semiObj.team1 != "team1" && semiObj.team2 != "team2")) {
                     semiArr.push(semiObj);
                     semiObj = {
                         team1: "team1",
@@ -122,7 +126,7 @@ router.get("/", async (req, res) => {
             };
         }
 
-        console.log(semiArr);
+        // console.log(semiArr);
 
         // finals
 
