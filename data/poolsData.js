@@ -461,16 +461,18 @@ let exportedMethods = {
 
         const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
 
-        for(i=startSeed; i<(startSeed+(endSeed-startSeed)/2); i++) {
-            playOffGame.team1 = seedData[i].team;
-            playOffGame.team1Placement = seedData[i].currentPlacement;
-            playOffGame.team2 = seedData[i+startSeed].team;
-            playOffGame.team2Placement = seedData[i+startSeed].currentPlacement;
-            playOffTeamsArray.push(playOffGame);
-            playOffGame = {};
-
-            // playOffTeamsArray.push(seedData[i]);
-            // playOffTeamsArray.push(seedData[(seedData.length/2)+i]);
+        if(seedData.length > 0) {
+            for(i=startSeed; i<(startSeed+(endSeed-startSeed)/2); i++) {
+                playOffGame.team1 = seedData[i].team;
+                playOffGame.team1Placement = seedData[i].currentPlacement;
+                playOffGame.team2 = seedData[i+startSeed].team;
+                playOffGame.team2Placement = seedData[i+startSeed].currentPlacement;
+                playOffTeamsArray.push(playOffGame);
+                playOffGame = {};
+    
+                // playOffTeamsArray.push(seedData[i]);
+                // playOffTeamsArray.push(seedData[(seedData.length/2)+i]);
+            }
         }
 
         return playOffTeamsArray;
@@ -480,7 +482,7 @@ let exportedMethods = {
         let currentPlacement = 0;
 
         const seedsCollection = await seeds();
-
+        
         if (placement == "eliminated") {
             const seedData = await seedsCollection.find({currentPlacement: {$lt: 0}}).toArray();
             return seedData;
@@ -500,9 +502,9 @@ let exportedMethods = {
                 currentPlacement = 4;
             }
 
-            const seedData = await seedsCollection.find({currentPlacement: {$gte: currentPlacement}}).toArray();
+            const seedData = await seedsCollection.find({currentPlacement: {$gte: currentPlacement}}).sort({seed: 1}).toArray();
             currentPlacement *= -1;
-            const loserSeedData = await seedsCollection.find({currentPlacement: {$lte: currentPlacement}}).toArray();
+            const loserSeedData = await seedsCollection.find({currentPlacement: {$lte: currentPlacement}}).sort({seed: 1}).toArray();
             let allSeedData = [];
 
             for(i=0; i<seedData.length; i++) {
@@ -511,6 +513,8 @@ let exportedMethods = {
             for(i=0; i<loserSeedData.length; i++) {
                 allSeedData.push(loserSeedData[i]);
             }
+
+            allSeedData.sort((a,b) => (a.seed < b.seed) ? -1 : (a.seed < b.seed) ? 1 : 0);
 
             return allSeedData;
         }
