@@ -25,10 +25,10 @@ router.get("/", async (req, res) => {
         }
     
         const matchHistory = await matchesData.getTeamRecords();
-        const poolInfo = await poolsData.getPoolInfo();
-        const currentStage = poolInfo.stage;
+        const seedsInfo = await poolsData.getAllSeeds();
+        
         let isStage1 = true;
-        if(currentStage == 2) {
+        if(seedsInfo.length > 0) {
             isStage1 = false;
         }
     
