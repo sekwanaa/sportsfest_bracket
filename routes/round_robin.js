@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
     let name = "";
     let rounds;
     let isRounds = false;
+    let isStage1 = true;
 
     try {
         if(req.oidc.isAuthenticated()) {
@@ -32,7 +33,12 @@ router.get("/", async (req, res) => {
             else {
                 isRounds = false;                
             }
-            
+            let poolInfo = await poolsData.getPoolInfo();
+            let currentStage = poolInfo.stage;
+
+            if(currentStage > 1) {
+                isStage1 = false;
+            }
         }
     
         res.render("partials/round_robin", {
@@ -42,6 +48,7 @@ router.get("/", async (req, res) => {
             role: userRole,
             rounds: rounds,
             isRounds: isRounds,
+            isStage1: isStage1,
         });
     } catch (e) {
         return res.status(500).json({ error: e});
