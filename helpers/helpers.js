@@ -9,9 +9,13 @@ let exportedMethods= {
         }
     },
     
-    eliminatedTeam: function(eliminatedTeamsArr, userTeam, options) {
-        if (eliminatedTeamsArr.includes(userTeam)) {
-            return options.fn(this);
+    eliminatedTeam: function(eliminatedTeamsArr, userTeam, placement, options) {
+        for(i=0; i< eliminatedTeamsArr.length; i++) {
+            if (eliminatedTeamsArr[i].team == userTeam) {
+                if(Math.abs(eliminatedTeamsArr[i].currentPlacement) == placement && eliminatedTeamsArr[i].currentPlacement < 0) {
+                    return options.fn(this);
+                }
+            }
         }
         
         return options.inverse(this);

@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
         let courtData = "";
     
         for (i=0; i<numOfCourts.numOfFields; i++) {
-            courtData = await courtviewData.getCurrentGameData(i+1)
+            courtData = await courtviewData.getCurrentGameData(i+1);
             if(courtData.length > 0) {
                 courtObj.numOfFields = i+1;
                 courtObj.teamName1 = courtData[0].team1;
@@ -63,7 +63,6 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const matchInfo = req.body;
-    const fieldNum = matchInfo.fieldNum;
     
     const insertMatch = await matchesData.insertMatch
     (

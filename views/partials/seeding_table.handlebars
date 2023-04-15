@@ -20,7 +20,9 @@
         </div>
     {{/each}}
     </div>
-    <button id="seed_submit_button" type="submit">Submit Seeds</button>
+    {{#if stage1}}
+        <button id="seed_submit_button" type="submit">Submit Seeds</button>
+    {{/if}}
 </div>
 
 <script src="/public/js/seed_table.js"></script>
