@@ -17,6 +17,9 @@ let exportedMethods= {
         return options.inverse(this);
     },
 
+    incrementIndex: function(index, options) {
+        return index+1;
+    }
 }
 
 module.exports = exportedMethods;

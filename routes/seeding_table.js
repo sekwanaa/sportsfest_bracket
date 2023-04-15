@@ -60,14 +60,6 @@ router.post("/insertSeeds", async (req, res) => {
         let numOfPlayoffTeams = Math.floor((numOfSeeds*2)/3);
         let seeds = req.body.seedsArray;
 
-        // let seedsObj = {
-        //     teamName: seeds.teamName,
-        //     seed: seeds.seed,
-        //     currentPlacement: null,
-        // };
-
-        // console.log(seeds);
-
         for(i=0; i<seeds.length; i++) {
             //made it to quarters - gets a bye
             if(i < numOfSeeds - numOfPlayoffTeams) {

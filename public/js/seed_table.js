@@ -73,8 +73,7 @@
                 wins: parseInt(wins.html()),
                 losses: parseInt(losses.html()),
                 pointDiff: parseInt(pointDiff.html()),
-                // seed: parseInt(seed.html())+1,
-                seed: seedCount+1,
+                seed: parseInt(seed.html()),
                 currentPlacement: null,
             }
 
