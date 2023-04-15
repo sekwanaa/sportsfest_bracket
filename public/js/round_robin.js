@@ -3,7 +3,10 @@
     var submitBtn = $('#rrSubmit');
     var totalGames = $('#totalGames');
     var roundRobinGrid = $('#roundRobinGrid');
-    var completeRoundRobinBtn = $("#completeRoundRobinButton");
+    var completeRoundRobinBtn = null;
+    if($("#completeRoundRobinButton").length > 0) {
+        completeRoundRobinBtn = $("#completeRoundRobinButton");
+    }
 
     generaterrBtn.click(function (event) {
         if(generaterrBtn.html() == "Create Schedule") {
@@ -19,7 +22,6 @@
                 })
             };
             $.ajax(req).then(function (roundRobinArray) {
-                console.log(roundRobinArray.length);
                 totalGames.html(roundRobinArray.length);
 
                 if(totalGames.html() > 0) {
@@ -45,34 +47,32 @@
         }
     });
 
-    completeRoundRobinBtn.click(function (event) {
-        event.preventDefault();
-        // console.log("clicked");
+    if($("#completeRoundRobinButton").length > 0) {
+        completeRoundRobinBtn.click(function (event) {
+            event.preventDefault();
 
-        try {
-            let req = {
-                method: 'POST',
-                url: '/round_robin/round_robin_complete',
-                contentType: 'application/json',
-                data: JSON.stringify({
-
-                })
-            };
-            $.ajax(req).then(function (res) {
-                location.reload();
-            });
-        } catch (e) {
-            console.log(e);
-        }
-    });
+            try {
+                let req = {
+                    method: 'POST',
+                    url: '/round_robin/round_robin_complete',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+    
+                    })
+                };
+                $.ajax(req).then(function (res) {
+                    location.reload();
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        });
+    }
 
     submitBtn.click(function (event) {
         event.preventDefault();
 
-        // let totalGamesSplit = totalGames.text().split(' ');
-        // let numOfGames = totalGamesSplit[2];
         let numOfGames = parseInt(totalGames.html());
-        // let roundRobinMatches = [];
         let matchObj = {};
 
         for(i=0; i < numOfGames; i++) {
@@ -81,8 +81,6 @@
             matchObj.team2 = $('#team2Name'+i).text();
             matchObj.field = parseInt($('#field'+i).text());
             matchObj.complete = false;
-
-            // roundRobinMatches.push(matchObj);
 
             try {
                 let req = {

@@ -12,7 +12,7 @@
     <div class="seed_information">
     {{#each matches}}
         <div class="seed_info" id="seed_info_div">
-            <p id="seed{{@index}}">{{@index}}</p>
+            <p id="seed{{#incrementIndex @index}}{{/incrementIndex}}">{{#incrementIndex @index}}{{/incrementIndex}}</p>
             <p id="teamName{{@index}}">{{this.name}}</p>
             <p id="wins{{@index}}">{{this.winnerCount}}</p>
             <p id="losses{{@index}}">{{this.loserCount}}</p>
@@ -20,7 +20,9 @@
         </div>
     {{/each}}
     </div>
-    <button id="seed_submit_button" type="submit">Submit Seeds</button>
+    {{#if stage1}}
+        <button id="seed_submit_button" type="submit">Submit Seeds</button>
+    {{/if}}
 </div>
 
 <script src="/public/js/seed_table.js"></script>

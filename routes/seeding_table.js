@@ -25,6 +25,12 @@ router.get("/", async (req, res) => {
         }
     
         const matchHistory = await matchesData.getTeamRecords();
+        const seedsInfo = await poolsData.getAllSeeds();
+
+        let isStage1 = true;
+        if(seedsInfo.length > 0) {
+            isStage1 = false;
+        }
     
         res.render("partials/seeding_table", {
             title: "Seeding Table", 
@@ -35,7 +41,7 @@ router.get("/", async (req, res) => {
             allUsers: allUsers,
             length: allUsers.length,
             matches: matchHistory,
-            seedNumber: 0,
+            stage1: isStage1,
         });
     } catch (e) {
 
@@ -59,14 +65,6 @@ router.post("/insertSeeds", async (req, res) => {
         let numOfSeeds = Math.floor((poolInfo.numOfTeams)*0.6);
         let numOfPlayoffTeams = Math.floor((numOfSeeds*2)/3);
         let seeds = req.body.seedsArray;
-
-        // let seedsObj = {
-        //     teamName: seeds.teamName,
-        //     seed: seeds.seed,
-        //     currentPlacement: null,
-        // };
-
-        // console.log(seeds);
 
         for(i=0; i<seeds.length; i++) {
             //made it to quarters - gets a bye
