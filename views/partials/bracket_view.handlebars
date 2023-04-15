@@ -3,13 +3,13 @@
     <div class="playoffs">
         {{#each playoffArr}}
         <div>
-            {{#eliminatedTeam ../eliminatedTeamsArr this.team1}}
+            {{#eliminatedTeam ../eliminatedTeamsArr this.team1 1}}
             <s>{{this.team1}}</s>
             {{else}}
             <h5>{{this.team1}}</h5>
             {{/eliminatedTeam}}
             <p>vs.</p>
-            {{#eliminatedTeam ../eliminatedTeamsArr this.team2}}
+            {{#eliminatedTeam ../eliminatedTeamsArr this.team2 1}}
             <s>{{this.team2}}</s>
             {{else}}
             <h5>{{this.team2}}</h5>
@@ -24,13 +24,13 @@
     <div class="quarter-finals">
         {{#each quarterArr}}
             <div>
-                {{#eliminatedTeam ../eliminatedTeamsArr this.team1}}
+                {{#eliminatedTeam ../eliminatedTeamsArr this.team1 2}}
                     <s>{{this.team1}}</s>
                 {{else}}
                     <h5>{{this.team1}}</h5>
                 {{/eliminatedTeam}}
                 <p>vs.</p>
-                {{#eliminatedTeam ../eliminatedTeamsArr this.team2}}
+                {{#eliminatedTeam ../eliminatedTeamsArr this.team2 2}}
                     <s>{{this.team2}}</s>
                 {{else}}
                     <h5>{{this.team2}}</h5>
@@ -42,13 +42,13 @@
     <div class="semi-finals">
         {{#each semiArr}}
             <div>
-                {{#eliminatedTeam ../eliminatedTeamsArr this.team1}}
+                {{#eliminatedTeam ../eliminatedTeamsArr this.team1 3}}
                     <s>{{this.team1}}</s>
                 {{else}}
                     <h5>{{this.team1}}</h5>
                 {{/eliminatedTeam}}
                 <p>vs.</p>
-                {{#eliminatedTeam ../eliminatedTeamsArr this.team2}}
+                {{#eliminatedTeam ../eliminatedTeamsArr this.team2 3}}
                     <s>{{this.team2}}</s>
                 {{else}}
                     <h5>{{this.team2}}</h5>

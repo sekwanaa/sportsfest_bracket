@@ -19,10 +19,7 @@ router.get("/", async (req, res) => {
 
         // playoffs
 
-
-        // console.log("start");
         let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds);
-        // console.log("stop");
 
         let playoffObj = {
             team1: "team1",
@@ -33,7 +30,6 @@ router.get("/", async (req, res) => {
         let playoffArr = [];
         let bracketDataIndex = 0;
 
-        // console.log(bracketData);
         //this will always create the playoff games, even if bracketData is empty
         for(i=numOfSeeds-playOffTeamsCount; i<playOffTeamsCount; i++) {
             //if bracketData contains data, we can insert teams
@@ -81,15 +77,9 @@ router.get("/", async (req, res) => {
         let quarterArr = [];
         bracketDataIndex = 0;
 
-        console.log(bracketData);
-
         for(i=0; i<numOfSeeds-playOffTeamsCount; i++) {
             if(bracketData.length > 0) {
-                console.log(bracketData[bracketDataIndex].team);
-                console.log(bracketData[bracketDataIndex].seed);
-                console.log(bracketData[bracketDataIndex].currentPlacement);
                 if(bracketData[bracketDataIndex].seed <= byeTeamsCount && Math.abs(bracketData[bracketDataIndex].currentPlacement) >= 2) {
-                    console.log(bracketData[bracketDataIndex].team);
                     quarterObj.team1 = bracketData[bracketDataIndex].team;
                 }
                 for(j=bracketDataIndex; j<bracketData.length; j++) {
@@ -171,8 +161,6 @@ router.get("/", async (req, res) => {
             }
         }
 
-        // console.log("finished semis");
-
         // for(i=0; i<playOffTeamsCount/4; i++) {
         //     for (j=bracketDataIndex; j<bracketData.length; j++) {
         //         if(bracketDataIndex < bracketData.length) {
@@ -215,11 +203,11 @@ router.get("/", async (req, res) => {
 
         // eliminated teams get a strikethrough in bracket view
 
-        if(eliminatedTeams.length>0) {
-            for (i=0; i<eliminatedTeams.length; i++) {
-                eliminatedTeamsArr.push(eliminatedTeams[i].team)
-            };
-        }
+        // if(eliminatedTeams.length>0) {
+        //     for (i=0; i<eliminatedTeams.length; i++) {
+        //         eliminatedTeamsArr.push(eliminatedTeams[i].team)
+        //     };
+        // }
 
         // const playOffWinner = await poolsData.getPlayOffWinners(playOffWinnersArray);
         // const quarterWinner = await poolsData.getquarterWinners(quarterWinnersArray);
@@ -246,7 +234,7 @@ router.get("/", async (req, res) => {
             quarterArr: quarterArr,
             semiArr: semiArr,
             finalsObj: finalsObj,
-            eliminatedTeamsArr: eliminatedTeamsArr,
+            eliminatedTeamsArr: eliminatedTeams,
         });
 
         return;
