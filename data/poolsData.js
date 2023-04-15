@@ -41,6 +41,14 @@ let exportedMethods = {
         return poolInfo;
     },
 
+    async getCurrentPoolStage () {
+        const poolCollection = await pools();
+
+        const poolInfo = await poolCollection.findOne({},{projection: {_id: 0, stage: 1}});
+
+        return poolInfo.stage;
+    },
+
     //method to create a potential round robin schedule
     async roundRobinSelection() {
         let roundRobinTeamList = [];
