@@ -2,7 +2,7 @@
     var generaterrBtn = $("#rrGenerateRoundRobin");
     var submitBtn = $('#rrSubmit');
     var totalGames = $('#totalGames');
-    var roundRobinGrid = $('#roundRobinGrid');
+    var roundRobinGrid = $('#roundRobinGridInfo');
     var completeRoundRobinBtn = null;
     if($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn = $("#completeRoundRobinButton");
