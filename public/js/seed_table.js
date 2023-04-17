@@ -9,8 +9,6 @@
     var seedInfo = $("#seed_info_div");
 
     refreshSeedTableBtn.click(function(event) {
-        console.log("click")
-
         try {
             let req = {
                 method: 'POST',
@@ -51,7 +49,7 @@
 
                 let idCount = 1;
                 for(i=0; i<matchHistory.length; i++) {
-                    seedInfo.append('<p id="seed'+idCount+'">'+i+1+'</p>')
+                    seedInfo.append('<p id="seed'+idCount+'">'+idCount+'</p>')
                     seedInfo.append('<p id="teamName'+idCount+'">'+matchHistory[i].name+'</p>');
                     seedInfo.append('<p id="wins'+idCount+'">'+matchHistory[i].winnerCount+'</p>');
                     seedInfo.append('<p id="losses'+idCount+'">'+matchHistory[i].loserCount+'</p>');
