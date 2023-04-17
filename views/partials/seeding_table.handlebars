@@ -11,12 +11,12 @@
     </div>
     <div class="seed_information">
     {{#each matches}}
-        <div class="seed_info" id="seed_info_div">
+        <div id="seed_info_div" class="seed_info">
             <p id="seed{{#incrementIndex @index}}{{/incrementIndex}}">{{#incrementIndex @index}}{{/incrementIndex}}</p>
-            <p id="teamName{{@index}}">{{this.name}}</p>
-            <p id="wins{{@index}}">{{this.winnerCount}}</p>
-            <p id="losses{{@index}}">{{this.loserCount}}</p>
-            <p id="pointDiff{{@index}}">{{this.pointDifferential}}</p>
+            <p id="teamName{{#incrementIndex @index}}{{/incrementIndex}}">{{this.name}}</p>
+            <p id="wins{{#incrementIndex @index}}{{/incrementIndex}}">{{this.winnerCount}}</p>
+            <p id="losses{{#incrementIndex @index}}{{/incrementIndex}}">{{this.loserCount}}</p>
+            <p id="pointDiff{{#incrementIndex @index}}{{/incrementIndex}}">{{this.pointDifferential}}</p>
         </div>
     {{/each}}
     </div>
