@@ -181,7 +181,6 @@ let exportedMethods = {
 
         const seedData = await seedsCollection.find({}).sort({seed: 1}).limit(numOfSeeds).toArray();
 
-        // console.log(seedData);
         for(i=seedData.length-numOfPlayoffTeams; i<(seedData.length-numOfPlayoffTeams)+(numOfPlayoffTeams/2); i++) {
             finalizedSeed.push(seedData[i]);
             finalizedSeed.push(seedData[i+seedData.length-numOfPlayoffTeams]);
@@ -205,6 +204,7 @@ let exportedMethods = {
         }
 
         //create playoff games for bye teams
+
         for (i=0; i<seedData.length-numOfPlayoffTeams; i++) {
             finalizedSeed.push(seedData[i]);
 
@@ -237,6 +237,7 @@ let exportedMethods = {
         }
         let seedTeamCount = 0;
         //creating semi finals games
+
         for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
             
             let team1Seed = (seedTeamCount % (numOfPlayoffTeams+1)) + 1;
@@ -274,22 +275,23 @@ let exportedMethods = {
         }
 
         //creating finals games
+
         for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
             matchObj.gameNum = gameNum;
             matchObj.team1 = null;
             matchObj.team2 = null;
-            matchObj.field = [1,3];
+            matchObj.field = 1;
             // matchObj.field = fieldCount+1; 
             matchObj.complete = false;
 
             insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
             playOffId = insertPlayOffGame.insertedId.toString();
             
-            fieldCount++;
+            fieldCount+=2;
             fieldCount = fieldCount%4;            
-            // if(fieldCount == 0) {
+            if(fieldCount == 0) {
                 gameNum++;
-            // }
+            }
 
             matchObj = {};
         }
@@ -369,8 +371,6 @@ let exportedMethods = {
 
             let winnerSeedInfo = await seedsCollection.findOne({team: winner});
             let winnerSeedNum = winnerSeedInfo.seed;
-
-            
             
             const playOffSeed = await playOffCollection.findOne({field: fieldNum, complete: false},{sort: {gameNum: 1}});
             // console.log(playOffSeed);
@@ -442,7 +442,8 @@ let exportedMethods = {
                 if(fieldNum == 1) {
                     const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
                         {
-                            field: 2, 
+                            gameNum: 4,
+                            field: 3, 
                             complete: false,
                         },
                         {
@@ -462,6 +463,7 @@ let exportedMethods = {
                     
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
+                            gameNum: 4,
                             field: 1, 
                             complete: false,
                         },
@@ -481,7 +483,8 @@ let exportedMethods = {
                 else {
                     const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
                         {
-                            field: 2, 
+                            gameNum: 4,
+                            field: 3, 
                             complete: false,
                         },
                         {
@@ -501,6 +504,7 @@ let exportedMethods = {
                     
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
+                            gameNum: 4,
                             field: 1, 
                             complete: false,
                         },
@@ -536,7 +540,7 @@ let exportedMethods = {
     async getRoundRobinSchedule() {
         const roundRobinCollection = await roundrobin();
 
-        const roundRobinSchedule = await roundRobinCollection.find({}).toArray();
+        const roundRobinSchedule = await roundRobinCollection.find({}).sort({gameNum: 1,field: 1}).toArray();
 
         return roundRobinSchedule;
     },

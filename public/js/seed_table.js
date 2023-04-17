@@ -67,7 +67,7 @@
         submitSeedsBtn.click(function (event) {
             event.preventDefault();
     
-            let seedCount = 0;
+            let seedCount = 1;
     
             var seed = $("#seed"+seedCount);
             var teamName = $("#teamName"+seedCount);
