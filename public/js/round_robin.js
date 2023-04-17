@@ -22,10 +22,11 @@
                 })
             };
             $.ajax(req).then(function (roundRobinArray) {
+                let previousTotalGamesLength = totalGames.html();
                 totalGames.html(roundRobinArray.length);
 
                 if(totalGames.html() > 0) {
-                    for(i=0; i<totalGames.html(); i++) {
+                    for(i=0; i<previousTotalGamesLength; i++) {
                         $("#gameNum"+i).remove();
                         $("#team1Name"+i).remove();
                         $("#team2Name"+i).remove();
