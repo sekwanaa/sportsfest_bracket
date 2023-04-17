@@ -293,13 +293,13 @@ let exportedMethods = {
             matchObj.gameNum = gameNum;
             // matchObj.team1 = [1,2];
             // matchObj.team2 = [3,4];
-            matchObj.field = [fieldCount+1, fieldCount+2];
+            matchObj.field = fieldCount+1;
             matchObj.complete = false;
 
             insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
             playOffId = insertPlayOffGame.insertedId.toString();
             
-            fieldCount+=2;
+            fieldCount+=1;
             fieldCount = fieldCount%numOfFields;    
             // if(fieldCount == 0) {
             //     gameNum++;
@@ -325,18 +325,42 @@ let exportedMethods = {
         gamesCount = 0;
         fieldCount = 0;
 
-        for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
+        for(i=0; i<((seedData.length-numOfPlayoffTeams)/2); i++) {
             matchObj.gameNum = gameNum;
-            matchObj.team1 = null;
-            matchObj.team2 = null;
-            matchObj.field = 1;
-            // matchObj.field = fieldCount+1; 
+            matchObj.team1 = [];
+            matchObj.team2 = [];
+            // matchObj.field = 1;
+            matchObj.field = fieldCount+1; 
             matchObj.complete = false;
+
+            if(i==0) {
+                for(j=0; j<((seedData.length-numOfPlayoffTeams)/2); j++) {
+                    matchObj.team1.push(j+1);
+                    matchObj.team1.push(j+1+(seedData.length-numOfPlayoffTeams));
+                    matchObj.team1.push(j+1+(seedData.length-numOfPlayoffTeams)*2);
+
+                    matchObj.team2.push(j+3);
+                    matchObj.team2.push(j+3+(seedData.length-numOfPlayoffTeams));
+                    matchObj.team2.push(j+3+(seedData.length-numOfPlayoffTeams)*2);
+                }
+            }
+            else {
+                for(j=0; j<((seedData.length-numOfPlayoffTeams)/2); j++) {
+                    matchObj.team1.push(j+3);
+                    matchObj.team1.push(j+3+(seedData.length-numOfPlayoffTeams));
+                    matchObj.team1.push(j+3+(seedData.length-numOfPlayoffTeams)*2);
+    
+                    matchObj.team2.push(j+1);
+                    matchObj.team2.push(j+1+(seedData.length-numOfPlayoffTeams));
+                    matchObj.team2.push(j+1+(seedData.length-numOfPlayoffTeams)*2);
+                }
+            }
+
 
             insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
             playOffId = insertPlayOffGame.insertedId.toString();
             
-            fieldCount+=2;
+            fieldCount+=1;
             fieldCount = fieldCount%numOfFields;            
             // if(fieldCount == 0) {
             //     gameNum++;
@@ -504,18 +528,17 @@ let exportedMethods = {
                 }
             }
             else if (playOffSeed.gameNum == 4){
-
-                if(fieldNum == 1) {
+                if(loserSeedNum % 4 < 3) {
                     const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 4,
                             // field: 3, 
-                            team1: loserSeedNum,
+                            team2: loserSeedNum,
                             complete: false,
                         },
                         {
                             $set: {
-                                team1: loser,
+                                team2: loser,
                             }
                         }, 
                         {
@@ -551,12 +574,12 @@ let exportedMethods = {
                         {
                             gameNum: 4,
                             // field: 3,
-                            team2: loserSeedNum, 
+                            team1: loserSeedNum, 
                             complete: false,
                         },
                         {
                             $set: {
-                                team2: loser,
+                                team1: loser,
                             }
                         }, 
                         {
