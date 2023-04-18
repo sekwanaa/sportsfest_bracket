@@ -60,6 +60,9 @@ let exportedMethods = {
         let numOfFields = poolsInfo.numOfFields;
         let numOfRoundRobinGames = poolsInfo.seedingGames;
         let numOfTeams = poolsInfo.numOfTeams;
+        // let numOfRefs = poolsInfo.numOfRefs;
+        let numOfRefs = 2;
+        let numOfPlayingTeams = 2;
 
         //create an array of team Objects
         for(i=0; i < allTeams.length; i++) {
@@ -118,8 +121,6 @@ let exportedMethods = {
                 continue;
             }
 
-            
-
             //add the match to the schedule and take the obj out of the possible games array
             rounds.push(match);
             possibleGames.splice(gameIndex, 1);
@@ -144,8 +145,6 @@ let exportedMethods = {
         //4 courts means 4 teams per court
         //16 teams minimum for 2 refs per court => no team will ever have a break
 
-        let numOfRefs = 2;
-        let numOfPlayingTeams = 2;
         let teamsOnCourt = numOfRefs*numOfPlayingTeams;
 
         let numOfTeamsOnBreak = numOfTeams % (numOfFields*teamsOnCourt);
