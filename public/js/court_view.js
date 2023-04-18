@@ -1,8 +1,4 @@
 (function ($) {
-    // $(":button").click(function() {
-    //     console.log($(this).attr("class"))
-    // })
-
     $(":button").click(function (event) {
         var submitButtonNumber = $(this).attr("class")
         var scoreInputForm = $('#scoreInputForm'+submitButtonNumber);

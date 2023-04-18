@@ -503,7 +503,6 @@ let exportedMethods = {
 
             //if else block for quarters
             if(playOffSeed.gameNum == 2) {
-                console.log(winner)
                 const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                     {
                         gameNum: 2,

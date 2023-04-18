@@ -4,6 +4,7 @@
     {{#each courtArray}}
     <div class="court">
         <h3 id="court{{this.numOfFields}}">Court {{this.numOfFields}}</h3>
+        <h4>Game Number: {{this.gameNum}}</h4>
         <br>        
         {{#unless this.gamesFinished}}
             <h1> {{this.teamName1}} vs {{this.teamName2}} </h1> {{! takes team names from court_view.js in routes}}
