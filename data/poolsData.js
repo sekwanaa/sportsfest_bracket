@@ -54,7 +54,6 @@ let exportedMethods = {
         let roundRobinTeamList = [];
         let teamObj = {};
         
-
         const allTeams = await teamData.getAllTeams();
         const poolsInfo = await this.getPoolInfo();
         let numOfFields = poolsInfo.numOfFields;
@@ -159,6 +158,8 @@ let exportedMethods = {
                 match.gameNum = gameNum;
                 match.team1.gameNum = gameNum;
                 match.team2.gameNum = gameNum;
+                match.ref1 = gameNum+1;
+                match.ref2 = gameNum+1;
                 fields++;
                 fields = fields%numOfFields;            
                 if(fields == 0) {
@@ -170,6 +171,23 @@ let exportedMethods = {
             }
             else {
                 count--;                
+            }
+        }
+
+        let yesCount = 0;
+
+        console.log(finalRounds[finalRounds.length-1].ref1);
+
+        console.log(finalRounds[finalRounds.length-1].ref1-1);
+        // let x = Math.floor(((finalRounds.length-1)%numOfFields));
+        // console.log(x)
+
+        for(i=0; i<(finalRounds.length); i++) {
+            for(j=0; j<finalRounds.length; j++) {
+                if(finalRounds[i].ref1%(finalRounds[finalRounds.length-1].ref1-1) == finalRounds[j].gameNum && finalRounds[i].field == finalRounds[j].field) {
+                    finalRounds[i].ref1 = finalRounds[j].team1.teamName;
+                    finalRounds[i].ref2 = finalRounds[j].team2.teamName;
+                }
             }
         }
 
