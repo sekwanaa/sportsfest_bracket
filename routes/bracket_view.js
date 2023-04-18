@@ -52,9 +52,7 @@ router.get("/", async (req, res) => {
 
                 playoffObj = {
                     team1: "team1",
-                    // team1Elim: false,
                     team2: "team2",
-                    // team2Elim: false,
                 }
             }
         }
@@ -63,73 +61,14 @@ router.get("/", async (req, res) => {
 
         // quarters
 
-        bracketData = null;
-        bracketData = await poolsData.getBracketData("quarters");
+        let quarterArr = await poolsData.getBracketData("quarters");
         eliminatedTeams = await poolsData.getAllSeeds("eliminated");
         eliminatedTeamsArr = [];
 
-        // let quarterObj = {
-        //     team1: "team1",
-        //     team2: "team2",
-        // };
-
-        let quarterArr = [];
-        quarterArr = bracketData;
-
-        // for(i=0; i<bracketData.length; i++) {
-        //     if(bracketData.length > 0) {
-        //         quarterObj.team1 = bracketData[i].team1;
-        //         quarterObj.team2 = bracketData[i].team2;
-        //         quarterArr.push(quarterObj);
-    
-        //         quarterObj = {
-        //             team1: "team1",
-        //             team2: "team2",
-        //         }                
-        //     }
-        //     else {
-        //         quarterObj = {
-        //             team1: "team1",
-        //             team2: "team2",
-        //         }
-        //     }
-
-        // }
-        // bracketDataIndex = 0;
-
-        // for(i=0; i<numOfSeeds-playOffTeamsCount; i++) {
-        //     if(bracketData.length > 0) {
-        //         if(bracketData[bracketDataIndex].seed <= byeTeamsCount && Math.abs(bracketData[bracketDataIndex].currentPlacement) >= 2) {
-        //             quarterObj.team1 = bracketData[bracketDataIndex].team;
-        //         }
-        //         for(j=bracketDataIndex; j<bracketData.length; j++) {
-        //             if (((bracketData[j].seed == byeTeamsCount + bracketData[i].seed) || (bracketData[j].seed == (2*byeTeamsCount + bracketData[i].seed))) && Math.abs(bracketData[j].currentPlacement) >= 2) {
-        //                 quarterObj.team2 = bracketData[j].team;
-        //             }
-        //         }
-        //         quarterArr.push(quarterObj);
-        //         quarterObj = {
-        //             team1: "team1",
-        //             team2: "team2",
-        //         }
-        //         bracketDataIndex++;
-        //     }
-        //     else {
-        //         quarterArr.push(quarterObj);
-
-        //         quarterObj = {
-        //             team1: "team1",
-        //             team2: "team2",
-        //         }
-        //     }
-        // }
-
         // semis
 
-        bracketData = null;
-        bracketData = await poolsData.getBracketData("semis");
+        let semiArr = await poolsData.getBracketData("semis");
 
-        let semiArr = bracketData;
         // let semiObj = {
         //     team1: "team1",
         //     team2: "team2",
@@ -180,23 +119,9 @@ router.get("/", async (req, res) => {
         //     }
         // }
 
-        // // finals
-
-        // let finalsObj = {
-        //     team1: "team1",
-        //     team2: "team2",
-        //     team3: "team3",
-        //     team4: "team4",
-        // }
-
-        bracketData = await poolsData.getFinals();
-
-        // if(bracketData.length != 0) {
-        //     finalsObj[0].team1 = bracketData[0].team1;
-        //     finalsObj[1].team2 = bracketData.team;
-        //     finalsObj[2].team3 = bracketData.team;
-        //     finalsObj[3].team4 = bracketData.team;
-        // }
+        // finals
+        
+        let finals = await poolsData.getFinals();
 
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
@@ -211,12 +136,11 @@ router.get("/", async (req, res) => {
             isAuthenticated: req.oidc.isAuthenticated(),
             loggedInUser: loggedInUser,
             role: userRole,
-            bracketData: bracketData,
+            // bracketData: bracketData,
             playoffArr: playoffArr,
             quarterArr: quarterArr,
             semiArr: semiArr,
-            // finalsObj: finalsObj,
-            finals: bracketData,
+            finals: finals,
             eliminatedTeamsArr: eliminatedTeams,
         });
 
