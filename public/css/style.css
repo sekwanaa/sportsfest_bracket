@@ -38,6 +38,29 @@ main {
 
 /* end */
 
+/* hamburger icon styling */
+
+#hamburger-menu {
+    position: absolute;
+    display: none;
+    top: 20px;
+    right: 60px;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 22px;
+    width: 30px;
+}
+
+#hamburger-menu .bar {
+    flex: 0 1 3px;
+    height: 3px;
+    width: 100%;
+    background-color: black;
+    border-radius: 10px;
+}
+
+/* end */
+
 /* hover effect on Anchor button */
 
 header .anchor-button:hover {
@@ -75,7 +98,11 @@ header .main-nav > li a:hover, li:hover {
 
 nav {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+}
+
+#nav_links > ul {
+    display: flex;
 }
 
 .main-nav li {
@@ -109,8 +136,24 @@ nav {
     display: block;
     padding: 10px 5px;
     background-color: white;
-    /* background-color: aqua; */
     min-width: 100px;
 }
 
 /* end */
+
+@media (max-width: 1300px) {
+    #hamburger-menu {
+        display: flex;
+    }
+
+    nav {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #nav_links ul {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+}
