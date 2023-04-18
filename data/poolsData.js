@@ -142,9 +142,6 @@ let exportedMethods = {
         //breakCount is used to determine the number of breaks a team has before their next game
         let breakCount = 0;
 
-        //4 courts means 4 teams per court
-        //16 teams minimum for 2 refs per court => no team will ever have a break
-
         let teamsOnCourt = numOfRefs*numOfPlayingTeams;
 
         let numOfTeamsOnBreak = numOfTeams % (numOfFields*teamsOnCourt);
