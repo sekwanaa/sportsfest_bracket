@@ -174,14 +174,6 @@ let exportedMethods = {
             }
         }
 
-        let yesCount = 0;
-
-        console.log(finalRounds[finalRounds.length-1].ref1);
-
-        console.log(finalRounds[finalRounds.length-1].ref1-1);
-        // let x = Math.floor(((finalRounds.length-1)%numOfFields));
-        // console.log(x)
-
         for(i=0; i<(finalRounds.length); i++) {
             for(j=0; j<finalRounds.length; j++) {
                 if(finalRounds[i].ref1%(finalRounds[finalRounds.length-1].ref1-1) == finalRounds[j].gameNum && finalRounds[i].field == finalRounds[j].field) {
