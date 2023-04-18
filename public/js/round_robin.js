@@ -33,6 +33,8 @@
                         $("#team1Name"+i).remove();
                         $("#team2Name"+i).remove();
                         $("#field"+i).remove();
+                        $("#ref1"+i).remove();
+                        $("#ref2"+i).remove();
                     }
                 }
 
@@ -41,6 +43,8 @@
                     roundRobinGrid.append('<div class="grid-row-name" id="team1Name'+i+'">'+roundRobinArray[i].team1.teamName+'</div>');
                     roundRobinGrid.append('<div class="grid-row-name" id="team2Name'+i+'">'+roundRobinArray[i].team2.teamName+'</div>');
                     roundRobinGrid.append('<div class="grid-row-name" id="field'+i+'">'+roundRobinArray[i].field+'</div>');
+                    roundRobinGrid.append('<div class="grid-row-name" id="ref1'+i+'">'+roundRobinArray[i].ref1+'</div>');
+                    roundRobinGrid.append('<div class="grid-row-name" id="ref2'+i+'">'+roundRobinArray[i].ref2+'</div>');
                 }
 
             });
@@ -97,10 +101,8 @@
             csvContent += row + "\r\n";
         });
 
-        // console.log(csvContent);
         var encodedUri = encodeURI(csvContent);
         window.open(encodedUri);
-        // return csvContent;
     });
 
     submitBtn.click(function (event) {
@@ -115,6 +117,8 @@
             matchObj.team2 = $('#team2Name'+i).text();
             matchObj.field = parseInt($('#field'+i).text());
             matchObj.complete = false;
+            matchObj.ref1 = $("#ref1"+i).text();
+            matchObj.ref2 = $("#ref2"+i).text();
 
             try {
                 let req = {

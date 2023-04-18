@@ -24,14 +24,14 @@
 
 #roundRobinGrid {
     display: grid;
-    grid-template-columns: auto auto auto 100px;
+    grid-template-columns: auto auto auto 100px auto auto;
     grid-auto-rows: 50px;
     text-align: center;
 }
 
 #roundRobinGridInfo {
     display: grid;
-    grid-template-columns: auto auto auto 100px;
+    grid-template-columns: auto auto auto 100px auto auto;
     grid-auto-rows: 50px;
     text-align: center;
     max-height: 50vh;
