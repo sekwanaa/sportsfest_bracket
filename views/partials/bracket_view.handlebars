@@ -57,7 +57,7 @@
         {{/each}}
     </div>
     <div class="finals">
-        <div id="first-second">
+        {{!-- <div id="first-second">
             <h5>{{finalsObj.team1}}</h5> 
             <p>vs.</p>
             <h5>{{finalsObj.team2}}</h5>
@@ -66,7 +66,15 @@
             <h5>{{finalsObj.team3}}</h5> 
             <p>vs.</p>
             <h5>{{finalsObj.team4}}</h5>
+        </div> --}}
+
+        {{#each finals}}
+        <div id={{this.name}}>
+            <h5>{{this.team1}}</h5> 
+            <p>vs.</p>
+            <h5>{{this.team2}}</h5>
         </div>
+        {{/each}}
     </div>
 </div>
 

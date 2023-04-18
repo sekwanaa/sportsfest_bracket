@@ -528,7 +528,7 @@ let exportedMethods = {
                 }
             }
             else if (playOffSeed.gameNum == 4){
-                if(loserSeedNum % 4 < 3) {
+                if(loserSeedNum % 4 < 3 && loserSeedNum != 0) {
                     const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 4,
@@ -660,6 +660,7 @@ let exportedMethods = {
     },
 
     async getAllSeeds(placement) {
+
         let currentPlacement = 0;
 
         const seedsCollection = await seeds();
@@ -744,6 +745,104 @@ let exportedMethods = {
         )
 
         return updatePlacement;
+    },
+
+    //getBracketData will take a string input, that will determine the round - playoffs, quarters, semis, etc
+    //returns an array of objects with team data
+    async getBracketData(round) {
+        let completedArray = [];
+        let finishedTeams = [];
+
+        let gameNum = null;
+        if(round == "playoffs") {
+            gameNum = 1;
+        }
+        else if (round == "quarters") {
+            gameNum = 2;
+        }
+        else if (round == "semis") {
+            gameNum = 3;
+        }
+        else if(round == "finals") {
+            gameNum = 4;
+        }
+
+        const playoffsCollection = await playoffs();
+
+        const getAllSeedsArray = await this.getAllSeeds(round);
+
+        // console.log(getAllSeedsArray);
+
+        let currentPlacement = null;
+        let teamName = null;
+        let seed = null;
+        let opponent = null;
+        let playOffInfo = null;
+
+        let playOffObj = {
+            team1: "team1",
+            team2: "team2",
+        }
+
+        for(i=0; i<getAllSeedsArray.length; i++) {
+            currentPlacement = getAllSeedsArray[i].currentPlacement;
+            teamName = getAllSeedsArray[i].team;
+            seed = getAllSeedsArray[i].seed;
+            opponent = null;
+
+            // console.log(round);
+
+            if(finishedTeams.includes(teamName)) {
+                continue;
+            }
+            else {
+                finishedTeams.push(teamName);
+                playOffObj.team1 = getAllSeedsArray[i].team;
+
+            }
+
+            playOffInfo = await playoffsCollection.findOne({gameNum: gameNum, team1: teamName});
+            // console.log(teamName);
+            // console.log(playOffInfo);
+            if (playOffInfo == null) {
+                playOffInfo = await playoffsCollection.findOne({gameNum: gameNum, team2: teamName});
+                // console.log(playOffInfo);
+                opponent = playOffInfo.team1;
+            }
+            else {
+                opponent = playOffInfo.team2;
+            }
+
+            for(j=0; j<getAllSeedsArray.length; j++) {
+                if(getAllSeedsArray[j].team == opponent) {
+                    playOffObj.team2 = getAllSeedsArray[j].team;
+                    finishedTeams.push(getAllSeedsArray[j].team);
+                    break;
+                }
+            }
+            currentPlacement = null;
+            teamName = null;
+            seed = null;
+            opponent = null;
+
+            completedArray.push(playOffObj);
+            playOffObj = {
+                team1: "team1",
+                team2: "team2",
+            }
+        }
+
+        // console.log(completedArray);
+
+        return completedArray;
+    },
+
+    async getFinals() {
+        const playOffCollection = await playoffs();
+
+        const finals = playOffCollection.find({gameNum: 4}).sort({fieldNum: 1}).toArray();
+
+        return finals;
     },
 
   }
