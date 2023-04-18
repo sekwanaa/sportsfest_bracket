@@ -57,8 +57,11 @@ let exportedMethods = {
 
         const allTeams = await teamData.getAllTeams();
         const poolsInfo = await this.getPoolInfo();
-        let numOfFields = await poolsInfo.numOfFields;
-        //create a collection of teams 
+        let numOfFields = poolsInfo.numOfFields;
+        let numOfRoundRobinGames = poolsInfo.seedingGames;
+        let numOfTeams = poolsInfo.numOfTeams;
+
+        //create an array of team Objects
         for(i=0; i < allTeams.length; i++) {
             teamObj.id = i + 1;
             teamObj.teamName = allTeams[i].name;
@@ -92,23 +95,40 @@ let exportedMethods = {
 
         let rounds = [];
         let match;
+        let gameIndex = null;
 
         while(possibleGames.length > 1) {
+            //set gameIndex to a random number less than the length of the array of the possible games
             gameIndex = Math.floor((Math.random())*possibleGames.length);
+
+            //select the match inside of possible games at index: gameIndex
             match = possibleGames[gameIndex];
-            if(match.team1.gamesSet > 11 || match.team2.gamesSet > 11) {
+
+            //check whether team1 or team2 in the teamObj are already scheduled for the number of games they should play in round robin
+            //if either team has more than the limit, take the object out of the array and repeat while loop
+
+            if(match.team1.gamesSet >= numOfRoundRobinGames || match.team2.gamesSet >= numOfRoundRobinGames) {
                 possibleGames.splice(gameIndex, 1);
                 continue;
             }
+
+            //if either team already played each other, take the object out of the array and repeat while loop
             if(match.team1.matchAgainst.includes(match.team2.teamName) || match.team2.matchAgainst.includes(match.team1.teamName)) {
                 possibleGames.splice(gameIndex, 1);                
                 continue;
             }
 
+            
+
+            //add the match to the schedule and take the obj out of the possible games array
             rounds.push(match);
             possibleGames.splice(gameIndex, 1);
+
+            //increment the number of games played for both teams in the object
             match.team1.gamesSet++;
             match.team2.gamesSet++;
+
+            //add respective teams to matchAgainst to each team to show that they already had a match against each other
             match.team1.matchAgainst.push(match.team2.teamName)
             match.team2.matchAgainst.push(match.team1.teamName)
         }
@@ -117,12 +137,28 @@ let exportedMethods = {
         let gameNum = 1;
         let finalRounds = [];
         let count = 1000;
-        let gameCount = -1;
+        
+        //breakCount is used to determine the number of breaks a team has before their next game
+        let breakCount = 0;
+
+        //4 courts means 4 teams per court
+        //16 teams minimum for 2 refs per court => no team will ever have a break
+
+        let numOfRefs = 2;
+        let numOfPlayingTeams = 2;
+        let teamsOnCourt = numOfRefs*numOfPlayingTeams;
+
+        let numOfTeamsOnBreak = numOfTeams % (numOfFields*teamsOnCourt);
+
+        while(numOfTeamsOnBreak - teamsOnCourt > teamsOnCourt) {
+            numOfTeamsOnBreak -= teamsOnCourt;
+            breakCount--;
+        }
 
         while (rounds.length > 1 && count > 1) {                        
             gameIndex = Math.floor((Math.random())*rounds.length);
             match = rounds[gameIndex];
-            if((rounds[gameIndex].team1.gameNum-gameNum <= gameCount && rounds[gameIndex].team2.gameNum-gameNum <= gameCount) || (rounds[gameIndex].team1.gameNum == 0 && rounds[gameIndex].team2.gameNum == 0)) {
+            if((rounds[gameIndex].team1.gameNum-gameNum <= breakCount && rounds[gameIndex].team2.gameNum-gameNum <= breakCount) || (rounds[gameIndex].team1.gameNum == 0 && rounds[gameIndex].team2.gameNum == 0)) {
                 match.field = fields+1;
                 match.gameNum = gameNum;
                 match.team1.gameNum = gameNum;
