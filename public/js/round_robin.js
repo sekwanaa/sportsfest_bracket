@@ -4,6 +4,8 @@
     var totalGames = $('#totalGames');
     var roundRobinGrid = $('#roundRobinGridInfo');
     var completeRoundRobinBtn = null;
+    var downloadCSVButton = $("#downloadCSVBtn");
+
     if($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn = $("#completeRoundRobinButton");
     }
@@ -69,6 +71,37 @@
             }
         });
     }
+
+    downloadCSVButton.click(function (event) {
+
+        var table = $(".grid-row-name");
+        var header = $(".header");
+        let tmpArr = [];
+        let rows = [];
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        for(i=0; i<table.length; i++) {
+            if(i%header.length == 3) {
+                tmpArr.push(table[i].innerText);
+                rows.push(tmpArr);
+                tmpArr = [];
+            }
+            else {
+                tmpArr.push(table[i].innerText);
+            }
+        }
+        tmpArr = [];
+
+        rows.forEach(function(rowArray) {
+            let row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+
+        // console.log(csvContent);
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+        // return csvContent;
+    });
 
     submitBtn.click(function (event) {
         event.preventDefault();
