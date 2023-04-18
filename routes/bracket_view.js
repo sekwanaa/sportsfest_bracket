@@ -67,61 +67,12 @@ router.get("/", async (req, res) => {
 
         // semis
 
-        let semiArr = await poolsData.getBracketData("semis");
-
-        // let semiObj = {
-        //     team1: "team1",
-        //     team2: "team2",
-        // };
-
-        // bracketDataIndex = 0;
-        // let stopBracketDataIndex = 0;
-
-        // for(i=0; i<(numOfSeeds-playOffTeamsCount)/2; i++) {
-        //     if(bracketData.length>0 && bracketDataIndex<bracketData.length) {
-        //         if(bracketDataIndex+2 <= bracketData.length) {
-        //             stopBracketDataIndex = bracketDataIndex+2;
-        //         }
-        //         else {
-        //             stopBracketDataIndex = bracketData.length - bracketDataIndex;
-        //         }
-        //         for(j=bracketDataIndex; j<stopBracketDataIndex; j++) {
-        //             if((bracketData[j].seed%4 == 1 || bracketData[j].seed%4 == 3) && bracketData[j].currentPlacement == 3) {
-        //                 //seed%4 == 1 for court 1
-        //                 semiObj.team1 = bracketData[j].team;
-        //                 //seed%4 == 3 for court 2
-        //             }
-
-        //             if ((bracketData[j].seed%4 == 2 || bracketData[j].seed%4 == 0) && bracketData[j].currentPlacement == 3) {
-        //                 //seed%4 == 2 for court 1
-                        
-        //                 semiObj.team2 = bracketData[j].team;
-
-        //                 //seed%4 == 4 for court 2
-        //             }
-
-        //             bracketDataIndex++;
-        //         }
-        //             semiArr.push(semiObj);
-                    
-        //             semiObj = {
-        //                 team1: "team1",
-        //                 team2: "team2",
-        //             };               
-        //     }
-        //     else {
-        //         semiArr.push(semiObj);
-
-        //         semiObj = {
-        //             team1: "team1",
-        //             team2: "team2",
-        //         };
-        //     }
-        // }
+        // let semiArr = await poolsData.getBracketData("semis");
+        let semiArr = await poolsData.getFinals("semis");
 
         // finals
         
-        let finals = await poolsData.getFinals();
+        let finals = await poolsData.getFinals("finals");
 
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;

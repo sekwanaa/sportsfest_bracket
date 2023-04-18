@@ -813,8 +813,6 @@ let exportedMethods = {
 
         const getAllSeedsArray = await this.getAllSeeds(round);
 
-        // console.log(getAllSeedsArray);
-
         let currentPlacement = null;
         let teamName = null;
         let seed = null;
@@ -832,8 +830,6 @@ let exportedMethods = {
             seed = getAllSeedsArray[i].seed;
             opponent = null;
 
-            // console.log(round);
-
             if(finishedTeams.includes(teamName)) {
                 continue;
             }
@@ -844,11 +840,9 @@ let exportedMethods = {
             }
 
             playOffInfo = await playoffsCollection.findOne({gameNum: gameNum, team1: teamName});
-            // console.log(teamName);
-            // console.log(playOffInfo);
+
             if (playOffInfo == null) {
                 playOffInfo = await playoffsCollection.findOne({gameNum: gameNum, team2: teamName});
-                // console.log(playOffInfo);
                 opponent = playOffInfo.team1;
             }
             else {
@@ -874,15 +868,21 @@ let exportedMethods = {
             }
         }
 
-        // console.log(completedArray);
-
         return completedArray;
     },
 
-    async getFinals() {
+    async getFinals(round) {
         const playOffCollection = await playoffs();
+        let gameNum = null;
 
-        const finals = playOffCollection.find({gameNum: 4}).sort({fieldNum: 1}).toArray();
+        if(round == "semis") {
+            gameNum = 3;
+        }
+        else {
+            gameNum = 4;
+        }
+
+        const finals = playOffCollection.find({gameNum: gameNum}).sort({fieldNum: 1}).toArray();
 
         return finals;
     },
