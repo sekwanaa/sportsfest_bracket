@@ -886,6 +886,58 @@ let exportedMethods = {
         return finals;
     },
 
+    async createGoldSilverPool() {
+
+        const poolsInfo = await this.getPoolInfo();
+
+        const numOfFields = poolsInfo.numOfFields;
+        
+        let poolsArray = [];
+
+        let poolsObj = {
+            field: "null",
+            teams: [],
+            games: [],
+        }
+
+        // for each court, create 1 pool
+        let field = 1;
+
+        for(i=0; i<numOfFields; i++) {
+            poolsObj.field = field;
+            poolsArray.push(poolsObj);
+            field++;
+            poolsObj = {
+                field: "null",
+                teams: [],
+                games: [],
+            }
+        }
+
+        // add numOfTeams/numOfCourts to each pool
+        const teams = await teamData.getAllTeams();
+        let teamIndex = null;
+
+        field = 1;
+
+        for(i=0; i<poolsArray.length; i++) {
+            poolsArray[field].teams.push(teams[teamIndex]);
+            field = (field%numOfFields) + 1
+            teams.splice(teamIndex, 1);
+        }
+        
+        // each teams plays each other #? of times
+        
+        // top half move to gold
+        // bot half move to silver
+        
+        // submit seeds, go to playoffs
+        
+        // 2 brackets, 1 for gold, 1 for silver
+
+        return finals;
+    },
+
   }
   
   module.exports = exportedMethods;
