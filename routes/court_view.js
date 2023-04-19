@@ -31,6 +31,8 @@ router.get("/", async (req, res) => {
                 courtObj.numOfFields = i+1;
                 courtObj.teamName1 = courtData[0].team1;
                 courtObj.teamName2 = courtData[0].team2;
+                courtObj.ref1 = courtData[0].ref1;
+                courtObj.ref2 = courtData[0].ref2;
                 courtArray.push(courtObj);
                 courtObj = {};
                 courtData = "";

@@ -8,16 +8,15 @@
     <br>
     <div>
         <label for="totalGames">Total Games:</label>
-        {{#unless isRounds}}
-            <p id="totalGames" value="0">0</p>
-        {{/unless}}
         {{#if isRounds}}
-        <section id="completeBtnRow">
-            <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
-            {{#if isStage1}}
-                <button id="completeRoundRobinButton" type="submit">Complete Round Robin</button>
-            {{/if}}
-        </section>  
+            <section id="completeBtnRow">
+                <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
+                {{#if isStage1}}
+                    <button id="completeRoundRobinButton" type="submit">Complete Round Robin</button>
+                {{/if}}
+            </section>  
+            {{else}}
+            <p id="totalGames" value="0">0</p>
         {{/if}}
         <br>
             <div id="roundRobinGrid" class="grid-column">

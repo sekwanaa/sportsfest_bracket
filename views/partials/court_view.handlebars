@@ -6,11 +6,10 @@
         <h3 id="court{{this.numOfFields}}">Court {{this.numOfFields}}</h3>
         <h4>Game Number: {{this.gameNum}}</h4>
         <br>        
-        {{#unless this.gamesFinished}}
-            <h1> {{this.teamName1}} vs {{this.teamName2}} </h1> {{! takes team names from court_view.js in routes}}
-        {{/unless}}
         {{#if this.gamesFinished}}
             <h1> No games scheduled </h1>
+        {{else}}
+            <h1> {{this.teamName1}} vs {{this.teamName2}} </h1> {{! takes team names from court_view.js in routes}}
         {{/if}}
         <br>
 
@@ -55,6 +54,12 @@
             <a href="https://www.youtube.com/@blessedcultureandsportsfes8608" target="_blank">Live Stream</a></li>
         </div>
         {{/unless}}
+        {{#if this.ref1}}
+        <br>
+        <div>
+            <p>Refs: {{this.ref1}} & {{this.ref2}}</p>
+        </div>
+        {{/if}}
     
     </div>
     {{/each}}
