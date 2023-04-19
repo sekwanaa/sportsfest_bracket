@@ -106,12 +106,14 @@ nav {
 }
 
 .main-nav li {
-    flex: 0 1 100%;
+    flex: 1 1 100%;
+    max-width: fit-content;
     position: relative;
 }
 
 .main-nav > li {
     padding: 0 50px;
+    max-width: fit-content;
 }
 
 .main-nav li a {
@@ -151,9 +153,18 @@ nav {
         width: 100%;
     }
 
+    #nav_links {
+        display: none;
+        width: 100%;
+    }
+
     #nav_links ul {
         flex-direction: column;
         width: 100%;
         align-items: center;
+    }
+
+    #nav_links.active {
+        display: flex;
     }
 }
