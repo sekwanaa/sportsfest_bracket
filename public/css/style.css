@@ -30,7 +30,7 @@ html {
 
 header {
     background-color: rgb(108, 109, 108);
-    opacity: 95%;
+    opacity: 98%;
     /* padding: 20px 60px; */
     font-family: HeaderFont;
     font-size: 16px;
@@ -142,7 +142,7 @@ nav > * {
 
 .main-nav li:hover .dropdown { /* makes dropdown ul visible when hovering */
     visibility: visible;
-    opacity: 90%;
+    opacity: 98%;
     transition: 400ms ease-in-out;
 }
 
