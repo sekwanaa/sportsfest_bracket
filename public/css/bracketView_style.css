@@ -11,13 +11,6 @@ body {
     animation: fadein 1.25s ease-in-out;
 }
 
-body {
-    background-image: url('/public/images/bracketView_bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center; 
-}
-
 .bracket-container { /* affects playoff/quarters/semis/finals divs */
     display: flex;
     gap: 1em;
@@ -35,7 +28,7 @@ body {
 }
 
 .bracket-container > * > * { /* affects contents of each matchup box */
-    background-color: lightgray;
+    background-color: rgb(243, 243, 243);
     display: flex;
     flex-direction: column;
     flex: 0 1 15%;

@@ -11,13 +11,6 @@ body {
     animation: fadein 1.25s ease-in-out;
 }
 
-body {
-    background-image: url('/public/images/ocean_splash.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-}
-
 #completeBtnRow {
     display: flex;
     align-items: center;

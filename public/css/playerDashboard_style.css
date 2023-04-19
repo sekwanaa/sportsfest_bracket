@@ -11,13 +11,6 @@ form, body {
     animation: fadein 1.25s ease-in-out;
 }
 
-body {
-    background-image: url('/public/images/lilies.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-}
-
 #dashboard { /* Dashboard cards flex to fit the page */
     display: flex;
     flex-wrap: wrap;
