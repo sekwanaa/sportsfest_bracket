@@ -3,6 +3,16 @@
     --hoverColor: rgb(209, 209, 209);
 }
 
+@font-face {
+    font-family: HeaderFont;
+    src: url(../fonts/roboto-condensed/RobotoCondensed-Light.ttf);
+}
+
+@font-face {
+    font-family: LogoFont;
+    src: url(../fonts/Bebas_Neue/BebasNeue-Regular.ttf);
+}
+
 @keyframes fadein {
     from {
         opacity: 0%;
@@ -19,16 +29,6 @@
 
 html {
     height: 100%;
-}
-
-@font-face {
-    font-family: HeaderFont;
-    src: url(../fonts/roboto-condensed/RobotoCondensed-Light.ttf);
-}
-
-@font-face {
-    font-family: LogoFont;
-    src: url(../fonts/Bebas_Neue/BebasNeue-Regular.ttf);
 }
 
 /* base settings for main layout */
@@ -162,7 +162,6 @@ nav > * {
     width: 130px;
     margin-top: 20px;
     padding: 5px 3px;
-    /* border-radius: 10px; */
 }
 
 .dropdown li {
