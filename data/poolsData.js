@@ -257,8 +257,6 @@ let exportedMethods = {
 
         //create playoff games for bye teams
 
-        console.log("byeTeams");
-
         gamesCount = 0;
         fieldCount = 0;
         let startTeam2Seed = [];
@@ -306,8 +304,6 @@ let exportedMethods = {
         let seedTeamCount = 0;
 
         //creating semi finals games
-
-        console.log("semi");
 
         gamesCount = 0;
         fieldCount = 0;
@@ -357,8 +353,6 @@ let exportedMethods = {
         }
 
         //creating finals games
-
-        console.log("finals");
 
         gamesCount = 0;
         fieldCount = 0;
@@ -526,8 +520,6 @@ let exportedMethods = {
                         }
                     }
                 )
-
-                console.log("test");
             }
             //if else block for semis
             else if(playOffSeed.gameNum == 3) {
