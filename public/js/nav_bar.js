@@ -1,4 +1,4 @@
-$(function ($) {
+(function ($) {
     const hamburgerMenuBtn = $("#hamburger-menu");
     const navLinks = $("#nav_links");
 

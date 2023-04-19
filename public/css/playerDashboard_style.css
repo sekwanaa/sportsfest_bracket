@@ -3,27 +3,41 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
+}
+
+form, body {
+    animation: fadein 1.25s ease-in-out;
+}
+
+body {
+    background-image: url('/public/images/lilies.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 #dashboard { /* Dashboard cards flex to fit the page */
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 1rem;
+    justify-content: center;
 }
 
 
 #dashboard > * { /* selects all direct children of #dashboard aka all cards*/
-    flex: 0 1 20%;
+    flex: 0 1 25%;
     text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
     max-height: 400px;
     padding: 10px 10px;
+    background-color: rgba(211, 211, 211, 0.98);
+    border-radius: 10px;
 }
 
 #dashboard > #editUserRoles {
-    flex: 1 1 40%;
+    flex: 0 1 40%;
 }
 
 .edit_inputs { /* for when you click edit on user card*/
@@ -35,11 +49,10 @@
 
 .grid-column { /* selects table columns for edit user role*/
     display: grid;
-    grid-template-columns: auto auto 300px;
+    grid-template-columns: auto auto 150px;
     grid-auto-rows: 50px;
     max-height: 300px;
     overflow-y: scroll;
-    overflow-x: hidden;
 }
 
 #users_submit_button_div { /* trash way of styling submit button in edit user roles*/
@@ -80,31 +93,30 @@ h1 {
 }
 
 h2 {
-    font-size: 18px;
+    font-size: 20px;
     padding: 10px 5px;
 }
 
 p {
-    font-size: 14px;
+    font-size: 16px;
     padding: 10px 5px;
 }
 
 img {
-    height: 150px;
-    width: 150px;
+    min-height: 150px;
+    min-width: 150px;
+    max-width: 250px;
+    max-height: 150px;
     padding: 5px 5px;
 }
 
-form, body {
-    animation: fadein 1.25s ease-in-out;
-}
-
 form input {
+    width: 100%;
     text-align: center;
     border-width: 1px;
     border-radius: 8%;
     padding: 2px;
-    margin: 10px 20px;
+    margin: 10px 0px;
 }
 
 form input::placeholder, textarea::placeholder {

@@ -3,8 +3,19 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
+}
+
+body {
+    animation: fadein 1.25s ease-in-out;
+}
+
+body {
+    background-image: url('/public/images/ocean_splash.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 #completeBtnRow {
@@ -68,8 +79,4 @@ h2 {
 p {
     font-size: 16px;
     padding: 10px 5px;
-}
-
-body {
-    animation: fadein 1.25s ease-in-out;
 }

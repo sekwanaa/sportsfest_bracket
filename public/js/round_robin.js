@@ -85,7 +85,7 @@
         let csvContent = "data:text/csv;charset=utf-8,";
 
         for(i=0; i<table.length; i++) {
-            if(i%header.length == 3) {
+            if(i%header.length == (header.length-1)) {
                 tmpArr.push(table[i].innerText);
                 rows.push(tmpArr);
                 tmpArr = [];
