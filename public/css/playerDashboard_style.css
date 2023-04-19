@@ -3,8 +3,12 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
+}
+
+form, body {
+    animation: fadein 1.25s ease-in-out;
 }
 
 #dashboard { /* Dashboard cards flex to fit the page */
@@ -93,10 +97,6 @@ img {
     height: 150px;
     width: 150px;
     padding: 5px 5px;
-}
-
-form, body {
-    animation: fadein 1.25s ease-in-out;
 }
 
 form input {

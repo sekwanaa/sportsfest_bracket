@@ -3,12 +3,19 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
 }
 
 body {
     animation: fadein 1.25s ease-in-out;
+}
+
+body {
+    background-image: url('/public/images/vines.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center; 
 }
 
 .allCourts{
