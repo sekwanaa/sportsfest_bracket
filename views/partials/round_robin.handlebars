@@ -25,6 +25,8 @@
                 <div class="header grid-row-name"><b>Team 1</b></div> 
                 <div class="header grid-row-name"><b>Team 2</b></div>
                 <div class="header grid-row-name"><b>Field</b></div>
+                <div class="header grid-row-name"><b>Ref 1</b></div>
+                <div class="header grid-row-name"><b>Ref 2</b></div>
             </div>
             <div id="roundRobinGridInfo" class="grid-column">
                 {{#if isRounds}}
@@ -33,6 +35,8 @@
                         <div class="grid-row-name" id="team1Name{{@index}}">{{this.team1}}</div>
                         <div class="grid-row-name" id="team2Name{{@index}}">{{this.team2}}</div>
                         <div class="grid-row-name" id="field{{@index}}">{{this.field}}</div>
+                        <div class="grid-row-name" id="ref1{{@index}}">{{this.ref1}}</div>
+                        <div class="grid-row-name" id="ref2{{@index}}">{{this.ref2}}</div>
                     {{/each}}
                 {{/if}}
             </div> 
