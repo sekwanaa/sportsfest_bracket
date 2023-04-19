@@ -4,26 +4,28 @@
     {{#unless isRounds}}
         <button id="rrGenerateRoundRobin">Create Schedule</button>
     {{/unless}}
+    <button id="downloadCSVBtn">Download CSV</button>
     <br>
     <div>
         <label for="totalGames">Total Games:</label>
-        {{#unless isRounds}}
-            <p id="totalGames" value="0">0</p>
-        {{/unless}}
         {{#if isRounds}}
-        <section id="completeBtnRow">
-            <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
-            {{#if isStage1}}
-                <button id="completeRoundRobinButton" type="submit">Complete Round Robin</button>
-            {{/if}}
-        </section>  
+            <section id="completeBtnRow">
+                <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
+                {{#if isStage1}}
+                    <button id="completeRoundRobinButton" type="submit">Complete Round Robin</button>
+                {{/if}}
+            </section>  
+            {{else}}
+            <p id="totalGames" value="0">0</p>
         {{/if}}
         <br>
             <div id="roundRobinGrid" class="grid-column">
-                <div class="header" class="grid-row-name"><b>Game</b></div> 
-                <div class="header" class="grid-row-name"><b>Team 1</b></div> 
-                <div class="header" class="grid-row-name"><b>Team 2</b></div>
-                <div class="header" class="grid-row-name"><b>Field</b></div>
+                <div class="header grid-row-name"><b>Game</b></div> 
+                <div class="header grid-row-name"><b>Team 1</b></div> 
+                <div class="header grid-row-name"><b>Team 2</b></div>
+                <div class="header grid-row-name"><b>Field</b></div>
+                <div class="header grid-row-name"><b>Ref 1</b></div>
+                <div class="header grid-row-name"><b>Ref 2</b></div>
             </div>
             <div id="roundRobinGridInfo" class="grid-column">
                 {{#if isRounds}}
@@ -32,6 +34,8 @@
                         <div class="grid-row-name" id="team1Name{{@index}}">{{this.team1}}</div>
                         <div class="grid-row-name" id="team2Name{{@index}}">{{this.team2}}</div>
                         <div class="grid-row-name" id="field{{@index}}">{{this.field}}</div>
+                        <div class="grid-row-name" id="ref1{{@index}}">{{this.ref1}}</div>
+                        <div class="grid-row-name" id="ref2{{@index}}">{{this.ref2}}</div>
                     {{/each}}
                 {{/if}}
             </div> 

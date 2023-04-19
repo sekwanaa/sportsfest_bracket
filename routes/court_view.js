@@ -27,9 +27,12 @@ router.get("/", async (req, res) => {
         for (i=0; i<numOfCourts.numOfFields; i++) {
             courtData = await courtviewData.getCurrentGameData(i+1);
             if(courtData.length > 0) {
+                courtObj.gameNum = courtData[0].gameNum;
                 courtObj.numOfFields = i+1;
                 courtObj.teamName1 = courtData[0].team1;
                 courtObj.teamName2 = courtData[0].team2;
+                courtObj.ref1 = courtData[0].ref1;
+                courtObj.ref2 = courtData[0].ref2;
                 courtArray.push(courtObj);
                 courtObj = {};
                 courtData = "";

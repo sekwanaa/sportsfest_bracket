@@ -4,6 +4,8 @@
     var totalGames = $('#totalGames');
     var roundRobinGrid = $('#roundRobinGridInfo');
     var completeRoundRobinBtn = null;
+    var downloadCSVButton = $("#downloadCSVBtn");
+
     if($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn = $("#completeRoundRobinButton");
     }
@@ -31,6 +33,8 @@
                         $("#team1Name"+i).remove();
                         $("#team2Name"+i).remove();
                         $("#field"+i).remove();
+                        $("#ref1"+i).remove();
+                        $("#ref2"+i).remove();
                     }
                 }
 
@@ -39,6 +43,8 @@
                     roundRobinGrid.append('<div class="grid-row-name" id="team1Name'+i+'">'+roundRobinArray[i].team1.teamName+'</div>');
                     roundRobinGrid.append('<div class="grid-row-name" id="team2Name'+i+'">'+roundRobinArray[i].team2.teamName+'</div>');
                     roundRobinGrid.append('<div class="grid-row-name" id="field'+i+'">'+roundRobinArray[i].field+'</div>');
+                    roundRobinGrid.append('<div class="grid-row-name" id="ref1'+i+'">'+roundRobinArray[i].ref1+'</div>');
+                    roundRobinGrid.append('<div class="grid-row-name" id="ref2'+i+'">'+roundRobinArray[i].ref2+'</div>');
                 }
 
             });
@@ -70,6 +76,35 @@
         });
     }
 
+    downloadCSVButton.click(function (event) {
+
+        var table = $(".grid-row-name");
+        var header = $(".header");
+        let tmpArr = [];
+        let rows = [];
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        for(i=0; i<table.length; i++) {
+            if(i%header.length == 3) {
+                tmpArr.push(table[i].innerText);
+                rows.push(tmpArr);
+                tmpArr = [];
+            }
+            else {
+                tmpArr.push(table[i].innerText);
+            }
+        }
+        tmpArr = [];
+
+        rows.forEach(function(rowArray) {
+            let row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+    });
+
     submitBtn.click(function (event) {
         event.preventDefault();
 
@@ -82,6 +117,8 @@
             matchObj.team2 = $('#team2Name'+i).text();
             matchObj.field = parseInt($('#field'+i).text());
             matchObj.complete = false;
+            matchObj.ref1 = $("#ref1"+i).text();
+            matchObj.ref2 = $("#ref2"+i).text();
 
             try {
                 let req = {
