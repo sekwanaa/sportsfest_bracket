@@ -500,6 +500,10 @@ let exportedMethods = {
             let loserSeedNum = loserSeedInfo.seed;
             let loserCurrentPlacement = loserSeedInfo.currentPlacement;
             
+            if(winnerCurrentPlacement >= 4) {
+                return;
+            }
+
             const playOffSeed = await playOffCollection.findOne({gameNum: winnerCurrentPlacement, complete: false},{sort: {gameNum: 1}});
 
             //if else block for quarters
