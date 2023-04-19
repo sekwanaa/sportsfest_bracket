@@ -1,0 +1,48 @@
+@keyframes fadein {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 95%;
+    }
+}
+
+form, body {
+    animation: fadein 1.25s ease-in-out;
+}
+
+form {
+    background-color: grey;
+    width: 400px;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    margin: auto;
+    margin-top: 3%;
+    border-radius: 10%;
+    border: 1px solid black;
+    text-align: center;
+    opacity: 95%;
+}
+
+form input, button {
+    border-width: 1px;
+    border-radius: 8%;
+    padding: 5px;
+    margin: 10px;
+}
+
+form button {
+    border-radius: 10%;
+}
+
+form input::placeholder, textarea::placeholder {
+    text-align: center;
+}
+
+form div textarea {
+    border-width: 1px;
+    border-radius: 8%;
+    resize: none;
+    padding: 20px;
+    margin: 10px;
+}
