@@ -21,6 +21,8 @@ body {
 .bracket-container { /* affects playoff/quarters/semis/finals divs */
     display: flex;
     gap: 1em;
+    height: 75vh;
+    border: 1px solid black;
 }
 
 .bracket-container > * { /* affects each matchup box within div */

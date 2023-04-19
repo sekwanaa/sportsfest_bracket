@@ -49,8 +49,6 @@ body {
 
 main {
     min-height: 100%;
-    display: grid;
-    grid-template-rows: 75vh auto auto;
     padding: 2%;
     z-index: 0;
 }
