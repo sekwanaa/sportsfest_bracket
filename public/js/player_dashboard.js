@@ -20,19 +20,24 @@
     var nameUpdateDiv = $("#name_update_div");
     var positionUpdateDiv = $("#position_update_div");
     var shirtNumberUpdateDiv = $("#shirt_number_update_div");
+    var uploadPicture = $("#upload_picture");
+    var userPicture = $("#user_picture")
 
     // original fields with info
     var playerName = $("#player_name");
     var playerShirtNumber = $("#shirt_number");
     var playerPosition = $("#player_position");
     var submitProfileChangesButton = $("#submit_profile_changes_button");
+    var submitUploadePicture = $("#picture_submit_button");
     
-    // console.log(playerPosition)
+    
+    // console.log(uploadPicture)
+
     nameUpdateDiv.hide();
     positionUpdateDiv.hide();
     shirtNumberUpdateDiv.hide();
     submitProfileChangesButton.hide();
-    
+    uploadPicture.hide();
     let count = 0;
 
     //hide edit team divs on page load
@@ -73,6 +78,7 @@
         }
         if (count%2==0) { //on second click
             playerName.show();
+            uploadPicture.hide()
             nameUpdateDiv.hide();
             playerShirtNumber.show();
             positionUpdateDiv.hide();
@@ -88,6 +94,7 @@
                 playerNameInput.val("No Name Chosen")
             }
             playerName.hide();
+            uploadPicture.show()
             nameUpdateDiv.show();
             playerShirtNumberInput.val(playerShirtNumContent.split(" ")[2])
             playerShirtNumber.hide();
@@ -128,6 +135,53 @@
             console.log(e)
         }
     });
+
+
+
+    // submitUploadePicture.click(function () {
+    
+    //     try {
+    //         let req = {
+    //             method: 'POST',
+    //             url: '/player_dashboard//upload-image',
+    //             contentType: 'application/json',
+    //             data: JSON.stringify({
+    //                 image : userPicture
+    //             })
+    //         };
+    //         $.ajax(req).then(function (res) {
+    //             // reload the page AFTER everything is done
+    //             console.log(res)
+    //             location.reload()
+    //         });
+    //     } 
+    //     catch (e) {
+    //         console.log(e)
+    //     }
+    // });
+
+
+    submitUploadePicture.click(function () {
+        let formData = new FormData();
+        formData.append('user-image', $('#user_picture')[0].files[0]);
+    
+    $.ajax({
+        url: '/player_dashboard/upload-image',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+    })
+    .done(function (res) {
+        console.log(res);
+        location.reload();
+    })
+    .fail(function (err) {
+        console.error(err);
+    });
+    });
+
+    
 
     // team code input div
     teamCodeInputDiv.hide()

@@ -5,6 +5,12 @@
     <div id="userCard" class="dashboardCards">
         <img src="{{profilePic}}" alt="Profile Picture">
         <br>
+        <div id="upload_picture">
+            <form action="/player_dashboard/submitProfile" method="post" enctype="multipart/form-data" >
+                <input type="file" name="user-image" id="user_picture">
+                <button id="picture_submit_button">Submit</button>
+            </form>
+        </div>
         {{!-- if they have a name this will show --}}
         {{#if name}}
         <h2 id="player_name">{{name}}</h2>

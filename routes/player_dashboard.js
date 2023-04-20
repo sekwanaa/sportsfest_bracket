@@ -3,6 +3,40 @@ const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
 const teamsData = data.teamsData;
+const fs = require('fs');
+const sharp = require('sharp');
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({
+storage: storage,
+limits: {
+fileSize: 10 * 1024 * 1024 // 10 MB
+},
+fileFilter: (req, file, cb) => {
+const allowedMimes = ['image/jpeg', 'image/png'];
+if (!allowedMimes.includes(file.mimetype)) {
+    const err = new Error('Invalid file type. Only JPEG and PNG images are allowed.');
+    err.status = 400;
+    return cb(err);
+}
+if (file.mimetype === 'image/heic') {
+    console.log('HEIC file detected');
+    const err = new Error('HEIC file type is not allowed.');
+    err.status = 400;
+    return cb(err);
+}
+cb(null, true);
+},
+destination: (req, file, cb) => {
+cb(null, './public/images');
+},
+filename: (req, file, cb) => {
+cb(null, file.originalname);
+}
+});
+
+
 
 router.get("/", async (req, res) => {
 
@@ -179,5 +213,35 @@ router.post("/editTeam", async (req, res) => {
     const updateTeamInfo = await teamsData.updateTeamInfo(teamObj);
     return res.json(updateTeamInfo);
 });
+
+router.post('/upload-image', upload.single('user-image'), async (req, res) => {
+    try {
+    let imageBuffer = req.file.buffer;
+
+    // Resize and compress the image using Sharp
+    const data = await sharp(imageBuffer)
+    .resize(800, 800)
+    .jpeg({ quality: 80 })
+    .toBuffer();
+
+    // Save the resized and compressed image to './public/images'
+    const imagePath = './public/images/' + req.file.originalname;
+    fs.writeFile(imagePath, data, (err) => {
+    if (err) {
+        console.error(err);
+        res.status(500).send('An error occurred while saving the image.');
+    } else {
+        // Send the URL of the saved image as the response
+        const imageUrl = req.protocol + '://' + req.get('host') + '/images/' + req.file.originalname;
+        res.status(200).send({ url: imageUrl });
+    }
+    });
+} catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred while processing the image.');
+}
+});
+
+
 
 module.exports = router;
