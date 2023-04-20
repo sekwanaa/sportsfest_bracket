@@ -1,6 +1,8 @@
 :root{
     --logoColor: rgba(184, 147, 44, 0.9);
     --hoverColor: rgb(209, 209, 209);
+    --transition: 250ms ease-in;
+    --transitionOut: 200ms ease-out;
 }
 
 @font-face {
@@ -82,7 +84,7 @@ main {
     border-radius: 10px;
 }
 
-/* end */
+/* hamburger icon end */
 
 /* Anchor button */
 
@@ -90,28 +92,16 @@ main {
     font-family: LogoFont;
     font-size: 36px;
     color: var(--logoColor);
+    transition: var(--transitionOut);
 
 }
 
 header .anchor-button:hover {
     color: var(--hoverColor);
-    transition: 250ms ease-in-out;
+    transition: var(--transition);
 }
 
-/* end */
-
-/* nav bar hover color change */
-
-.main-nav > li:hover {
-    transition: 250ms ease-in-out;
-}
-
-.main-nav > li:hover > a {
-    color: var(--logoColor);
-    transition: 250ms ease-in-out;
-}
-
-/* end */
+/* anchor button end */
 
 /* nav bar settings */
 
@@ -137,7 +127,6 @@ nav > * {
 }
 
 #nav_links > ul > li { /* visible links in nav bar */
-    /* position: relative; */
     display: flex;
     justify-content: center;
     width: 10%;
@@ -150,12 +139,47 @@ nav > * {
     width: 100px;
 }
 
+/* nav bar links hover styling */
+
 #nav_links > ul > li:hover { /* visible links in nav bar */
     border: 1px solid var(--logoColor);
-    /* border-radius: 20%; */
 }
 
-.main-nav li {
+.main-nav > li:hover {
+    transition: var(--transition);
+}
+
+.main-nav > li:hover > a {
+    color: var(--logoColor);
+    transition: var(--transition);
+}
+
+.main-nav > li:hover ul.dropdown { /* makes dropdown ul visible when hovering */
+    visibility: visible;
+    opacity: 98%;
+    transition: var(--transition);
+}
+
+.dropdown li:hover {
+    opacity: 100%;
+    background-color: var(--logoColor);
+    transition: var(--transition);
+    border-radius: 45%;
+}
+
+.dropdown li:hover a {
+    color: var(--hoverColor);
+    transition: var(--transition);
+}
+
+/* nav link hover end */
+
+#nav_links > ul > li { /* visible links in nav bar */
+    height: 30px;
+    align-items: center;
+}
+
+.main-nav li { /* all links */
     width: 20%;
 }
 
@@ -163,10 +187,8 @@ nav > * {
     display: block;
 }
 
-.main-nav li:hover ul.dropdown { /* makes dropdown ul visible when hovering */
-    visibility: visible;
-    opacity: 98%;
-    transition: 400ms ease-in-out;
+.main-nav li ul.dropdown { /* makes dropdown fade out after mouse leaves */
+    transition: var(--transitionOut);
 }
 
 ul.dropdown {
@@ -180,14 +202,14 @@ ul.dropdown {
     width: 99.6%;
     margin-top: 20px;
     padding: 5px 3px;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, 0);
 }
 
 /* styling for specifically the profile dropdown */
 
-.main-nav li:last-child {
+.main-nav > li:last-child {
     position: relative;
 }
 
@@ -196,7 +218,8 @@ ul > li:last-child ul { /* targets the dropdown of the last link (profile) */
     gap: 20px;
     height: fit-content;
     width: 120px;
-    top: 50%;
+    top: 60%;
+    padding-top: 18px;
 }
 
 ul > li:last-child ul > li { /* targets the links in the dropdown of the last link (profile) */
@@ -207,33 +230,26 @@ ul > li:last-child ul > li { /* targets the links in the dropdown of the last li
     border-radius: 10px;
 }
 
-/* end */
+/* profile dropdown end */
 
 ul.dropdown > li { /* dropdown links */
-    /* background-color: var(--hoverColor); */
     align-items: center;
     padding: 10px 0px;
     text-align: center;
     width: 10%;
     border: 1px solid black;
     border-radius: 10px;
-}
-
-.dropdown li:hover {
-    opacity: 100%;
-    background-color: var(--logoColor);
-    transition: 250ms ease-in-out;
-    border-radius: 45%;
-    transition: 250ms ease-in-out;
+    transition: var(--transitionOut);
 }
 
 .dropdown a {
     opacity: 100%;
     display: block;
     width: 100%;
+    transition: var(--transitionOut);
 }
 
-/* end */
+/* nav bar styling end */
 
 /* @media (max-width: 1300px) {
     #hamburger-menu {
