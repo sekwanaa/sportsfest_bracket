@@ -36,7 +36,6 @@ html {
 header {
     /* background-color: rgb(108, 109, 108); */
     opacity: 98%;
-    padding: 20px 30px;
     font-family: HeaderFont;
     font-size: 16px;
 }
@@ -120,6 +119,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 30px;
 }
 
 nav > * {
@@ -128,7 +128,7 @@ nav > * {
 
 #nav_links > ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 #nav_links > ul > li { /* visible links in nav bar */
@@ -136,7 +136,7 @@ nav > * {
     display: flex;
     justify-content: center;
     width: 10%;
-    padding: 20px 10px;
+    padding: 10px 10px;
     border: 1px solid black;
     border-radius: 20px;
 }
@@ -154,37 +154,68 @@ nav > * {
     display: block;
 }
 
-.main-nav li:hover .dropdown { /* makes dropdown ul visible when hovering */
+.main-nav li:hover ul.dropdown { /* makes dropdown ul visible when hovering */
     visibility: visible;
     opacity: 98%;
     transition: 400ms ease-in-out;
 }
 
-.dropdown {
+ul.dropdown {
     display: flex;
     align-items: center;
+    justify-content: space-around;
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    background-color: var(--hoverColor);
-    width: 100vw;
+    height: 60px;
+    width: 99.6%;
     margin-top: 20px;
     padding: 5px 3px;
-    top: 60%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, 0);
 }
 
-.dropdown li { /* dropdown links */
-    padding: 10px 0px;
+/* styling for specifically the profile dropdown */
+
+.main-nav li:last-child {
+    position: relative;
+}
+
+ul > li:last-child ul { /* targets the dropdown of the last link (profile) */
+    flex-direction: column;
+    gap: 20px;
+    height: fit-content;
+    width: 120px;
+    margin-top: 30px;
+    top: 50%;
+}
+
+ul > li:last-child ul > li { /* targets the links in the dropdown of the last link (profile) */
+    padding: 10px 10px;
     text-align: center;
     width: 100%;
-    /* border-radius: 100%; */
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+/* end */
+
+ul.dropdown > li { /* dropdown links */
+    /* background-color: var(--hoverColor); */
+    align-items: center;
+    padding: 10px 0px;
+    text-align: center;
+    width: 10%;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
 .dropdown li:hover {
     opacity: 100%;
     background-color: var(--logoColor);
+    transition: 250ms ease-in-out;
+    border-radius: 45%;
     transition: 250ms ease-in-out;
 }
 
