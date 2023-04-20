@@ -9,31 +9,31 @@ const multer = require('multer');
 
 const storage = multer.memoryStorage();
 const upload = multer({
-storage: storage,
-limits: {
-fileSize: 10 * 1024 * 1024 // 10 MB
-},
-fileFilter: (req, file, cb) => {
-const allowedMimes = ['image/jpeg', 'image/png'];
-if (!allowedMimes.includes(file.mimetype)) {
-    const err = new Error('Invalid file type. Only JPEG and PNG images are allowed.');
-    err.status = 400;
-    return cb(err);
-}
-if (file.mimetype === 'image/heic') {
-    console.log('HEIC file detected');
-    const err = new Error('HEIC file type is not allowed.');
-    err.status = 400;
-    return cb(err);
-}
-cb(null, true);
-},
-destination: (req, file, cb) => {
-cb(null, './public/images');
-},
-filename: (req, file, cb) => {
-cb(null, file.originalname);
-}
+    storage: storage,
+    limits: {
+        fileSize: 10 * 1024 * 1024 // 10 MB
+    },
+    fileFilter: (req, file, cb) => {
+        const allowedMimes = ['image/jpeg', 'image/png'];
+        if (!allowedMimes.includes(file.mimetype)) {
+            const err = new Error('Invalid file type. Only JPEG and PNG images are allowed.');
+            err.status = 400;
+            return cb(err);
+        }
+        if (file.mimetype === 'image/heic') {
+            console.log('HEIC file detected');
+            const err = new Error('HEIC file type is not allowed.');
+            err.status = 400;
+            return cb(err);
+        }
+        cb(null, true);
+    },
+    destination: (req, file, cb) => {
+        cb(null, './public/images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
 });
 
 
@@ -67,6 +67,11 @@ router.get("/", async (req, res) => {
         name = loggedInUser.user_metadata.name;
         userId = user._id.toString();
         hasTeam = await teamsData.hasTeam(userId);
+
+        if(loggedInUser.user_metadata.profilePic) {
+            profilePic = "../." + loggedInUser.user_metadata.profilePic;
+            console.log(profilePic);
+        }
 
         if (hasTeam) {
             let team = await teamsData.getTeam(userId);
@@ -215,31 +220,69 @@ router.post("/editTeam", async (req, res) => {
 });
 
 router.post('/upload-image', upload.single('user-image'), async (req, res) => {
-    try {
-    let imageBuffer = req.file.buffer;
 
-    // Resize and compress the image using Sharp
-    const data = await sharp(imageBuffer)
-    .resize(800, 800)
-    .jpeg({ quality: 80 })
-    .toBuffer();
+        let newImageName = null;
+        let previousImagePath = null;
+        //get user email from session oidc
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            userId = user._id.toString();
+            newImageName = userId;
+            if(user.user_metadata.profilePic) {
+                previousImagePath = user.user_metadata.profilePic;
+                //delete previous image
+                try {
+                    fs.unlink(previousImagePath, (err) => {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+                    });
+                } 
+                catch (e) {
+                    return;
+                }
+                //end delete previous image
+            }
+        }
 
-    // Save the resized and compressed image to './public/images'
-    const imagePath = './public/images/' + req.file.originalname;
-    fs.writeFile(imagePath, data, (err) => {
-    if (err) {
-        console.error(err);
-        res.status(500).send('An error occurred while saving the image.');
-    } else {
-        // Send the URL of the saved image as the response
-        const imageUrl = req.protocol + '://' + req.get('host') + '/images/' + req.file.originalname;
-        res.status(200).send({ url: imageUrl });
-    }
-    });
-} catch (err) {
-    console.error(err);
-    res.status(500).send('An error occurred while processing the image.');
-}
+        let imageNameSplit = req.file.originalname.split(".");
+
+        newImageName = newImageName + "." + imageNameSplit[1];
+
+        //set new image name to user email
+        
+        try {
+            let imageBuffer = req.file.buffer;
+
+            // Resize and compress the image using Sharp
+            const data = await sharp(imageBuffer)
+            .resize(800, 800)
+            .jpeg({ quality: 80 })
+            .toBuffer();
+
+            // Save the resized and compressed image to './public/images'
+            
+            const imagePath = './public/images/' + newImageName;
+            // console.log(imagePath);
+
+            fs.writeFile(imagePath, data, async (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send('An error occurred while saving the image.');
+                } else {
+                    // Send the URL of the saved image as the response
+                    const imageUrl = req.protocol + '://' + req.get('host') + '/images/' + newImageName;
+
+                    const insertProfile = await userData.updateProfilePic(req.oidc.user.name, imagePath);
+                    return res.status(200).send({ url: imageUrl });
+                }
+            });
+        } catch (err) {
+            // console.error(err);
+            return res.status(500).send('An error occurred while processing the image.');
+        }
 });
 
 

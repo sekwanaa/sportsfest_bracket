@@ -116,23 +116,45 @@
         // console.log(playerShirtNumberInput);
         try {
             
-            uploadPicture()
-
-            let req = {
+            //start pic upload
+            let formData = new FormData();
+            formData.append('user-image', $('#user_picture')[0].files[0]);
+        
+            $.ajax({
+                url: '/player_dashboard/upload-image',
                 method: 'POST',
-                url: '/player_dashboard/submitProfile',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    name: playerNameInput,
-                    shirtNum: parseInt(playerShirtNumberInput),
-                    position: playerPositionInput,
-                })
-            };
-            $.ajax(req).then(function (res) {
-                // reload the page AFTER everything is done
-                // console.log(res)
-                location.reload()
-            });
+                data: formData,
+                processData: false,
+                contentType: false,
+            }).then(function (res) {
+                console.log(res);
+
+                let req = {
+                    method: 'POST',
+                    url: '/player_dashboard/submitProfile',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        name: playerNameInput,
+                        shirtNum: parseInt(playerShirtNumberInput),
+                        position: playerPositionInput,
+                    })
+                };
+                $.ajax(req).then(function (res) {
+                    // reload the page AFTER everything is done
+                    // console.log(res)
+                    location.reload()
+                });
+            })
+    
+            // .done(function (res) {
+            //     console.log(res);
+            //     // location.reload();
+            // })
+    
+            // .fail(function (err) {
+            //     console.error(err);
+            // });
+            //end pic upload
         } 
         catch (e) {
             console.log(e)
@@ -163,28 +185,28 @@
     //     }
     // });
 
-    function uploadPicture() {
+    // function uploadPicture() {
 
-        let formData = new FormData();
-        formData.append('user-image', $('#user_picture')[0].files[0]);
+    //     let formData = new FormData();
+    //     formData.append('user-image', $('#user_picture')[0].files[0]);
     
-        $.ajax({
-            url: '/player_dashboard/upload-image',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-        })
+    //     $.ajax({
+    //         url: '/player_dashboard/upload-image',
+    //         method: 'POST',
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //     })
 
-        .done(function (res) {
-            console.log(res);
-            location.reload();
-        })
+    //     .done(function (res) {
+    //         console.log(res);
+    //         location.reload();
+    //     })
 
-        .fail(function (err) {
-            console.error(err);
-        });
-    };
+    //     .fail(function (err) {
+    //         console.error(err);
+    //     });
+    // };
 
     
 
