@@ -115,6 +115,9 @@
         // console.log(playerPositionInput);
         // console.log(playerShirtNumberInput);
         try {
+            
+            uploadPicture()
+
             let req = {
                 method: 'POST',
                 url: '/player_dashboard/submitProfile',
@@ -160,26 +163,28 @@
     //     }
     // });
 
+    function uploadPicture() {
 
-    submitUploadePicture.click(function () {
         let formData = new FormData();
         formData.append('user-image', $('#user_picture')[0].files[0]);
     
-    $.ajax({
-        url: '/player_dashboard/upload-image',
-        method: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-    })
-    .done(function (res) {
-        console.log(res);
-        location.reload();
-    })
-    .fail(function (err) {
-        console.error(err);
-    });
-    });
+        $.ajax({
+            url: '/player_dashboard/upload-image',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+        })
+
+        .done(function (res) {
+            console.log(res);
+            location.reload();
+        })
+
+        .fail(function (err) {
+            console.error(err);
+        });
+    };
 
     
 

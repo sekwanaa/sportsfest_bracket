@@ -6,7 +6,8 @@
         <img src="{{profilePic}}" alt="Profile Picture">
         <br>
         <div id="upload_picture">
-            <form action="/player_dashboard/submitProfile" method="post" enctype="multipart/form-data" >
+            {{!-- <form action="/player_dashboard/upload-image" method="post" enctype="multipart/form-data" > --}}
+            <form enctype="multipart/form-data" >
                 <input type="file" name="user-image" id="user_picture">
                 <button id="picture_submit_button">Submit</button>
             </form>
