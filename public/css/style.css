@@ -233,7 +233,6 @@ ul.dropdown > li { /* dropdown links */
     width: 10%;
     border: 1px solid black;
     border-radius: 10px;
-    transform: translateY(-20%);
     transition: var(--transitionOut);
 }
 
