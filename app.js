@@ -45,9 +45,7 @@ if(process.env.liveServer == "true") {
     
     var options = {
         key: fs.readFileSync(process.env.serverKey),
-        // '/etc/apache2/ssl/server.key'
         cert: fs.readFileSync(process.env.serverCert),
-        // '/etc/apache2/ssl/server.crt'
         requestCert: false,
         rejectUnauthorized: false
     };
