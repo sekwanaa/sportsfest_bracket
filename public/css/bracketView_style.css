@@ -11,36 +11,30 @@ body {
     animation: fadein 1.25s ease-in-out;
 }
 
-body {
-    background-image: url('/public/images/bracketView_bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center; 
-}
-
 .bracket-container { /* affects playoff/quarters/semis/finals divs */
     display: flex;
     gap: 1em;
+    height: fit-content;
+    justify-content: center;
 }
 
 .bracket-container > * { /* affects each matchup box within div */
     display: flex;
     flex-direction: column;
-    flex: 1 1 100%;
-    gap: 1em;
+    flex: 0 1 20%;
     text-align: center;
     align-items: center;
     justify-content: center; 
+    gap: 2em;
 }
 
 .bracket-container > * > * { /* affects contents of each matchup box */
-    background-color: lightgray;
+    background-color: rgb(209, 209, 209);
     display: flex;
     flex-direction: column;
     flex: 0 1 15%;
     width: 50%;
-    height: 1%;
-    max-width: 50%;
+    min-height: 80px;
     align-items: center;
     justify-content: center; 
 }

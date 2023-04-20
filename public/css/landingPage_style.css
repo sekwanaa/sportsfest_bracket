@@ -23,6 +23,7 @@ div {
 }
 
 h1 {
+    font-family: HeaderFont;
     color: white;
     padding: 2% auto;
 }
