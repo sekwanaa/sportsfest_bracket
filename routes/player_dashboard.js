@@ -70,7 +70,6 @@ router.get("/", async (req, res) => {
 
         if(loggedInUser.user_metadata.profilePic) {
             profilePic = "../." + loggedInUser.user_metadata.profilePic;
-            console.log(profilePic);
         }
 
         if (hasTeam) {
