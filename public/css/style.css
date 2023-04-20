@@ -132,6 +132,10 @@ nav > * {
     justify-content: space-around;
 }
 
+#nav_links > ul.login { /*  activates when js script applies .login class to the ul */
+    justify-content: flex-end;
+}
+
 #nav_links > ul > li { /* visible links in nav bar */
     /* position: relative; */
     display: flex;
@@ -140,6 +144,10 @@ nav > * {
     padding: 10px 10px;
     border: 1px solid black;
     border-radius: 20px;
+}
+
+#nav_links > ul > li.login-button { /* login link */
+    width: 100px;
 }
 
 #nav_links > ul > li:hover { /* visible links in nav bar */
