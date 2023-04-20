@@ -23,12 +23,11 @@ form, body {
     flex: 0 1 25%;
     min-width: 250px;
     text-align: center;
-    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.2);
     min-height: 400px;
     max-height: 400px;
     padding: 10px 10px;
-    background-color: rgba(211, 211, 211, 0.98);
-    border-radius: 10px;
+    border: 2px solid black;
+    border-radius: 50px 30px;
 }
 
 #dashboard > #editUserRoles {
@@ -85,6 +84,18 @@ form, body {
     padding: 2px;
 }
 
+#upload_picture {
+    display: flex;
+    justify-content: center;
+}
+
+#upload_picture > form {
+    display: flex;
+    justify-content: center;
+}
+
+
+
 h1 {
     text-align: center;
 }
@@ -114,6 +125,10 @@ form input {
     border-radius: 8%;
     padding: 2px;
     margin: 10px 0px;
+}
+
+input {
+    width: 100px;
 }
 
 form input::placeholder, textarea::placeholder {
