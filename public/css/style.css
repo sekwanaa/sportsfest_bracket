@@ -227,7 +227,7 @@ ul.dropdown > li { /* dropdown links */
 
 /* end */
 
-@media (max-width: 1300px) {
+/* @media (max-width: 1300px) {
     #hamburger-menu {
         display: flex;
     }
@@ -265,7 +265,7 @@ ul.dropdown > li { /* dropdown links */
         padding: 5px 3px;
     }
 
-    .dropdown > li { /* dropdown links */
+    .dropdown > li { dropdown links
         padding: 5px 10px;
         width: 100%;
         text-align: center;
@@ -280,4 +280,4 @@ ul.dropdown > li { /* dropdown links */
     #nav_links.active {
         display: flex;
     }
-}
+} */
