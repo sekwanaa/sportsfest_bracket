@@ -16,88 +16,96 @@
 </head>
 <body>
     <header>
-        <a class="anchor-button" href="/">Sportsfest Bracket Generator</a>
         <nav>
-            <ul class="main-nav">
-                {{#compareRole "coordinator" role}}
-                <li><a class="coordinator" href="/create_pool">Create Pool</a></li>
-                {{!-- <li><a class="coordinator" href="/score_input">Input Scores</a></li> --}}
-                {{/compareRole}}
-                {{#if isAuthenticated}}
-                <li><a class="frisbee" href="#">Frisbee</a>
-                    <br>
-                    <ul class="dropdown">
-                        {{#compareRole "coordinator" role}}
-                            <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
-                        {{/compareRole}}
-                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
-                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
-                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
-                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
-                        {{#compareRole "captain" role}}
-                            <li><a class="captain" href="/score_input">Input Scores</a></li>
-                        {{/compareRole}}
-                    </ul>
-                </li>
-                <li><a class="soccer" href="#">Soccer</a>
-                    <br>
-                    <ul class="dropdown">
-                        {{#compareRole "coordinator" role}}
-                            <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
-                        {{/compareRole}}
-                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
-                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
-                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
-                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
-                        {{#compareRole "captain" role}}
-                            <li><a class="captain" href="/score_input">Input Scores</a></li>
-                        {{/compareRole}}
-                    </ul>
-                </li>
-                <li><a class="baskbetball" href="#">Basketball</a>
-                    <br>
-                    <ul class="dropdown">
-                        {{#compareRole "coordinator" role}}
-                            <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
-                        {{/compareRole}}
-                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
-                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
-                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
-                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
-                        {{#compareRole "captain" role}}
-                            <li><a class="captain" href="/score_input">Input Scores</a></li>
-                        {{/compareRole}}
-                    </ul>
-                </li>
-                <li><a class="volleyball" href="#">Volleyball</a>
-                    <br>
-                    <ul class="dropdown">
-                        {{#compareRole "coordinator" role}}
-                            <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
-                        {{/compareRole}}
-                        <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
-                        <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
-                        <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
-                        <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
-                        {{#compareRole "captain" role}}
-                            <li><a class="captain" href="/score_input">Input Scores</a></li>
-                        {{/compareRole}}
-                    </ul>
-                </li>
-                <li><a class="profile-menu" href="#">Profile</a>
-                    <br>
-                    <ul class="dropdown">
-                        <li class="dropdown-menu"><a href="/player_dashboard">View Profile</a></li>
-                        <li class="dropdown-menu"><a href="/report_bug">Report Bug</a></li>
-                        <li class="dropdown-menu"><a href="/logout">Logout</a></li>
-                    </ul>
-                </li>
-                {{else}}
-                <li><a class="basic" href="/login">Login/Sign Up</a></li>
-                {{/if}}
-            </ul>
+            <div id="nav_brand_name">
+                <a class="anchor-button" href="/">SBG</a>
+            </div>
+            <a href="#" id="hamburger-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </a>
+            <div id="nav_links">
+                <ul class="main-nav">
+                    {{#compareRole "coordinator" role}}
+                    <li><a class="coordinator" href="/create_pool">Create Pool</a></li>
+                    {{!-- <li><a class="coordinator" href="/score_input">Input Scores</a></li> --}}
+                    {{/compareRole}}
+                    {{#if isAuthenticated}}
+                    <li>
+                        <a class="frisbee navbar-links" href="#">Frisbee</a>
+                        <ul class="dropdown">
+                            {{#compareRole "coordinator" role}}
+                                <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
+                            {{/compareRole}}
+                            <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                            <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                            <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                            <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                            {{#compareRole "captain" role}}
+                                <li><a class="captain" href="/score_input">Input Scores</a></li>
+                            {{/compareRole}}
+                        </ul>
+                    </li>
+                    <li><a class="soccer navbar-links" href="#">Soccer</a>
+                        <ul class="dropdown">
+                            {{#compareRole "coordinator" role}}
+                                <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
+                            {{/compareRole}}
+                            <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                            <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                            <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                            <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                            {{#compareRole "captain" role}}
+                                <li><a class="captain" href="/score_input">Input Scores</a></li>
+                            {{/compareRole}}
+                        </ul>
+                    </li>
+                    <li><a class="baskbetball navbar-links" href="#">Basketball</a>
+                        <ul class="dropdown">
+                            {{#compareRole "coordinator" role}}
+                                <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
+                            {{/compareRole}}
+                            <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                            <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                            <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                            <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                            {{#compareRole "captain" role}}
+                                <li><a class="captain" href="/score_input">Input Scores</a></li>
+                            {{/compareRole}}
+                        </ul>
+                    </li>
+                    <li><a class="volleyball navbar-links" href="#">Volleyball</a>
+                        <ul class="dropdown">
+                            {{#compareRole "coordinator" role}}
+                                <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
+                            {{/compareRole}}
+                            <li><a class="dropdown-menu" href="/bracket_view">Current Bracket</a></li>
+                            <li><a class="dropdown-menu" href="/court_view">Current Games</a></li>
+                            <li><a class="dropdown-menu" href="/seeding_table">Current Seeds</a></li>
+                            <li><a class="dropdown-menu" href="/team_list">Teams</a></li>
+                            {{#compareRole "captain" role}}
+                                <li><a class="captain" href="/score_input">Input Scores</a></li>
+                            {{/compareRole}}
+                        </ul>
+                    </li>
+                    <li><a class="profile-menu navbar-links" href="#">Profile</a>
+                        <ul class="dropdown">
+                            <li class="dropdown-menu"><a href="/player_dashboard">View Profile</a></li>
+                            <li class="dropdown-menu"><a href="/report_bug">Report Bug</a></li>
+                            <li class="dropdown-menu"><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                    {{else}}
+                    <li><a class="basic" href="/login">Login/Sign Up</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+            
         </nav>
     </header>   
     <main>{{{body}}}</main>
 </body>
 </html>
+
+<script src="/public/js/nav_bar.js"></script>

@@ -3,8 +3,12 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
+}
+
+body {
+    animation: fadein 1.25s ease-in-out;
 }
 
 .grid-column-header {
@@ -55,8 +59,4 @@ h2 {
 b {
     font-size: 16px;
     padding: 10px 5px;
-}
-
-body {
-    animation: fadein 1.25s ease-in-out;
 }

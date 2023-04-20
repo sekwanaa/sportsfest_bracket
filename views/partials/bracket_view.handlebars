@@ -4,15 +4,15 @@
         {{#each playoffArr}}
         <div>
             {{#eliminatedTeam ../eliminatedTeamsArr this.team1 1}}
-            <s>{{this.team1}}</s>
-            {{else}}
-            <h5>{{this.team1}}</h5>
+                <s>{{this.team1}}</s>
+                {{else}}
+                <h5>{{this.team1}}</h5>
             {{/eliminatedTeam}}
             <p>vs.</p>
             {{#eliminatedTeam ../eliminatedTeamsArr this.team2 1}}
-            <s>{{this.team2}}</s>
-            {{else}}
-            <h5>{{this.team2}}</h5>
+                <s>{{this.team2}}</s>
+                {{else}}
+                <h5>{{this.team2}}</h5>
             {{/eliminatedTeam}} 
 {{!-- 
             {{#if this.team1Elim}}
@@ -26,13 +26,13 @@
             <div>
                 {{#eliminatedTeam ../eliminatedTeamsArr this.team1 2}}
                     <s>{{this.team1}}</s>
-                {{else}}
+                    {{else}}
                     <h5>{{this.team1}}</h5>
                 {{/eliminatedTeam}}
                 <p>vs.</p>
                 {{#eliminatedTeam ../eliminatedTeamsArr this.team2 2}}
                     <s>{{this.team2}}</s>
-                {{else}}
+                    {{else}}
                     <h5>{{this.team2}}</h5>
                 {{/eliminatedTeam}} 
             </div>
@@ -44,30 +44,19 @@
             <div>
                 {{#eliminatedTeam ../eliminatedTeamsArr this.team1 3}}
                     <s>{{this.team1}}</s>
-                {{else}}
+                    {{else}}
                     <h5>{{this.team1}}</h5>
                 {{/eliminatedTeam}}
                 <p>vs.</p>
                 {{#eliminatedTeam ../eliminatedTeamsArr this.team2 3}}
                     <s>{{this.team2}}</s>
-                {{else}}
+                    {{else}}
                     <h5>{{this.team2}}</h5>
                 {{/eliminatedTeam}} 
             </div>
         {{/each}}
     </div>
     <div class="finals">
-        {{!-- <div id="first-second">
-            <h5>{{finalsObj.team1}}</h5> 
-            <p>vs.</p>
-            <h5>{{finalsObj.team2}}</h5>
-        </div>
-        <div id="third">
-            <h5>{{finalsObj.team3}}</h5> 
-            <p>vs.</p>
-            <h5>{{finalsObj.team4}}</h5>
-        </div> --}}
-
         {{#each finals}}
         <div id={{this.name}}>
             <h5>{{this.team1}}</h5> 

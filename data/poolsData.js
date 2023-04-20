@@ -54,11 +54,16 @@ let exportedMethods = {
         let roundRobinTeamList = [];
         let teamObj = {};
         
-
         const allTeams = await teamData.getAllTeams();
         const poolsInfo = await this.getPoolInfo();
-        let numOfFields = await poolsInfo.numOfFields;
-        //create a collection of teams 
+        let numOfFields = poolsInfo.numOfFields;
+        let numOfRoundRobinGames = poolsInfo.seedingGames;
+        let numOfTeams = poolsInfo.numOfTeams;
+        // let numOfRefs = poolsInfo.numOfRefs;
+        let numOfRefs = 2;
+        let numOfPlayingTeams = 2;
+
+        //create an array of team Objects
         for(i=0; i < allTeams.length; i++) {
             teamObj.id = i + 1;
             teamObj.teamName = allTeams[i].name;
@@ -92,23 +97,38 @@ let exportedMethods = {
 
         let rounds = [];
         let match;
+        let gameIndex = null;
 
         while(possibleGames.length > 1) {
+            //set gameIndex to a random number less than the length of the array of the possible games
             gameIndex = Math.floor((Math.random())*possibleGames.length);
+
+            //select the match inside of possible games at index: gameIndex
             match = possibleGames[gameIndex];
-            if(match.team1.gamesSet > 11 || match.team2.gamesSet > 11) {
+
+            //check whether team1 or team2 in the teamObj are already scheduled for the number of games they should play in round robin
+            //if either team has more than the limit, take the object out of the array and repeat while loop
+
+            if(match.team1.gamesSet >= numOfRoundRobinGames || match.team2.gamesSet >= numOfRoundRobinGames) {
                 possibleGames.splice(gameIndex, 1);
                 continue;
             }
+
+            //if either team already played each other, take the object out of the array and repeat while loop
             if(match.team1.matchAgainst.includes(match.team2.teamName) || match.team2.matchAgainst.includes(match.team1.teamName)) {
                 possibleGames.splice(gameIndex, 1);                
                 continue;
             }
 
+            //add the match to the schedule and take the obj out of the possible games array
             rounds.push(match);
             possibleGames.splice(gameIndex, 1);
+
+            //increment the number of games played for both teams in the object
             match.team1.gamesSet++;
             match.team2.gamesSet++;
+
+            //add respective teams to matchAgainst to each team to show that they already had a match against each other
             match.team1.matchAgainst.push(match.team2.teamName)
             match.team2.matchAgainst.push(match.team1.teamName)
         }
@@ -117,16 +137,29 @@ let exportedMethods = {
         let gameNum = 1;
         let finalRounds = [];
         let count = 1000;
-        let gameCount = -1;
+        
+        //breakCount is used to determine the number of breaks a team has before their next game
+        let breakCount = 0;
+
+        let teamsOnCourt = numOfRefs*numOfPlayingTeams;
+
+        let numOfTeamsOnBreak = numOfTeams % (numOfFields*teamsOnCourt);
+
+        while(numOfTeamsOnBreak - teamsOnCourt > teamsOnCourt) {
+            numOfTeamsOnBreak -= teamsOnCourt;
+            breakCount--;
+        }
 
         while (rounds.length > 1 && count > 1) {                        
             gameIndex = Math.floor((Math.random())*rounds.length);
             match = rounds[gameIndex];
-            if((rounds[gameIndex].team1.gameNum-gameNum <= gameCount && rounds[gameIndex].team2.gameNum-gameNum <= gameCount) || (rounds[gameIndex].team1.gameNum == 0 && rounds[gameIndex].team2.gameNum == 0)) {
+            if((rounds[gameIndex].team1.gameNum-gameNum <= breakCount && rounds[gameIndex].team2.gameNum-gameNum <= breakCount) || (rounds[gameIndex].team1.gameNum == 0 && rounds[gameIndex].team2.gameNum == 0)) {
                 match.field = fields+1;
                 match.gameNum = gameNum;
                 match.team1.gameNum = gameNum;
                 match.team2.gameNum = gameNum;
+                match.ref1 = gameNum+1;
+                match.ref2 = gameNum+1;
                 fields++;
                 fields = fields%numOfFields;            
                 if(fields == 0) {
@@ -141,11 +174,20 @@ let exportedMethods = {
             }
         }
 
+        for(i=0; i<(finalRounds.length); i++) {
+            for(j=0; j<finalRounds.length; j++) {
+                if(finalRounds[i].ref1%(finalRounds[finalRounds.length-1].ref1-1) == finalRounds[j].gameNum && finalRounds[i].field == finalRounds[j].field) {
+                    finalRounds[i].ref1 = finalRounds[j].team1.teamName;
+                    finalRounds[i].ref2 = finalRounds[j].team2.teamName;
+                }
+            }
+        }
+
         return finalRounds;
     },
 
     //method to insert finalized round robin schedule
-    async insertRoundRobin(gameNum, team1, team2, field, complete) {
+    async insertRoundRobin(gameNum, team1, team2, field, complete, ref1, ref2) {
 
         gameNum = parseInt(gameNum, 10);
 
@@ -155,6 +197,8 @@ let exportedMethods = {
             team2: team2,
             field: field,
             complete: complete,
+            ref1: ref1,
+            ref2: ref2,
         };
     
         const roundRobinCollection = await roundrobin();
@@ -201,9 +245,6 @@ let exportedMethods = {
             
             fieldCount++;
             fieldCount = fieldCount%numOfFields;            
-            // if(fieldCount == 0) {
-            //     gameNum++;
-            // }
 
             gamesCount++;
 
@@ -226,16 +267,12 @@ let exportedMethods = {
             startTeam2Seed.push(seedData[i].seed + (seedData.length-numOfPlayoffTeams));
             startTeam2Seed.push(seedData[i].seed + (seedData.length-numOfPlayoffTeams)*2);
 
-            // let team2Seed = (startTeam2Seed % numOfPlayoffTeams) + 5;
-
-            // seedData[i].seed + 4;
-            // seedData[i].seed + 8;
-
             //for seed 1 ---> seed 5 + seed 9
             
             matchObj.gameNum = gameNum;
             matchObj.team1 = seedData[i].team;
-            matchObj.team2 = startTeam2Seed;
+            matchObj.team2 = "TBD",
+            matchObj.nextTeam2 = startTeam2Seed;
             matchObj.field = fieldCount+1; 
             matchObj.complete = false;
 
@@ -244,9 +281,6 @@ let exportedMethods = {
             
             fieldCount++;
             fieldCount = fieldCount%numOfFields;            
-            // if(fieldCount == 0) {
-            //     gameNum++;
-            // }
 
             gamesCount++;
 
@@ -260,12 +294,15 @@ let exportedMethods = {
 
         matchObj = {
             gameNum: null,
-            team1: [],
-            team2: [],
+            team1: "TBD",
+            team2: "TBD",
+            nextTeam1: [],
+            nextTeam2: [],
             field: null,
             complete: false,
         }
         let seedTeamCount = 0;
+
         //creating semi finals games
 
         gamesCount = 0;
@@ -274,25 +311,21 @@ let exportedMethods = {
 
         for(i=0; i<(seedData.length-numOfPlayoffTeams)/2; i++) {
             
-            // let team1Seed = (seedTeamCount % (numOfPlayoffTeams+1)) + 1;
-            // let team2Seed = (seedTeamCount % (numOfPlayoffTeams+1)) + 3;
-
-            
             seedTeamCount+=(numOfPlayoffTeams/2);
 
-            matchObj.team1.push(seedTeams);
-            matchObj.team1.push(seedTeams+(seedData.length-numOfPlayoffTeams));
-            matchObj.team1.push(seedTeams+(seedData.length-numOfPlayoffTeams)*2);
+            matchObj.team1 = "TBD";
+            matchObj.nextTeam1.push(seedTeams);
+            matchObj.nextTeam1.push(seedTeams+(seedData.length-numOfPlayoffTeams));
+            matchObj.nextTeam1.push(seedTeams+(seedData.length-numOfPlayoffTeams)*2);
 
-            matchObj.team2.push(seedTeams+1);
-            matchObj.team2.push((seedTeams+1)+(seedData.length-numOfPlayoffTeams));
-            matchObj.team2.push((seedTeams+1)+(seedData.length-numOfPlayoffTeams)*2);
+            matchObj.team2 = "TBD";
+            matchObj.nextTeam2.push(seedTeams+1);
+            matchObj.nextTeam2.push((seedTeams+1)+(seedData.length-numOfPlayoffTeams));
+            matchObj.nextTeam2.push((seedTeams+1)+(seedData.length-numOfPlayoffTeams)*2);
 
             seedTeams+=2;
 
             matchObj.gameNum = gameNum;
-            // matchObj.team1 = [1,2];
-            // matchObj.team2 = [3,4];
             matchObj.field = fieldCount+1;
             matchObj.complete = false;
 
@@ -301,9 +334,6 @@ let exportedMethods = {
             
             fieldCount+=1;
             fieldCount = fieldCount%numOfFields;    
-            // if(fieldCount == 0) {
-            //     gameNum++;
-            // }
 
             gamesCount++;
 
@@ -313,8 +343,10 @@ let exportedMethods = {
 
             matchObj = {
                 gameNum: null,
-                team1: [],
-                team2: [],
+                team1: "TBD",
+                team2: "TBD",
+                nextTeam1: [],
+                nextTeam2: [],
                 field: null,
                 complete: false,
             }
@@ -327,32 +359,37 @@ let exportedMethods = {
 
         for(i=0; i<((seedData.length-numOfPlayoffTeams)/2); i++) {
             matchObj.gameNum = gameNum;
-            matchObj.team1 = [];
-            matchObj.team2 = [];
-            // matchObj.field = 1;
+            matchObj.team1 = "TBD";
+            matchObj.team2 = "TBD";
+            matchObj.nextTeam1 = [];
+            matchObj.nextTeam2 = [];
             matchObj.field = fieldCount+1; 
             matchObj.complete = false;
 
             if(i==0) {
                 for(j=0; j<((seedData.length-numOfPlayoffTeams)/2); j++) {
-                    matchObj.team1.push(j+1);
-                    matchObj.team1.push(j+1+(seedData.length-numOfPlayoffTeams));
-                    matchObj.team1.push(j+1+(seedData.length-numOfPlayoffTeams)*2);
+                    matchObj.team1 = "TBD";
+                    matchObj.nextTeam1.push(j+1);
+                    matchObj.nextTeam1.push(j+1+(seedData.length-numOfPlayoffTeams));
+                    matchObj.nextTeam1.push(j+1+(seedData.length-numOfPlayoffTeams)*2);
 
-                    matchObj.team2.push(j+3);
-                    matchObj.team2.push(j+3+(seedData.length-numOfPlayoffTeams));
-                    matchObj.team2.push(j+3+(seedData.length-numOfPlayoffTeams)*2);
+                    matchObj.team2 = "TBD";
+                    matchObj.nextTeam2.push(j+3);
+                    matchObj.nextTeam2.push(j+3+(seedData.length-numOfPlayoffTeams));
+                    matchObj.nextTeam2.push(j+3+(seedData.length-numOfPlayoffTeams)*2);
                 }
             }
             else {
                 for(j=0; j<((seedData.length-numOfPlayoffTeams)/2); j++) {
-                    matchObj.team1.push(j+3);
-                    matchObj.team1.push(j+3+(seedData.length-numOfPlayoffTeams));
-                    matchObj.team1.push(j+3+(seedData.length-numOfPlayoffTeams)*2);
+                    matchObj.team1 = "TBD";
+                    matchObj.nextTeam1.push(j+3);
+                    matchObj.nextTeam1.push(j+3+(seedData.length-numOfPlayoffTeams));
+                    matchObj.nextTeam1.push(j+3+(seedData.length-numOfPlayoffTeams)*2);
     
-                    matchObj.team2.push(j+1);
-                    matchObj.team2.push(j+1+(seedData.length-numOfPlayoffTeams));
-                    matchObj.team2.push(j+1+(seedData.length-numOfPlayoffTeams)*2);
+                    matchObj.team2 = "TBD";
+                    matchObj.nextTeam2.push(j+1);
+                    matchObj.nextTeam2.push(j+1+(seedData.length-numOfPlayoffTeams));
+                    matchObj.nextTeam2.push(j+1+(seedData.length-numOfPlayoffTeams)*2);
                 }
             }
 
@@ -457,16 +494,18 @@ let exportedMethods = {
             let loserSeedNum = loserSeedInfo.seed;
             let loserCurrentPlacement = loserSeedInfo.currentPlacement;
             
+            if(winnerCurrentPlacement >= 4) {
+                return;
+            }
+
             const playOffSeed = await playOffCollection.findOne({gameNum: winnerCurrentPlacement, complete: false},{sort: {gameNum: 1}});
 
             //if else block for quarters
             if(playOffSeed.gameNum == 2) {
-                console.log(winner)
                 const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                     {
                         gameNum: 2,
-                        // field: fieldNum, 
-                        team2: winnerSeedNum,
+                        nextTeam2: winnerSeedNum,
                         complete: false,
                     },
                     {
@@ -488,8 +527,7 @@ let exportedMethods = {
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 3,
-                            // field: fieldNum,
-                            team1: winnerSeedNum, 
+                            nextTeam1: winnerSeedNum, 
                             complete: false,
                         },
                         {
@@ -509,8 +547,7 @@ let exportedMethods = {
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 3,
-                            // field: fieldNum,
-                            team2: winnerSeedNum, 
+                            nextTeam2: winnerSeedNum, 
                             complete: false,
                         },
                         {
@@ -528,12 +565,11 @@ let exportedMethods = {
                 }
             }
             else if (playOffSeed.gameNum == 4){
-                if(loserSeedNum % 4 < 3 && loserSeedNum != 0) {
+                if(loserSeedNum % 4 < 3 && loserSeedNum%4 != 0) {
                     const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 4,
-                            // field: 3, 
-                            team2: loserSeedNum,
+                            nextTeam2: loserSeedNum,
                             complete: false,
                         },
                         {
@@ -552,8 +588,7 @@ let exportedMethods = {
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 4,
-                            // field: 1, 
-                            team1: winnerSeedNum,
+                            nextTeam1: winnerSeedNum,
                             complete: false,
                         },
                         {
@@ -573,8 +608,7 @@ let exportedMethods = {
                     const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 4,
-                            // field: 3,
-                            team1: loserSeedNum, 
+                            nextTeam1: loserSeedNum, 
                             complete: false,
                         },
                         {
@@ -593,8 +627,7 @@ let exportedMethods = {
                     const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
                         {
                             gameNum: 4,
-                            // field: 1, 
-                            team2: winnerSeedNum,
+                            nextTeam2: winnerSeedNum,
                             complete: false,
                         },
                         {
@@ -771,8 +804,6 @@ let exportedMethods = {
 
         const getAllSeedsArray = await this.getAllSeeds(round);
 
-        // console.log(getAllSeedsArray);
-
         let currentPlacement = null;
         let teamName = null;
         let seed = null;
@@ -780,8 +811,8 @@ let exportedMethods = {
         let playOffInfo = null;
 
         let playOffObj = {
-            team1: "team1",
-            team2: "team2",
+            team1: "TBD",
+            team2: "TBD",
         }
 
         for(i=0; i<getAllSeedsArray.length; i++) {
@@ -789,8 +820,6 @@ let exportedMethods = {
             teamName = getAllSeedsArray[i].team;
             seed = getAllSeedsArray[i].seed;
             opponent = null;
-
-            // console.log(round);
 
             if(finishedTeams.includes(teamName)) {
                 continue;
@@ -802,11 +831,9 @@ let exportedMethods = {
             }
 
             playOffInfo = await playoffsCollection.findOne({gameNum: gameNum, team1: teamName});
-            // console.log(teamName);
-            // console.log(playOffInfo);
+
             if (playOffInfo == null) {
                 playOffInfo = await playoffsCollection.findOne({gameNum: gameNum, team2: teamName});
-                // console.log(playOffInfo);
                 opponent = playOffInfo.team1;
             }
             else {
@@ -827,20 +854,26 @@ let exportedMethods = {
 
             completedArray.push(playOffObj);
             playOffObj = {
-                team1: "team1",
-                team2: "team2",
+                team1: "TBD",
+                team2: "TBD",
             }
         }
-
-        // console.log(completedArray);
 
         return completedArray;
     },
 
-    async getFinals() {
+    async getFinals(round) {
         const playOffCollection = await playoffs();
+        let gameNum = null;
 
-        const finals = playOffCollection.find({gameNum: 4}).sort({fieldNum: 1}).toArray();
+        if(round == "semis") {
+            gameNum = 3;
+        }
+        else {
+            gameNum = 4;
+        }
+
+        const finals = playOffCollection.find({gameNum: gameNum}).sort({fieldNum: 1}).toArray();
 
         return finals;
     },

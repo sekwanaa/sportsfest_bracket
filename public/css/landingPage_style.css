@@ -3,7 +3,7 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
 }
 
@@ -23,6 +23,7 @@ div {
 }
 
 h1 {
+    font-family: HeaderFont;
     color: white;
     padding: 2% auto;
 }

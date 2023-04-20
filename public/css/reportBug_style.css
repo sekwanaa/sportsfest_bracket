@@ -3,19 +3,12 @@
         opacity: 0%;
     }
     to {
-        opacity: 95%;
+        opacity: 100%;
     }
 }
 
 form, body {
     animation: fadein 1.25s ease-in-out;
-}
-
-body {
-    background-image: url('/public/images/reportBug_bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center; 
 }
 
 form {
