@@ -28,7 +28,7 @@ body {
 }
 
 .bracket-container > * > * { /* affects contents of each matchup box */
-    background-color: rgb(243, 243, 243);
+    background-color: rgb(209, 209, 209);
     display: flex;
     flex-direction: column;
     flex: 0 1 15%;
