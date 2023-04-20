@@ -119,9 +119,3 @@ form input {
 form input::placeholder, textarea::placeholder {
     text-align: center;
 }
-
-@media (max-width: 400px) {
-    #dashboard > #editUserRoles {
-        display: none;
-    }
-}
