@@ -1,15 +1,8 @@
 :root{
     --logoColor: rgba(184, 147, 44, 0.9);
     --hoverColor: rgb(209, 209, 209);
-    --transition: 400ms cubic-bezier(.66,.65,.49,.99);
-    --transitionOut: 250ms ease-out;
-    --dropAnimationDelay: 125ms;
-    --dropAnimationDelay2: calc(var(--dropAnimationDelay) + var(--dropAnimationDelay));
-    --dropAnimationDelay3: calc(var(--dropAnimationDelay2) + var(--dropAnimationDelay));
-    --dropAnimationDelay4: calc(var(--dropAnimationDelay3) + var(--dropAnimationDelay));
-    --dropAnimationDelay5: calc(var(--dropAnimationDelay4) + var(--dropAnimationDelay));
-    --dropAnimationDelay6: calc(var(--dropAnimationDelay5) + var(--dropAnimationDelay));
-    --dropAnimationDelay7: calc(var(--dropAnimationDelay6) + var(--dropAnimationDelay));
+    --transition: 250ms ease-in;
+    --transitionOut: 200ms ease-out;
 }
 
 @font-face {
@@ -164,37 +157,7 @@ nav > * {
 .main-nav > li:hover ul.dropdown { /* makes dropdown ul visible when hovering */
     visibility: visible;
     opacity: 98%;
-    transition: 400ms ease-in;
-}
-
-.main-nav > li:hover ul.dropdown li:nth-child(1) { 
-    opacity: 100%;
-    transform: translateY(0);
-    transition: 400ms ease-in-out;
-}
-.main-nav > li:hover ul.dropdown li:nth-child(2) { 
-    opacity: 100%;
-    transform: translateY(0);
-    transition: 400ms ease-in-out;
-    transition-delay: var(--dropAnimationDelay);
-}
-.main-nav > li:hover ul.dropdown li:nth-child(3) { 
-    opacity: 100%;
-    transform: translateY(0);
-    transition: 400ms ease-in-out;
-    transition-delay: var(--dropAnimationDelay2);
-}
-.main-nav > li:hover ul.dropdown li:nth-child(4) {
-    opacity: 100%; 
-    transform: translateY(0);
-    transition: 400ms ease-in-out;
-    transition-delay: var(--dropAnimationDelay3);
-}
-.main-nav > li:hover ul.dropdown li:nth-child(5) {
-    opacity: 100%; 
-    transform: translateY(0);
-    transition: 400ms ease-in-out;
-    transition-delay: var(--dropAnimationDelay4);
+    transition: var(--transition);
 }
 
 .dropdown li:hover {
@@ -220,7 +183,7 @@ nav > * {
 }
 
 .main-nav li ul.dropdown { /* makes dropdown fade out after mouse leaves */
-    transition: 400ms ease-out;
+    transition: var(--transitionOut);
 }
 
 ul.dropdown {
@@ -270,7 +233,6 @@ ul.dropdown > li { /* dropdown links */
     width: 10%;
     border: 1px solid black;
     border-radius: 10px;
-    opacity: 0;
     transform: translateY(-20%);
     transition: var(--transitionOut);
 }
