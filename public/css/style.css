@@ -174,7 +174,12 @@ nav > * {
 
 /* nav link hover end */
 
-.main-nav li {
+#nav_links > ul > li { /* visible links in nav bar */
+    height: 30px;
+    align-items: center;
+}
+
+.main-nav li { /* all links */
     width: 20%;
 }
 
@@ -197,14 +202,14 @@ ul.dropdown {
     width: 99.6%;
     margin-top: 20px;
     padding: 5px 3px;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, 0);
 }
 
 /* styling for specifically the profile dropdown */
 
-.main-nav li:last-child {
+.main-nav > li:last-child {
     position: relative;
 }
 
@@ -213,7 +218,8 @@ ul > li:last-child ul { /* targets the dropdown of the last link (profile) */
     gap: 20px;
     height: fit-content;
     width: 120px;
-    top: 50%;
+    top: 60%;
+    padding-top: 18px;
 }
 
 ul > li:last-child ul > li { /* targets the links in the dropdown of the last link (profile) */
