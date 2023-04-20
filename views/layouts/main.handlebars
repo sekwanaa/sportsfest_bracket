@@ -32,8 +32,8 @@
                     {{!-- <li><a class="coordinator" href="/score_input">Input Scores</a></li> --}}
                     {{/compareRole}}
                     {{#if isAuthenticated}}
-                    <li><a class="frisbee navbar-links" href="#">Frisbee</a>
-                        <br>
+                    <li>
+                        <a class="frisbee navbar-links" href="#">Frisbee</a>
                         <ul class="dropdown">
                             {{#compareRole "coordinator" role}}
                                 <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
@@ -48,7 +48,6 @@
                         </ul>
                     </li>
                     <li><a class="soccer navbar-links" href="#">Soccer</a>
-                        <br>
                         <ul class="dropdown">
                             {{#compareRole "coordinator" role}}
                                 <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
@@ -63,7 +62,6 @@
                         </ul>
                     </li>
                     <li><a class="baskbetball navbar-links" href="#">Basketball</a>
-                        <br>
                         <ul class="dropdown">
                             {{#compareRole "coordinator" role}}
                                 <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
@@ -78,7 +76,6 @@
                         </ul>
                     </li>
                     <li><a class="volleyball navbar-links" href="#">Volleyball</a>
-                        <br>
                         <ul class="dropdown">
                             {{#compareRole "coordinator" role}}
                                 <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
@@ -93,7 +90,6 @@
                         </ul>
                     </li>
                     <li><a class="profile-menu navbar-links" href="#">Profile</a>
-                        <br>
                         <ul class="dropdown">
                             <li class="dropdown-menu"><a href="/player_dashboard">View Profile</a></li>
                             <li class="dropdown-menu"><a href="/report_bug">Report Bug</a></li>
@@ -101,7 +97,7 @@
                         </ul>
                     </li>
                     {{else}}
-                    <li><a class="basic" href="/login">Login/Sign Up</a></li>
+                    <li class="login-button"><a class="basic" href="/login">Login/Sign Up</a></li>
                     {{/if}}
                 </ul>
             </div>

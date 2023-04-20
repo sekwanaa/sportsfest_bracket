@@ -78,6 +78,23 @@ let exportedMethods = {
         return updatedProfile;
     },
 
+    async updateProfilePic(email, imagePath) {
+        const userCollection = await users();
+
+        const insertProfilePic = await userCollection.findOneAndUpdate(
+            {
+                email: email,
+            },
+            {
+                $set: {
+                    "user_metadata.profilePic": imagePath,
+                }
+            }
+        )
+
+        return;
+    },
+
   }
   
   
