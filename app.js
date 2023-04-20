@@ -34,25 +34,25 @@ hbs.handlebars.registerHelper(helpers);
 
 configRoutes(app);
 
-// app.listen(3000, () => {
-//     console.log("we've now got a server!");
-//     console.log('Your routes will be running on http://localhost:3000');
-// })
+app.listen(process.env.httpPort, () => {
+    console.log("we've now got a server!");
+    console.log('Your routes will be running on http://localhost:' + process.env.httpPort);
+})
 
-var https = require('https');
-var fs = require('fs');
-
-var options = {
-    key: fs.readFileSync(process.env.serverKey),
-    // '/etc/apache2/ssl/server.key'
-    cert: fs.readFileSync(process.env.serverCert),
-    // '/etc/apache2/ssl/server.crt'
-    requestCert: false,
-    rejectUnauthorized: false
-};
-
-// var app = express();
-
-var server = https.createServer(options, app).listen(3000, function(){
-    console.log("server started at port 3000");
-});
+if(process.env.liveServer == "true") {
+    var https = require('https');
+    var fs = require('fs');
+    
+    var options = {
+        key: fs.readFileSync(process.env.serverKey),
+        // '/etc/apache2/ssl/server.key'
+        cert: fs.readFileSync(process.env.serverCert),
+        // '/etc/apache2/ssl/server.crt'
+        requestCert: false,
+        rejectUnauthorized: false
+    };
+    
+    var server = https.createServer(options, app).listen(process.env.httpsPort, function(){
+        console.log("server started at port " + process.env.httpsPort);
+    });
+}
