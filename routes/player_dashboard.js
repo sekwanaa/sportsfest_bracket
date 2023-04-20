@@ -263,7 +263,7 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 
             // Save the resized and compressed image to './public/images'
             
-            const imagePath = './public/images/' + newImageName;
+            const imagePath = './public/images/profilePic/' + newImageName;
             // console.log(imagePath);
 
             fs.writeFile(imagePath, data, async (err) => {
@@ -272,7 +272,7 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
                     return res.status(500).send('An error occurred while saving the image.');
                 } else {
                     // Send the URL of the saved image as the response
-                    const imageUrl = req.protocol + '://' + req.get('host') + '/images/' + newImageName;
+                    const imageUrl = req.protocol + '://' + req.get('host') + '/images/profilePic/' + newImageName;
 
                     const insertProfile = await userData.updateProfilePic(req.oidc.user.name, imagePath);
                     return res.status(200).send({ url: imageUrl });
