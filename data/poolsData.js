@@ -887,7 +887,7 @@ let exportedMethods = {
         let poolsArray = [];
 
         let poolsObj = {
-            field: "null",
+            field: null,
             teams: [],
             games: [],
         }
@@ -908,17 +908,87 @@ let exportedMethods = {
 
         // add numOfTeams/numOfCourts to each pool
         const teams = await teamData.getAllTeams();
-        let teamIndex = null;
-
+        let teamIndex = Math.floor(Math.random()*teams.length);
+        let tmpTeamArray = teams;
+        let teamsPerPool = Math.floor(teams.length/numOfFields);
         field = 1;
 
         for(i=0; i<poolsArray.length; i++) {
-            poolsArray[field].teams.push(teams[teamIndex]);
-            field = (field%numOfFields) + 1
-            teams.splice(teamIndex, 1);
+            for(j=0; j<teamsPerPool; j++) {
+                poolsArray[i].teams.push(tmpTeamArray[teamIndex]);
+                tmpTeamArray.splice(teamIndex, 1);    
+                teamIndex = Math.floor(Math.random()*tmpTeamArray.length);
+                if(tmpTeamArray.length == 0) {
+                    break;
+                }
+            }
         }
+
+        teamMatchAgainstCount = 0;
         
         // each teams plays each other #? of times
+
+        let teamPool = [];
+        let team1Name = null;
+        let gameNum = 0;
+
+        let matchObj = {
+            gameNum: null,
+            team1: "TBD",
+            team2: "TBD",
+            field: null,
+            complete: false,
+            ref1: null, 
+            ref2: null,
+        }
+
+        // for each pool
+        for(i=0; i<poolsArray.length; i++) {
+
+            // use a temporary array to store teams in the pool
+            // for(j=0; j<poolsArray[i].teams.length; j++) {
+            //     teamPool.push(poolsArray[i].teams[j]);
+            // }
+            // console.log(teamPool);
+
+            gameNum = 1;
+
+            //create matchup where every team plays every other team
+            for(j=0; j<poolsArray[i].teams.length; j++) {
+                teamPool = poolsArray[i].teams;
+
+                team1Name = teamPool[j].name;
+                matchObj.team1 = team1Name;
+                teamPool.splice(j, 1);
+
+                teamIndex = Math.floor(Math.random()*teamPool.length);
+                
+                while(teamPool.length > 0) {
+                    matchObj.team2 = teamPool[teamIndex].name;                    
+                    teamPool.splice(teamIndex, 1);
+
+                    matchObj.field = field;
+                    matchObj.complete = false;
+                    matchObj.ref1 = gameNum+1;
+                    matchObj.ref2 = gameNum+1;
+
+                    teamIndex = Math.floor(Math.random()*teamPool.length);
+
+                    poolsArray[i].games.push(matchObj);
+
+                    matchObj = {
+                        gameNum: gameNum++,
+                        team1: team1Name,
+                        team2: null,
+                        field: poolsArray[i].field,
+                        complete: false,
+                        ref1: gameNum+1, 
+                        ref2: gameNum+1,
+                    }
+                }
+            }
+            delete poolsArray[i].teams;
+        }
         
         // top half move to gold
         // bot half move to silver
@@ -927,7 +997,7 @@ let exportedMethods = {
         
         // 2 brackets, 1 for gold, 1 for silver
 
-        return finals;
+        return poolsArray;
     },
 
   }

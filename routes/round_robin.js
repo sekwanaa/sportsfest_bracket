@@ -96,4 +96,14 @@ router.post("/round_robin_complete", async (req, res) => {
     }
 });
 
+router.post("/goldsilver_schedule", async (req, res) => {
+    
+    try{
+        const goldsilver_schedule = await poolsData.createGoldSilverPool();
+        return res.json(goldsilver_schedule);
+    } catch (e) {
+        return res.status(500).json({ error: e});
+    }
+});
+
 module.exports = router;
