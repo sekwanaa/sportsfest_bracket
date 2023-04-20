@@ -32,8 +32,8 @@
                     {{!-- <li><a class="coordinator" href="/score_input">Input Scores</a></li> --}}
                     {{/compareRole}}
                     {{#if isAuthenticated}}
-                    <li><a class="frisbee navbar-links" href="#">Frisbee</a>
-                        <br>
+                    <li>
+                        <a class="frisbee navbar-links" href="#">Frisbee</a>
                         <ul class="dropdown">
                             {{#compareRole "coordinator" role}}
                                 <li><a class="coordinator" href="/round_robin">Round Robin</a></li>
