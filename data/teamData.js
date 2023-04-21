@@ -215,6 +215,24 @@ let exportedMethods = {
         );
         return updateTeamPlayers;
     },
+
+    async updatePowerRanking (teamName, district, newPowerRanking) {
+        const teamsCollection = await teams();
+
+        //find team by team name and district and update their power ranking
+        const updatePowerRanking = await teamsCollection.findOneAndUpdate(
+            {
+                name: teamName, 
+                district: district
+            },
+            {
+                $set: {
+                    powerRanking: newPowerRanking
+                }
+            }
+        );
+        return updatePowerRanking;
+    },
 }
 
 

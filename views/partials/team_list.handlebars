@@ -1,17 +1,34 @@
 <div class="teamList">
     <h1>Current registered teams</h1>
     <div>
-    <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
+        <div id="submitPowerRankingBtnRow">
+            <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
+            <div id="buttonDiv">
+                <button id="editTeamsBtn">Edit Teams</button>
+                <button id="submitPowerRankingsBtn">Submit</button>
+            </div>
+        </div>
         <br>
         <div class="grid-column-header">
-            <div class="header" class="grid-row-name"><b>Team Name</b></div> 
-            <div class="header" class="grid-row-district"><b>District</b></div>
+            <div class="header grid-row-name"><b>Team Name</b></div> 
+            <div class="header grid-row-district"><b>District</b></div>
+            <div class="header grid-row-power-ranking"><b>Power Ranking</b></div>
         </div> 
         <div class="grid-column-teams">
             {{#each allTeams}}
-            <div class="grid-row-name" id="email{{@index}}">{{this.name}}</div> 
-            <div class="grid-row-district" id="currentRole{{@index}}">{{this.district}}</div>
+            <div class="info grid-row-name" id="email{{@index}}">{{this.name}}</div> 
+            <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>
+            <div class="info grid-row-power-ranking">
+                {{#if this.powerRanking}}
+                <p id="powerRanking{{@index}}">{{this.powerRanking}}</p>
+                {{else}}
+                <p id="powerRanking{{@index}}">N/A</p>
+                {{/if}}
+                <input type="number" id="powerRankingInput{{@index}}">
+            </div>
             {{/each}}
         </div>
     </div>
 </div>
+
+<script src="/public/js/team_list.js"></script>
