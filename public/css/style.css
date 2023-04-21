@@ -1,307 +1,69 @@
-:root{
-    --logoColor: rgba(184, 147, 44, 0.9);
-    --hoverColor: rgb(209, 209, 209);
-    --transition: 250ms ease-in;
-    --transitionOut: 200ms ease-out;
+:root {
+    --borderRadius: 20px;
+    --textColor: rgb(234, 234, 234);
 }
 
 @font-face {
-    font-family: HeaderFont;
-    src: url(../fonts/roboto-condensed/RobotoCondensed-Light.ttf);
+    font-family: mainFont;
+    src: url(../fonts/Favorit_Expanded_Dynamo/ABCFavoritExpanded-Light-Trial.otf);
 }
 
-@font-face {
-    font-family: LogoFont;
-    src: url(../fonts/Bebas_Neue/BebasNeue-Regular.ttf);
-}
-
-@keyframes fadein {
-    from {
-        opacity: 0%;
-    }
-    to {
-        opacity: 100%;
-    }
-}
-
-* {
-    padding: 0;
+* { /* get rid of default margin / padding */
     margin: 0;
-}
-
-html {
-    height: 100%;
-}
-
-/* base settings for main layout */
-
-header {
-    /* background-color: rgb(108, 109, 108); */
-    opacity: 98%;
-    font-family: HeaderFont;
-    font-size: 16px;
-}
-
-header a, nav li {
-    text-decoration: none;
-    list-style: none;
-    float: left;
-    color: black;
+    padding: 0;
 }
 
 body {
-    min-height: 100%;
-    background-color: rgb(241, 239, 231);
+    background-color: var(--textColor);
 }
 
-main {
-    min-height: 100%;
-    margin: 30px;
-    padding-top: 20px;
-    z-index: 0;
+header a, nav li { /* make header and li text normal */
+    text-decoration: none;
+    list-style: none;
+    color: var(--textColor);
 }
-
-/* end */
-
-/* hamburger icon styling */
-
-#hamburger-menu {
-    position: absolute;
-    display: none;
-    top: 12px;
-    right: 60px;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 22px;
-    width: 30px;
-}
-
-#hamburger-menu .bar {
-    flex: 0 1 3px;
-    height: 3px;
-    width: 100%;
-    background-color: black;
-    border-radius: 10px;
-}
-
-/* hamburger icon end */
-
-/* Anchor button */
-
-.anchor-button {
-    font-family: LogoFont;
-    font-size: 36px;
-    color: var(--logoColor);
-    transition: var(--transitionOut);
-
-}
-
-header .anchor-button:hover {
-    color: var(--hoverColor);
-    transition: var(--transition);
-}
-
-/* anchor button end */
-
-/* nav bar settings */
 
 nav {
-    position: relative;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: var(--borderRadius);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
+    justify-content: space-between;
 }
 
-nav > * {
-    flex: 0 1 100%;
+#logoDiv, #linkDiv {
+    font-family: mainFont;
+    padding: 5px 10px;
 }
 
-#nav_links > ul {
-    display: flex;
-    justify-content: space-around;
-}
-
-#nav_links > ul.login { /*  activates when js script applies .login class to the ul */
-    justify-content: flex-end;
-}
-
-#nav_links > ul > li { /* visible links in nav bar */
+#profileLink {
+    text-align: center;
+    padding: 2px 10px;
+    border-radius: var(--borderRadius);
+    background-color: black;
     display: flex;
     justify-content: center;
-    width: 10%;
-    padding: 10px 10px;
-    border: 1px solid black;
-    border-radius: 20px;
-}
-
-#nav_links > ul > li.login-button { /* login link */
-    width: 100px;
-}
-
-/* nav bar links hover styling */
-
-#nav_links > ul > li:hover { /* visible links in nav bar */
-    border: 1px solid var(--logoColor);
-}
-
-.main-nav > li:hover {
-    transition: var(--transition);
-}
-
-.main-nav > li:hover > a {
-    color: var(--logoColor);
-    transition: var(--transition);
-}
-
-.main-nav > li:hover ul.dropdown { /* makes dropdown ul visible when hovering */
-    visibility: visible;
-    opacity: 98%;
-    transition: var(--transition);
-}
-
-.dropdown li:hover {
-    opacity: 100%;
-    background-color: var(--logoColor);
-    transition: var(--transition);
-    border-radius: 45%;
-}
-
-.dropdown li:hover a {
-    color: var(--hoverColor);
-    transition: var(--transition);
-}
-
-/* nav link hover end */
-
-#nav_links > ul > li { /* visible links in nav bar */
-    height: 30px;
     align-items: center;
 }
 
-.main-nav li { /* all links */
-    width: 20%;
-}
-
-.main-nav li a {
-    display: block;
-}
-
-.main-nav li ul.dropdown { /* makes dropdown fade out after mouse leaves */
-    transition: var(--transitionOut);
-}
-
-ul.dropdown {
+#loginLink {
+    text-align: center;
+    padding: 2px 10px;
+    border-radius: var(--borderRadius);
+    background-color: black;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-around;
-    visibility: hidden;
-    opacity: 0;
+}
+
+/* #linkDiv li:hover .dropdownContainer { */ /* makes dropdown visible*/
+    /* visibility: visible; */
+/* } */
+
+.dropdownContainer {
     position: absolute;
-    height: 60px;
-    width: 99.6%;
-    margin-top: 20px;
-    padding: 5px 3px;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, 0);
-}
-
-/* styling for specifically the profile dropdown */
-
-.main-nav > li:last-child {
-    position: relative;
-}
-
-ul > li:last-child ul { /* targets the dropdown of the last link (profile) */
+    visibility: hidden;
+    display: flex;
     flex-direction: column;
-    gap: 20px;
-    height: fit-content;
-    width: 120px;
-    top: 60%;
-    padding-top: 18px;
 }
-
-ul > li:last-child ul > li { /* targets the links in the dropdown of the last link (profile) */
-    padding: 10px 10px;
-    text-align: center;
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 10px;
-}
-
-/* profile dropdown end */
-
-ul.dropdown > li { /* dropdown links */
-    align-items: center;
-    padding: 10px 0px;
-    text-align: center;
-    width: 10%;
-    border: 1px solid black;
-    border-radius: 10px;
-    transition: var(--transitionOut);
-}
-
-.dropdown a {
-    opacity: 100%;
-    display: block;
-    width: 100%;
-    transition: var(--transitionOut);
-}
-
-/* nav bar styling end */
-
-/* @media (max-width: 1300px) {
-    #hamburger-menu {
-        display: flex;
-    }
-
-    nav {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-    }
-
-    #nav_links {
-        display: none;
-        width: 100%;
-    }
-
-    #nav_links.active > ul {
-        flex-direction: column;
-        width: 100%;
-        align-items: center;
-    }
-
-    #nav_links.active > ul > li {
-        padding: 10px 10px;
-        width: 75px;
-    }
-
-    .dropdown {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: 150px;
-        flex-direction: row;
-        left: 100%;
-        top: -20%;
-        padding: 5px 3px;
-    }
-
-    .dropdown > li { dropdown links
-        padding: 5px 10px;
-        width: 100%;
-        text-align: center;
-    }
-
-    .dropdown a {
-        opacity: 100%;
-        display: block;
-        width: 100%;
-    }
-
-    #nav_links.active {
-        display: flex;
-    }
-} */
