@@ -1,5 +1,11 @@
 <div class="teamList">
     <h1>Current registered teams</h1>
+
+    </div>
+    <div id="test"> 
+        <button id="upload_csv_button">Upload CSV File</button>
+        <input type="file" name="filename" id="filename">
+    </div>
     <div>
         <div id="submitPowerRankingBtnRow">
             <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
@@ -14,7 +20,7 @@
             <div class="header grid-row-district"><b>District</b></div>
             <div class="header grid-row-power-ranking"><b>Power Ranking</b></div>
         </div> 
-        <div class="grid-column-teams">
+        <div id="test_list" class="grid-column-teams">
             {{#each allTeams}}
             <div class="info grid-row-name" id="email{{@index}}">{{this.name}}</div> 
             <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>

@@ -40,7 +40,7 @@ let exportedMethods = {
             district: teamObj.district,
             players: [],
             teamCaptain: null,
-            powerRanking: null,
+            powerRanking: teamObj.powerRanking,
         };
 
         const teamsCollection = await teams();
@@ -68,7 +68,7 @@ let exportedMethods = {
 
         const insertTeam = await teamsCollection.insertOne(newTeam);
         const teamsId = insertTeam.insertedId.toString();
-        
+
         return teamsId;
     },
 
