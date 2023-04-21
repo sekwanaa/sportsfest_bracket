@@ -11,8 +11,6 @@ let exportedMethods = {
         const userCollection = await users();
     
         const allUsers = await userCollection.find({}).toArray();
-    
-        // console.log(allUsers)
 
         return allUsers;
     },
@@ -22,8 +20,6 @@ let exportedMethods = {
 
         const user = await userCollection.findOne({email: userEmail});
 
-        // console.log(user);
-
         return user;
     },
 
@@ -31,8 +27,6 @@ let exportedMethods = {
         const userCollection = await users();
 
         const user = await userCollection.find({role: userRole}).toArray();
-
-        // console.log(user);
 
         return user;
     },

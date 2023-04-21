@@ -53,8 +53,7 @@ router.post("/edit_power_ranking", async (req, res) => {
         const newPowerRank = req.body.teamRankObjArr;
 
         for(i=0; i<newPowerRank.length; i++) {
-            // console.log(newPowerRank[i].teamName, newPowerRank[i].district, newPowerRank[i].newPowerRank)
-            const updatePowerRank = await teamData.updatePowerRanking(newPowerRank[i].teamName, newPowerRank[i].district, newPowerRank[i].newPowerRank);
+           const updatePowerRank = await teamData.updatePowerRanking(newPowerRank[i].teamName, newPowerRank[i].district, newPowerRank[i].newPowerRank);
         }
 
         return res.json("")

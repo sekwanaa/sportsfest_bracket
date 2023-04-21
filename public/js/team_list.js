@@ -51,8 +51,6 @@
                 teamRankObj.district = parseInt($("#districtNum"+i)[0].innerHTML);
                 teamRankObj.newPowerRank = parseInt($("#powerRankingInput"+i).val());
                 teamRankObjArr.push(teamRankObj);
-                console.log(teamRankObj)
-                // console.log(teamName, district, newPowerRank)
             }
             teamRankObj = {
                 teamName: "",
@@ -60,8 +58,6 @@
                 newPowerRank: null,
             }
         };
-
-        console.log(teamRankObjArr)
 
         try {
             let req = {
@@ -74,7 +70,6 @@
             };
             $.ajax(req).then(function (res) {
                 //page reload on submit
-                console.log("done")
                 location.reload();
             });
         } 
