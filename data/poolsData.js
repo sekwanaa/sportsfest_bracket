@@ -906,11 +906,12 @@ let exportedMethods = {
             }
         }
 
-        // add numOfTeams/numOfCourts to each pool
         const teams = await teamData.getAllTeams();
+        let teamsPerPool = Math.floor(teams.length/numOfFields);
+
+        /* add numOfTeams/numOfCourts to each pool randomly
         let teamIndex = Math.floor(Math.random()*teams.length);
         let tmpTeamArray = teams;
-        let teamsPerPool = Math.floor(teams.length/numOfFields);
         field = 1;
 
         for(i=0; i<poolsArray.length; i++) {
@@ -924,6 +925,17 @@ let exportedMethods = {
             }
         }
 
+        */
+
+        // add numOfTeams/numOfCourts to each pool by powerranking
+
+        for(i=0; i<teams.length; i++) {
+            poolsArray[i%numOfFields].teams.push(teams[i]);
+        }
+
+
+        //end numOfTeams/numOfCourts to each pool by powerranking
+        
         teamMatchAgainstCount = 0;
         
         // each teams plays each other #? of times
