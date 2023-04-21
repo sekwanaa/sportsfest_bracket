@@ -59,8 +59,15 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     
     try{
-        const roundRobin = await poolsData.roundRobinSelection();
-        return res.json(roundRobin);
+        let schedule = null;
+        
+        if(req.body.selection == "roundRobin"){
+            schedule = await poolsData.roundRobinSelection();
+        } 
+        else {
+            schedule = await poolsData.createGoldSilverPool();
+        }
+        return res.json(schedule);
     } catch (e) {
         return res.status(500).json({ error: e});
     }

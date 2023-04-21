@@ -1074,7 +1074,8 @@ let exportedMethods = {
             }
             gamePool = [];
             // console.log(matchAgainstObj);
-            matchAgainstObj = {}
+            matchAgainstObj = {};
+            delete poolsArray[i].teams;
         }
         
         // add refs to each game
@@ -1093,8 +1094,38 @@ let exportedMethods = {
         // submit seeds, go to playoffs
         
         // 2 brackets, 1 for gold, 1 for silver
-        
-        return poolsArray;
+        let finalPoolsArray = [];
+        // let finalPoolObj = {
+        //     gameNum: gameNum,
+        //     team1: team1,
+        //     team2: team2,
+        //     field: field,
+        //     ref1: null,
+        //     ref2: null,
+        // }
+
+        for(i=0; i<poolsArray.length; i++) {
+            for(j=0; j<poolsArray[i].games.length; j++) {
+                let finalPoolObj = {
+                    gameNum: poolsArray[i].games[j].gameNum,
+                    team1: {
+                        teamName: poolsArray[i].games[j].team1,
+                    },
+                    team2: {
+                        teamName: poolsArray[i].games[j].team2,
+                    },
+                    field: poolsArray[i].games[j].field,
+                    ref1: poolsArray[i].games[j].ref1,
+                    ref2: poolsArray[i].games[j].ref2,
+                }
+
+                finalPoolsArray.push(finalPoolObj);
+            }
+        }
+
+        finalPoolsArray = finalPoolsArray.sort((a, b) => (a.gameNum < b.gameNum) ? -1 : (a.gameNum > b.gameNum) ? 1 : 0);
+
+        return finalPoolsArray;
     },
 
   }
