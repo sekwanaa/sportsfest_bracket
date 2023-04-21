@@ -16,6 +16,14 @@ let exportedMethods = {
         return allTeams;
     },
 
+    async getAllTeamsByPowerRanking() {
+        const teamsCollection = await teams();
+
+        const allTeams = await teamsCollection.find({}).sort({powerRanking: 1}).toArray();
+
+        return allTeams;
+    },
+
     async getAllTeamsCount() {
         const teamsCollection = await teams();
 
@@ -32,7 +40,7 @@ let exportedMethods = {
             district: teamObj.district,
             players: [],
             teamCaptain: null,
-            powerRanking: null,
+            powerRanking: teamObj.powerRanking,
         };
 
         const teamsCollection = await teams();
@@ -60,7 +68,7 @@ let exportedMethods = {
 
         const insertTeam = await teamsCollection.insertOne(newTeam);
         const teamsId = insertTeam.insertedId.toString();
-        
+
         return teamsId;
     },
 
@@ -215,6 +223,24 @@ let exportedMethods = {
             }
         );
         return updateTeamPlayers;
+    },
+
+    async updatePowerRanking (teamName, district, newPowerRanking) {
+        const teamsCollection = await teams();
+
+        //find team by team name and district and update their power ranking
+        const updatePowerRanking = await teamsCollection.findOneAndUpdate(
+            {
+                name: teamName, 
+                district: district
+            },
+            {
+                $set: {
+                    powerRanking: newPowerRanking
+                }
+            }
+        );
+        return updatePowerRanking;
     },
 }
 

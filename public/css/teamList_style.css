@@ -11,21 +11,32 @@ body {
     animation: fadein 1.25s ease-in-out;
 }
 
-.grid-column-header {
+#submitPowerRankingBtnRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+#submitPowerRankingBtnRow > #buttonDiv {
+    display: flex;
+    gap: 2rem;
+}
+
+.grid-column-header, .grid-column-teams {
     display: grid;
-    grid-template-columns: auto 100px;
+    grid-template-columns: auto auto 100px;
     grid-auto-rows: 50px;
 }
 
 .grid-column-teams {
-    display: grid;
-    grid-template-columns: auto 100px;
-    grid-auto-rows: 50px;
     max-height: 60vh;
     overflow-y: auto;
 }
 
-.grid-row-name, .grid-row-district, .header{
+.header {
+    background-color: rgb(203, 203, 203);
+}
+
+.info, .header{
     background-color: rgb(225, 225, 225);
     padding: 10px;
 }
@@ -34,8 +45,8 @@ body {
     text-align: center;
 }
 
-.header {
-    background-color: rgb(203, 203, 203);
+.grid-row-power-ranking > input {
+    width: 100%;
 }
 
 .teamList {
