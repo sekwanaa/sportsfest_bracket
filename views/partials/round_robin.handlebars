@@ -2,6 +2,12 @@
     <h1>Round Robin Games List</h1>
     <br>
     {{#unless isRounds}}
+        <div id="poolAlgorithm">
+            <select id="pool_algorithm_input">
+                <option value="roundRobin">Round Robin</option>
+                <option value="goldSilver">Gold Silver</option>
+            </select>
+        </div>
         <button id="rrGenerateRoundRobin">Create Schedule</button>
     {{/unless}}
     <button id="downloadCSVBtn">Download CSV</button>

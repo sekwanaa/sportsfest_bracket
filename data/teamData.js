@@ -32,6 +32,7 @@ let exportedMethods = {
             district: teamObj.district,
             players: [],
             teamCaptain: null,
+            powerRanking: null,
         };
 
         const teamsCollection = await teams();
