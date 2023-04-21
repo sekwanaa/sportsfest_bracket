@@ -16,6 +16,14 @@ let exportedMethods = {
         return allTeams;
     },
 
+    async getAllTeamsByPowerRanking() {
+        const teamsCollection = await teams();
+
+        const allTeams = await teamsCollection.find({}).sort({powerRanking: 1}).toArray();
+
+        return allTeams;
+    },
+
     async getAllTeamsCount() {
         const teamsCollection = await teams();
 
