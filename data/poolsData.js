@@ -907,6 +907,8 @@ let exportedMethods = {
         }
 
         const teams = await teamData.getAllTeamsByPowerRanking();
+
+        // console.log(teams);
         let teamsPerPool = Math.floor(teams.length/numOfFields);
 
         /* add numOfTeams/numOfCourts to each pool randomly
@@ -931,7 +933,10 @@ let exportedMethods = {
 
         for(i=0; i<teams.length; i++) {
             poolsArray[i%numOfFields].teams.push(teams[i]);
+            console.log(i%numOfFields);
         }
+
+        // console.log(poolsArray);
 
         //end numOfTeams/numOfCourts to each pool by powerranking
         
@@ -959,7 +964,7 @@ let exportedMethods = {
 
             //create matchup where every team plays every other team
             for(j=0; j<poolsArray[i].teams.length; j++) {
-                for(k=j; k<poolsArray[i].teams.length-1; k++) {
+                for(k=j; k<poolsArray[i].teams.length; k++) {
                     if(poolsArray[i].teams[j].name != poolsArray[i].teams[k].name) {
                         matchObj.gameNum = gameNum;
                         matchObj.team1 = poolsArray[i].teams[j].name;
@@ -984,6 +989,7 @@ let exportedMethods = {
             // delete poolsArray[i].teams;
         }
 
+        console.log(poolsArray);
         //reorganize gameNum so teams do not play back to back if unnecessary
         let gamePool = [];
         let previousGameTeams = [];
