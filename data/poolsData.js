@@ -933,7 +933,6 @@ let exportedMethods = {
 
         for(i=0; i<teams.length; i++) {
             poolsArray[i%numOfFields].teams.push(teams[i]);
-            console.log(i%numOfFields);
         }
 
         // console.log(poolsArray);
@@ -989,7 +988,6 @@ let exportedMethods = {
             // delete poolsArray[i].teams;
         }
 
-        console.log(poolsArray);
         //reorganize gameNum so teams do not play back to back if unnecessary
         let gamePool = [];
         let previousGameTeams = [];
