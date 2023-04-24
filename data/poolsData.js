@@ -878,6 +878,259 @@ let exportedMethods = {
         return finals;
     },
 
+    async createGoldSilverPool() {
+
+        const poolsInfo = await this.getPoolInfo();
+
+        const numOfFields = poolsInfo.numOfFields;
+        
+        let poolsArray = [];
+
+        let poolsObj = {
+            field: null,
+            teams: [],
+            games: [],
+        }
+
+        // for each court, create 1 pool
+        let field = 1;
+
+        for(i=0; i<numOfFields; i++) {
+            poolsObj.field = field;
+            poolsArray.push(poolsObj);
+            field++;
+            poolsObj = {
+                field: "null",
+                teams: [],
+                games: [],
+            }
+        }
+
+        const teams = await teamData.getAllTeamsByPowerRanking();
+
+        // console.log(teams);
+        let teamsPerPool = Math.floor(teams.length/numOfFields);
+
+        /* add numOfTeams/numOfCourts to each pool randomly
+        let teamIndex = Math.floor(Math.random()*teams.length);
+        let tmpTeamArray = teams;
+        field = 1;
+
+        for(i=0; i<poolsArray.length; i++) {
+            for(j=0; j<teamsPerPool; j++) {
+                poolsArray[i].teams.push(tmpTeamArray[teamIndex]);
+                tmpTeamArray.splice(teamIndex, 1);    
+                teamIndex = Math.floor(Math.random()*tmpTeamArray.length);
+                if(tmpTeamArray.length == 0) {
+                    break;
+                }
+            }
+        }
+
+        */
+
+        // add numOfTeams/numOfCourts to each pool by powerranking
+
+        for(i=0; i<teams.length; i++) {
+            poolsArray[i%numOfFields].teams.push(teams[i]);
+        }
+
+        // console.log(poolsArray);
+
+        //end numOfTeams/numOfCourts to each pool by powerranking
+        
+        teamMatchAgainstCount = 0;
+        
+        // each teams plays each other #? of times
+
+        let team1Name = null;
+        let gameNum = 0;
+
+        let matchObj = {
+            gameNum: null,
+            team1: "TBD",
+            team2: "TBD",
+            field: null,
+            complete: false,
+            ref1: null, 
+            ref2: null,
+        }
+
+        // for each pool
+        for(i=0; i<poolsArray.length; i++) {
+
+            gameNum = 1;
+
+            //create matchup where every team plays every other team
+            for(j=0; j<poolsArray[i].teams.length; j++) {
+                for(k=j; k<poolsArray[i].teams.length; k++) {
+                    if(poolsArray[i].teams[j].name != poolsArray[i].teams[k].name) {
+                        matchObj.gameNum = gameNum;
+                        matchObj.team1 = poolsArray[i].teams[j].name;
+                        matchObj.team2 = poolsArray[i].teams[k].name;                        
+                        matchObj.field = i+1;
+                        matchObj.ref1 = gameNum+1;
+                        matchObj.ref2 = gameNum+1;
+                        poolsArray[i].games.push(matchObj);
+        
+                        matchObj = {
+                            gameNum: gameNum,
+                            team1: team1Name,
+                            team2: null,
+                            complete: false,
+                            ref1: null, 
+                            ref2: null,
+                        }
+                        gameNum++;
+                    }
+                }
+            }
+            // delete poolsArray[i].teams;
+        }
+
+        //reorganize gameNum so teams do not play back to back if unnecessary
+        let gamePool = [];
+        let previousGameTeams = [];
+        let matchAgainstObj = {};
+
+        // poolsArray[i].teams.length
+
+        for(i=0; i<poolsArray.length; i++) {
+
+            gameNum = 1;
+            gamePool.push(poolsArray[i].games);
+            poolsArray[i].games = [];
+
+            gameIndex = 0;
+            poolsArray[i].games.push(gamePool[0][gameIndex]);
+            gameNum++;            
+            
+            previousGameTeams = [];
+            previousGameTeams.push(gamePool[0][gameIndex].team1);
+            previousGameTeams.push(gamePool[0][gameIndex].team2);
+
+            if(matchAgainstObj[gamePool[0][gameIndex].team1]) {
+                matchAgainstObj[gamePool[0][gameIndex].team1] += 1;
+            }
+            else {
+                matchAgainstObj[gamePool[0][gameIndex].team1] = 1;
+            }
+
+            if(matchAgainstObj[gamePool[0][gameIndex].team2]) {
+                matchAgainstObj[gamePool[0][gameIndex].team2] += 1;
+            }
+            else {
+                matchAgainstObj[gamePool[0][gameIndex].team2] = 1;
+            }
+
+            gamePool[0].splice(gameIndex, 1);
+            gameIndex = Math.floor((Math.random())*gamePool[0].length);
+
+            let stuckCount = 0;
+
+            while(gamePool[0].length>0) {
+
+                if (matchAgainstObj[gamePool[0][gameIndex].team1] == null) {
+                    matchAgainstObj[gamePool[0][gameIndex].team1] = 0;
+                }
+                if (matchAgainstObj[gamePool[0][gameIndex].team2] == null) {
+                    matchAgainstObj[gamePool[0][gameIndex].team2] = 0;
+                }
+                // (matchAgainstObj[gamePool[0][gameIndex].team1] - gameNum >= -1 || matchAgainstObj[gamePool[0][gameIndex].team2] - gameNum >= -1) && 
+                if((stuckCount < 1000) && (previousGameTeams.includes(gamePool[0][gameIndex].team1) || previousGameTeams.includes(gamePool[0][gameIndex].team2))) {
+                    gameIndex = Math.floor((Math.random())*gamePool[0].length);
+                    // console.log(stuckCount);
+                    stuckCount++;
+                }
+                else {
+                    if(matchAgainstObj[gamePool[0][gameIndex].team1] != null) {
+                        matchAgainstObj[gamePool[0][gameIndex].team1] += 1;
+                    }
+                    else {
+                        matchAgainstObj[gamePool[0][gameIndex].team1] = 1;
+                    }
+        
+                    if(matchAgainstObj[gamePool[0][gameIndex].team2] != null) {
+                        matchAgainstObj[gamePool[0][gameIndex].team2] += 1;
+                    }
+                    else {
+                        matchAgainstObj[gamePool[0][gameIndex].team2] = 1;
+                    }
+
+                    stuckCount = 0;
+                    gamePool[0][gameIndex].gameNum = gameNum;
+                    gamePool[0][gameIndex].ref1 = gameNum+1;
+                    gamePool[0][gameIndex].ref2 = gameNum+1;
+                    gameNum++;
+
+                    poolsArray[i].games.push(gamePool[0][gameIndex]);
+
+                    previousGameTeams = [];
+                    previousGameTeams.push(gamePool[0][gameIndex].team1);
+                    previousGameTeams.push(gamePool[0][gameIndex].team2);
+                    gamePool[0].splice(gameIndex, 1);
+
+                    if(gamePool[0].length > 0) {
+                        gameIndex = Math.floor((Math.random())*gamePool[0].length);
+                    }                    
+                }
+            }
+            gamePool = [];
+            // console.log(matchAgainstObj);
+            matchAgainstObj = {};
+            delete poolsArray[i].teams;
+        }
+        
+        // add refs to each game
+        // for(i=0; i<poolsArray.length; i++) {
+        //     for(j=0; j<poolsArray[i].games.length-1; j++) {
+        //         if(poolsArray[i].games[j].ref1 == poolsArray[i].games[j+1].gameNum) {
+        //             poolsArray[i].games[j].ref1 = poolsArray[i].games[j+1].team1;
+        //             poolsArray[i].games[j].ref2 = poolsArray[i].games[j+1].team2;
+        //         }
+        //     }
+        // }
+        
+        // top half move to gold
+        // bot half move to silver
+        
+        // submit seeds, go to playoffs
+        
+        // 2 brackets, 1 for gold, 1 for silver
+        let finalPoolsArray = [];
+        // let finalPoolObj = {
+        //     gameNum: gameNum,
+        //     team1: team1,
+        //     team2: team2,
+        //     field: field,
+        //     ref1: null,
+        //     ref2: null,
+        // }
+
+        for(i=0; i<poolsArray.length; i++) {
+            for(j=0; j<poolsArray[i].games.length; j++) {
+                let finalPoolObj = {
+                    gameNum: poolsArray[i].games[j].gameNum,
+                    team1: {
+                        teamName: poolsArray[i].games[j].team1,
+                    },
+                    team2: {
+                        teamName: poolsArray[i].games[j].team2,
+                    },
+                    field: poolsArray[i].games[j].field,
+                    ref1: poolsArray[i].games[j].ref1,
+                    ref2: poolsArray[i].games[j].ref2,
+                }
+
+                finalPoolsArray.push(finalPoolObj);
+            }
+        }
+
+        finalPoolsArray = finalPoolsArray.sort((a, b) => (a.gameNum < b.gameNum) ? -1 : (a.gameNum > b.gameNum) ? 1 : 0);
+
+        return finalPoolsArray;
+    },
+
   }
   
   module.exports = exportedMethods;

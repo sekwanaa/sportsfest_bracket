@@ -5,12 +5,16 @@
     var roundRobinGrid = $('#roundRobinGridInfo');
     var completeRoundRobinBtn = null;
     var downloadCSVButton = $("#downloadCSVBtn");
+    var poolSelection = $("#pool_algorithm_input")
 
     if($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn = $("#completeRoundRobinButton");
     }
 
     generaterrBtn.click(function (event) {
+
+        let selection = poolSelection.val();
+
         if(generaterrBtn.html() == "Create Schedule") {
             generaterrBtn.html("Refresh Schedule");
         }
@@ -20,7 +24,7 @@
                 url: '/round_robin',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    
+                    selection: selection,
                 })
             };
             $.ajax(req).then(function (roundRobinArray) {

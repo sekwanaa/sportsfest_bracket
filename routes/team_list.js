@@ -48,4 +48,73 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.post("/batch_import_team", async (req, res) => {
+    
+    try {
+        const teamArray = req.body.teamArray;
+        // console.log(teamArray.length);
+
+        let insertTeam = null;
+
+        let insertTeamArr = [];
+        let teamObj = {
+            teamName: null,
+            district: null,
+            players: [],
+            teamCaptain: {
+                name: "blank",
+            },
+            powerRanking: null,
+        }
+
+        for(i=0; i<teamArray.length; i++) {
+            teamObj.teamName = teamArray[i].teamName;
+            teamObj.district = teamArray[i].district;
+            teamObj.players = teamArray[i].players;
+            teamObj.teamCaptain = teamArray[i].teamCaptain;
+            teamObj.powerRanking = teamArray[i].powerRanking;
+            
+            insertTeamArr.push(teamObj);
+            teamObj = {
+                teamName: null,
+                district: null,
+                players: [],
+                teamCaptain: {
+                    name: "blank",
+                },
+                powerRanking: null,
+            }
+        }
+
+        for(j=0; j<insertTeamArr.length; j++) {
+            insertTeam = await teamData.addTeam(teamArray[j]);
+            insertTeam = null;
+        }
+        
+        return res.json("insertTeam");
+    }
+
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
+
+
+    
+});
+
+
+router.post("/edit_power_ranking", async (req, res) => {
+    try {
+        const newPowerRank = req.body.teamRankObjArr;
+
+        for(i=0; i<newPowerRank.length; i++) {
+           const updatePowerRank = await teamData.updatePowerRanking(newPowerRank[i].teamName, newPowerRank[i].district, newPowerRank[i].newPowerRank);
+        }
+
+        return res.json("")
+    } catch (error) {
+        return res.status(500).json({ error: error});
+    }
+});
+
 module.exports = router;
