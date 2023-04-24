@@ -1,0 +1,327 @@
+:root {
+    --volleyballBGColor: rgb(221, 221, 0);
+    --frisbeeBGColor: rgb(73, 152, 248);
+    --basketballBGColor: rgb(211, 110, 0);
+    --soccerBGColor: rgb(0, 145, 2);
+}
+
+@keyframes bannerAnimation1 {
+    0% {transform: translateX(0%);
+        -webkit-transform: translateX(0%);}
+      100% {transform: translateX(-200%);
+          -webkit-transform: translateX(-200%);}
+}
+@keyframes bannerAnimation2 {
+    0% {transform: translateX(0%);
+        -webkit-transform: translateX(0%);}
+      100% {transform: translateX(-200%);
+          -webkit-transform: translateX(-200%);}
+}
+@keyframes bannerAnimation3 {
+    0% {transform: translateX(-100%);
+        -webkit-transform: translateX(-100%);}
+      100% {transform: translateX(-300%);
+          -webkit-transform: translateX(-300%);}
+}
+@keyframes linksArrowTransition {
+    0% {
+        width: 0%;
+        opacity: 0;
+    }
+    75% {
+        opacity: 100%;
+    }
+    100% {
+        width: 6%;
+        opacity: 100%;
+    }
+}
+
+/* @-webkit-keyframes bannerAnimation1 {
+    0% {-webkit-transform: translateX(0%);}
+      100% {-webkit-transform: translateX(-200%);}
+}
+@-webkit-keyframes bannerAnimation2 {
+    0% {-webkit-transform: translateX(0%);}
+      100% {-webkit-transform: translateX(-200%);}
+}
+@-webkit-keyframes bannerAnimation3 {
+    0% {-webkit-transform: translateX(-200%);}
+      100% {-webkit-transform: translateX(-300%);}
+} */
+
+a:not(header a), li:not(header li) {
+    text-decoration: none;
+    list-style: none;
+    color: black;
+    font-family: mainFont;
+    font-size: 36px;
+}
+
+section.sportDiv {
+    height: 100vh;
+}
+
+section#landingPageDiv {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div#titleDiv {
+    text-align: center;
+}
+
+h1 {
+    font-family: titleFont;
+    font-size: 120px;
+}
+
+h2 {
+    font-family: mainFont;
+    font-size: 24px;
+}
+
+/* hover styling */
+
+.sportDiv .sportsLinksDiv li:hover::before {
+    animation: linksArrowTransition 250ms linear forwards;
+    visibility: visible;
+    display: inline-block;
+}
+
+#volleyballLinks a:hover, #volleyballLinks li:hover::before {
+    color: var(--soccerBGColor);
+}
+
+#frisbeeLinks a:hover, #frisbeeLinks li:hover::before {
+    color: white;
+}
+
+#basketballLinks a:hover, #basketballLinks li:hover::before {
+    color: white;
+}
+
+#soccerLinks a:hover, #soccerLinks li:hover::before {
+    color: var(--volleyballBGColor);
+}
+
+/* hover styling end */
+
+/* sports link bg colors */
+
+#volleyballLinks {
+    background-color: var(--volleyballBGColor);
+}
+
+#frisbeeLinks {
+    background-color: var(--frisbeeBGColor);
+}
+
+#basketballLinks {
+    background-color: var(--basketballBGColor);
+}
+
+#soccerLinks {
+    background-color: var(--soccerBGColor);
+}
+
+/* sports link bg colors end */
+
+/* general sports section styling */
+
+section.sportDiv > div {
+    position: relative;
+}
+
+.sportDiv .banner {
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.sportDiv .banner p.textContentBanner {
+    width: 100%;
+    white-space: nowrap;
+    position: relative;
+}
+
+.sportsLinksDiv {
+    position: absolute;
+    top: 80%;
+    width: 40%;
+    height: 300px;
+    padding-top: 1rem;
+    padding-left: 2rem;
+    border: 1px solid black;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    z-index: 0;
+}
+
+.sportDiv .sportsLinksDiv li::before { /* creating hidden arrows before li */
+    width: 0%;
+    opacity: 0;
+    content: "\2192";
+    font-size: 24px;
+    padding: .5rem;
+    visibility: hidden;
+    display: none;
+    transition: var(--linkTransitionOut);
+}
+
+.sportDiv .sportsLinksDiv li { /* to make li align with arrows */
+    display: flex;
+    align-items: center;
+}
+
+/* general sports section end */
+
+#thin-arrow {
+    width: 120px;
+    height: 160px;
+}
+
+/* volleyball section styling */
+
+#volleyballTextContentBanner > span {
+    padding: 0 10px;
+    font-family: titleFont;
+    font-size: 160px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+span#volleyballBanner {
+    animation: bannerAnimation1 20s linear infinite;
+    -webkit-animation: bannerAnimation1 20s linear infinite;
+}
+
+span#volleyballBanner2 {
+    /* background-color: pink; */
+    animation: bannerAnimation2 20s linear infinite;
+    -webkit-animation: bannerAnimation2 20s linear infinite;
+}
+span#volleyballBanner3 {
+    /* background-color: green; */
+    animation: bannerAnimation3 20s linear infinite;
+    -webkit-animation: bannerAnimation3 20s linear infinite;
+    animation-delay: 10s;
+}
+
+/* volleyball end */
+
+/* frisbee section styling */
+
+#frisbeeBanner {
+    transform: rotateZ(-7deg);
+}
+
+#frisbeeTextContentBanner > span {
+    padding: 0 10px;
+    font-family: titleFont;
+    font-size: 160px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+span#frisbeeBanner {
+    animation: bannerAnimation1 20s linear infinite;
+    -webkit-animation: bannerAnimation1 20s linear infinite;
+}
+
+span#frisbeeBanner2 {
+    animation: bannerAnimation2 20s linear infinite;
+    -webkit-animation: bannerAnimation2 20s linear infinite;
+    /* animation-delay: 5s; */
+}
+span#frisbeeBanner3 {
+    animation: bannerAnimation3 20s linear infinite;
+    -webkit-animation: bannerAnimation3 20s linear infinite;
+    animation-delay: 20s;
+}
+
+#frisbeeLinks {
+    top: 50%;
+    left: 50%;
+    padding-top: 70px;
+}
+
+/* frisbee end */
+
+/* basketball section styling */
+
+#basketballBanner {
+    transform: rotateZ(7deg);
+}
+
+#basketballTextContentBanner > span {
+    padding: 0 10px;
+    font-family: titleFont;
+    font-size: 160px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+span#basketballBanner {
+    animation: bannerAnimation1 20s linear infinite;
+    -webkit-animation: bannerAnimation1 20s linear infinite;
+}
+
+span#basketballBanner2 {
+    animation: bannerAnimation2 20s linear infinite;
+    -webkit-animation: bannerAnimation2 20s linear infinite;
+    /* animation-delay: 5s; */
+}
+span#basketballBanner3 {
+    animation: bannerAnimation3 20s linear infinite;
+    -webkit-animation: bannerAnimation3 20s linear infinite;
+    animation-delay: 20s;
+}
+
+#basketballLinks {
+    top: 50%;
+    padding-top: 70px;
+}
+
+/* basketball end */
+
+/* soccer section styling */
+
+#soccerTextContentBanner > span {
+    padding: 0 10px;
+    font-family: titleFont;
+    font-size: 160px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+span#soccerBanner {
+    animation: bannerAnimation1 20s linear infinite;
+    -webkit-animation: bannerAnimation1 20s linear infinite;
+}
+
+span#soccerBanner2 {
+    animation: bannerAnimation2 20s linear infinite;
+    -webkit-animation: bannerAnimation2 20s linear infinite;
+    /* animation-delay: 5s; */
+}
+span#soccerBanner3 {
+    animation: bannerAnimation3 20s linear infinite;
+    -webkit-animation: bannerAnimation3 20s linear infinite;
+    animation-delay: 20s;
+}
+
+#soccerLinks {
+    left: 10%;
+}
+
+/* soccer end */

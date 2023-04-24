@@ -18,6 +18,9 @@ const constructorMethod = app => {
         let email = "not authenticated";
         let loggedInUser = {};
         let userRole = "";
+        let sports = [
+            "volleyball", "frisbee", "basketball", "soccer"
+        ]
 
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
@@ -32,6 +35,7 @@ const constructorMethod = app => {
             isAuthenticated: req.oidc.isAuthenticated(),
             loggedInUser: loggedInUser,
             role: userRole,
+            sports: sports,
         })
     });
 

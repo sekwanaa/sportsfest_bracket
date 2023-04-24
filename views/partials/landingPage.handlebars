@@ -1,0 +1,38 @@
+<section id="landingPageDiv">
+    <div id="titleDiv">
+        <h1 id="title">
+            SPORTS BRACKET GENERATOR
+        </h1>
+        <h2 id="subheader">
+            V.01
+        </h2>
+    </div>
+    <img src="../../public/icons/thin-arrow.png" alt="thin arrow" id="thin-arrow">
+</section>
+{{#each sports}}
+<section id="{{this}}" class="sportDiv">
+    <div>
+        <div id="{{this}}Banner" class="banner">
+        <p id="{{this}}TextContentBanner" class="textContentBanner">
+            <span id="{{this}}Banner">
+                 {{this}} {{this}} {{this}}
+            </span>
+            <span id="{{this}}Banner2">
+                {{this}} {{this}} {{this}}
+            </span>
+            <span id="{{this}}Banner3">
+                {{this}} {{this}} {{this}}
+            </span>
+        </p>
+        </div>
+        <div id="{{this}}Links" class="sportsLinksDiv">
+            <ul class="sportsLinks">
+                <li><a href="">Current Bracket</a></li>
+                <li><a href="">Current Games</a></li>
+                <li><a href="">Current Seeds</a></li>
+                <li><a href="">Current Teams</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+{{/each}}
