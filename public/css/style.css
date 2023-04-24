@@ -1,6 +1,8 @@
 :root {
     --borderRadius: 20px;
     --textColor: rgb(234, 234, 234);
+    --linkTransitionIn: 250ms ease-in;
+    --linkTransitionOut: 250ms ease-out;
 }
 
 @font-face {
@@ -32,9 +34,41 @@ nav {
     justify-content: space-between;
 }
 
+/* hover styling */
+
+#logo:hover {
+    color: black;
+    transition: var(--linkTransitionIn);
+}
+
+#profileLink:hover, #loginLink:hover { /* hover over the profile link / login link */
+    background-color: var(--textColor);
+    color: black;
+    transition: var(--linkTransitionIn);
+}
+
+#navLinks li:hover .dropdownContainer { /* makes dropdown visible*/
+    visibility: visible;
+    opacity: 1;
+    transition: var(--linkTransitionIn);
+}
+
+.dropdownContainer li:hover a {
+    color: black;
+    transition: var(--linkTransitionIn);
+}
+
+/* hover styling end */
+
+/* link styling */
+
 #logoDiv, #linkDiv {
     font-family: mainFont;
     padding: 5px 10px;
+}
+
+#logo {
+    transition: var(--linkTransitionOut);
 }
 
 #profileLink {
@@ -42,6 +76,8 @@ nav {
     padding: 2px 10px;
     border-radius: var(--borderRadius);
     background-color: black;
+    transition: var(--linkTransitionOut);
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,13 +93,25 @@ nav {
     align-items: center;
 }
 
-/* #linkDiv li:hover .dropdownContainer { */ /* makes dropdown visible*/
-    /* visibility: visible; */
-/* } */
+/* link styling end */
+
+/* dropdown styling */
 
 .dropdownContainer {
-    position: absolute;
+    padding-top: .75rem;
+    opacity: 0;
     visibility: hidden;
+    position: absolute;
+    transition: var(--linkTransitionOut);
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    gap: .75rem;
 }
+
+.dropdownContainer a {
+    color: white;
+    transition: var(--linkTransitionOut);
+}
+
+/* dropdown styling end */

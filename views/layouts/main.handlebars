@@ -21,18 +21,20 @@
                 <a href="/" id="logo">SBG</a>
             </div>
             <div id="linkDiv">
-                <li id="navLinks">
-                    {{#if isAuthenticated}}
-                        <a href="#" id="profileLink">PROFILE</a>
-                        <ul class="dropdownContainer">
-                            <li class="dropdownItem"><a href="/player_dashboard">View Profile</a></li>
-                            <li class="dropdownItem"><a href="/report_bug">Report Bug</a></li>
-                            <li class="dropdownItem"><a href="/logout">Logout</a></li>
-                        </ul>
-                    {{else}}
-                        <li><a href="/login" id="loginLink">LOGIN/SIGN UP</a></li>
-                    {{/if}}
-                </li>
+                <ul id="navLinks">
+                    <li id="profileLoginLink">
+                        {{#if isAuthenticated}}
+                            <a href="#" id="profileLink">PROFILE</a>
+                            <ul class="dropdownContainer">
+                                <li class="dropdownItem"><a href="/player_dashboard">View Profile</a></li>
+                                <li class="dropdownItem"><a href="/report_bug">Report Bug</a></li>
+                                <li class="dropdownItem"><a href="/logout">Logout</a></li>
+                            </ul>
+                        {{else}}
+                            <a href="/login" id="loginLink">LOGIN/SIGN UP</a>
+                        {{/if}}
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>   
