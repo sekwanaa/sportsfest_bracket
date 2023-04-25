@@ -40,14 +40,14 @@ router.get("/", async (req, res) => {
                 numOfFields: 1,
             }
 
-            let projectObj = {
+            projectionObj = {
                 projection: {
                     _id: 0,
                     stage: 1,
                 }
             }
 
-            let poolInfo = await poolsData.getPoolInfo(filterObj, projectObj);
+            let poolInfo = await poolsData.getPoolInfo(filterObj, projectionObj);
 
             if(poolInfo.stage > 1) {
                 isStage1 = false;
