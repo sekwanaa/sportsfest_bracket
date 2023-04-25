@@ -7,7 +7,7 @@ const { auth } = require('express-openid-connect');
 const config = {
     authRequired: false,
     auth0Logout: true,
-    secret: 'a long, randomly-generated string stored in env',
+    secret: dotEnv.secret,
     baseURL: dotEnv.baseURL,
     clientID: dotEnv.clientID,
     issuerBaseURL: 'https://dev-e6dfhqdzli1uevwb.us.auth0.com'
