@@ -18,8 +18,8 @@
           -webkit-transform: translateX(-200%);}
 }
 @keyframes bannerAnimation3 {
-    0% {transform: translateX(-100%);
-        -webkit-transform: translateX(-100%);}
+    0% {transform: translateX(-101%);
+        -webkit-transform: translateX(-101%);}
       100% {transform: translateX(-300%);
           -webkit-transform: translateX(-300%);}
 }
@@ -201,8 +201,8 @@ section.sportDiv > div {
 }
 
 span#volleyballBanner {
-    animation: bannerAnimation1 20s linear infinite;
-    -webkit-animation: bannerAnimation1 20s linear infinite;
+    animation: bannerAnimation1 20s linear forwards;
+    -webkit-animation: bannerAnimation1 20s linear forwards;
 }
 
 span#volleyballBanner2 {
@@ -234,8 +234,8 @@ span#volleyballBanner3 {
 }
 
 span#frisbeeBanner {
-    animation: bannerAnimation1 20s linear infinite;
-    -webkit-animation: bannerAnimation1 20s linear infinite;
+    animation: bannerAnimation1 20s linear forwards;
+    -webkit-animation: bannerAnimation1 20s linear forwards;
 }
 
 span#frisbeeBanner2 {
@@ -246,7 +246,7 @@ span#frisbeeBanner2 {
 span#frisbeeBanner3 {
     animation: bannerAnimation3 20s linear infinite;
     -webkit-animation: bannerAnimation3 20s linear infinite;
-    animation-delay: 20s;
+    animation-delay: 10s;
 }
 
 #frisbeeLinks {
@@ -272,8 +272,8 @@ span#frisbeeBanner3 {
 }
 
 span#basketballBanner {
-    animation: bannerAnimation1 20s linear infinite;
-    -webkit-animation: bannerAnimation1 20s linear infinite;
+    animation: bannerAnimation1 20s linear forwards;
+    -webkit-animation: bannerAnimation1 20s linear forwards;
 }
 
 span#basketballBanner2 {
@@ -284,7 +284,7 @@ span#basketballBanner2 {
 span#basketballBanner3 {
     animation: bannerAnimation3 20s linear infinite;
     -webkit-animation: bannerAnimation3 20s linear infinite;
-    animation-delay: 20s;
+    animation-delay: 10s;
 }
 
 #basketballLinks {
@@ -305,8 +305,8 @@ span#basketballBanner3 {
 }
 
 span#soccerBanner {
-    animation: bannerAnimation1 20s linear infinite;
-    -webkit-animation: bannerAnimation1 20s linear infinite;
+    animation: bannerAnimation1 20s linear forwards;
+    -webkit-animation: bannerAnimation1 20s linear forwards;
 }
 
 span#soccerBanner2 {
@@ -317,7 +317,7 @@ span#soccerBanner2 {
 span#soccerBanner3 {
     animation: bannerAnimation3 20s linear infinite;
     -webkit-animation: bannerAnimation3 20s linear infinite;
-    animation-delay: 20s;
+    animation-delay: 10s;
 }
 
 #soccerLinks {
