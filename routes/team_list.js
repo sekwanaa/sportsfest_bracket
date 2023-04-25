@@ -15,14 +15,10 @@ router.get("/", async (req, res) => {
     let name = "";
 
     if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
+        // const user = await userData.getUserByEmail(req.oidc.user.name);
         allUsers = await userData.getAllUsers();
         allTeams = await teamData.getAllTeams();
-        loggedInUser = user;
-        nickname = loggedInUser.email
-        userRole = loggedInUser.user_metadata.role;
-        name = loggedInUser.user_metadata.name;
+        const{ nickname, userRole, name } = await userData.getUserByEmail(req.oidc.user.name, ["nickname", "userRole", "name"])
     }
 
     res.render("partials/team_list", {
