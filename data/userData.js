@@ -19,20 +19,20 @@ let exportedMethods = {
         const userCollection = await users();
 
         const user = await userCollection.findOne({email: userEmail});
-        let userObj = {}
+        let userObj = []
 
         for (i=0; i<param.length; i++) {
             try {
                 if (param[i] == "nickname") {
-                    userObj.Nickname = user.email
+                    userObj.push(user.email);
                 } else if (param[i] == "userRole") {
-                    userObj.Role = user.user_metadata.role
+                    userObj.push(user.user_metadata.role);
                 } else if (param[i] == "name") {
-                    userObj.Name = user.user_metadata.name
+                    userObj.push(user.user_metadata.name);
                 } else if (param[i] == "userId") {
-                    userObj.UserId = user._id.toString()
+                    userObj.push(user._id.toString());
                 } else if (param[i] == "profilePic") {
-                    userObj.ProfilePic = user.user_metadata.profilePic
+                    userObj.push(user.user_metadata.profilePic);
                 } else {
                     console.log("else")
                 }

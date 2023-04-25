@@ -57,17 +57,12 @@ router.get("/", async (req, res) => {
     let position = null;
 
     if(req.oidc.isAuthenticated()) {
-        const{Nickname, Role, Name, UserId, ProfilePic} = await userData.getUserByEmail(req.oidc.user.name, ["nickname", "userRole", "name", "userId", "profilePic"]);
+        [nickname, userRole, name, userId, profilePic] = await userData.getUserByEmail(req.oidc.user.name, ["nickname", "userRole", "name", "userId", "profilePic"]);
         const player = await teamsData.getPlayerByUserId(userId);
         allUsers = await userData.getAllUsers();
-        console.log(Nickname)
-        nickname = Nickname;
-        userRole = Role;
-        name = Name;
-        userId = UserId;
         hasTeam = await teamsData.hasTeam(userId);
-        if(ProfilePic) {
-            profilePic = "../." + ProfilePic;
+        if(profilePic) {
+            profilePic = "../." + profilePic;
         }
 
         if (hasTeam) {
