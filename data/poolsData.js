@@ -33,10 +33,10 @@ let exportedMethods = {
         return;
     },
 
-    async getPoolInfo () {
+    async getPoolInfo (filterObj, projectObj) {
         const poolCollection = await pools();
 
-        const poolInfo = await poolCollection.findOne({});
+        const poolInfo = await poolCollection.findOne(filterObj,projectObj);
 
         return poolInfo;
     },
@@ -54,11 +54,24 @@ let exportedMethods = {
         let roundRobinTeamList = [];
         let teamObj = {};
         
+        let filterObj = {
+
+        }
+
+        let projectObj = {
+            _id: 0,
+            numOfFields: 1,
+            numOfTeams: 1,
+            seedingGames: 1,
+        }
+
         const allTeams = await teamData.getAllTeams();
-        const poolsInfo = await this.getPoolInfo();
+        const poolsInfo = await this.getPoolInfo(filterObj, projectObj);
+
         let numOfFields = poolsInfo.numOfFields;
         let numOfRoundRobinGames = poolsInfo.seedingGames;
-        let numOfTeams = poolsInfo.numOfTeams;
+        let numOfTeams = await teamData.getAllTeamsCount();
+
         // let numOfRefs = poolsInfo.numOfRefs;
         let numOfRefs = 2;
         let numOfPlayingTeams = 2;
@@ -211,8 +224,10 @@ let exportedMethods = {
     //method to insert finalized playoff schedule
     async insertPlayOff() {
         const numOfTeams = await teamData.getAllTeamsCount();
+
         const poolInfo = await this.getPoolInfo();
         const numOfFields = poolInfo.numOfFields;
+
         let numOfSeeds = Math.floor(0.6 * numOfTeams);
         let numOfPlayoffTeams = (numOfSeeds * 2)/3;
 
@@ -880,7 +895,8 @@ let exportedMethods = {
 
     async createGoldSilverPool() {
 
-        const poolsInfo = await this.getPoolInfo();
+        let filterObj
+        const poolsInfo = await this.getPoolInfo(filterObj, projectObj);
 
         const numOfFields = poolsInfo.numOfFields;
         

@@ -16,9 +16,12 @@ router.get("/", async (req, res) => {
     try {
         if(req.oidc.isAuthenticated()) {
             email = req.oidc.user.name;
-            const user = await userData.getUserByEmail(email);
-            userRole = user.user_metadata.role;
-            name = user.user_metadata.name;
+            // const user = await userData.getUserByEmail(email);
+
+            userRole, name = await userData.getUserByEmail(email, ["userRole", "name"]);
+
+            // userRole = user.user_metadata.role;
+            // name = user.user_metadata.name;
         
             rounds = await poolsData.getRoundRobinSchedule();
 
@@ -29,10 +32,20 @@ router.get("/", async (req, res) => {
                 isRounds = false;
             }
 
-            let poolInfo = await poolsData.getPoolInfo();
-            let currentStage = poolInfo.stage;
+            let filterObj = {
+                numOfFields: 1,
+            }
 
-            if(currentStage > 1) {
+            let projectObj = {
+                projection: {
+                    _id: 0,
+                    stage: 1,
+                }
+            }
+
+            let poolInfo = await poolsData.getPoolInfo(filterObj, projectObj);
+
+            if(poolInfo.stage > 1) {
                 isStage1 = false;
             }
         }
