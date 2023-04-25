@@ -15,20 +15,32 @@ let exportedMethods = {
         return allUsers;
     },
 
-    async getUserByEmail(userEmail) {
+    async getUserByEmail(userEmail, param) {
         const userCollection = await users();
 
         const user = await userCollection.findOne({email: userEmail});
+        let userObj = {}
 
-        return user;
-    },
-
-    async getUserByRole(userRole) {
-        const userCollection = await users();
-
-        const user = await userCollection.find({role: userRole}).toArray();
-
-        return user;
+        for (i=0; i<param.length; i++) {
+            try {
+                if (param[i] == "nickname") {
+                    userObj.Nickname = user.email
+                } else if (param[i] == "userRole") {
+                    userObj.Role = user.user_metadata.role
+                } else if (param[i] == "name") {
+                    userObj.Name = user.user_metadata.name
+                } else if (param[i] == "userId") {
+                    userObj.UserId = user._id.toString()
+                } else if (param[i] == "profilePic") {
+                    userObj.ProfilePic = user.user_metadata.profilePic
+                } else {
+                    console.log("else")
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        return userObj;
     },
 
     async updateUser(email, role) {

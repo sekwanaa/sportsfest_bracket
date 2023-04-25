@@ -57,19 +57,17 @@ router.get("/", async (req, res) => {
     let position = null;
 
     if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        const player = await teamsData.getPlayerByUserId(user._id.toString());
+        const{Nickname, Role, Name, UserId, ProfilePic} = await userData.getUserByEmail(req.oidc.user.name, ["nickname", "userRole", "name", "userId", "profilePic"]);
+        const player = await teamsData.getPlayerByUserId(userId);
         allUsers = await userData.getAllUsers();
-        loggedInUser = user;
-        nickname = loggedInUser.email
-        userRole = loggedInUser.user_metadata.role;
-        name = loggedInUser.user_metadata.name;
-        userId = user._id.toString();
+        console.log(Nickname)
+        nickname = Nickname;
+        userRole = Role;
+        name = Name;
+        userId = UserId;
         hasTeam = await teamsData.hasTeam(userId);
-
-        if(loggedInUser.user_metadata.profilePic) {
-            profilePic = "../." + loggedInUser.user_metadata.profilePic;
+        if(ProfilePic) {
+            profilePic = "../." + ProfilePic;
         }
 
         if (hasTeam) {
@@ -94,11 +92,12 @@ router.get("/", async (req, res) => {
         }
     }
 
+    console.log(profilePic)
+
     res.render("partials/player_dashboard", {
         title: "Profile", 
         shortcode: 'playerDashboard',
         isAuthenticated: req.oidc.isAuthenticated(),
-        loggedInUser: loggedInUser,
         role: userRole,
         allUsers: allUsers,
         length: allUsers.length,
