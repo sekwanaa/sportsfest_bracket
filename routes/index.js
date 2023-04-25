@@ -22,10 +22,15 @@ const constructorMethod = app => {
         ]
 
         if(req.oidc.isAuthenticated()) {
-            email = req.oidc.user.name;
-            const user = await userData.getUserByEmail(email);
-            loggedInUser = user;
-            userRole = loggedInUser.user_metadata.role;
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+            };
+
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userRole = user.user_metadata.role;
         }
 
         res.render('partials/landingPage', {

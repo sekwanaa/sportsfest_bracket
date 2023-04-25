@@ -12,22 +12,22 @@ router.get("/", async (req, res) => {
     let allUsers = []
 
     if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        allUsers = await userData.getAllUsers();
-        loggedInUser = user;
-        nickname = loggedInUser.nickname
-        userRole = loggedInUser.user_metadata.role;
+        let filterObj = {
+            email: req.oidc.user.name
+        };
+        let projectionObj = {
+            "user_metadata.role": 1,
+        };
+
+        const user = await userData.getUserByEmail(filterObj, projectionObj);
+        userRole = user.user_metadata.role;
     }
 
     res.render("partials/create_pool", {
         title: "Create Pool", 
         shortcode: 'createPool',
         isAuthenticated: req.oidc.isAuthenticated(),
-        loggedInUser: loggedInUser,
         role: userRole,
-        allUsers: allUsers,
-        length: allUsers.length
     });
 });
 

@@ -11,27 +11,29 @@ router.get("/", async (req, res) => {
     let userRole = "";
     let allUsers = [];
     let allTeams = [];
-    let nickname = "";
-    let name = "";
 
     if(req.oidc.isAuthenticated()) {
-        // const user = await userData.getUserByEmail(req.oidc.user.name);
+        let filterObj = {
+            email: req.oidc.user.name
+        };
+        let projectionObj = {
+            "user_metadata.role": 1,
+        };
+
+        const user = await userData.getUserByEmail(filterObj, projectionObj);
+        userRole = user.user_metadata.role;
         allUsers = await userData.getAllUsers();
         allTeams = await teamData.getAllTeams();
-        const{ nickname, userRole, name } = await userData.getUserByEmail(req.oidc.user.name, ["nickname", "userRole", "name"])
     }
 
     res.render("partials/team_list", {
         title: "Team List", 
         shortcode: 'teamList',
         isAuthenticated: req.oidc.isAuthenticated(),
-        loggedInUser: loggedInUser,
         role: userRole,
         allUsers: allUsers,
         allTeams: allTeams,
         length: allUsers.length,
-        nickname: nickname,
-        name: name,
         hasTeam: false,
     });
 });

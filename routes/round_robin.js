@@ -15,8 +15,15 @@ router.get("/", async (req, res) => {
 
     try {
         if(req.oidc.isAuthenticated()) {
-            email = req.oidc.user.name;
-            const user = await userData.getUserByEmail(email);
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+                "user_metadata.name": 1,
+            };
+
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
             name = user.user_metadata.name;
         
