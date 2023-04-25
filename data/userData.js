@@ -15,32 +15,12 @@ let exportedMethods = {
         return allUsers;
     },
 
-    async getUserByEmail(userEmail, param) {
+    async getUserByEmail(filterObj, projectionObj) {
         const userCollection = await users();
 
-        const user = await userCollection.findOne({email: userEmail});
-        let userObj = []
+        const user = await userCollection.findOne(filterObj, {projection: projectionObj});
 
-        for (i=0; i<param.length; i++) {
-            try {
-                if (param[i] == "nickname") {
-                    userObj.push(user.email);
-                } else if (param[i] == "userRole") {
-                    userObj.push(user.user_metadata.role);
-                } else if (param[i] == "name") {
-                    userObj.push(user.user_metadata.name);
-                } else if (param[i] == "userId") {
-                    userObj.push(user._id.toString());
-                } else if (param[i] == "profilePic") {
-                    userObj.push(user.user_metadata.profilePic);
-                } else {
-                    console.log("else")
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        };
-        return userObj;
+        return user;
     },
 
     async updateUser(email, role) {

@@ -57,12 +57,29 @@ router.get("/", async (req, res) => {
     let position = null;
 
     if(req.oidc.isAuthenticated()) {
-        [nickname, userRole, name, userId, profilePic] = await userData.getUserByEmail(req.oidc.user.name, ["nickname", "userRole", "name", "userId", "profilePic"]);
+        let filterObj = {
+            email: req.oidc.user.name
+        };
+        let projectionObj = {
+            _id: 1,
+            email: 1,
+            "user_metadata.role": 1,
+            "user_metadata.name": 1,
+            "user_metadata.profilePic": 1,
+        };
+
+        const user = await userData.getUserByEmail(filterObj, projectionObj);
+        userId = user._id.toString()
         const player = await teamsData.getPlayerByUserId(userId);
         allUsers = await userData.getAllUsers();
         hasTeam = await teamsData.hasTeam(userId);
-        if(profilePic) {
-            profilePic = "../." + profilePic;
+        nickname = user.email
+        userRole = user.user_metadata.role
+        name = user.user_metadata.name
+
+        
+        if(user.user_metadata.profilePic) {
+            profilePic = "../." + user.user_metadata.profilePic;
         }
 
         if (hasTeam) {
@@ -87,7 +104,7 @@ router.get("/", async (req, res) => {
         }
     }
 
-    console.log(profilePic)
+    // console.log(profilePic)
 
     res.render("partials/player_dashboard", {
         title: "Profile", 
