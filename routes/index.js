@@ -1,4 +1,3 @@
-const aboutRoutes = require("./about");
 const reportBugRoutes = require("./report_bugs");
 const bracketViewRoutes = require("./bracket_view");
 const courtViewRoutes = require("./court_view"); 
@@ -39,7 +38,6 @@ const constructorMethod = app => {
         })
     });
 
-    app.use("/about", aboutRoutes);
     app.use("/report_bug", reportBugRoutes);
     app.use("/bracket_view", bracketViewRoutes);
     app.use("/court_view", courtViewRoutes);
