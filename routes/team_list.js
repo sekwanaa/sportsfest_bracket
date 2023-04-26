@@ -6,10 +6,7 @@ const teamData = data.teamsData;
 
 router.get("/", async (req, res) => {
 
-    let email = "not authenticated";
-    let loggedInUser = {};
     let userRole = "";
-    let allUsers = [];
     let allTeams = [];
 
     if(req.oidc.isAuthenticated()) {
@@ -22,7 +19,6 @@ router.get("/", async (req, res) => {
 
         const user = await userData.getUserByEmail(filterObj, projectionObj);
         userRole = user.user_metadata.role;
-        allUsers = await userData.getAllUsers();
         allTeams = await teamData.getAllTeams();
     }
 
@@ -31,26 +27,23 @@ router.get("/", async (req, res) => {
         shortcode: 'teamList',
         isAuthenticated: req.oidc.isAuthenticated(),
         role: userRole,
-        allUsers: allUsers,
         allTeams: allTeams,
-        length: allUsers.length,
         hasTeam: false,
     });
 });
 
-router.post("/", async (req, res) => {
-    const personArray = req.body.personArray;
+// router.post("/", async (req, res) => {
+//     const personArray = req.body.personArray;
 
-    for(i=0; i<personArray.length; i++) {
-        const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
-    }
-});
+//     for(i=0; i<personArray.length; i++) {
+//         const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
+//     }
+// });
 
 router.post("/batch_import_team", async (req, res) => {
     
     try {
         const teamArray = req.body.teamArray;
-        // console.log(teamArray.length);
 
         let insertTeam = null;
 
@@ -95,11 +88,7 @@ router.post("/batch_import_team", async (req, res) => {
     catch (e) {
         return res.status(500).json({ error: e});
     }
-
-
-    
 });
-
 
 router.post("/edit_power_ranking", async (req, res) => {
     try {
