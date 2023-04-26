@@ -6,7 +6,6 @@ const poolsData = data.poolsData;
 
 router.get("/", async (req, res) => {
 
-    let email = "not authenticated";
     let userRole = "";
     let name = "";
     let rounds;
@@ -37,7 +36,7 @@ router.get("/", async (req, res) => {
             }
 
             filterObj = {
-                numOfFields: 1,
+                //future: determine current tournament
             }
 
             projectionObj = {
