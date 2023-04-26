@@ -36,12 +36,8 @@ const upload = multer({
     }
 });
 
-
-
 router.get("/", async (req, res) => {
 
-    let email = "not authenticated";
-    let loggedInUser = {};
     let userRole = "";
     let allUsers = [];
     let nickname = "";
@@ -77,7 +73,6 @@ router.get("/", async (req, res) => {
         userRole = user.user_metadata.role
         name = user.user_metadata.name
 
-        
         if(user.user_metadata.profilePic) {
             profilePic = "../." + user.user_metadata.profilePic;
         }
@@ -103,8 +98,6 @@ router.get("/", async (req, res) => {
             }
         }
     }
-
-    // console.log(profilePic)
 
     res.render("partials/player_dashboard", {
         title: "Profile", 
@@ -268,14 +261,12 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 
             // Resize and compress the image using Sharp
             const data = await sharp(imageBuffer)
-            .resize(800, 800)
-            .jpeg({ quality: 80 })
-            .toBuffer();
+                .resize(800, 800)
+                .jpeg({ quality: 80 })
+                .toBuffer();
 
             // Save the resized and compressed image to './public/images'
-            
             const imagePath = './public/images/profilePic/' + newImageName;
-            // console.log(imagePath);
 
             fs.writeFile(imagePath, data, async (err) => {
                 if (err) {
@@ -290,7 +281,7 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
                 }
             });
         } catch (err) {
-            // console.error(err);
+            
             return res.status(500).send('An error occurred while processing the image.');
         }
 });
