@@ -8,8 +8,6 @@ const teamsData = data.teamsData;
 router.get("/", async (req, res) => {
 
     try {
-        // let email = "not authenticated";
-        // let loggedInUser = {};
         let userRole = "";
 
         const numOfTeams = await teamsData.getAllTeamsCount();
@@ -23,9 +21,7 @@ router.get("/", async (req, res) => {
 
         let playoffObj = {
             team1: "team1",
-            // team1Elim: false,
             team2: "team2",
-            // team2Elim: false,
         };
         let playoffArr = [];
         let bracketDataIndex = 0;
