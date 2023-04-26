@@ -8,8 +8,8 @@ const teamsData = data.teamsData;
 router.get("/", async (req, res) => {
 
     try {
-        let email = "not authenticated";
-        let loggedInUser = {};
+        // let email = "not authenticated";
+        // let loggedInUser = {};
         let userRole = "";
 
         const numOfTeams = await teamsData.getAllTeamsCount();
@@ -90,9 +90,7 @@ router.get("/", async (req, res) => {
             title: 'View Bracket', 
             shortcode: 'bracketView',
             isAuthenticated: req.oidc.isAuthenticated(),
-            loggedInUser: loggedInUser,
             role: userRole,
-            // bracketData: bracketData,
             playoffArr: playoffArr,
             quarterArr: quarterArr,
             semiArr: semiArr,
@@ -101,20 +99,6 @@ router.get("/", async (req, res) => {
         });
 
         return;
-
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
-});
-
-router.post("/", async (req, res) => {
-
-    try {
-        let email = "not authenticated";
-        let loggedInUser = {};
-        let userRole = "";
-
-        return res.json(await poolsData.getBracketData("quarters"));
 
     } catch (e) {
         return res.status(500).json({ error: e});
