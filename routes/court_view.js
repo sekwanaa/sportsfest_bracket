@@ -8,8 +8,6 @@ const poolsData = data.poolsData;
 
 router.get("/", async (req, res) => {
     try {
-        let email = "not authenticated";
-        let loggedInUser = {};
         let userRole = "";
     
         if(req.oidc.isAuthenticated()) {
@@ -23,21 +21,32 @@ router.get("/", async (req, res) => {
             const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
         }
-    
-        let numOfCourts = await poolsData.getPoolInfo();
+
+        let filterObj = {
+            //future: determine current tournament
+        }
+
+        let projectionObj = {
+            numOfFields: 1,
+        }
+
+        let poolInfo = await poolsData.getPoolInfo(filterObj, projectionObj);
+        let numOfFields = poolInfo.numOfFields;
         let courtArray = [];
         let courtObj = {};
         let courtData = "";
     
-        for (i=0; i<numOfCourts.numOfFields; i++) {
-            courtData = await courtviewData.getCurrentGameData(i+1);
-            if(courtData.length > 0) {
-                courtObj.gameNum = courtData[0].gameNum;
+        for (i=0; i<numOfFields; i++) {
+            let fieldNum = i+1;
+            courtData = await courtviewData.getCurrentGameData(fieldNum);
+
+            if(courtData != null) {
+                courtObj.gameNum = courtData.gameNum;
                 courtObj.numOfFields = i+1;
-                courtObj.teamName1 = courtData[0].team1;
-                courtObj.teamName2 = courtData[0].team2;
-                courtObj.ref1 = courtData[0].ref1;
-                courtObj.ref2 = courtData[0].ref2;
+                courtObj.teamName1 = courtData.team1;
+                courtObj.teamName2 = courtData.team2;
+                courtObj.ref1 = courtData.ref1;
+                courtObj.ref2 = courtData.ref2;
                 courtArray.push(courtObj);
                 courtObj = {};
                 courtData = "";
@@ -65,9 +74,6 @@ router.get("/", async (req, res) => {
     }
 });
 
-
-
-
 router.post("/", async (req, res) => {
     const matchInfo = req.body;
     
@@ -84,8 +90,6 @@ router.post("/", async (req, res) => {
         matchInfo.loserPointDifferential,
         matchInfo.year = new Date().getFullYear().toString() // gets the current year, court view can only submit current year scores
     );
-
-    // const roundRobin = await poolsData.completeMatch(fieldNum, matchInfo.team1, matchInfo.team2);
 
     return res.json(insertMatch);
 });
