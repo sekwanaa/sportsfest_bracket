@@ -9,11 +9,7 @@ const poolsData = data.poolsData;
 router.get("/", async (req, res) => {
 
     try {
-        let email = "not authenticated";
-        let user = {};
         let userRole = "";
-        let allUsers = []
-        let matches = null;
     
         if(req.oidc.isAuthenticated()) {
             let filterObj = {
@@ -25,7 +21,6 @@ router.get("/", async (req, res) => {
 
             const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
-            allUsers = await userData.getAllUsers();
         }
     
         const matchHistory = await matchesData.getTeamRecords();
@@ -41,8 +36,6 @@ router.get("/", async (req, res) => {
             shortcode: 'seedingTable',
             isAuthenticated: req.oidc.isAuthenticated(),
             role: userRole,
-            allUsers: allUsers,
-            length: allUsers.length,
             matches: matchHistory,
             stage1: isStage1,
         });
