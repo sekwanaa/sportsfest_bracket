@@ -1,42 +1,67 @@
 
 {{!-- Public dashboard --}}
+<div id="titleDiv">
+    <h1>PROFILE</h1>
+</div>
 
 <div id="dashboard">
     <div id="userCard" class="dashboardCards">
         <img src="{{profilePic}}" alt="Profile Picture">
-        <br>
         <div id="upload_picture">
             {{!-- <form action="/player_dashboard/upload-image" method="post" enctype="multipart/form-data" > --}}
             <form enctype="multipart/form-data" >
                 <input type="file" name="user-image" id="user_picture">
             </form>
         </div>
-        {{!-- if they have a name this will show --}}
-        {{#if name}}
-        <h2 id="player_name">{{name}}</h2>
-        <div id="name_update_div">
-            <input class="edit_inputs" id="player_name_input" type="text" placeholder="Update name">
-        </div>
-        {{/if}}
-        <h5>{{role}}</h5>
-        <p id="shirt_number">Shirt Number: {{shirt_number}}</p>
-        <div id="shirt_number_update_div">
-            <input class="edit_inputs" id="shirt_number_input" type="text" placeholder="Update shirt number">
-        </div>
-        <p id="player_team">Team: {{teamName}}</p>
-        <p id="player_position">Position: {{position}}</p>
-        <div id="position_update_div">
-            <select id="player_position_input">
-                <option value="All Around">All Around</option>
-                <option value="Outside Hitter">Outside Hitter</option>
-                <option value="Setter">Setter</option>
-                <option value="Libero">Libero</option>
-                <option value="Middle Blocker">Middle Blocker</option>
-                <option value="Opposite">Opposite</option>
-            </select>
-        </div>
-        <button id="edit_profile_button">Edit</button>
-        <button id="submit_profile_changes_button">Submit</button>
+        <section id="userInfo">
+            {{!-- if they have a name this will show --}}
+            {{#if name}}
+            <h2 id="player_name">{{name}}</h2>
+            <div id="name_update_div">
+                <input class="edit_inputs" id="player_name_input" type="text" placeholder="Update name">
+            </div>
+            {{/if}}
+            <h5 id="player_role">{{role}}</h5>
+        </section>
+        <section id="playerInfo">
+            <section id="playerInfoTopRow">
+                <div id="shirtNumberDiv">
+                    <label for="shirt_number">Shirt Number</label>
+                    <p id="shirt_number">{{shirt_number}}</p>
+                    <div id="shirt_number_update_div">
+                        <input class="edit_inputs" id="shirt_number_input" type="text" placeholder="Update shirt number">
+                    </div>
+                </div>
+                <div id="playerTournamentDiv">
+                    <label for="player_tournament">Tournament</label>
+                    <p id="player_tournament">E-Sports</p>
+                </div>
+            </section>
+            <section id="playerInfoBottomRow">
+                <div id="playerTeamDiv">
+                    <label for="player_team">Team</label>
+                    <p id="player_team">{{teamName}}</p>
+                </div>
+                <div id="playerPositionDiv">
+                    <label for="player_position">Position</label>
+                    <p id="player_position">{{position}}</p>
+                    <div id="position_update_div">
+                        <select id="player_position_input">
+                            <option value="All Around">All Around</option>
+                            <option value="Outside Hitter">Outside Hitter</option>
+                            <option value="Setter">Setter</option>
+                            <option value="Libero">Libero</option>
+                            <option value="Middle Blocker">Middle Blocker</option>
+                            <option value="Opposite">Opposite</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section id="userCardButtons">
+            <button id="edit_profile_button">Edit</button>
+            <button id="submit_profile_changes_button">Submit</button>
+        </section>
     </div>
 
     {{!-- Join (and edit teams if you're a captain/coordinator) --}}

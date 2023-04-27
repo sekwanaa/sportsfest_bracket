@@ -1,136 +1,95 @@
-@keyframes fadein {
-    from {
-        opacity: 0%;
-    }
-    to {
-        opacity: 100%;
-    }
+body {
+    background-color: black;
 }
 
-form, body {
-    animation: fadein 1.25s ease-in-out;
-}
-
-#dashboard { /* Dashboard cards flex to fit the page */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-}
-
-
-#dashboard > * { /* selects all direct children of #dashboard aka all cards*/
-    flex: 0 1 25%;
-    min-width: 250px;
+#titleDiv {
+    font-family: titleFont;
+    font-size: 24px;
+    height: 100px;
     text-align: center;
-    min-height: 400px;
-    max-height: 400px;
-    padding: 10px 10px;
-    border: 2px solid black;
-    border-radius: 50px 30px;
-}
-
-#dashboard > #editUserRoles {
-    flex: 1 1 40%;
-    min-width: none;
-    max-width: 650px;
-}
-
-.edit_inputs { /* for when you click edit on user card*/
-    text-align: center;
-    padding: .15em;
-    margin-top: .15em;
-    margin-bottom: .15em;
-}
-
-.grid-column { /* selects table columns for edit user role*/
-    display: grid;
-    grid-template-columns: auto auto 150px;
-    grid-auto-rows: 50px;
-    max-height: 300px;
-    overflow-y: scroll;
-}
-
-#users_submit_button_div { /* trash way of styling submit button in edit user roles*/
-    display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-}
-
-#role_change_submit_button_div {
-    grid-column-start: 5;
-    grid-column-end: 5;
-}
-
-/* generic edit user roles styling  */
-
-.grid-row, .header{
-    background-color: rgb(225, 225, 225);
-    padding: 10px;
+    background-color: var(--textColor);
     border: 1px solid black;
-}
-
-.header {
-    background-color: rgb(203, 203, 203);
-}
-
-/* random other styling */
-
-#teamMembers {
-    max-height: 100px;
-    overflow-y: auto;
-}
-
-#button {
-    padding: 2px;
-}
-
-#upload_picture {
+    border-radius: 30px;
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-#upload_picture > form {
+#dashboard { /* entire card area */
     display: flex;
+}
+
+.dashboardCards { /* all cards */
+    flex: 1 1 50%;
+    background-color: var(--textColor);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
-
-
-h1 {
-    text-align: center;
+#userCard > * {
+    padding: .5rem;
 }
 
-h2 {
-    font-size: 20px;
-    padding: 10px 5px;
+#userCard img {
+    width: 150px;
+    height: 150px;
+    border-radius: 30px;
 }
 
-p {
-    font-size: 16px;
-    padding: 10px 5px;
+#userCard section#userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-img {
-    min-height: 150px;
-    min-width: 150px;
-    max-width: 250px;
-    max-height: 150px;
-    padding: 5px 5px;
+#userCard section#userInfo #player_name {
+    text-transform: uppercase;
+    font-family: titleFont;
 }
 
-form input {
+#userCard section#userInfo #player_role{
+    text-transform: uppercase;
+    font-family: mainFont;
+    font-weight: 100;
+}
+
+#userCard section#playerInfo {
+    width: 90%;
+}
+
+#userCard section#playerInfo #playerInfoTopRow, #userCard section#playerInfo #playerInfoBottomRow {
+    font-family: mainFont;
+    font-size: 12px;
     width: 100%;
-    text-align: center;
-    border-width: 1px;
-    border-radius: 8%;
-    padding: 2px;
-    margin: 10px 0px;
+    margin: 30px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-input {
-    width: 100px;
+#playerInfoTopRow > div, #playerInfoBottomRow > div {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
-form input::placeholder, textarea::placeholder {
+#playerInfoTopRow label, #playerInfoBottomRow label {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 800;
+    padding-bottom: 10px;
+}
+
+#playerInfoTopRow p, #playerInfoBottomRow p {
+    width: 100%;
+    height: 20px;
     text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
 }
