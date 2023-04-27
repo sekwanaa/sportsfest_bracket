@@ -6,11 +6,7 @@ const poolsData = data.poolsData;
 
 router.get("/", async (req, res) => {
 
-    let email = "not authenticated";
-    let loggedInUser = {};
     let userRole = "";
-    let allUsers = [];
-    let nickname = "";
     let name = "";
     let rounds;
     let isRounds = false;
@@ -18,25 +14,41 @@ router.get("/", async (req, res) => {
 
     try {
         if(req.oidc.isAuthenticated()) {
-            email = req.oidc.user.name;
-            const user = await userData.getUserByEmail(email);
-            allUsers = await userData.getAllUsers();
-            loggedInUser = user;
-            nickname = loggedInUser.email
-            userRole = loggedInUser.user_metadata.role;
-            name = loggedInUser.user_metadata.name;
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+                "user_metadata.name": 1,
+            };
+
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userRole = user.user_metadata.role;
+            name = user.user_metadata.name;
         
             rounds = await poolsData.getRoundRobinSchedule();
+
             if(rounds.length > 0) {
                 isRounds = true;
             }
             else {
-                isRounds = false;                
+                isRounds = false;
             }
-            let poolInfo = await poolsData.getPoolInfo();
-            let currentStage = poolInfo.stage;
 
-            if(currentStage > 1) {
+            filterObj = {
+                //future: determine current tournament
+            }
+
+            projectionObj = {
+                projection: {
+                    _id: 0,
+                    stage: 1,
+                }
+            }
+
+            let poolInfo = await poolsData.getPoolInfo(filterObj, projectionObj);
+
+            if(poolInfo.stage > 1) {
                 isStage1 = false;
             }
         }
@@ -61,7 +73,7 @@ router.post("/", async (req, res) => {
     try{
         let schedule = null;
         
-        if(req.body.selection == "roundRobin"){
+        if(req.body.selection == "roundRobin") {
             schedule = await poolsData.roundRobinSelection();
         } 
         else {

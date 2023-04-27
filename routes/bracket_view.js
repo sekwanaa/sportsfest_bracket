@@ -8,8 +8,6 @@ const teamsData = data.teamsData;
 router.get("/", async (req, res) => {
 
     try {
-        let email = "not authenticated";
-        let loggedInUser = {};
         let userRole = "";
 
         const numOfTeams = await teamsData.getAllTeamsCount();
@@ -23,9 +21,7 @@ router.get("/", async (req, res) => {
 
         let playoffObj = {
             team1: "team1",
-            // team1Elim: false,
             team2: "team2",
-            // team2Elim: false,
         };
         let playoffArr = [];
         let bracketDataIndex = 0;
@@ -75,19 +71,22 @@ router.get("/", async (req, res) => {
         let finals = await poolsData.getFinals("finals");
 
         if(req.oidc.isAuthenticated()) {
-            email = req.oidc.user.name;
-            const user = await userData.getUserByEmail(email);
-            loggedInUser = user;
-            userRole = loggedInUser.user_metadata.role;
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+            };
+
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userRole = user.user_metadata.role;
         }
 
         res.render("partials/bracket_view", {
             title: 'View Bracket', 
             shortcode: 'bracketView',
             isAuthenticated: req.oidc.isAuthenticated(),
-            loggedInUser: loggedInUser,
             role: userRole,
-            // bracketData: bracketData,
             playoffArr: playoffArr,
             quarterArr: quarterArr,
             semiArr: semiArr,
@@ -96,20 +95,6 @@ router.get("/", async (req, res) => {
         });
 
         return;
-
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
-});
-
-router.post("/", async (req, res) => {
-
-    try {
-        let email = "not authenticated";
-        let loggedInUser = {};
-        let userRole = "";
-
-        return res.json(await poolsData.getBracketData("quarters"));
 
     } catch (e) {
         return res.status(500).json({ error: e});

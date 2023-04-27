@@ -1,4 +1,4 @@
-require("dotenv").config()
+const dotEnv = require("dotenv").config().parsed;
 const express = require('express');
 const app = express();
 const static = express.static(__dirname + '/public');
@@ -7,9 +7,9 @@ const { auth } = require('express-openid-connect');
 const config = {
     authRequired: false,
     auth0Logout: true,
-    secret: 'a long, randomly-generated string stored in env',
-    baseURL: process.env.baseURL,
-    clientID: process.env.clientID,
+    secret: dotEnv.secret,
+    baseURL: dotEnv.baseURL,
+    clientID: dotEnv.clientID,
     issuerBaseURL: 'https://dev-e6dfhqdzli1uevwb.us.auth0.com'
 }
 
@@ -34,23 +34,23 @@ hbs.handlebars.registerHelper(helpers);
 
 configRoutes(app);
 
-app.listen(process.env.httpPort, () => {
+app.listen(dotEnv.httpPort, () => {
     console.log("we've now got a server!");
-    console.log('Your routes will be running on http://localhost:' + process.env.httpPort);
+    console.log('Your routes will be running on http://localhost:' + dotEnv.httpPort);
 })
 
-if(process.env.liveServer == "true") {
+if(dotEnv.liveServer == "true") {
     var https = require('https');
     var fs = require('fs');
     
     var options = {
-        key: fs.readFileSync(process.env.serverKey),
-        cert: fs.readFileSync(process.env.serverCert),
+        key: fs.readFileSync(dotEnv.serverKey),
+        cert: fs.readFileSync(dotEnv.serverCert),
         requestCert: false,
         rejectUnauthorized: false
     };
     
-    var server = https.createServer(options, app).listen(process.env.httpsPort, function(){
-        console.log("server started at port " + process.env.httpsPort);
+    var server = https.createServer(options, app).listen(dotEnv.httpsPort, function(){
+        console.log("server started at port " + dotEnv.httpsPort);
     });
 }

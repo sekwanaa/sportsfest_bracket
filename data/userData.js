@@ -15,18 +15,10 @@ let exportedMethods = {
         return allUsers;
     },
 
-    async getUserByEmail(userEmail) {
+    async getUserByEmail(filterObj, projectionObj) {
         const userCollection = await users();
 
-        const user = await userCollection.findOne({email: userEmail});
-
-        return user;
-    },
-
-    async getUserByRole(userRole) {
-        const userCollection = await users();
-
-        const user = await userCollection.find({role: userRole}).toArray();
+        const user = await userCollection.findOne(filterObj, {projection: projectionObj});
 
         return user;
     },

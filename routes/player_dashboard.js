@@ -36,12 +36,8 @@ const upload = multer({
     }
 });
 
-
-
 router.get("/", async (req, res) => {
 
-    let email = "not authenticated";
-    let loggedInUser = {};
     let userRole = "";
     let allUsers = [];
     let nickname = "";
@@ -57,19 +53,28 @@ router.get("/", async (req, res) => {
     let position = null;
 
     if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        const player = await teamsData.getPlayerByUserId(user._id.toString());
-        allUsers = await userData.getAllUsers();
-        loggedInUser = user;
-        nickname = loggedInUser.email
-        userRole = loggedInUser.user_metadata.role;
-        name = loggedInUser.user_metadata.name;
-        userId = user._id.toString();
-        hasTeam = await teamsData.hasTeam(userId);
+        let filterObj = {
+            email: req.oidc.user.name
+        };
+        let projectionObj = {
+            _id: 1,
+            email: 1,
+            "user_metadata.role": 1,
+            "user_metadata.name": 1,
+            "user_metadata.profilePic": 1,
+        };
 
-        if(loggedInUser.user_metadata.profilePic) {
-            profilePic = "../." + loggedInUser.user_metadata.profilePic;
+        const user = await userData.getUserByEmail(filterObj, projectionObj);
+        userId = user._id.toString()
+        const player = await teamsData.getPlayerByUserId(userId);
+        allUsers = await userData.getAllUsers();
+        hasTeam = await teamsData.hasTeam(userId);
+        nickname = user.email
+        userRole = user.user_metadata.role
+        name = user.user_metadata.name
+
+        if(user.user_metadata.profilePic) {
+            profilePic = "../." + user.user_metadata.profilePic;
         }
 
         if (hasTeam) {
@@ -98,7 +103,6 @@ router.get("/", async (req, res) => {
         title: "Profile", 
         shortcode: 'playerDashboard',
         isAuthenticated: req.oidc.isAuthenticated(),
-        loggedInUser: loggedInUser,
         role: userRole,
         allUsers: allUsers,
         length: allUsers.length,
@@ -257,14 +261,12 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 
             // Resize and compress the image using Sharp
             const data = await sharp(imageBuffer)
-            .resize(800, 800)
-            .jpeg({ quality: 80 })
-            .toBuffer();
+                .resize(800, 800)
+                .jpeg({ quality: 80 })
+                .toBuffer();
 
             // Save the resized and compressed image to './public/images'
-            
             const imagePath = './public/images/profilePic/' + newImageName;
-            // console.log(imagePath);
 
             fs.writeFile(imagePath, data, async (err) => {
                 if (err) {
@@ -279,7 +281,7 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
                 }
             });
         } catch (err) {
-            // console.error(err);
+            
             return res.status(500).send('An error occurred while processing the image.');
         }
 });
