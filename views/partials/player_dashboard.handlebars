@@ -75,7 +75,7 @@
     {{!-- Join (and edit teams if you're a captain/coordinator) --}}
 
     <div id="manageTeamCard" class="dashboardCards">
-        {{!-- <h1>Your Current Team</h1> --}}
+        <h1 class="cardTitles">Your Current Team</h1>
         {{#if hasTeam}} {{!-- if they have a team this will display --}}
             <div id="team_display_card">
                 <section id="teamInfo">
@@ -207,7 +207,7 @@
     {{#compareRole "coordinator" role}}
 
     <div class="dashboardCards" id="editUserRoles">
-        <h1>Edit User Roles</h1>
+        <h1 class="cardTitles">Edit User Roles</h1>
         <div>
             <div id="users_submit_button_div">
                 <p id="totalUsers" value="{{allUsers.length}}">Total Users: {{allUsers.length}}</p>
@@ -215,25 +215,28 @@
                     <button id="button" type="submit">Submit</button>
                 </section>
             </div>
-            <br>
-            <div class="grid-column">
-                <div class="header" class="grid-row"><p>Email</p></div> 
-                <div class="header" class="grid-row"><p>Current Role</p></div> 
-                <div class="header" class="grid-row"><p>Change Role to:</p></div>
-                {{#each allUsers}}
-                    <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
-                    <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
-                    <div class="grid-row" id="roleChange{{@index}}">
-                        <form id="roleChangeForm">
-                            <input list="roles" name="role" id="newRole{{@index}}">
+            <div class="gridContainer">
+                <div id="gridHeader" class="grid">
+                    <div class="header" class="grid-row"><p>Email</p></div> 
+                    <div class="header" class="grid-row"><p>Current Role</p></div> 
+                    <div class="header" class="grid-row"><p>Change Role to:</p></div>
+                </div>
+                <div id="gridInfo" class="grid">
+                    {{#each allUsers}}
+                        <div class="grid-row" id="email{{@index}}">{{this.email}}</div> 
+                        <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
+                        <div class="grid-row" id="roleChange{{@index}}">
+                            <form id="roleChangeForm">
+                                <input list="roles" name="role" id="newRole{{@index}}">
 
-                            <datalist id="roles">
-                            <option value="captain">
-                            <option value="player">
-                            </datalist>
-                        </form>
-                    </div>
-                {{/each}}
+                                <datalist id="roles">
+                                <option value="captain">
+                                <option value="player">
+                                </datalist>
+                            </form>
+                        </div>
+                    {{/each}}
+                </div>
             </div> 
         </div>
     </div>

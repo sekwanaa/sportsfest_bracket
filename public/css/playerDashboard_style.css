@@ -37,6 +37,20 @@ body {
     align-items: center;
 }
 
+.cardTitles {
+    font-family: mainFont;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-weight: 200;
+    padding: 5px 50px;
+    margin-top: -50px;
+    margin-bottom: 50px;
+    border: 1px solid black;
+    border-radius: 30px;
+    position: absolute;
+    top: 10%;
+}
+
 label {
     font-family: mainFont;
     text-transform: uppercase;
@@ -111,6 +125,10 @@ label {
 
 /* manageTeam styling */
 
+#manageTeamCard {
+    position: relative;
+}
+
 #team_display_card {
     font-family: mainFont;
     width: 90%;
@@ -168,5 +186,62 @@ label {
     align-items: center;
 }
 
-
 /* manageTeam styling end */
+
+/* edit user role styling */
+
+#editUserRoles {
+    font-family: mainFont;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#editUserRoles > div {
+    width: 90%;
+}
+
+#users_submit_button_div {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gridContainer {
+    width: 100%;
+}
+
+#gridHeader {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.header {
+    flex: 0 1 33%;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: titleFont;
+    color: white;
+    background-color: black;
+    border-radius: 30px;
+}
+
+#gridInfo {
+    width: 100%;
+    text-align: center;
+    height: 350px;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: calc(100%/3) calc(100%/3) calc(100%/3);
+    grid-auto-rows: 50px;
+}
+
+.grid-row {
+    width: 100%;
+}
+
+/* edit user role end */
