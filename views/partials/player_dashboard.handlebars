@@ -94,7 +94,6 @@
                 </section>
                 <section id="teamMembers">
                     {{#each teamMembers}}
-                        <label for="teamMember{{@index}}">TeamMember:</label>
                         <div class="teamMemberName">
                             <p id="teamMember{{@index}}">{{this.name}}</p>
                             {{#if this.code}} <p class="teamMemberIdLabel">- {{this.code}}</p>{{/if}}

@@ -1,3 +1,7 @@
+:root {
+    --displayedInfoFontSize: 16px;
+}
+
 body {
     background-color: black;
 }
@@ -21,6 +25,7 @@ body {
 }
 
 .dashboardCards { /* all cards */
+    min-width: 600px;
     height: 90vh;
     flex: 1 1 40%;
     background-color: var(--textColor);
@@ -94,7 +99,7 @@ label {
 }
 
 #playerInfoTopRow p, #playerInfoBottomRow p {
-    font-size: 16px;
+    font-size: var(--displayedInfoFontSize);
     width: 100%;
     height: fit-content;
     text-align: center;
@@ -116,7 +121,7 @@ label {
 }
 
 #team_display_card #teamInfo {
-    width: 25%;
+    width: 40%;
     margin-bottom: 30px;
     display: flex;
     flex-direction: column;
@@ -125,7 +130,7 @@ label {
 }
 
 #teamInfo div {
-    width: 100%;
+    width: 80%;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -143,14 +148,24 @@ label {
 
 #teamMembers {
     text-align: center;
-    width: 75%;
+    width: 100%;
     display: grid;
+    justify-items: center;
     grid-template-columns: 50% 50%;
     grid-auto-rows: 50px;
 }
 
 .teamMemberName {
+    font-size: var(--displayedInfoFontSize);
+    width: 75%;
+    height: fit-content;
+    padding: 5px 10px;
+    color: white;
+    background-color: black;
+    border-radius: 20px;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
