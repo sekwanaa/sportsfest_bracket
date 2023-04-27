@@ -27,7 +27,11 @@
             <section id="playerInfoTopRow">
                 <div id="shirtNumberDiv">
                     <label for="shirt_number">Shirt Number</label>
-                    <p id="shirt_number">{{shirt_number}}</p>
+                    {{#if shirt_number}}
+                        <p id="shirt_number">{{shirt_number}}</p>
+                    {{else}}
+                        <p id="shirt_number">N/A</p>
+                    {{/if}}
                     <div id="shirt_number_update_div">
                         <input class="edit_inputs" id="shirt_number_input" type="text" placeholder="Update shirt number">
                     </div>
@@ -38,13 +42,13 @@
                 </div>
             </section>
             <section id="playerInfoBottomRow">
-                <div id="playerTeamDiv">
-                    <label for="player_team">Team</label>
-                    <p id="player_team">{{teamName}}</p>
-                </div>
                 <div id="playerPositionDiv">
                     <label for="player_position">Position</label>
-                    <p id="player_position">{{position}}</p>
+                    {{#if player_position}}
+                        <p id="player_position">{{player_position}}</p>
+                    {{else}}
+                        <p id="player_position">N/A</p>
+                    {{/if}}
                     <div id="position_update_div">
                         <select id="player_position_input">
                             <option value="All Around">All Around</option>
@@ -55,6 +59,10 @@
                             <option value="Opposite">Opposite</option>
                         </select>
                     </div>
+                </div>
+                <div id="playerTeamDiv">
+                    <label for="player_team">Team</label>
+                    <p id="player_team">{{teamName}}</p>
                 </div>
             </section>
         </section>
@@ -67,20 +75,32 @@
     {{!-- Join (and edit teams if you're a captain/coordinator) --}}
 
     <div id="manageTeamCard" class="dashboardCards">
-        <h1>Your Current Team</h1>
+        {{!-- <h1>Your Current Team</h1> --}}
         {{#if hasTeam}} {{!-- if they have a team this will display --}}
             <div id="team_display_card">
-                <label for="teamName">Team Name:</label>
-                <h3 id="teamName">{{teamName}}</h3>
-                <label for="district">District:</label>
-                <p id="teamDistrict">{{district}}</p>
-                <label for="teamCaptain">Team Captain:</label>
-                <p id="teamCaptain">{{teamCaptain}}</p>
-                {{#each teamMembers}}
-                    <label for="teamMember{{@index}}">TeamMember:</label>
-                    <p id="teamMember{{@index}}">{{this.name}}</p>
-                    {{#if this.code}} <label for="teamMember">- {{this.code}}</label>{{/if}}
-                {{/each}}         
+                <section id="teamInfo">
+                    <div>
+                        <label for="teamName">Team Name</label>
+                        <p id="teamName">{{teamName}}</p>
+                    </div>
+                    <div>
+                        <label for="district">District</label>
+                        <p id="teamDistrict">{{district}}</p>
+                    </div>
+                    <div>
+                        <label for="teamCaptain">Team Captain</label>
+                        <p id="teamCaptain">{{teamCaptain}}</p>
+                    </div>
+                </section>
+                <section id="teamMembers">
+                    {{#each teamMembers}}
+                        <label for="teamMember{{@index}}">TeamMember:</label>
+                        <div class="teamMemberName">
+                            <p id="teamMember{{@index}}">{{this.name}}</p>
+                            {{#if this.code}} <p class="teamMemberIdLabel">- {{this.code}}</p>{{/if}}
+                        </div>
+                    {{/each}}   
+                </section>      
             </div>
 
             <div id="edit_team_display_card">
