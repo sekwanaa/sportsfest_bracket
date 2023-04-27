@@ -16,7 +16,7 @@
     
     addMoreButton.click(function () {
         removeMember.show()
-        const div = $("#teamMembers");
+        const div = $("#teamMembersList");
         div.append('<input id="teamMemberName' + i++ +'" type="text" placeholder="Team Member Name"></input>');
         teamMemberCount = i;
     });

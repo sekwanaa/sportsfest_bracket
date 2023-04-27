@@ -186,6 +186,52 @@ label {
     align-items: center;
 }
 
+/* no team styling */
+
+#noTeamDisplay {
+    font-family: mainFont;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#noTeamDisplay > * {
+    margin-bottom: 20px;
+}
+
+#createTeamSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#createTeamSection input {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+#teamInputForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#teamMembers, #teamMembers div {
+    display: flex;
+    flex-direction: column;
+}
+
+#teamMembersList {
+    max-height: 100px;
+    overflow-y: scroll;
+}
+
+/* no team end */
+
 /* edit field styling */
 
 #edit_team_display_card {
@@ -235,10 +281,7 @@ section#edit_team_display_card > div {
     display: flex;
 }
 
-
-
 /* edit field end */
-
 /* manageTeam styling end */
 
 /* edit user role styling */
