@@ -38,7 +38,11 @@
                 </div>
                 <div id="playerTournamentDiv">
                     <label for="player_tournament">Tournament</label>
-                    <p id="player_tournament">E-Sports</p>
+                    {{#if tournament}}
+                        <p id="player_tournament">{{tournament}}</p>
+                    {{else}}
+                        <p id="player_tournament">N/A</p>
+                    {{/if}}
                 </div>
             </section>
             <section id="playerInfoBottomRow">
@@ -62,7 +66,11 @@
                 </div>
                 <div id="playerTeamDiv">
                     <label for="player_team">Team</label>
-                    <p id="player_team">{{teamName}}</p>
+                    {{#if hasTeam}}
+                        <p id="player_team">{{teamName}}</p>
+                    {{else}}
+                        <p id="player_team">N/A</p>
+                    {{/if}}
                 </div>
             </section>
         </section>
