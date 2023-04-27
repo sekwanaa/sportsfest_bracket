@@ -186,6 +186,59 @@ label {
     align-items: center;
 }
 
+/* edit field styling */
+
+#edit_team_display_card {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section#edit_team_display_card > div {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+#editTeamMembersDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.editInfoDiv {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 50% 50%;
+}
+
+#edit_team_member {
+    width: 55%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#edit_team_display_card input {
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 10px;
+}
+
+#add_remove_buttons {
+    margin-bottom: 10px;
+}
+
+#edit_submit_buttons {
+    display: flex;
+}
+
+
+
+/* edit field end */
+
 /* manageTeam styling end */
 
 /* edit user role styling */
