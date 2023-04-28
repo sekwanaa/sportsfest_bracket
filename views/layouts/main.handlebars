@@ -9,12 +9,17 @@
     <meta name="description" content="Sports bracket generator">
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="     crossorigin="anonymous"></script>
-    <link rel="preload" href="/public/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/public/css/style.css">
+    {{#if shortcode}}
+    <link rel="stylesheet" href="/public/css/{{shortcode}}_style.css">
+    {{/if}}
+    {{!-- if we want the page to load faster this code below defers the css from applying until after the page loads --}}
+    {{!-- <link rel="preload" href="/public/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/public/css/style.css"></noscript>
     {{#if shortcode}}
     <link rel="preload" href="/public/css/{{shortcode}}_style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/public/css/{{shortcode}}_style.css"></noscript>
-    {{/if}}
+    {{/if}} --}}
 </head>
 <body>
     <header>
