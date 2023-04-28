@@ -1,136 +1,343 @@
-@keyframes fadein {
-    from {
-        opacity: 0%;
-    }
-    to {
-        opacity: 100%;
-    }
+:root {
+    --displayedInfoFontSize: 16px;
 }
 
-form, body {
-    animation: fadein 1.25s ease-in-out;
+body {
+    background-color: black;
 }
 
-#dashboard { /* Dashboard cards flex to fit the page */
+#titleDiv {
+    font-family: titleFont;
+    font-size: 48px;
+    height: 25vh;
+    text-align: center;
+    background-color: var(--textColor);
+    border: 1px solid black;
+    border-radius: 30px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
+    align-items: center;
     justify-content: center;
 }
 
-
-#dashboard > * { /* selects all direct children of #dashboard aka all cards*/
-    flex: 0 1 25%;
-    min-width: 250px;
-    text-align: center;
-    min-height: 400px;
-    max-height: 400px;
-    padding: 10px 10px;
-    border: 2px solid black;
-    border-radius: 50px 30px;
+#dashboard { /* entire card area */
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#dashboard > #editUserRoles {
+.dashboardCards { /* all cards */
+    min-width: 600px;
+    height: 90vh;
     flex: 1 1 40%;
-    min-width: none;
-    max-width: 650px;
+    background-color: var(--textColor);
+    border: 1px solid black;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.edit_inputs { /* for when you click edit on user card*/
+.cardTitles {
+    font-family: mainFont;
+    text-transform: uppercase;
+    font-size: 36px;
+    font-weight: 200;
+    padding: 5px 50px;
+    margin-top: -50px;
+    margin-bottom: 50px;
+    border: 1px solid black;
+    border-radius: 30px;
+    position: absolute;
+    top: 10%;
+}
+
+label {
+    font-family: mainFont;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 800;
+    padding-bottom: 10px;
+}
+
+/* userCard styling */
+
+#userCard > * {
+    padding: .5rem;
+}
+
+#userCard img {
+    width: 150px;
+    height: 150px;
+    border-radius: 30px;
+}
+
+#userCard section#userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#userCard section#userInfo #player_name {
+    text-transform: uppercase;
+    font-family: titleFont;
+}
+
+#userCard section#userInfo #player_role{
+    text-transform: uppercase;
+    font-family: mainFont;
+    font-weight: 100;
+}
+
+#userCard section#playerInfo {
+    width: 90%;
+}
+
+#userCard section#playerInfo #playerInfoTopRow, #userCard section#playerInfo #playerInfoBottomRow {
+    font-family: mainFont;
+    font-size: 12px;
+    width: 100%;
+    margin: 30px 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#playerInfoTopRow > div, #playerInfoBottomRow > div {
+    flex: 0 1 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#playerInfoTopRow p, #playerInfoBottomRow p {
+    font-size: var(--displayedInfoFontSize);
+    width: 100%;
+    height: fit-content;
     text-align: center;
-    padding: .15em;
-    margin-top: .15em;
-    margin-bottom: .15em;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 
-.grid-column { /* selects table columns for edit user role*/
+/* userCard styling end */
+
+/* manageTeam styling */
+
+#manageTeamCard {
+    position: relative;
+}
+
+#team_display_card {
+    font-family: mainFont;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#team_display_card #teamInfo {
+    width: 40%;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#teamInfo div {
+    width: 80%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#teamInfo p {
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+#teamMembers {
+    text-align: center;
+    width: 100%;
     display: grid;
-    grid-template-columns: auto auto 150px;
+    justify-items: center;
+    grid-template-columns: 50% 50%;
     grid-auto-rows: 50px;
-    max-height: 300px;
+}
+
+.teamMemberName {
+    font-size: var(--displayedInfoFontSize);
+    width: 75%;
+    height: fit-content;
+    padding: 5px 10px;
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* no team styling */
+
+#noTeamDisplay {
+    font-family: mainFont;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#noTeamDisplay > * {
+    margin-bottom: 20px;
+}
+
+#createTeamSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#createTeamSection input {
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
+
+#teamInputForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#teamMembers, #teamMembers div {
+    display: flex;
+    flex-direction: column;
+}
+
+#teamMembersList {
+    max-height: 100px;
     overflow-y: scroll;
 }
 
-#users_submit_button_div { /* trash way of styling submit button in edit user roles*/
+/* no team end */
+
+/* edit field styling */
+
+#edit_team_display_card {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section#edit_team_display_card > div {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+#editTeamMembersDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.editInfoDiv {
     display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 50% 50%;
 }
 
-#role_change_submit_button_div {
-    grid-column-start: 5;
-    grid-column-end: 5;
+#edit_team_member {
+    width: 55%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-/* generic edit user roles styling  */
+#edit_team_display_card input {
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 10px;
+}
 
-.grid-row, .header{
-    background-color: rgb(225, 225, 225);
-    padding: 10px;
-    border: 1px solid black;
+#add_remove_buttons {
+    margin-bottom: 10px;
+}
+
+#edit_submit_buttons {
+    display: flex;
+}
+
+/* edit field end */
+/* manageTeam styling end */
+
+/* edit user role styling */
+
+#editUserRoles {
+    font-family: mainFont;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#editUserRoles > div {
+    width: 90%;
+}
+
+#users_submit_button_div {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gridContainer {
+    width: 100%;
+}
+
+#gridHeader {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .header {
-    background-color: rgb(203, 203, 203);
-}
-
-/* random other styling */
-
-#teamMembers {
-    max-height: 100px;
-    overflow-y: auto;
-}
-
-#button {
-    padding: 2px;
-}
-
-#upload_picture {
-    display: flex;
-    justify-content: center;
-}
-
-#upload_picture > form {
-    display: flex;
-    justify-content: center;
-}
-
-
-
-h1 {
+    flex: 0 1 33%;
+    padding: 10px 0;
+    margin-bottom: 20px;
     text-align: center;
+    font-family: titleFont;
+    color: white;
+    background-color: black;
+    border-radius: 30px;
 }
 
-h2 {
-    font-size: 20px;
-    padding: 10px 5px;
-}
-
-p {
-    font-size: 16px;
-    padding: 10px 5px;
-}
-
-img {
-    min-height: 150px;
-    min-width: 150px;
-    max-width: 250px;
-    max-height: 150px;
-    padding: 5px 5px;
-}
-
-form input {
+#gridInfo {
     width: 100%;
     text-align: center;
-    border-width: 1px;
-    border-radius: 8%;
-    padding: 2px;
-    margin: 10px 0px;
+    height: 350px;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: calc(100%/3) calc(100%/3) calc(100%/3);
+    grid-auto-rows: 50px;
 }
 
-input {
-    width: 100px;
+.grid-row {
+    width: 100%;
 }
 
-form input::placeholder, textarea::placeholder {
-    text-align: center;
-}
+/* edit user role end */

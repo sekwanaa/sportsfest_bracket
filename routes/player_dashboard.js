@@ -48,7 +48,7 @@ router.get("/", async (req, res) => {
     let teamMembers = null;
     let teamName = null;
     let userId = null;
-    let profilePic = "../../public/images/profilePic/R.png";
+    let profilePic = "../../public/images/R.png";
     let shirt_number = null;
     let position = null;
 
