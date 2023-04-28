@@ -23,7 +23,7 @@ let exportedMethods = {
         return user;
     },
 
-    async updateUser(email, role) {
+    async updateUserRole(email, role) {
         const userCollection = await users();
 
         const roleChanged = await userCollection.findOneAndUpdate(

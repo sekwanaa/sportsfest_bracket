@@ -162,8 +162,10 @@ router.post("/", async (req, res) => {
     const personArray = req.body.personArray;
 
     for(i=0; i<personArray.length; i++) {
-        const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
+        const updateUserRole = await userData.updateUserRole(personArray[i].email, personArray[i].role);
     }
+
+    return;
 });
 
 router.post("/join_team", async (req, res) => {
