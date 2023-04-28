@@ -34,7 +34,7 @@
     teamInputForm.submit(function (event) {
         event.preventDefault();
         var teamName = $('#teamName').val();
-        var district = $('#districtSelection').val();
+        var district = parseInt($('#districtSelection').val());
         var teamCaptain = $('#teamCaptain').val();
         var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
