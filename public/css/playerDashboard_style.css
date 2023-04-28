@@ -139,16 +139,17 @@ label {
 }
 
 #team_display_card #teamInfo {
-    width: 40%;
+    width: 100%;
     margin-bottom: 30px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
     align-items: center;
 }
 
 #teamInfo div {
-    width: 80%;
+    flex: 0 1 50%;
+    width: 200px;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -157,7 +158,7 @@ label {
 }
 
 #teamInfo p {
-    width: 100%;
+    width: 250px;
     height: 20px;
     text-align: center;
     border: 1px solid black;
@@ -166,16 +167,23 @@ label {
 
 #teamMembers {
     text-align: center;
-    width: 100%;
+    width: 60%;
+    height: 200px;
+    overflow-y: scroll;
     display: flex;
     justify-items: center;
     align-items: center;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#teamMembers::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none;
 }
 
 .teamMemberName {
-    flex: 1 1 30%;
     font-size: var(--displayedInfoFontSize);
-    width: 50%;
+    width: 60%;
     height: fit-content;
     padding: 5px 10px;
     margin: 3px 0;
@@ -276,6 +284,7 @@ section#edit_team_display_card > div {
 }
 
 #edit_submit_buttons {
+    margin: 10px;
     display: flex;
 }
 
