@@ -23,13 +23,13 @@ div#titleDiv {
 }
 
 h1 {
-    color: var(--textColor);
+    color: black;
     font-family: titleFont;
     font-size: 120px;
 }
 
 h2 {
-    color: white;
+    color: black;
     font-family: mainFont;
     font-size: 24px;
 }
