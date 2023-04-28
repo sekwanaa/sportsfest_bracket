@@ -199,7 +199,7 @@ section.sportDiv > div {
 
 /* styling for each sport */
 
-#textContentBanner0 > span, #textContentBanner1 > span, #textContentBanner2 > span, #textContentBanner3 > span {
+.textContentBanner > span {
     padding: 0 10px;
     font-family: titleFont;
     font-size: 160px;
@@ -207,43 +207,43 @@ section.sportDiv > div {
     white-space: nowrap;
 }
 
-span#textBanner0, span#textBanner1, span#textBanner2, span#textBanner3 {
+span.textBanner1 {
     animation: bannerAnimation1 40s linear forwards;
     -webkit-animation: bannerAnimation1 40s linear forwards;
 }
 
-span#textBanner01, span#textBanner11, span#textBanner21, span#textBanner31 {
+span.textBanner2 {
     /* background-color: pink; */
     animation: bannerAnimation2 40s linear infinite;
     -webkit-animation: bannerAnimation2 40s linear infinite;
 }
-span#textBanner02, span#textBanner12, span#textBanner22, span#textBanner32 {
+span.textBanner3 {
     /* background-color: green; */
     animation: bannerAnimation3 40s linear infinite;
     -webkit-animation: bannerAnimation3 40s linear infinite;
     animation-delay: 20s;
 }
 
-#banner1 {
+#banner1, #banner5, #banner9 {
     transform: rotateZ(-7deg);
 }
 
-#sportsLinks1 {
+#sportsLinks1, #sportsLinks5, #sportsLinks9 {
     top: 50%;
     left: 50%;
     padding-top: 70px;
 }
 
-#banner2 {
+#banner2, #banner6, #banner10 {
     transform: rotateZ(7deg);
 }
 
-#sportsLinks2 {
+#sportsLinks2, #sportsLinks6, #sportsLinks10 {
     top: 50%;
     padding-top: 70px;
 }
 
-#sportsLinks3 {
+#sportsLinks3, #sportsLinks7, #sportsLinks11 {
     left: 10%;
 }
 
