@@ -50,23 +50,12 @@ let exportedMethods = {
     },
 
     //method to create a potential round robin schedule
-    async roundRobinSelection() {
+    async roundRobinSelection(filterObj, projectionObj) {
         let roundRobinTeamList = [];
         let teamObj = {};
-        
-        let filterObj = {
-
-        }
-
-        let projectObj = {
-            _id: 0,
-            numOfFields: 1,
-            numOfTeams: 1,
-            seedingGames: 1,
-        }
 
         const allTeams = await teamData.getAllTeams();
-        const poolsInfo = await this.getPoolInfo(filterObj, projectObj);
+        const poolsInfo = await this.getPoolInfo(filterObj, projectionObj);
 
         let numOfFields = poolsInfo.numOfFields;
         let numOfRoundRobinGames = poolsInfo.seedingGames;
@@ -893,7 +882,7 @@ let exportedMethods = {
         return finals;
     },
 
-    async createGoldSilverPool() {
+    async createPoolPlay() {
 
         let filterObj
         const poolsInfo = await this.getPoolInfo(filterObj, projectObj);

@@ -77,7 +77,7 @@ router.post("/", async (req, res) => {
             schedule = await poolsData.roundRobinSelection();
         } 
         else {
-            schedule = await poolsData.createGoldSilverPool();
+            schedule = await poolsData.createPoolPlay();
         }
         return res.json(schedule);
     } catch (e) {
