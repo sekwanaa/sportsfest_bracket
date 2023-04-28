@@ -30,6 +30,7 @@ body { /* Hide scrollbar for IE, Edge and Firefox */
 }
 
 body {
+    overflow-x: hidden;
     background-color: var(--textColor);
 }
 
