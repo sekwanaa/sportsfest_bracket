@@ -165,7 +165,7 @@ router.post("/", async (req, res) => {
         const updateUserRole = await userData.updateUserRole(personArray[i].email, personArray[i].role);
     }
 
-    return;
+    return res.json("done");
 });
 
 router.post("/join_team", async (req, res) => {

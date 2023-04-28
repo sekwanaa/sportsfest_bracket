@@ -7,7 +7,7 @@
     roleChangeSubmitButton.click(function (event) {
         event.preventDefault();
 
-        $('#totalUsers')
+        // $('#totalUsers')
 
         let personArray = [];
 
@@ -31,22 +31,21 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/player_dashboard/',
+                url: '/player_dashboard',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     personArray: personArray,
                 })
             };
             $.ajax(req).then(function (res) {
+                //clear all input fields and reload page
+                roleChangeForm[0].reset();
+                location.reload();
             });
         } 
         catch (e) {
             console.log(e)
         }
-
-        //clear all input fields and reload page
-        roleChangeForm[0].reset();
-        location.reload();
 
     });
 })(window.jQuery);
