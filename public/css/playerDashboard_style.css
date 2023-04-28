@@ -167,23 +167,21 @@ label {
 #teamMembers {
     text-align: center;
     width: 100%;
-    display: grid;
+    display: flex;
     justify-items: center;
-    grid-template-columns: 50% 50%;
-    grid-auto-rows: 50px;
+    align-items: center;
 }
 
 .teamMemberName {
+    flex: 1 1 30%;
     font-size: var(--displayedInfoFontSize);
-    width: 75%;
+    width: 50%;
     height: fit-content;
     padding: 5px 10px;
+    margin: 3px 0;
     color: white;
     background-color: black;
     border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 /* no team styling */
