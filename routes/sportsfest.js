@@ -23,27 +23,13 @@ router.get("/", async (req, res) => {
         userRole = user.user_metadata.role;
     }
 
-    res.render("partials/tournaments", {
-        title: "tournaments", 
+    res.render("partials/sportsfest", {
+        title: "sportsfest", 
         shortcode: 'tournaments',
         isAuthenticated: req.oidc.isAuthenticated(),
         role: userRole,
         sports: sports,
     });
-});
-
-router.post("/", async (req, res) => {
-    const poolInfo = req.body;
-    
-    const insertPool = await poolsData.insertPool
-    (
-        poolInfo.seedingGames, 
-        poolInfo.numOfTeams, 
-        poolInfo.numOfFields, 
-        poolInfo.numOfPlayOffTeams
-    );
-
-    return res.json(insertPool);
 });
 
 module.exports = router;
