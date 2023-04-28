@@ -98,19 +98,19 @@ h2 {
     display: inline-block;
 }
 
-#sportsLinks0 a:hover, #sportsLinks0 li:hover::before {
+#sportsLinks0 a:hover, #sportsLinks0 li:hover::before, #sportsLinks4 a:hover, #sportsLinks4 li:hover::before, #sportsLinks8 a:hover, #sportsLinks8 li:hover::before {
     color: var(--soccerBGColor);
 }
 
-#sportsLinks1 a:hover, #sportsLinks1 li:hover::before {
+#sportsLinks1 a:hover, #sportsLinks1 li:hover::before, #sportsLinks5 a:hover, #sportsLinks5 li:hover::before, #sportsLinks9 a:hover, #sportsLinks9 li:hover::before {
     color: white;
 }
 
-#sportsLinks2 a:hover, #sportsLinks2 li:hover::before {
+#sportsLinks2 a:hover, #sportsLinks2 li:hover::before, #sportsLinks6 a:hover, #sportsLinks6 li:hover::before, #sportsLinks10 a:hover, #sportsLinks10 li:hover::before {
     color: white;
 }
 
-#sportsLinks3 a:hover, #sportsLinks3 li:hover::before {
+#sportsLinks3 a:hover, #sportsLinks3 li:hover::before, #sportsLinks7 a:hover, #sportsLinks7 li:hover::before, #sportsLinks11 a:hover, #sportsLinks11 li:hover::before {
     color: var(--volleyballBGColor);
 }
 
@@ -118,19 +118,19 @@ h2 {
 
 /* sports link bg colors */
 
-#sportsLinks0 {
+#sportsLinks0, #sportsLinks4, #sportsLinks8 {
     background-color: var(--volleyballBGColor);
 }
 
-#sportsLinks1 {
+#sportsLinks1, #sportsLinks5, #sportsLinks9 {
     background-color: var(--frisbeeBGColor);
 }
 
-#sportsLinks2 {
+#sportsLinks2, #sportsLinks6, #sportsLinks10 {
     background-color: var(--basketballBGColor);
 }
 
-#sportsLinks3 {
+#sportsLinks3, #sportsLinks7, #sportsLinks11 {
     background-color: var(--soccerBGColor);
 }
 
@@ -199,7 +199,7 @@ section.sportDiv > div {
 
 /* styling for each sport */
 
-#textContentBanner0 > span, #textContentBanner1 > span, #textContentBanner2 > span, #textContentBanner3 > span {
+.textContentBanner > span {
     padding: 0 10px;
     font-family: titleFont;
     font-size: 160px;
@@ -207,43 +207,43 @@ section.sportDiv > div {
     white-space: nowrap;
 }
 
-span#textBanner0, span#textBanner1, span#textBanner2, span#textBanner3 {
+span.textBanner1 {
     animation: bannerAnimation1 40s linear forwards;
     -webkit-animation: bannerAnimation1 40s linear forwards;
 }
 
-span#textBanner01, span#textBanner11, span#textBanner21, span#textBanner31 {
+span.textBanner2 {
     /* background-color: pink; */
     animation: bannerAnimation2 40s linear infinite;
     -webkit-animation: bannerAnimation2 40s linear infinite;
 }
-span#textBanner02, span#textBanner12, span#textBanner22, span#textBanner32 {
+span.textBanner2 {
     /* background-color: green; */
     animation: bannerAnimation3 40s linear infinite;
     -webkit-animation: bannerAnimation3 40s linear infinite;
     animation-delay: 20s;
 }
 
-#banner1 {
+#banner1, #banner5, #banner9 {
     transform: rotateZ(-7deg);
 }
 
-#sportsLinks1 {
+#sportsLinks1, #sportsLinks5, #sportsLinks9 {
     top: 50%;
     left: 50%;
     padding-top: 70px;
 }
 
-#banner2 {
+#banner2, #banner6, #banner10 {
     transform: rotateZ(7deg);
 }
 
-#sportsLinks2 {
+#sportsLinks2, #sportsLinks6, #sportsLinks10 {
     top: 50%;
     padding-top: 70px;
 }
 
-#sportsLinks3 {
+#sportsLinks3, #sportsLinks7, #sportsLinks11 {
     left: 10%;
 }
 
