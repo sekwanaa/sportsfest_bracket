@@ -6,8 +6,10 @@ const teamData = data.teamsData;
 
 router.get("/", async (req, res) => {
 
+    let email="not authenticated"
     let userRole = "";
     let allTeams = [];
+    allTeams = await teamData.getAllTeams();
 
     if(req.oidc.isAuthenticated()) {
         let filterObj = {
@@ -19,7 +21,6 @@ router.get("/", async (req, res) => {
 
         const user = await userData.getUserByEmail(filterObj, projectionObj);
         userRole = user.user_metadata.role;
-        allTeams = await teamData.getAllTeams();
     }
 
     res.render("partials/team_list", {
@@ -28,7 +29,6 @@ router.get("/", async (req, res) => {
         isAuthenticated: req.oidc.isAuthenticated(),
         role: userRole,
         allTeams: allTeams,
-        hasTeam: false,
     });
 });
 
