@@ -12,8 +12,10 @@
         <div id="submitPowerRankingBtnRow">
             <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
             <div id="buttonDiv">
+                {{#compareRole "coordinator" role}}
                 <button id="editTeamsBtn">Edit Teams</button>
                 <button id="submitPowerRankingsBtn">Submit</button>
+                {{/compareRole}}
             </div>
         </div>
         <br>
