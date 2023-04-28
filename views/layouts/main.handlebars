@@ -24,9 +24,16 @@
             </div>
             <div id="linkDiv">
                 <ul id="navLinks">
+                    <li id="tournamentList">
+                        <a href="#" class="link">TOURNAMENTS</a>
+                        <ul class="dropdownContainer">
+                            <li class="dropdownItem"><a href="/tournaments">Sportsfest</a></li>
+                            <li class="dropdownItem"><a href="/tournaments">E-Sports</a></li>
+                        </ul>
+                    </li>
                     <li id="profileLoginLink">
                         {{#if isAuthenticated}}
-                            <a href="#" id="profileLink">PROFILE</a>
+                            <a href="#" id="profileLink" class="link">PROFILE</a>
                             <ul class="dropdownContainer">
                                 <li class="dropdownItem"><a href="/player_dashboard">View Profile</a></li>
                                 <li class="dropdownItem"><a href="/report_bug">Report Bug</a></li>

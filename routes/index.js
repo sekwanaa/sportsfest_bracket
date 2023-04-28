@@ -7,6 +7,7 @@ const createPoolRoutes = require("./create_pool");
 const teamListRoutes = require("./team_list");
 const roundRobinRoutes = require("./round_robin");
 const seedingTableRoutes = require("./seeding_table");
+const tournamentRoutes = require("./tournaments");
 
 const data = require('../data');
 const userData = data.usersData;
@@ -15,11 +16,8 @@ const constructorMethod = app => {
     app.get('/', async (req, res) => {
         
         let email = "not authenticated";
-        let loggedInUser = {};
         let userRole = "";
-        let sports = [
-            "volleyball", "frisbee", "basketball", "soccer"
-        ]
+        // let tournaments = await poolData //going to pull each tournament name from the pool name I assume.
 
         if(req.oidc.isAuthenticated()) {
             let filterObj = {
@@ -37,9 +35,7 @@ const constructorMethod = app => {
             title: 'Sportsfest Bracket Generator',
             shortcode: 'landingPage',
             isAuthenticated: req.oidc.isAuthenticated(),
-            loggedInUser: loggedInUser,
             role: userRole,
-            sports: sports,
         })
     });
 
@@ -52,6 +48,7 @@ const constructorMethod = app => {
     app.use("/round_robin", roundRobinRoutes);
     app.use("/team_list", teamListRoutes);
     app.use("/seeding_table", seedingTableRoutes);
+    app.use("/tournaments", tournamentRoutes);
 
     app.use("*", (req, res) => {
         res.status(404).json({error: "Not found"});

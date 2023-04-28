@@ -103,8 +103,7 @@
                 <section id="teamMembers">
                     {{#each teamMembers}}
                         <div class="teamMemberName">
-                            <p id="teamMember{{@index}}">{{this.name}}</p>
-                            {{#if this.code}} <p class="teamMemberIdLabel">- {{this.code}}</p>{{/if}}
+                            <p id="teamMember{{@index}}">{{this.name}}{{#if this.code}} - {{this.code}}{{/if}}</p>
                         </div>
                     {{/each}}   
                 </section>      
