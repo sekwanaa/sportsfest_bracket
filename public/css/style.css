@@ -3,6 +3,20 @@
     --textColor: rgb(234, 234, 234);
     --linkTransitionIn: 250ms ease-in;
     --linkTransitionOut: 250ms ease-out;
+    --displayedInfoFontSize: 16px;
+    --volleyballBGColor: rgb(221, 221, 0);
+    --frisbeeBGColor: rgb(73, 152, 248);
+    --basketballBGColor: rgb(211, 110, 0);
+    --soccerBGColor: rgb(0, 145, 2);
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
+    }
 }
 
 @font-face {

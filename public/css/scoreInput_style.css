@@ -1,12 +1,3 @@
-@keyframes fadein {
-    from {
-        opacity: 0%;
-    }
-    to {
-        opacity: 95%;
-    }
-}
-
 .row {
     display: flex;
     flex-wrap: wrap;

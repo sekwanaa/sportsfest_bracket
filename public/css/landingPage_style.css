@@ -1,11 +1,3 @@
-a:not(header a), li:not(header li) {
-    text-decoration: none;
-    list-style: none;
-    color: black;
-    font-family: mainFont;
-    font-size: 36px;
-}
-
 section#landingPageDiv {
     height: 80vh;
     display: flex;
@@ -17,7 +9,7 @@ section#landingPageDiv {
 div#titleDiv {
     width: 100%;
     height: 100%;
-    background-color: rgb(28, 48, 90);
+    background-color: var(--basketballBGColor);
     border: 1px solid black;
     border-radius: 30px;
     display: flex;
