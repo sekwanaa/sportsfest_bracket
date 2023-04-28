@@ -28,7 +28,15 @@
         width: 0%;
         opacity: 0;
     }
-    75% {
+    25% {
+        width: 3%;
+    }
+    50% {
+        width: 6%;
+        opacity: 50%;
+    }
+    75%{
+        width: 6%;
         opacity: 100%;
     }
     100% {
@@ -85,24 +93,24 @@ h2 {
 /* hover styling */
 
 .sportDiv .sportsLinksDiv li:hover::before {
-    animation: linksArrowTransition 250ms linear forwards;
+    animation: linksArrowTransition 400ms linear forwards;
     visibility: visible;
     display: inline-block;
 }
 
-#volleyballLinks a:hover, #volleyballLinks li:hover::before {
+#sportsLinks0 a:hover, #sportsLinks0 li:hover::before {
     color: var(--soccerBGColor);
 }
 
-#frisbeeLinks a:hover, #frisbeeLinks li:hover::before {
+#sportsLinks1 a:hover, #sportsLinks1 li:hover::before {
     color: white;
 }
 
-#basketballLinks a:hover, #basketballLinks li:hover::before {
+#sportsLinks2 a:hover, #sportsLinks2 li:hover::before {
     color: white;
 }
 
-#soccerLinks a:hover, #soccerLinks li:hover::before {
+#sportsLinks3 a:hover, #sportsLinks3 li:hover::before {
     color: var(--volleyballBGColor);
 }
 
@@ -110,19 +118,19 @@ h2 {
 
 /* sports link bg colors */
 
-#volleyballLinks {
+#sportsLinks0 {
     background-color: var(--volleyballBGColor);
 }
 
-#frisbeeLinks {
+#sportsLinks1 {
     background-color: var(--frisbeeBGColor);
 }
 
-#basketballLinks {
+#sportsLinks2 {
     background-color: var(--basketballBGColor);
 }
 
-#soccerLinks {
+#sportsLinks3 {
     background-color: var(--soccerBGColor);
 }
 
@@ -189,9 +197,9 @@ section.sportDiv > div {
     padding: 30px;
 }
 
-/* volleyball section styling */
+/* styling for each sport */
 
-#volleyballTextContentBanner > span {
+#textContentBanner0 > span, #textContentBanner1 > span, #textContentBanner2 > span, #textContentBanner3 > span {
     padding: 0 10px;
     font-family: titleFont;
     font-size: 160px;
@@ -199,128 +207,44 @@ section.sportDiv > div {
     white-space: nowrap;
 }
 
-span#volleyballBanner {
+span#textBanner0, span#textBanner1, span#textBanner2, span#textBanner3 {
     animation: bannerAnimation1 40s linear forwards;
     -webkit-animation: bannerAnimation1 40s linear forwards;
 }
 
-span#volleyballBanner2 {
+span#textBanner01, span#textBanner11, span#textBanner21, span#textBanner31 {
     /* background-color: pink; */
     animation: bannerAnimation2 40s linear infinite;
     -webkit-animation: bannerAnimation2 40s linear infinite;
 }
-span#volleyballBanner3 {
+span#textBanner02, span#textBanner12, span#textBanner22, span#textBanner32 {
     /* background-color: green; */
     animation: bannerAnimation3 40s linear infinite;
     -webkit-animation: bannerAnimation3 40s linear infinite;
     animation-delay: 20s;
 }
 
-/* volleyball end */
-
-/* frisbee section styling */
-
-#frisbeeBanner {
+#banner1 {
     transform: rotateZ(-7deg);
 }
 
-#frisbeeTextContentBanner > span {
-    padding: 0 10px;
-    font-family: titleFont;
-    font-size: 160px;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-span#frisbeeBanner {
-    animation: bannerAnimation1 40s linear forwards;
-    -webkit-animation: bannerAnimation1 40s linear forwards;
-}
-
-span#frisbeeBanner2 {
-    animation: bannerAnimation2 40s linear infinite;
-    -webkit-animation: bannerAnimation2 40s linear infinite;
-    /* animation-delay: 5s; */
-}
-span#frisbeeBanner3 {
-    animation: bannerAnimation3 40s linear infinite;
-    -webkit-animation: bannerAnimation3 40s linear infinite;
-    animation-delay: 20s;
-}
-
-#frisbeeLinks {
+#sportsLinks1 {
     top: 50%;
     left: 50%;
     padding-top: 70px;
 }
 
-/* frisbee end */
-
-/* basketball section styling */
-
-#basketballBanner {
+#banner2 {
     transform: rotateZ(7deg);
 }
 
-#basketballTextContentBanner > span {
-    padding: 0 10px;
-    font-family: titleFont;
-    font-size: 160px;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-span#basketballBanner {
-    animation: bannerAnimation1 40s linear forwards;
-    -webkit-animation: bannerAnimation1 40s linear forwards;
-}
-
-span#basketballBanner2 {
-    animation: bannerAnimation2 40s linear infinite;
-    -webkit-animation: bannerAnimation2 40s linear infinite;
-    /* animation-delay: 5s; */
-}
-span#basketballBanner3 {
-    animation: bannerAnimation3 40s linear infinite;
-    -webkit-animation: bannerAnimation3 40s linear infinite;
-    animation-delay: 20s;
-}
-
-#basketballLinks {
+#sportsLinks2 {
     top: 50%;
     padding-top: 70px;
 }
 
-/* basketball end */
-
-/* soccer section styling */
-
-#soccerTextContentBanner > span {
-    padding: 0 10px;
-    font-family: titleFont;
-    font-size: 160px;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-span#soccerBanner {
-    animation: bannerAnimation1 40s linear forwards;
-    -webkit-animation: bannerAnimation1 40s linear forwards;
-}
-
-span#soccerBanner2 {
-    animation: bannerAnimation2 40s linear infinite;
-    -webkit-animation: bannerAnimation2 40s linear infinite;
-    /* animation-delay: 5s; */
-}
-span#soccerBanner3 {
-    animation: bannerAnimation3 40s linear infinite;
-    -webkit-animation: bannerAnimation3 40s linear infinite;
-    animation-delay: 20s;
-}
-
-#soccerLinks {
+#sportsLinks3 {
     left: 10%;
 }
 
-/* soccer end */
+/* styling for each sport end */

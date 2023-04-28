@@ -13,16 +13,16 @@
     <img src="../../public/icons/thin-arrow.png" alt="thin arrow" id="thin-arrow">
 </section>
 {{#each sports}}
-<section id="{{this}}" class="sportDiv">
+<section id="sport{{@index}}" class="sportDiv">
     <div>
-        <div id="{{this}}Banner" class="banner">
-        <p id="{{this}}TextContentBanner" class="textContentBanner">
-            <span id="{{this}}Banner">{{{this}}} {{{this}}} {{{this}}}</span>
-            <span id="{{this}}Banner2">{{{this}}} {{{this}}} {{{this}}}</span>
-            <span id="{{this}}Banner3">{{{this}}} {{{this}}} {{{this}}}</span>
+        <div id="banner{{@index}}" class="banner">
+        <p id="textContentBanner{{@index}}" class="textContentBanner">
+            <span id="textBanner{{@index}}">{{{this}}} {{{this}}} {{{this}}}</span>
+            <span id="textBanner{{@index}}1">{{{this}}} {{{this}}} {{{this}}}</span>
+            <span id="textBanner{{@index}}2">{{{this}}} {{{this}}} {{{this}}}</span>
         </p>
         </div>
-        <div id="{{this}}Links" class="sportsLinksDiv">
+        <div id="sportsLinks{{@index}}" class="sportsLinksDiv">
             <ul class="sportsLinks">
                 <li><a href="/bracket_view">Current Bracket</a></li>
                 <li><a href="/court_view">Current Games</a></li>
