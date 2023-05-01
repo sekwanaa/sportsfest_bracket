@@ -1,4 +1,7 @@
 (function($) {
+    $("#tournamentList").toggleClass("hidden")
+    $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
+    
     let editBtn = $("#editTeamsBtn");
     let submitPowerRankingBtn = $("#submitPowerRankingsBtn");
     let count = 0

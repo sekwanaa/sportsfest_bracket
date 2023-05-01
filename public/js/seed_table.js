@@ -1,4 +1,7 @@
 (function ($) {
+    $("#tournamentList").toggleClass("hidden")
+    $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
+    
     var submitSeedsBtn = null;
 
     if ($("#seed_submit_button").length > 0) {

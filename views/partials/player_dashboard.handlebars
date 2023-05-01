@@ -268,6 +268,24 @@
             </div> 
         </div>
     </div>
+
+    <div class="dashboardCards" id="createPool">
+        <h1 class="cardTitles">Create Pool</h1>
+        <div>
+            <form id="poolInputForm" method="post">
+                <p>How many games will each team play?</p>
+                <input id="seedingGames" type="number" required>
+                <p>How many fields will be used?</p>
+                <input id="numOfFields" type="number" required>
+                <p>How many teams will make it to playoffs?</p>
+                <input id="numOfPlayOffTeams" type="number" required>
+                </br>
+                </br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script src="/public/js/create_pool.js"></script>
     <script src="/public/js/role_change.js"></script>
     {{/compareRole}}
 

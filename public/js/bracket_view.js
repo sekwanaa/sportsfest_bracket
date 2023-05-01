@@ -1,4 +1,6 @@
 (function ($) {
+    $("#tournamentList").toggleClass("hidden")
+    $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
     // var playoffTeamName2 = $("#playoffTeam2")[0].innerHTML;
     // let count = 0;
     // $(":button").click(function (event) {

@@ -1,4 +1,7 @@
 (function ($) {
+    $("#tournamentList").toggleClass("hidden")
+    $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
+    
     var generaterrBtn = $("#rrGenerateRoundRobin");
     var submitBtn = $('#rrSubmit');
     var totalGames = $('#totalGames');

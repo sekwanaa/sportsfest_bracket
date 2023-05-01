@@ -11,7 +11,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/create_pool',
+                url: '/player_dashboard/create_pool',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     seedingGames: seedingGames,
