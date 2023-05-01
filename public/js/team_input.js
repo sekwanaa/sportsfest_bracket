@@ -69,8 +69,7 @@
                 })
             };
             $.ajax(req).then(function (res) {
-                console.log("Team Added")
-                console.log("Team ID: " + res);
+                
             });
         } 
         catch (e) {
