@@ -129,10 +129,6 @@
         }
 
         for(i=0; i<($(".info").length/header.length); i++) {
-            // console.log($("#email" + i)[0].innerHTML);
-            // console.log($("#districtNum" + i)[0].innerHTML);
-            // console.log($("#powerRanking" + i)[0].innerHTML);
-
             teamObj.teamName = $("#email" + i)[0].innerHTML;
             teamObj.district = parseInt($("#districtNum" + i)[0].innerHTML);
             teamObj.players = [];
@@ -169,7 +165,6 @@
         catch (e) {
             console.log(e)
         }
-        // console.log(teamArray);
     })
 
 
