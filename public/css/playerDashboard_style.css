@@ -336,6 +336,7 @@ section#edit_team_display_card > div {
 }
 
 .grid-row {
+    overflow: hidden;
     width: 100%;
 }
 
