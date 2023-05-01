@@ -1,4 +1,7 @@
 (function ($) {
+    $("#tournamentList").toggleClass("hidden")
+    $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
+
     $(":button").click(function (event) {
         var submitButtonNumber = $(this).attr("class")
         var scoreInputForm = $('#scoreInputForm'+submitButtonNumber);

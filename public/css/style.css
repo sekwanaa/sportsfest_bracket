@@ -52,7 +52,7 @@ header {
     padding: 0;
 }
 
-header a, nav li { /* make header and li text normal */
+header a, header li { /* make header and li text normal */
     text-decoration: none;
     list-style: none;
     color: var(--textColor);
@@ -71,6 +71,36 @@ ul#navLinks {
     display: flex;
 }
 
+.hidden {
+    visibility: hidden;
+    position: absolute;
+}
+
+ul#sportsActiveDropdownMenu.sportsActive {
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid black;
+    border-radius: 20px;
+    visibility: visible;
+    display: flex;
+    justify-content: space-around;
+    position: initial;
+}
+
+ul#sportsActiveDropdownMenu li {
+    border-radius: 20px;
+    background-color: black;
+}
+
+ul#sportsActiveDropdownMenu a {
+    font-family: mainFont;
+    font-size: 24px;
+    word-spacing: .5rem;
+    letter-spacing: .1rem;
+    padding: 2px 10px;
+    color: white;
+}
+
 /* hover styling */
 
 #logo:hover {
@@ -78,7 +108,7 @@ ul#navLinks {
     transition: var(--linkTransitionIn);
 }
 
-#profileLink:hover, #loginLink:hover { /* hover over the profile link / login link */
+#profileLink:hover, #loginLink:hover, #sportsActiveDropdownMenu li:hover { /* hover over the profile link / login link */
     background-color: var(--textColor);
     color: black;
     transition: var(--linkTransitionIn);
@@ -90,7 +120,7 @@ ul#navLinks {
     transition: var(--linkTransitionIn);
 }
 
-.dropdownContainer li:hover a {
+.dropdownContainer li:hover a, #sportsActiveDropdownMenu li:hover a {
     color: black;
     transition: var(--linkTransitionIn);
 }
