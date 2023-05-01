@@ -31,6 +31,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .cardTitles {
@@ -120,10 +121,6 @@ label {
 /* userCard styling end */
 
 /* manageTeam styling */
-
-#manageTeamCard {
-    position: relative;
-}
 
 #team_display_card {
     font-family: mainFont;
@@ -295,7 +292,6 @@ section#edit_team_display_card > div {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
 }
 
 #editUserRoles > div {

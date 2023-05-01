@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
 const teamsData = data.teamsData;
+const poolsData = data.poolsData;
 const fs = require('fs');
 const sharp = require('sharp');
 const multer = require('multer');
@@ -288,6 +289,19 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
         }
 });
 
+router.post("/create_pool", async (req, res) => {
+    const poolInfo = req.body;
+    
+    const insertPool = await poolsData.insertPool
+    (
+        poolInfo.seedingGames, 
+        poolInfo.numOfTeams, 
+        poolInfo.numOfFields, 
+        poolInfo.numOfPlayOffTeams
+    );
+
+    return res.json(insertPool);
+});
 
 
 module.exports = router;
