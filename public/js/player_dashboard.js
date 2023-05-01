@@ -64,11 +64,11 @@
         var playerNameInput = $("#player_name_input");
         var playerShirtNumberInput = $("#shirt_number_input");
         var playerPositionInput = $("#player_position_input");
-        // console.log(playerPositionInput)
+
         let playerNameContent = playerName.html();
         let playerShirtNumContent = playerShirtNumber.html();
         let playerPositionContent = playerPosition.html();
-        // console.log(playerPositionContent)
+
         count+=1
         if(editProfileButton.html() === "Cancel") {
             editProfileButton.html("Edit");
@@ -86,13 +86,15 @@
             shirtNumberUpdateDiv.hide();
             submitProfileChangesButton.hide()
         } else { //on first click
-            // console.log(playerPositionInput.val())
+
             if (playerNameContent) {
                 playerNameInput.val(playerNameContent)
-            } else {
+            } 
+            else {
                 nameUpdateDiv.show()
                 playerNameInput.val("No Name Chosen")
             }
+
             playerName.hide();
             uploadPicture.show()
             nameUpdateDiv.show();
@@ -111,9 +113,7 @@
         var playerNameInput = $("#player_name_input").val();
         var playerShirtNumberInput = $("#shirt_number_input").val();
         var playerPositionInput = $("#player_position_input").val();
-        // console.log(playerNameInput);
-        // console.log(playerPositionInput);
-        // console.log(playerShirtNumberInput);
+
         try {
             
             //start pic upload
@@ -141,74 +141,14 @@
                 };
                 $.ajax(req).then(function (res) {
                     // reload the page AFTER everything is done
-                    // console.log(res)
                     location.reload()
                 });
             })
-    
-            // .done(function (res) {
-            //     console.log(res);
-            //     // location.reload();
-            // })
-    
-            // .fail(function (err) {
-            //     console.error(err);
-            // });
-            //end pic upload
         } 
         catch (e) {
             console.log(e)
         }
     });
-
-
-
-    // submitUploadePicture.click(function () {
-    
-    //     try {
-    //         let req = {
-    //             method: 'POST',
-    //             url: '/player_dashboard//upload-image',
-    //             contentType: 'application/json',
-    //             data: JSON.stringify({
-    //                 image : userPicture
-    //             })
-    //         };
-    //         $.ajax(req).then(function (res) {
-    //             // reload the page AFTER everything is done
-    //             console.log(res)
-    //             location.reload()
-    //         });
-    //     } 
-    //     catch (e) {
-    //         console.log(e)
-    //     }
-    // });
-
-    // function uploadPicture() {
-
-    //     let formData = new FormData();
-    //     formData.append('user-image', $('#user_picture')[0].files[0]);
-    
-    //     $.ajax({
-    //         url: '/player_dashboard/upload-image',
-    //         method: 'POST',
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //     })
-
-    //     .done(function (res) {
-    //         console.log(res);
-    //         location.reload();
-    //     })
-
-    //     .fail(function (err) {
-    //         console.error(err);
-    //     });
-    // };
-
-    
 
     // team code input div
     teamCodeInputDiv.hide()
@@ -272,7 +212,6 @@
                 })
             };
             $.ajax(req).then(function (res) {
-                
                 //page reload on submit
                 location.reload();
             });
@@ -287,7 +226,6 @@
         event.preventDefault();
         var teamCodeInput = $('#team_code_input');
         let joinCode = parseInt(teamCodeInput.val());
-        // console.log(joinCode)
 
         try {
             let req = {
