@@ -294,10 +294,9 @@ router.post("/create_pool", async (req, res) => {
     
     const insertPool = await poolsData.insertPool
     (
-        poolInfo.seedingGames, 
-        poolInfo.numOfTeams, 
+        poolInfo.seedingGames,
         poolInfo.numOfFields, 
-        poolInfo.numOfPlayOffTeams
+        poolInfo.numOfPlayOffTeams,
     );
 
     return res.json(insertPool);

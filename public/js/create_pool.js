@@ -4,7 +4,6 @@
     poolInputForm.submit(function (event) {
         event.preventDefault();
         var seedingGames = parseInt($('#seedingGames').val());
-        var numOfTeams = parseInt($('#numOfTeams').val());
         var numOfFields = parseInt($('#numOfFields').val());
         var numOfPlayOffTeams = parseInt($('#numOfPlayOffTeams').val());
 
@@ -15,10 +14,8 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     seedingGames: seedingGames,
-                    numOfTeams: numOfTeams,
                     numOfFields: numOfFields,
                     numOfPlayOffTeams: numOfPlayOffTeams,
-                    stage: 1,
                 })
             };
             $.ajax(req).then(function (res) {

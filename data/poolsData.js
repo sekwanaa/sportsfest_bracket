@@ -9,13 +9,14 @@ const playoffs = mongoCollections.playoffs;
 let exportedMethods = {
   
     //method to insert pool data information
-    async insertPool(seedingGames, numOfTeams, numOfFields, numOfPlayoffTeams) {
+    async insertPool(seedingGames, numOfFields, numOfPlayoffTeams) {
   
       let newPool = {
           seedingGames: seedingGames,
-          numOfTeams: numOfTeams,
           numOfFields: numOfFields,
           numOfPlayoffTeams: numOfPlayoffTeams,
+          sports: [],
+          privacy: "private",
           stage: 1,
       };
   
