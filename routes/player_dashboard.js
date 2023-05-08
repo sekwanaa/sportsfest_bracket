@@ -302,5 +302,18 @@ router.post("/create_pool", async (req, res) => {
     return res.json(insertPool);
 });
 
+//route for adding sports info to pool
+router.post("/submit_sport", async (req, res) => {
+    const sportInfo = req.body;
+    
+    const insertSport = await poolsData.insertSport
+    (
+        sportInfo.poolId, 
+        sportInfo.sportName,
+        sportInfo.options,
+    );
+
+    return res.json(insertSport);
+});
 
 module.exports = router;
