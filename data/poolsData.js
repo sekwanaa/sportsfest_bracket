@@ -1137,6 +1137,23 @@ let exportedMethods = {
         return finalPoolsArray;
     },
 
+    async tournamentPrivacy(tournamentID, privacySetting) {
+        const poolsCollection = await pools();
+
+        const pool = await poolsCollection.findOneAndUpdate(
+            {
+                _id: tournamentID
+            },
+            {
+                $set: {
+                    privacy: privacySetting,
+                }
+            }  
+        );
+
+        return pool;
+    },
+
   }
   
   module.exports = exportedMethods;
