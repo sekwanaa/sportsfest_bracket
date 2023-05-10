@@ -1,6 +1,5 @@
 <div class="teamList">
     <h1>Current registered teams</h1>
-
     </div>
     <div id="test">
         {{#compareRole "coordinator" role}}
@@ -9,35 +8,55 @@
         {{/compareRole}}
     </div>
     <div>
-        <div id="submitPowerRankingBtnRow">
-            <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
-            <div id="buttonDiv">
-                {{#compareRole "coordinator" role}}
-                <button id="editTeamsBtn">Edit Teams</button>
-                <button id="submitPowerRankingsBtn">Submit</button>
-                {{/compareRole}}
-            </div>
+    <div id="submitPowerRankingBtnRow">
+        <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
+        <div id="buttonDiv">
+        {{#compareRole "coordinator" role}}
+        <button id="editTeamsBtn">Edit Teams</button>
+        <button id="submitPowerRankingsBtn">Submit</button>
+        {{/compareRole}}
+        {{#compareRole "coordinator" role}}
+        <button id="addTeamBtn">Add Team</button>
+        {{/compareRole}}
         </div>
-        <br>
-        <div class="grid-column-header">
-            <div class="header grid-row-name"><b>Team Name</b></div> 
-            <div class="header grid-row-district"><b>District</b></div>
-            <div class="header grid-row-power-ranking"><b>Power Ranking</b></div>
-        </div> 
-        <div id="test_list" class="grid-column-teams">
-            {{#each allTeams}}
-            <div class="info grid-row-name" id="email{{@index}}">{{this.name}}</div> 
-            <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>
-            <div class="info grid-row-power-ranking">
-                {{#if this.powerRanking}}
-                <p id="powerRanking{{@index}}">{{this.powerRanking}}</p>
-                {{else}}
-                <p id="powerRanking{{@index}}">N/A</p>
-                {{/if}}
-                <input type="number" id="powerRankingInput{{@index}}">
-            </div>
-            {{/each}}
+    </div>
+    <br>
+    <div class="grid-column-header">
+        <div class="header grid-row-name"><b>Team Name</b></div> 
+        <div class="header grid-row-district"><b>District</b></div>
+        <div class="header grid-row-power-ranking"><b>Power Ranking</b></div>
+    </div> 
+    <div id="test_list" class="grid-column-teams">
+        {{#each allTeams}}
+        <div class="info grid-row-name" id="email{{@index}}">{{this.name}}</div> 
+        <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>
+        <div class="info grid-row-power-ranking">
+        {{#if this.powerRanking}}
+        <p id="powerRanking{{@index}}">{{this.powerRanking}}</p>
+        {{else}}
+        <p id="powerRanking{{@index}}">N/A</p>
+        {{/if}}
+        <input type="number" id="powerRankingInput{{@index}}">
         </div>
+        {{/each}}
+    </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="addTeamModal" class="modal">
+    <div class="modal-box">
+    <span class="close">&times;</span>
+    <form id="addTeamForm" class="modal-content">
+        <label for="teamName">Team Name:</label>
+        <input type="text" id="teamName" name="teamName" required>     
+        <label for="district">District:</label>
+        <input type="number" id="district" name="district" required> 
+        <label for="powerRanking">Power Ranking:</label>
+        <input type="number" id="powerRanking" name="powerRanking" required>
+        <label for="teamCaptain">Team Captain:</label>
+        <input type="text" id="teamCaptain" name="teamCaptain" required>
+        <input type="submit" value="Add Team">
+    </form>
     </div>
 </div>
 

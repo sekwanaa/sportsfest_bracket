@@ -9,7 +9,9 @@
     let currentPowerRankingArr = [];
     var currentPowerRankingDivArr = $(".grid-row-power-ranking"); //gives current power ranking of each team in order of the list
     var uploadCSVButton = $("#upload_csv_button");
-    
+    var addTeamForm = $("#addTeamForm");
+
+
     for (i=0; i<currentPowerRankingDivArr.length-1; i++) { //for each entry in the table loop through and extract power ranking and inputs and hide all inputs
         currentPowerRankingArr.push($("#powerRanking"+i))
         powerRankingInputs.push($("#powerRankingInput"+i))
@@ -115,7 +117,7 @@
 
     uploadCSVButton.click(function(event) {
         event.preventDefault();
-        console.log("click");
+        // console.log("click");
         var teamListTable = $("test_list");
 
         var header = $(".header");
@@ -171,4 +173,45 @@
     })
 
 
+    // Show add team modal when "Add Team" button is clicked
+    $('#addTeamBtn').click(function() {
+        $('#addTeamModal').show();
+    });
+    
+    // Hide modal when "X" is clicked
+    $('.close').click(function() {
+        $('#addTeamModal').hide();
+    });
+
+    addTeamForm.submit(function(event){
+        event.preventDefault();
+        console.log($("#teamName"));
+        try {
+            let req = {
+                method: 'POST',
+                url: '/team_list/modal_form_import_team',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    teamArray: {
+                        teamName: $("#teamName").val(),
+                        district: $("#district").val(),
+                        players: [],
+                        teamCaptain: {
+                            name: $("#teamCaptain").val(),
+                        },
+                        powerRanking: $("#powerRanking").val(),  
+                    }
+                })
+            };
+            $.ajax(req).then(function (res) {
+                //page reload on submit
+                location.reload();
+            });
+        } 
+        catch (e) {
+            console.log(e)
+        }
+    });
 })(window.jQuery);
+
+
