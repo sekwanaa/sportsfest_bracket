@@ -2,6 +2,7 @@
     var joinTeamButton = $("#join_team_button");
     var submitCodeButton = $("#submit_team_code_button");
     var teamCodeInputDiv = $("#div_join_team_input");
+    var createTeamButton = $("#create_team_button");
 
     //initialize items for editing team
     var editTeamButton = $("#edit_team_btn");
@@ -38,7 +39,8 @@
     shirtNumberUpdateDiv.hide();
     submitProfileChangesButton.hide();
     uploadPicture.hide();
-    let count = 0;
+    let profileClickCount = 0;
+    let joinTeamClickCount = 0;
 
     //hide edit team divs on page load
     editTeamSubmitButtonDiv.hide();
@@ -69,14 +71,14 @@
         let playerShirtNumContent = playerShirtNumber.html();
         let playerPositionContent = playerPosition.html();
 
-        count+=1
+        profileClickCount+=1
         if(editProfileButton.html() === "Cancel") {
             editProfileButton.html("Edit");
         }
         else {
             editProfileButton.html("Cancel");
         }
-        if (count%2==0) { //on second click
+        if (profileClickCount%2==0) { //on second click
             playerName.show();
             uploadPicture.hide()
             nameUpdateDiv.hide();
@@ -154,7 +156,22 @@
     teamCodeInputDiv.hide()
 
     joinTeamButton.click(function () {
-        teamCodeInputDiv.show();
+        joinTeamClickCount += 1;
+        if(joinTeamButton.html() === "Cancel") {
+            joinTeamButton.html("Join a Team");
+        }
+        else {
+            joinTeamButton.html("Cancel");
+        }
+
+        if (joinTeamClickCount % 2 == 0) {
+            teamCodeInputDiv.hide();
+            createTeamButton.show();
+        } else {
+            teamCodeInputDiv.show();
+            createTeamButton.hide();
+
+        };
     })
 
     //when edit Team is clicked, user should see inputs for team info

@@ -1,17 +1,35 @@
 (function ($) {
+    var joinTeamButton = $("#join_team_button");
     var addMoreButton = $('#add_more_button');
     var removeMember = $('#remove_button');
     var teamInputForm = $('#teamInputForm');
     var createTeamButton = $('#create_team_button');
     var i = 2;
     var teamMemberCount = i;
+    let createTeamClickCount = 0;
     
 
     teamInputForm.hide();
     removeMember.hide();
 
     createTeamButton.click(function () {
-        teamInputForm.show();
+        createTeamClickCount += 1;
+        if(createTeamButton.html() === "Cancel") {
+            createTeamButton.html("Create a Team");
+        }
+        else {
+            createTeamButton.html("Cancel");
+        }
+
+        if (createTeamClickCount % 2 == 0) {
+            teamInputForm.hide();
+            joinTeamButton.show();
+        } else {
+            teamInputForm.show();
+            joinTeamButton.hide();
+
+        };
+        
     })
     
     addMoreButton.click(function () {
