@@ -40,6 +40,17 @@ router.get("/", async (req, res) => {
 //     }
 // });
 
+router.post('/modal_form_import_team', async (req, res) =>{
+    try{
+        const modalTeamArray = req.body.teamArray;
+        await teamData.addTeam(modalTeamArray);
+        res.json("form has been imported")
+    }
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
+})
+
 router.post("/batch_import_team", async (req, res) => {
     
     try {
