@@ -125,8 +125,14 @@ router.post("/submitTeams", async (req, res) => {
     let userId;
 
     if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
+        let filterObj = {
+            email: req.oidc.user.name
+        };
+        let projectionObj = {
+            _id: 1,
+            email: 1,
+        };
+        const user = await userData.getUserByEmail(filterObj, projectionObj);
         userId = user._id.toString();
     }
 
@@ -137,7 +143,11 @@ router.post("/submitTeams", async (req, res) => {
         const players = req.body.players;
         const teamCaptain = req.body.teamCaptain;
 
-        teamCaptain.userId = userId;
+        if (teamCaptain) {
+            teamCaptain.userId = userId;
+        } else {
+            
+        }
 
         let teamObj = {
             teamName: teamName,
