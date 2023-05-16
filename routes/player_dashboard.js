@@ -316,11 +316,10 @@ router.post("/create_pool", async (req, res) => {
 router.post("/submit_sport", async (req, res) => {
     const sportInfo = req.body;
     
-    const insertSport = await poolsData.insertSport
+    const insertSport = await poolsData.insertSportIntoPool
     (
         sportInfo.poolId, 
-        sportInfo.sportName,
-        sportInfo.options,
+        sportInfo.sportObj,
     );
 
     return res.json(insertSport);
