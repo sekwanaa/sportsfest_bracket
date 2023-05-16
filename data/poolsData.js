@@ -1154,6 +1154,23 @@ let exportedMethods = {
         return pool;
     },
 
+    async insertSportIntoPool(poolId, sportObj) {
+
+        const poolsCollection = await pools();
+
+        const insertSport = await poolsCollection.findOneAndUpdate(
+            {
+                _id: poolId,
+            }, 
+            {
+                $push: {
+                    sport: sportObj,
+                }
+            }
+        )
+        return;
+    },
+
   }
   
   module.exports = exportedMethods;
