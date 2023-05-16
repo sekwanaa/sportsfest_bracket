@@ -54,16 +54,31 @@ let exportedMethods = {
             const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
             const insertPlayerId = insertPlayer.insertedId.toString();
             newTeam.players.push(insertPlayerId);
+            let check = true
+            let tempCode = null;
 
+                
             if(teamObj.players[i].linked == false) {
+                const playerLinkCollection = await playerLink();
+                while(check == true) {
+                    tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+    
+                    let checkCode = await playerLinkCollection.findOne({code: tempCode});
+                    if(checkCode != null) {
+                        tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+                    }
+                    else {
+                        check = false;
+                    }
+                }
                 let playerLinkObj = {
                     playerId: insertPlayerId,
                     code: Math.floor(Math.random() * (100000 - 10000) + 10000),
                 };
 
-                const playerLinkCollection = await playerLink();
                 const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
-            }
+                    
+            }            
         }
 
         const insertTeam = await teamsCollection.insertOne(newTeam);
