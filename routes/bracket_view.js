@@ -101,9 +101,10 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id/:sport", async (req, res) => {
 
     let tournamentId = req.params.id;
+    let sportName = req.params.sport;
     
     try {
         let userRole = "";
@@ -191,6 +192,7 @@ router.get("/:id", async (req, res) => {
             finals: finals,
             eliminatedTeamsArr: eliminatedTeams,
             tournamentId: tournamentId,
+            sportName: sportName,
         });
 
         return;

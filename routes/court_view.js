@@ -74,9 +74,10 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id/:sport", async (req, res) => {
 
     let tournamentId = req.params.id;
+    let sportName = req.params.id;
 
     try {
         let userRole = "";
@@ -140,6 +141,7 @@ router.get("/:id", async (req, res) => {
             role: userRole,
             courtArray: courtArray,
             tournamentId: tournamentId,
+            sportName: sportName,
         });
     } catch (e) {
         return res.status(500).json({ error: e});

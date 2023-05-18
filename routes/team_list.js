@@ -33,20 +33,21 @@ router.get("/", async (req, res) => {
     });
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id/:sport", async (req, res) => {
 
     let tournamentId = req.params.id;
+    let sportName = req.params.sport;
 
-    let email="not authenticated"
+    let email = "not authenticated"
     let userRole = "";
 
     let poolInfo = await poolsData.getPoolInfo(tournamentId);
     // allTeams = await teamData.getAllTeams();
 
     let teamsArray = [];
-
-    for(let i = 0; i < poolInfo.teams.length; i++) {
-        let teamInfo = await teamData.getAllTeamsByID(poolInfo.teams[i]);
+    //6463f6d7eb8e9590fae2a0c3
+    for(let i = 0; i < poolInfo.sports[sportName].teams.length; i++) {
+        let teamInfo = await teamData.getAllTeamsByID(poolInfo.sports[sportName].teams[i]);
         teamsArray.push(teamInfo);
         teamInfo = null;
     }
@@ -70,6 +71,7 @@ router.get("/:id", async (req, res) => {
         role: userRole,
         allTeams: teamsArray,
         tournamentId: tournamentId,
+        sportName: sportName,
     });
 });
 
