@@ -1,0 +1,29 @@
+<section id="landingPageDiv">
+    <div id="titleDiv">
+        <h1>
+            Sportsfest {{!-- should be tournament name when we make it --}}
+        </h1>
+    </div>
+    <img src="../../public/icons/thin-arrow.png" alt="thin arrow" id="thin-arrow">
+</section>
+{{#each sports}}
+<section id="sport{{@index}}" class="sportDiv">
+    <div>
+        <div id="banner{{@index}}" class="banner">
+        <p id="textContentBanner{{@index}}" class="textContentBanner">
+            <span class="textBanner1">{{{this}}} {{{this}}} {{{this}}}</span>
+            <span class="textBanner2">{{{this}}} {{{this}}} {{{this}}}</span>
+            <span class="textBanner3">{{{this}}} {{{this}}} {{{this}}}</span>
+        </p>
+        </div>
+        <div id="sportsLinks{{@index}}" class="sportsLinksDiv">
+            <ul class="sportsLinks">
+                <li><a href="/bracket_view/{{../tournamentId}}">Current Bracket</a></li>
+                <li><a href="/court_view/{{../tournamentId}}">Current Games</a></li>
+                <li><a href="/seeding_table/{{../tournamentId}}">Current Seeds</a></li>
+                <li><a href="/team_list/{{../tournamentId}}">Current Teams</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+{{/each}}
