@@ -32,6 +32,34 @@ router.get("/", async (req, res) => {
     });
 });
 
+router.get("/:id", async (req, res) => {
+
+    let email="not authenticated"
+    let userRole = "";
+    let allTeams = [];
+    allTeams = await teamData.getAllTeams();
+
+    if(req.oidc.isAuthenticated()) {
+        let filterObj = {
+            email: req.oidc.user.name
+        };
+        let projectionObj = {
+            "user_metadata.role": 1,
+        };
+
+        const user = await userData.getUserByEmail(filterObj, projectionObj);
+        userRole = user.user_metadata.role;
+    }
+
+    res.render("partials/team_list", {
+        title: "Team List", 
+        shortcode: 'teamList',
+        isAuthenticated: req.oidc.isAuthenticated(),
+        role: userRole,
+        allTeams: allTeams,
+    });
+});
+
 // router.post("/", async (req, res) => {
 //     const personArray = req.body.personArray;
 

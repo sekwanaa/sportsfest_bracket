@@ -45,6 +45,45 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:id", async (req, res) => {
+
+    try {
+        let userRole = "";
+    
+        if(req.oidc.isAuthenticated()) {
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+            };
+
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userRole = user.user_metadata.role;
+        }
+    
+        const matchHistory = await matchesData.getTeamRecords();
+        const seedsInfo = await poolsData.getAllSeeds();
+
+        let isStage1 = true;
+        if(seedsInfo.length > 0) {
+            isStage1 = false;
+        }
+    
+        res.render("partials/seeding_table", {
+            title: "Seeding Table", 
+            shortcode: 'seedingTable',
+            isAuthenticated: req.oidc.isAuthenticated(),
+            role: userRole,
+            matches: matchHistory,
+            stage1: isStage1,
+        });
+    } catch (e) {
+
+        return res.status(500).json({ error: e});
+    }
+});
+
 router.get("/seedCount", async (req, res) => {
 
     try {

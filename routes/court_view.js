@@ -74,6 +74,74 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:id", async (req, res) => {
+    try {
+        let userRole = "";
+    
+        if(req.oidc.isAuthenticated()) {
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+            };
+
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userRole = user.user_metadata.role;
+        }
+
+        let filterObj = {
+            //future: determine current tournament
+        }
+
+        let projectionObj = {
+            numOfFields: 1,
+        }
+
+        let poolInfo = await poolsData.getPoolInfo(filterObj, projectionObj);
+        let numOfFields = poolInfo.numOfFields;
+        let courtArray = [];
+        let courtObj = {};
+        let courtData = "";
+    
+        for (i=0; i<numOfFields; i++) {
+            let fieldNum = i+1;
+            courtData = await courtviewData.getCurrentGameData(fieldNum);
+
+            if(courtData != null) {
+                courtObj.gameNum = courtData.gameNum;
+                courtObj.numOfFields = i+1;
+                courtObj.teamName1 = courtData.team1;
+                courtObj.teamName2 = courtData.team2;
+                courtObj.ref1 = courtData.ref1;
+                courtObj.ref2 = courtData.ref2;
+                courtArray.push(courtObj);
+                courtObj = {};
+                courtData = "";
+            }
+            else {
+                courtObj.numOfFields = i+1;
+                courtObj.teamName1 = "No team scheduled";
+                courtObj.teamName2 = "No team scheduled";
+                courtObj.gamesFinished = true;
+                courtArray.push(courtObj);
+                courtObj = {};
+                courtData = "";
+            }
+        }
+
+        res.render("partials/court_view", {
+            title: 'Current Games by Court', 
+            shortcode: 'courtView',
+            isAuthenticated: req.oidc.isAuthenticated(),
+            role: userRole,
+            courtArray: courtArray,
+        });
+    } catch (e) {
+        return res.status(500).json({ error: e});
+    }
+});
+
 router.post("/", async (req, res) => {
     const matchInfo = req.body;
     
