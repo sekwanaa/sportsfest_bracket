@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data')
 const userData = data.usersData;
 const teamData = data.teamsData;
+const poolsData = data.poolsData;
 
 router.get("/", async (req, res) => {
 
@@ -34,10 +35,21 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 
+    let tournamentId = req.params.id;
+
     let email="not authenticated"
     let userRole = "";
-    let allTeams = [];
-    allTeams = await teamData.getAllTeams();
+
+    let poolInfo = await poolsData.getPoolInfo(tournamentId);
+    // allTeams = await teamData.getAllTeams();
+
+    let teamsArray = [];
+
+    for(let i = 0; i < poolInfo.teams.length; i++) {
+        let teamInfo = await teamData.getAllTeamsByID(poolInfo.teams[i]);
+        teamsArray.push(teamInfo);
+        teamInfo = null;
+    }
 
     if(req.oidc.isAuthenticated()) {
         let filterObj = {
@@ -56,7 +68,8 @@ router.get("/:id", async (req, res) => {
         shortcode: 'teamList',
         isAuthenticated: req.oidc.isAuthenticated(),
         role: userRole,
-        allTeams: allTeams,
+        allTeams: teamsArray,
+        tournamentId: tournamentId,
     });
 });
 

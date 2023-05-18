@@ -16,6 +16,19 @@ let exportedMethods = {
         return allTeams;
     },
 
+    //method to get all teams information by ID
+    async getAllTeamsByID(teamId) {
+        const teamsCollection = await teams();
+
+        const team = await teamsCollection.findOne(
+            {
+                _id: new ObjectId(teamId),
+            }
+        );
+
+        return team;
+    },
+
     async getAllTeamsByPowerRanking() {
         const teamsCollection = await teams();
 

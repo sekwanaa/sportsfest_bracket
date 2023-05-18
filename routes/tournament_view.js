@@ -24,16 +24,8 @@ router.get("/:id", async (req, res) => {
         const user = await userData.getUserByEmail(filterObj, projectionObj);
         userRole = user.user_metadata.role;
     }
-
-    let filterObj = {
-        _id: tournamentId,
-    };
-    let projectionObj = {
-
-    };
     
-    const tournamentInfo = await poolsData.getPoolInfo(filterObj, projectionObj);
-    console.log(tournamentInfo);
+    const tournamentInfo = await poolsData.getPoolInfo(tournamentId);
 
     res.render("partials/tournament_view", {
         title: "sportsfest", 

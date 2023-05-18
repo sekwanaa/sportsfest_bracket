@@ -75,6 +75,9 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+
+    let tournamentId = req.params.id;
+
     try {
         let userRole = "";
     
@@ -136,6 +139,7 @@ router.get("/:id", async (req, res) => {
             isAuthenticated: req.oidc.isAuthenticated(),
             role: userRole,
             courtArray: courtArray,
+            tournamentId: tournamentId,
         });
     } catch (e) {
         return res.status(500).json({ error: e});

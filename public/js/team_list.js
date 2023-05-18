@@ -41,6 +41,8 @@
 
     submitPowerRankingBtn.click((event) => {
         event.preventDefault()
+
+        console.log(window.location.pathname);
         let teamRankObjArr = []
         let teamRankObj = {
             teamName: "",
@@ -68,7 +70,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/team_list/edit_power_ranking',
+                url: window.location.pathname + '/edit_power_ranking',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     teamRankObjArr: teamRankObjArr

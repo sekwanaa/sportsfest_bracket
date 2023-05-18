@@ -47,6 +47,8 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 
+    let tournamentId = req.params.id;
+
     try {
         let userRole = "";
     
@@ -77,6 +79,7 @@ router.get("/:id", async (req, res) => {
             role: userRole,
             matches: matchHistory,
             stage1: isStage1,
+            tournamentId: tournamentId,
         });
     } catch (e) {
 

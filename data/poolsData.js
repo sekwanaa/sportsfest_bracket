@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoCollections = require("../config/mongoCollections");
 const teamData = require("./teamData");
 
@@ -16,6 +17,7 @@ let exportedMethods = {
           numOfFields: numOfFields,
           numOfPlayoffTeams: numOfPlayoffTeams,
           sports: [],
+          teams: [],
           privacy: "private",
           stage: 1,
       };
@@ -34,10 +36,14 @@ let exportedMethods = {
         return;
     },
 
-    async getPoolInfo (filterObj, projectObj) {
+    async getPoolInfo (tournamentId) {
         const poolCollection = await pools();
 
-        const poolInfo = await poolCollection.findOne(filterObj,projectObj);
+        const poolInfo = await poolCollection.findOne(
+            {
+                _id: new ObjectId(tournamentId),
+            }
+        );
 
         return poolInfo;
     },

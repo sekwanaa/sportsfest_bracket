@@ -103,6 +103,8 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 
+    let tournamentId = req.params.id;
+    
     try {
         let userRole = "";
 
@@ -188,6 +190,7 @@ router.get("/:id", async (req, res) => {
             semiArr: semiArr,
             finals: finals,
             eliminatedTeamsArr: eliminatedTeams,
+            tournamentId: tournamentId,
         });
 
         return;
