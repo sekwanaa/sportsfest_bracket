@@ -54,12 +54,17 @@ router.get("/:id/:sport", async (req, res) => {
                 sportId = poolInfo.sports[i];
                 break;
             }
+            else {
+                sportIdCheck = null;
+            }
         }
 
-        for(let i = 0; i<sportIdCheck.teams.length; i++) {
-            let teamInfo = await teamData.getAllTeamsByID(sportIdCheck.teams[i]);
-            teamsArray.push(teamInfo);
-            teamInfo = null;
+        if(sportIdCheck != null) {
+            for(let i = 0; i<sportIdCheck.teams.length; i++) {
+                let teamInfo = await teamData.getAllTeamsByID(sportIdCheck.teams[i]);
+                teamsArray.push(teamInfo);
+                teamInfo = null;
+            }
         }
 
         if(req.oidc.isAuthenticated()) {
