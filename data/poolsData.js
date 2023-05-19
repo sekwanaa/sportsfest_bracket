@@ -6,6 +6,7 @@ const pools = mongoCollections.pools;
 const roundrobin = mongoCollections.roundrobin;
 const seeds = mongoCollections.seeds;
 const playoffs = mongoCollections.playoffs;
+const sports = mongoCollections.sports;
 
 let exportedMethods = {
   
@@ -13,13 +14,14 @@ let exportedMethods = {
     async insertPool(seedingGames, numOfFields, numOfPlayoffTeams) {
   
       let newPool = {
-          seedingGames: seedingGames,
-          numOfFields: numOfFields,
-          numOfPlayoffTeams: numOfPlayoffTeams,
-          sports: [],
-          teams: [],
-          privacy: "private",
-          stage: 1,
+            name: "blank",
+            seedingGames: seedingGames,
+            numOfFields: numOfFields,
+            numOfPlayoffTeams: numOfPlayoffTeams,
+            sports: [],
+        //   teams: [],
+            privacy: "private",
+            stage: 1,
       };
   
       const poolsCollection = await pools();
@@ -1163,17 +1165,48 @@ let exportedMethods = {
     async insertSportIntoPool(poolId, sportObj) {
 
         const poolsCollection = await pools();
+        const sportsCollection = await sports();
 
-        const insertSport = await poolsCollection.findOneAndUpdate(
+        const insertSport = await sportsCollection.insertOne(sportObj);
+        const insertedId = insertSport.insertedId.toString();
+
+        const insertIntoSportPool = await poolsCollection.findOneAndUpdate(
             {
-                _id: poolId,
-            }, 
+                _id: new ObjectId(poolId),
+            },
             {
                 $push: {
-                    sport: sportObj,
+                    sports: insertedId,
                 }
             }
         )
+        return;
+    },
+
+    async insertTeam(poolId, sportName, teamId) {
+
+        const sportsCollection = await sports();
+
+        const poolInfo = await this.getPoolInfo(poolId);
+
+        for(let i=0; i<poolInfo.sports.length; i++) {
+            let sportInfo = await sportsCollection.findOne({_id: poolInfo.sports[i], sportName: sportName});
+            if(sportInfo != null) {
+                await sportsCollection.findOneAndUpdate(
+                    {
+                        _id: poolInfo.sport[i], 
+                        sportName: sportName,
+                    },
+                    {
+                        $push: {
+                            teams: teamId,
+                        }
+                    }
+                )
+                break;
+            }
+        }
+
         return;
     },
 

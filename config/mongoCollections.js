@@ -27,6 +27,7 @@ module.exports = {
   playerlink: getCollectionFn("playerlink"),
   seeds: getCollectionFn("seeds"),
   playoffs: getCollectionFn("playoffs"),
-  semis: getCollectionFn("semis"),
-  finals: getCollectionFn("finals"),
+  // semis: getCollectionFn("semis"),
+  // finals: getCollectionFn("finals"),
+  sports: getCollectionFn("sports"),
 };

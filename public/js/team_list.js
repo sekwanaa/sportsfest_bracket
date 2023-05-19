@@ -187,11 +187,11 @@
 
     addTeamForm.submit(function(event){
         event.preventDefault();
-        console.log($("#teamName"));
+        
         try {
             let req = {
                 method: 'POST',
-                url: '/team_list/modal_form_import_team',
+                url: window.location.pathname + '/modal_form_import_team',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     teamArray: {

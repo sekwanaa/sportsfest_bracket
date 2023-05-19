@@ -83,11 +83,16 @@ router.get("/:id/:sport", async (req, res) => {
 //     }
 // });
 
-router.post('/modal_form_import_team', async (req, res) =>{
+router.post('/:id/:sport/modal_form_import_team', async (req, res) =>{
+    
+    let poolId = req.params.id;
+    let sportName = req.params.sport;
+
     try{
         const modalTeamArray = req.body.teamArray;
-        await teamData.addTeam(modalTeamArray);
-        res.json("form has been imported")
+        let teamId = await teamData.addTeam(modalTeamArray);
+        let insertedTeamPool = await poolsData.insertTeam(poolId, sportName, teamId);
+        res.json("form has been imported");
     }
     catch (e) {
         return res.status(500).json({ error: e});
