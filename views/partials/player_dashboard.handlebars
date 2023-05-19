@@ -271,6 +271,7 @@
 
     <div class="dashboardCards" id="createPool">
         <h1 class="cardTitles">Create Pool</h1>
+        {{#if tournament}}
         <div>
             <form id="poolInputForm" method="post">
                 <p>How many games will each team play?</p>
@@ -284,6 +285,26 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
+        {{else}}
+        <div>
+            <button id="createTournamentBtn">Create tournament</button>
+            <div id="createTournamentDiv">
+                <form>
+                    <input id="tournamentSportsSelection" list="sports">
+                    <datalist id="sports">
+                        <option value="soccer"></option>
+                        <option value="frisbee"></option>
+                        <option value="basketball"></option>
+                    </datalist>
+                </form>
+            </div>
+            <button id="joinTournamentBtn">Join tournament</button>
+            <div id="joinTournamentDiv">
+                <label for="joinTournamentCodeInput">Tournament Code</label>
+                <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
+            </div>
+        </div>
+        {{/if}}
     </div>
     <script src="/public/js/create_pool.js"></script>
     <script src="/public/js/role_change.js"></script>
