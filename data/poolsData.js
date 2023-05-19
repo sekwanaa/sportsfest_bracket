@@ -11,13 +11,13 @@ const sports = mongoCollections.sports;
 let exportedMethods = {
   
     //method to insert pool data information
-    async insertPool(seedingGames, numOfFields, numOfPlayoffTeams) {
+    async insertPool(poolObj) {
   
       let newPool = {
-            name: "blank",
-            seedingGames: seedingGames,
-            numOfFields: numOfFields,
-            numOfPlayoffTeams: numOfPlayoffTeams,
+            name: poolName,
+            // seedingGames: seedingGames,
+            // numOfFields: numOfFields,
+            // numOfPlayoffTeams: numOfPlayoffTeams,
             sports: [],
         //   teams: [],
             privacy: "private",
@@ -25,7 +25,7 @@ let exportedMethods = {
       };
   
       const poolsCollection = await pools();
-      const insertPool = await poolsCollection.insertOne(newPool);
+      const insertPool = await poolsCollection.insertOne(poolObj);
       const poolId = insertPool.insertedId.toString();
       
       return poolId;

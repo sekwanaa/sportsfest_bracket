@@ -300,14 +300,9 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 });
 
 router.post("/create_pool", async (req, res) => {
-    const poolInfo = req.body;
+    const poolObj = req.body.poolObj;
     
-    const insertPool = await poolsData.insertPool
-    (
-        poolInfo.seedingGames,
-        poolInfo.numOfFields, 
-        poolInfo.numOfPlayOffTeams,
-    );
+    const insertPool = await poolsData.insertPool(poolObj);
 
     return res.json(insertPool);
 });
