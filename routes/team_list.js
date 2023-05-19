@@ -5,33 +5,33 @@ const userData = data.usersData;
 const teamData = data.teamsData;
 const poolsData = data.poolsData;
 
-router.get("/", async (req, res) => {
+// router.get("/", async (req, res) => {
 
-    let email="not authenticated"
-    let userRole = "";
-    let allTeams = [];
-    allTeams = await teamData.getAllTeams();
+//     let email="not authenticated"
+//     let userRole = "";
+//     let allTeams = [];
+//     allTeams = await teamData.getAllTeams();
 
-    if(req.oidc.isAuthenticated()) {
-        let filterObj = {
-            email: req.oidc.user.name
-        };
-        let projectionObj = {
-            "user_metadata.role": 1,
-        };
+//     if(req.oidc.isAuthenticated()) {
+//         let filterObj = {
+//             email: req.oidc.user.name
+//         };
+//         let projectionObj = {
+//             "user_metadata.role": 1,
+//         };
 
-        const user = await userData.getUserByEmail(filterObj, projectionObj);
-        userRole = user.user_metadata.role;
-    }
+//         const user = await userData.getUserByEmail(filterObj, projectionObj);
+//         userRole = user.user_metadata.role;
+//     }
 
-    res.render("partials/team_list", {
-        title: "Team List", 
-        shortcode: 'teamList',
-        isAuthenticated: req.oidc.isAuthenticated(),
-        role: userRole,
-        allTeams: allTeams,
-    });
-});
+//     res.render("partials/team_list", {
+//         title: "Team List", 
+//         shortcode: 'teamList',
+//         isAuthenticated: req.oidc.isAuthenticated(),
+//         role: userRole,
+//         allTeams: allTeams,
+//     });
+// });
 
 router.get("/:id/:sport", async (req, res) => {
 
@@ -94,14 +94,6 @@ router.get("/:id/:sport", async (req, res) => {
 
 });
 
-// router.post("/", async (req, res) => {
-//     const personArray = req.body.personArray;
-
-//     for(i=0; i<personArray.length; i++) {
-//         const updateUser = await userData.updateUser(personArray[i].email, personArray[i].role);
-//     }
-// });
-
 router.post('/:id/:sport/modal_form_import_team', async (req, res) =>{
     
     let poolId = req.params.id;
@@ -111,7 +103,7 @@ router.post('/:id/:sport/modal_form_import_team', async (req, res) =>{
         const modalTeamArray = req.body.teamArray;
         let teamId = await teamData.addTeam(modalTeamArray);
         let insertedTeamPool = await poolsData.insertTeam(poolId, sportName, teamId);
-        res.json("form has been imported");
+        return res.json("form has been imported");
     }
     catch (e) {
         return res.status(500).json({ error: e});
@@ -147,7 +139,7 @@ router.post("/edit_power_ranking", async (req, res) => {
            const updatePowerRank = await teamData.updatePowerRanking(newPowerRank[i].teamName, newPowerRank[i].district, newPowerRank[i].newPowerRank);
         }
 
-        return res.json("")
+        return res.json("");
     } catch (error) {
         return res.status(500).json({ error: error});
     }
