@@ -125,41 +125,10 @@ router.post("/:id/:sport/batch_import_team", async (req, res) => {
     try {
         const teamArray = req.body.teamArray;
 
-        let insertTeam = null;
+        for(let i=0; i<teamArray.length; i++) {
 
-        let insertTeamArr = [];
-        let teamObj = {
-            teamName: null,
-            district: null,
-            players: [],
-            teamCaptain: {
-                name: "blank",
-            },
-            powerRanking: null,
-        }
-
-        for(i=0; i<teamArray.length; i++) {
-            teamObj.teamName = teamArray[i].teamName;
-            teamObj.district = teamArray[i].district;
-            teamObj.players = teamArray[i].players;
-            teamObj.teamCaptain = teamArray[i].teamCaptain;
-            teamObj.powerRanking = teamArray[i].powerRanking;
-            
-            insertTeamArr.push(teamObj);
-            teamObj = {
-                teamName: null,
-                district: null,
-                players: [],
-                teamCaptain: {
-                    name: "blank",
-                },
-                powerRanking: null,
-            }
-        }
-
-        for(j=0; j<insertTeamArr.length; j++) {
-            insertTeam = await teamData.addTeam(teamArray[j]);
-            insertTeam = null;
+            let teamid = await teamData.addTeam(teamArray[i]);
+            let insertTeam = await poolsData.insertTeam(poolId, sportName, teamid);
         }
         
         return res.json("insertTeam");

@@ -97,13 +97,15 @@
             var reader = new FileReader();
             reader.onload = function(e) {
                 var lines = e.target.result.split('\r\n');
-                for (i = 1; i < lines.length; ++i) {
+                // console.log(lines);
+                for (let i = 1; i < lines.length; ++i) {
         
                     let tmpString = lines[i].split(',');
-                    console.log(tmpString[0].length);
+                    // console.log(tmpString[0].length);
                     if(tmpString[0].length < 1) {
                         continue;
-                    }else {
+                    } 
+                    else {
                         $('#test_list').append('<div class="info grid-row-name" id="email'+(i-1)+'">'+tmpString[0]+'</div>');
                         $('#test_list').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
                         $('#test_list').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
