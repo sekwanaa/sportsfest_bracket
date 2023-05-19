@@ -158,7 +158,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/team_list/batch_import_team',
+                url: window.location.pathname + '/batch_import_team',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     teamArray: teamArray

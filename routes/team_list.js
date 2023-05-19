@@ -113,8 +113,10 @@ router.post('/:id/:sport/modal_form_import_team', async (req, res) =>{
     }
 })
 
-router.post("/batch_import_team", async (req, res) => {
-    
+router.post("/:id/:sport/batch_import_team", async (req, res) => {
+    let poolId = req.params.id;
+    let sportName = req.params.sport;
+
     try {
         const teamArray = req.body.teamArray;
 
