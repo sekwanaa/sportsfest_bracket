@@ -35,44 +35,58 @@ router.get("/", async (req, res) => {
 
 router.get("/:id/:sport", async (req, res) => {
 
-    let tournamentId = req.params.id;
-    let sportName = req.params.sport;
+    try {
+        let tournamentId = req.params.id;
+        let sportName = req.params.sport;
+    
+        let email = "not authenticated"
+        let userRole = "";
+    
+        let poolInfo = await poolsData.getPoolInfo(tournamentId);
+    
+        let sportId = "";
+        let teamsArray = [];
+        let sportIdCheck = null;
 
-    let email = "not authenticated"
-    let userRole = "";
+        for(let i = 0; i < poolInfo.sports.length; i++) {
+            sportIdCheck = await poolsData.getSportDataById(poolInfo.sports[i]);
+            if(sportIdCheck.sport == sportName) {
+                sportId = poolInfo.sports[i];
+                break;
+            }
+        }
 
-    let poolInfo = await poolsData.getPoolInfo(tournamentId);
-    // allTeams = await teamData.getAllTeams();
+        for(let i = 0; i<sportIdCheck.teams.length; i++) {
+            let teamInfo = await teamData.getAllTeamsByID(sportIdCheck.teams[i]);
+            teamsArray.push(teamInfo);
+            teamInfo = null;
+        }
 
-    let teamsArray = [];
-    //6463f6d7eb8e9590fae2a0c3
-    for(let i = 0; i < poolInfo.sports[sportName].teams.length; i++) {
-        let teamInfo = await teamData.getAllTeamsByID(poolInfo.sports[sportName].teams[i]);
-        teamsArray.push(teamInfo);
-        teamInfo = null;
+        if(req.oidc.isAuthenticated()) {
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                "user_metadata.role": 1,
+            };
+    
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userRole = user.user_metadata.role;
+        }
+    
+        res.render("partials/team_list", {
+            title: "Team List", 
+            shortcode: 'teamList',
+            isAuthenticated: req.oidc.isAuthenticated(),
+            role: userRole,
+            allTeams: teamsArray,
+            tournamentId: tournamentId,
+            sportName: sportName,
+        });
+    } catch (e) {
+        return res.status(500).json({ error: e});
     }
 
-    if(req.oidc.isAuthenticated()) {
-        let filterObj = {
-            email: req.oidc.user.name
-        };
-        let projectionObj = {
-            "user_metadata.role": 1,
-        };
-
-        const user = await userData.getUserByEmail(filterObj, projectionObj);
-        userRole = user.user_metadata.role;
-    }
-
-    res.render("partials/team_list", {
-        title: "Team List", 
-        shortcode: 'teamList',
-        isAuthenticated: req.oidc.isAuthenticated(),
-        role: userRole,
-        allTeams: teamsArray,
-        tournamentId: tournamentId,
-        sportName: sportName,
-    });
 });
 
 // router.post("/", async (req, res) => {

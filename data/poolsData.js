@@ -1190,12 +1190,13 @@ let exportedMethods = {
         const poolInfo = await this.getPoolInfo(poolId);
 
         for(let i=0; i<poolInfo.sports.length; i++) {
-            let sportInfo = await sportsCollection.findOne({_id: poolInfo.sports[i], sportName: sportName});
+            let sportInfo = await sportsCollection.findOne({_id: new ObjectId(poolInfo.sports[i]), sport: sportName});
+
             if(sportInfo != null) {
                 await sportsCollection.findOneAndUpdate(
                     {
-                        _id: poolInfo.sport[i], 
-                        sportName: sportName,
+                        _id: new ObjectId(poolInfo.sports[i]), 
+                        sport: sportName,
                     },
                     {
                         $push: {
@@ -1208,6 +1209,15 @@ let exportedMethods = {
         }
 
         return;
+    },
+
+    async getSportDataById(sportId) {
+
+        const sportsCollection = await sports();
+
+        const sportData = await sportsCollection.findOne({_id: new ObjectId(sportId)});
+
+        return sportData;
     },
 
   }
