@@ -2,6 +2,10 @@ body {
     background-color: black;
 }
 
+button {
+    padding: 3px;
+}
+
 #titleDiv {
     font-family: titleFont;
     font-size: 48px;
@@ -351,3 +355,9 @@ section#edit_team_display_card > div {
 }
 
 /* edit user role end */
+
+/* create pool styling */
+
+
+
+/* create pool end */
