@@ -273,7 +273,7 @@
         <h1 class="cardTitles">Create Pool</h1>
         {{#if tournament}}
         <div>
-            <form id="poolInputForm" method="post">
+            {{!-- <form id="poolInputForm" method="post">
                 <p>How many games will each team play?</p>
                 <input id="seedingGames" type="number" required>
                 <p>How many fields will be used?</p>
@@ -283,7 +283,7 @@
                 </br>
                 </br>
                 <button type="submit">Submit</button>
-            </form>
+            </form> --}}
         </div>
         {{else}}
         <div>
@@ -297,6 +297,8 @@
                         <option value="basketball"></option>
                     </datalist>
                 </form>
+                <button>Previous</button>
+                <button>Next</button>
             </div>
             <button id="joinTournamentBtn">Join tournament</button>
             <div id="joinTournamentDiv">
