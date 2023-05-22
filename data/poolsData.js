@@ -7,6 +7,7 @@ const roundrobin = mongoCollections.roundrobin;
 const seeds = mongoCollections.seeds;
 const playoffs = mongoCollections.playoffs;
 const sports = mongoCollections.sports;
+const sportslist = mongoCollections.sportslist;
 
 let exportedMethods = {
   
@@ -1221,8 +1222,20 @@ let exportedMethods = {
     },
 
     async getSportsList() {
-        let sportList = ["soccer", "frisbee", "volleyball"];
+        const sportslistcollection = await sportslist();
+
+        const sportList = await sportslistcollection.find({}).toArray();
+
         return sportList;
+    },
+
+    async addSportToList(sportName) {
+        const sportslistcollection = await sportslist();
+
+        const insertSport = await sportslistcollection.insertOne(sportName);
+        const insertedSportId = insertSport.insertedId.toString();
+
+        return insertedSportId;
     },
 
   }

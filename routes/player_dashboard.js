@@ -322,4 +322,15 @@ router.post("/submit_sport", async (req, res) => {
     return res.json(insertSport);
 });
 
+router.post("/add_sport", async (req, res) => {
+
+    let sportName = {
+        sportName: req.body.sportName,
+    }
+
+    const insertSportName = await poolsData.addSportToList(sportName);
+
+    return res.json(insertSportName);
+});
+
 module.exports = router;
