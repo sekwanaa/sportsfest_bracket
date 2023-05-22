@@ -292,9 +292,9 @@
                 <form>
                     <input id="tournamentSportsSelection" list="sports">
                     <datalist id="sports">
-                        <option value="soccer"></option>
-                        <option value="frisbee"></option>
-                        <option value="basketball"></option>
+                        {{#each sportList}}
+                            <option value="{{this}}"></option>
+                        {{/each}}
                     </datalist>
                 </form>
                 <button>Previous</button>

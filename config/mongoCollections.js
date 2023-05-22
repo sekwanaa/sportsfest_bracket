@@ -30,4 +30,5 @@ module.exports = {
   // semis: getCollectionFn("semis"),
   // finals: getCollectionFn("finals"),
   sports: getCollectionFn("sports"),
+  sportslist: getCollectionFn("sportslist"),
 };

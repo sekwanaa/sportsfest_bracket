@@ -52,6 +52,7 @@ router.get("/", async (req, res) => {
     let profilePic = "../../public/images/R.png";
     let shirt_number = null;
     let position = null;
+    let sportList = await poolsData.getSportsList();
 
     if(req.oidc.isAuthenticated()) {
         let filterObj = {
@@ -117,6 +118,7 @@ router.get("/", async (req, res) => {
         profilePic: profilePic,
         shirt_number: shirt_number,
         position: position,
+        sportList: sportList,
     });
 });
 

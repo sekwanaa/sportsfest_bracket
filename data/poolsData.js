@@ -1220,6 +1220,11 @@ let exportedMethods = {
         return sportData;
     },
 
+    async getSportsList() {
+        let sportList = ["soccer", "frisbee", "volleyball"];
+        return sportList;
+    },
+
   }
   
   module.exports = exportedMethods;
