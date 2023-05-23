@@ -291,11 +291,15 @@
             <div id="createTournamentDiv">
                 <form>
                     <!-- Default checkbox -->
-                    <div class="form-check">
+                    <div id="create_tournament_sports_list" class="form-check">
                         {{#each sportList}}
-                        <input class="form-check-input" type="checkbox" value="" id="{{this.sportName}}" />
-                        <label class="form-check-label" for="{{this.sportName}}">{{this.sportName}}</label>
+                        <input class="sports_list_input" type="checkbox" value="{{this.sportName}}" id="{{this.sportName}}" />
+                        <label class="sports_list_label" for="{{this.sportName}}">{{this.sportName}}</label>
                         {{/each}}
+                    </div>
+                    </br>
+                    <div id="create_tournament_sports_questions">
+
                     </div>
                     {{!-- <input id="tournamentSportsSelection" list="sports">
                     <datalist id="sports">

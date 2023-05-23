@@ -5,10 +5,18 @@
   var createTeamButton = $("#create_team_button");
   var createTournamentBtn = $("#createTournamentBtn");
   var joinTournamentBtn = $("#joinTournamentBtn");
+  var tournamentPreviousBtn = $("#previous_button");
+  var tournamentNextBtn = $("#next_button");
 
   //joining and creating tournaments variables
   var createTournamentDiv = $("#createTournamentDiv");
   var joinTournamentDiv = $("#joinTournamentDiv");
+  
+  //used to navigate pages of the Create Tournament Card
+  let createTournamentArray = [];
+  var sportsQuestionsDiv = $("#create_tournament_sports_questions");
+  createTournamentArray.push(sportsQuestionsDiv);
+  var createTournamentPageCounter = 0;
 
   //initialize items for editing team
   var editTeamButton = $("#edit_team_btn");
@@ -311,4 +319,61 @@
       //take current info and put them into input fields
     }
   });
+
+  //next button for create tournment
+  tournamentNextBtn.click((event) => {
+
+    //check what page number to determine action
+
+    if (createTournamentPageCounter == 0) {
+      var sportsListDiv = $("#create_tournament_sports_list");
+      var sportsCheckList = $(".sports_list_input");
+  
+      sportsListDiv.hide();
+  
+      for(let i=0; i<sportsCheckList.length; i++) {
+        if(sportsCheckList[i].checked == true) {
+          sportsQuestionsDiv.append(
+            '<div id="sports_questions_'+sportsCheckList[i].value+'" class="sports_questions_class" hidden="true">\
+              <h3>'+sportsCheckList[i].value+'</h3>\
+              </br>\
+              <p>How many games will each team play?</p>\
+              <input id="seedingGames" type="number" required>\
+              <p>How many fields will be used?</p>\
+              <input id="numOfFields" type="number" required>\
+              <p>How many teams will make it to playoffs?</p>\
+              <input id="numOfPlayOffTeams" type="number" required>\
+              </br></br>\
+            </div>'
+          );
+          var tmpSportsListItem = $('#sports_questions_'+sportsCheckList[i].value+'');
+          createTournamentArray.push(tmpSportsListItem);
+        }
+      }
+      //show first sports question div
+      createTournamentPageCounter++;
+      createTournamentArray[createTournamentPageCounter].show();
+    }
+    else if(createTournamentPageCounter >= (createTournamentArray.length-1)) {
+      console.log("finished");
+    }
+    else {
+      createTournamentArray[createTournamentPageCounter].hide();
+      createTournamentPageCounter++;
+      createTournamentArray[createTournamentPageCounter].show();
+    }
+    
+  });
+
+  //previous button for create tournment
+  tournamentPreviousBtn.click((event) => {
+
+    if(createTournamentPageCounter > 1) {
+      createTournamentArray[createTournamentPageCounter].hide();
+      createTournamentPageCounter--;
+      createTournamentArray[createTournamentPageCounter].show();
+    }
+
+  });
+
 })(window.jQuery);
