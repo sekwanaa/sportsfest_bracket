@@ -14,9 +14,11 @@
   
   //used to navigate pages of the Create Tournament Card
   let createTournamentArray = [];
+  let sportsListArray = [];
   var sportsQuestionsDiv = $("#create_tournament_sports_questions");
   createTournamentArray.push(sportsQuestionsDiv);
   var createTournamentPageCounter = 0;
+  var submitTournamentButton = $("#submit_tournament_info_div");
 
   //initialize items for editing team
   var editTeamButton = $("#edit_team_btn");
@@ -335,27 +337,31 @@
         if(sportsCheckList[i].checked == true) {
           sportsQuestionsDiv.append(
             '<div id="sports_questions_'+sportsCheckList[i].value+'" class="sports_questions_class" hidden="true">\
-              <h3>'+sportsCheckList[i].value+'</h3>\
+              <h3 id="sports_questions_'+sportsCheckList[i].value+'_sport">'+sportsCheckList[i].value+'</h3>\
               </br>\
               <p>How many games will each team play?</p>\
-              <input id="seedingGames" type="number" required>\
+              <input id="sports_questions_'+sportsCheckList[i].value+'_seedingGames" type="number" required>\
               <p>How many fields will be used?</p>\
-              <input id="numOfFields" type="number" required>\
+              <input id="sports_questions_'+sportsCheckList[i].value+'_numOfFields" type="number" required>\
               <p>How many teams will make it to playoffs?</p>\
-              <input id="numOfPlayOffTeams" type="number" required>\
+              <input id="sports_questions_'+sportsCheckList[i].value+'_numOfPlayOffTeams" type="number" required>\
               </br></br>\
             </div>'
           );
           var tmpSportsListItem = $('#sports_questions_'+sportsCheckList[i].value+'');
           createTournamentArray.push(tmpSportsListItem);
+          sportsListArray.push(tmpSportsListItem);
         }
       }
+      createTournamentArray.push(submitTournamentButton);
       //show first sports question div
       createTournamentPageCounter++;
       createTournamentArray[createTournamentPageCounter].show();
     }
     else if(createTournamentPageCounter >= (createTournamentArray.length-1)) {
-      console.log("finished");
+      createTournamentArray[createTournamentPageCounter].hide();
+      createTournamentPageCounter++;
+      createTournamentArray[createTournamentPageCounter].show();
     }
     else {
       createTournamentArray[createTournamentPageCounter].hide();
@@ -372,6 +378,59 @@
       createTournamentArray[createTournamentPageCounter].hide();
       createTournamentPageCounter--;
       createTournamentArray[createTournamentPageCounter].show();
+    }
+  });
+
+  //submit tournament info
+  submitTournamentButton.click((event) => {
+    event.preventDefault();
+
+    let tournamentName = "this";
+    let poolObj = {
+      tournamentName: tournamentName,
+      sports: [],
+      stage: 1,
+    };
+
+    let sportsPool = [];
+
+    for(let i=0; i<sportsListArray.length; i++) {
+      // console.log(sportsListArray[i].attr("id"));
+      let sportsListString = sportsListArray[i].attr("id");
+      let sportName = $('#'+sportsListString+'_sport').html();
+      let numOfFields = parseInt($('#'+sportsListString+'_numOfFields').val());
+      let numOfSeedingGames = parseInt($('#'+sportsListString+'_seedingGames').val());
+      let numOfPlayoffTeams = parseInt($('#'+sportsListString+'_numOfPlayOffTeams').val());
+      // console.log(sportName.html());
+      let tmpSportObj = {
+          sport: sportName,
+          numOfFields: numOfFields,
+          numOfSeedingGames: numOfSeedingGames,
+          numOfPlayoffTeams: numOfPlayoffTeams,
+          teams: [],
+          schedule: [],
+          playoffs: [],
+      }
+      sportsPool.push(tmpSportObj);
+    }
+
+    //ajax POST method
+    try {
+      let req = {
+        method: "POST",
+        url: window.location.pathname + "/create_pool",
+        contentType: "application/json",
+        data: JSON.stringify({
+          poolObj: poolObj,
+          sportsPool: sportsPool,
+        }),
+      };
+      $.ajax(req).then(function (res) {
+        //page reload on submit
+        // location.reload();
+      });
+    } catch (e) {
+      console.log(e);
     }
 
   });

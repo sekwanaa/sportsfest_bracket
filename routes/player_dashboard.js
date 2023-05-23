@@ -303,10 +303,28 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 
 router.post("/create_pool", async (req, res) => {
     const poolObj = req.body.poolObj;
+    const sportsPool = req.body.sportsPool;
     
-    const insertPool = await poolsData.insertPool(poolObj);
+    // console.log(poolObj);
+    // console.log(sportsPool);
 
-    return res.json(insertPool);
+    try {
+        const insertPool = await poolsData.insertPool(poolObj);
+
+        for(let i=0; i<sportsPool.length; i++) {
+            const insertSport = await poolsData.insertSportIntoPool
+            (
+                insertPool, 
+                sportsPool[i],
+            );
+        }
+
+        return res.json(insertPool);
+    }
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
+    
 });
 
 //route for adding sports info to pool

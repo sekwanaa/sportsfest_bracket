@@ -288,8 +288,11 @@
         {{else}}
         <div>
             <button id="createTournamentBtn">Create tournament</button>
+            <div id="submit_tournament_info_div" hidden="true">
+                <button id="submit_tournament_info_button">Submit</button>
+            </div>
             <div id="createTournamentDiv">
-                <form>
+                <form id="create_tournament_form">
                     <!-- Default checkbox -->
                     <div id="create_tournament_sports_list" class="form-check">
                         {{#each sportList}}
@@ -301,12 +304,6 @@
                     <div id="create_tournament_sports_questions">
 
                     </div>
-                    {{!-- <input id="tournamentSportsSelection" list="sports">
-                    <datalist id="sports">
-                        {{#each sportList}}
-                            <option value="{{this.sportName}}"></option>
-                        {{/each}}
-                    </datalist> --}}
                 </form>
                 <button id="previous_button">Previous</button>
                 <button id="next_button">Next</button>
