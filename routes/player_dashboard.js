@@ -302,17 +302,28 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 });
 
 router.post("/create_pool", async (req, res) => {
-    const poolObj = req.body.poolObj;
-    const sportsPool = req.body.sportsPool;
+    let poolObj = req.body.poolObj;
+    let sportsPool = req.body.sportsPool;
 
     try {
+
+        console.log("test");
         if(req.oidc.isAuthenticated()) {
-            let email = req.oidc.user.name;
-            const user = await userData.getUserByEmail(email);
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                _id: 1,
+            };
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            console.log(user);
             let userId = user._id.toString();
             poolObj.coordinator = userId;
         }
+
         const insertPool = await poolsData.insertPool(poolObj);
+
+        
 
         for(let i=0; i<sportsPool.length; i++) {
             const insertSport = await poolsData.insertSportIntoPool
