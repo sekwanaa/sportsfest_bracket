@@ -290,12 +290,19 @@
             <button id="createTournamentBtn">Create tournament</button>
             <div id="createTournamentDiv">
                 <form>
-                    <input id="tournamentSportsSelection" list="sports">
+                    <!-- Default checkbox -->
+                    <div class="form-check">
+                        {{#each sportList}}
+                        <input class="form-check-input" type="checkbox" value="" id="{{this.sportName}}" />
+                        <label class="form-check-label" for="{{this.sportName}}">{{this.sportName}}</label>
+                        {{/each}}
+                    </div>
+                    {{!-- <input id="tournamentSportsSelection" list="sports">
                     <datalist id="sports">
                         {{#each sportList}}
                             <option value="{{this.sportName}}"></option>
                         {{/each}}
-                    </datalist>
+                    </datalist> --}}
                 </form>
                 <button id="previous_button">Previous</button>
                 <button id="next_button">Next</button>
