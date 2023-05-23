@@ -390,18 +390,19 @@
       tournamentName: tournamentName,
       sports: [],
       stage: 1,
+      coordinator: "",
     };
 
     let sportsPool = [];
 
     for(let i=0; i<sportsListArray.length; i++) {
-      // console.log(sportsListArray[i].attr("id"));
       let sportsListString = sportsListArray[i].attr("id");
       let sportName = $('#'+sportsListString+'_sport').html();
       let numOfFields = parseInt($('#'+sportsListString+'_numOfFields').val());
       let numOfSeedingGames = parseInt($('#'+sportsListString+'_seedingGames').val());
       let numOfPlayoffTeams = parseInt($('#'+sportsListString+'_numOfPlayOffTeams').val());
-      // console.log(sportName.html());
+      let privacySetting = "public";
+
       let tmpSportObj = {
           sport: sportName,
           numOfFields: numOfFields,
@@ -410,6 +411,7 @@
           teams: [],
           schedule: [],
           playoffs: [],
+          privacy: privacySetting,
       }
       sportsPool.push(tmpSportObj);
     }

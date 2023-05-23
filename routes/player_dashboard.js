@@ -304,11 +304,14 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 router.post("/create_pool", async (req, res) => {
     const poolObj = req.body.poolObj;
     const sportsPool = req.body.sportsPool;
-    
-    // console.log(poolObj);
-    // console.log(sportsPool);
 
     try {
+        if(req.oidc.isAuthenticated()) {
+            let email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            let userId = user._id.toString();
+            poolObj.coordinator = userId;
+        }
         const insertPool = await poolsData.insertPool(poolObj);
 
         for(let i=0; i<sportsPool.length; i++) {
