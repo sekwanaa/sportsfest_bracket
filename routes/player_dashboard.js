@@ -306,8 +306,6 @@ router.post("/create_pool", async (req, res) => {
     let sportsPool = req.body.sportsPool;
 
     try {
-
-        console.log("test");
         if(req.oidc.isAuthenticated()) {
             let filterObj = {
                 email: req.oidc.user.name
@@ -316,14 +314,11 @@ router.post("/create_pool", async (req, res) => {
                 _id: 1,
             };
             const user = await userData.getUserByEmail(filterObj, projectionObj);
-            console.log(user);
             let userId = user._id.toString();
             poolObj.coordinator = userId;
         }
 
         const insertPool = await poolsData.insertPool(poolObj);
-
-        
 
         for(let i=0; i<sportsPool.length; i++) {
             const insertSport = await poolsData.insertSportIntoPool
