@@ -19,9 +19,7 @@ let exportedMethods = {
         let code = null;
 
         while(code == null) {
-            
             let tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
-
             let checkCode = await poolsCollection.findOne({code: tempCode});
             
             if(checkCode != null) {
