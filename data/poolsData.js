@@ -13,25 +13,31 @@ let exportedMethods = {
   
     //method to insert pool data information
     async insertPool(poolObj) {
-  
-        // let newPool = {
-        //     name: poolName,
-        //     // seedingGames: seedingGames,
-        //     // numOfFields: numOfFields,
-        //     // numOfPlayoffTeams: numOfPlayoffTeams,
-        //     sports: [],
-        // //   teams: [],
-        //     privacy: "private",
-        //     stage: 1,
-        // };
-
-        console.log(poolObj);
 
         const poolsCollection = await pools();
+
+        let code = null;
+
+        while(code == null) {
+            
+            let tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+
+            let checkCode = await poolsCollection.findOne({code: tempCode});
+            
+            if(checkCode != null) {
+                tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+            }
+            else {
+                code = tempCode;
+            }
+        }
+
+        poolObj.tournamentCode = code;
+
         const insertPool = await poolsCollection.insertOne(poolObj);
         const poolId = insertPool.insertedId.toString();
 
-return poolId;
+        return poolId;
     },
 
     async incrementStage() {

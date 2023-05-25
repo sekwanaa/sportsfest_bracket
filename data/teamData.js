@@ -70,7 +70,6 @@ let exportedMethods = {
             let check = true
             let tempCode = null;
 
-                
             if(teamObj.players[i].linked == false) {
                 const playerLinkCollection = await playerLink();
                 while(check == true) {
