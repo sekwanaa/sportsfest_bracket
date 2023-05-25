@@ -103,7 +103,6 @@ router.get("/", async (req, res) => {
 
         //get id's of tournaments created by user
         tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
-        console.log(tournamentArray);
     }
 
     res.render("partials/player_dashboard", {
