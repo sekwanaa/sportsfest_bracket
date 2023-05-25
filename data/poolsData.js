@@ -1246,7 +1246,7 @@ let exportedMethods = {
 
     async getTournamentsCreatedByUser(userId) {
         const poolsCollection = await pools();
-        return await poolsCollection.find({coordinator: userId}).toArray();
+        return await poolsCollection.find({coordinator: userId}).sort({tournamentName: 1}).toArray();
     },
 
   }

@@ -279,22 +279,6 @@
             {{/each}}
             </br>
         </div>
-
-        {{#if tournament}}
-        <div>
-            {{!-- <form id="poolInputForm" method="post">
-                <p>How many games will each team play?</p>
-                <input id="seedingGames" type="number" required>
-                <p>How many fields will be used?</p>
-                <input id="numOfFields" type="number" required>
-                <p>How many teams will make it to playoffs?</p>
-                <input id="numOfPlayOffTeams" type="number" required>
-                </br>
-                </br>
-                <button type="submit">Submit</button>
-            </form> --}}
-        </div>
-        {{else}}
         <div>
             <button id="createTournamentBtn">Create tournament</button>
             <div id="submit_tournament_info_div" hidden="true">
@@ -333,7 +317,6 @@
                 <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
             </div>
         </div>
-        {{/if}}
     </div>
     <script src="/public/js/create_pool.js"></script>
     <script src="/public/js/role_change.js"></script>
