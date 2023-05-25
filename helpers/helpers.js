@@ -23,7 +23,11 @@ let exportedMethods= {
 
     incrementIndex: function(index, options) {
         return index+1;
-    }
+    },
+
+    idToString: function(id, options) {
+        return id.toString();
+    },
 }
 
 module.exports = exportedMethods;

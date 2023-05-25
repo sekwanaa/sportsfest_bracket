@@ -1244,6 +1244,11 @@ let exportedMethods = {
         return insertedSportId;
     },
 
+    async getTournamentsCreatedByUser(userId) {
+        const poolsCollection = await pools();
+        return await poolsCollection.find({coordinator: userId}).toArray();
+    },
+
   }
   
   module.exports = exportedMethods;

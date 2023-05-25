@@ -271,6 +271,15 @@
 
     <div class="dashboardCards" id="createPool">
         <h1 class="cardTitles">Create Pool</h1>
+        <div>
+            <h3>Your Tournaments</h3>
+            {{#each tournamentArray}}
+                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a>
+                </br>
+            {{/each}}
+            </br>
+        </div>
+
         {{#if tournament}}
         <div>
             {{!-- <form id="poolInputForm" method="post">
