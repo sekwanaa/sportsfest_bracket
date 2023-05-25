@@ -385,12 +385,15 @@
   submitTournamentButton.click((event) => {
     event.preventDefault();
 
-    let tournamentName = "this";
+    let tournamentName = $("#tournament_name").val();
+    let privacySetting = $("#privacy_question").val();
+    
     let poolObj = {
       tournamentName: tournamentName,
       sports: [],
       stage: 1,
       coordinator: "",
+      privacy: privacySetting,
     };
 
     let sportsPool = [];
@@ -401,7 +404,6 @@
       let numOfFields = parseInt($('#'+sportsListString+'_numOfFields').val());
       let numOfSeedingGames = parseInt($('#'+sportsListString+'_seedingGames').val());
       let numOfPlayoffTeams = parseInt($('#'+sportsListString+'_numOfPlayOffTeams').val());
-      let privacySetting = "public";
 
       let tmpSportObj = {
           sport: sportName,
@@ -411,7 +413,6 @@
           teams: [],
           schedule: [],
           playoffs: [],
-          privacy: privacySetting,
       }
       sportsPool.push(tmpSportObj);
     }
