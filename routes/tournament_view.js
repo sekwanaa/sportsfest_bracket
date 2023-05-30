@@ -7,6 +7,7 @@ const poolsData = data.poolsData;
 router.get("/:id", async (req, res) => {
 
     let tournamentId = req.params.id;
+    let tournamentCoordinator = false;
 
     let userRole = "";
     let sports = [
@@ -23,6 +24,12 @@ router.get("/:id", async (req, res) => {
 
         const user = await userData.getUserByEmail(filterObj, projectionObj);
         userRole = user.user_metadata.role;
+
+        const poolInfo = await poolsData.getPoolInfo(tournamentId);
+        if(poolInfo.coordinator == user._id.toString()) {
+            tournamentCoordinator = true;
+            console.log("true");
+        }
     }
     
     const tournamentInfo = await poolsData.getPoolInfo(tournamentId);
@@ -34,6 +41,7 @@ router.get("/:id", async (req, res) => {
         tournamentInfo: tournamentInfo,
         sports: sports,
         tournamentId: tournamentId,
+        tournamentCoordinator: tournamentCoordinator,
     });
 });
 

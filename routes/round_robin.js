@@ -4,13 +4,14 @@ const data = require('../data')
 const userData = data.usersData;
 const poolsData = data.poolsData;
 
-router.get("/", async (req, res) => {
+router.get("/:id/:sport", async (req, res) => {
 
     let userRole = "";
     let name = "";
     let rounds;
     let isRounds = false;
     let isStage1 = true;
+    let tournamentId = req.params.id;
 
     try {
         if(req.oidc.isAuthenticated()) {
@@ -35,18 +36,7 @@ router.get("/", async (req, res) => {
                 isRounds = false;
             }
 
-            filterObj = {
-                //future: determine current tournament
-            }
-
-            projectionObj = {
-                projection: {
-                    _id: 0,
-                    stage: 1,
-                }
-            }
-
-            let poolInfo = await poolsData.getPoolInfo(filterObj, projectionObj);
+            let poolInfo = await poolsData.getPoolInfo(tournamentId);
 
             if(poolInfo.stage > 1) {
                 isStage1 = false;
@@ -69,7 +59,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    
+    let tournamentId = req.body.id;
+    let sportName = req.body.sport;
+
     try{
         let schedule = null;
         
@@ -85,7 +77,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.post("/round_robin_schedule", async (req, res) => {
+router.post("/round_robin_schedule/", async (req, res) => {
     let roundRobinInfo = req.body.roundRobinMatches;
     
     let gameNum = roundRobinInfo.gameNum;
@@ -105,7 +97,7 @@ router.post("/round_robin_schedule", async (req, res) => {
     }
 });
 
-router.post("/round_robin_complete", async (req, res) => {
+router.post("/round_robin_complete/", async (req, res) => {
     
     try{
         const roundRobinComplete = await poolsData.completeRoundRobin();
@@ -115,7 +107,7 @@ router.post("/round_robin_complete", async (req, res) => {
     }
 });
 
-router.post("/goldsilver_schedule", async (req, res) => {
+router.post("/goldsilver_schedule/", async (req, res) => {
     
     try{
         const goldsilver_schedule = await poolsData.createGoldSilverPool();

@@ -22,6 +22,9 @@
                 <li><a href="/court_view/{{../tournamentId}}/{{this}}">Current Games</a></li>
                 <li><a href="/seeding_table/{{../tournamentId}}/{{this}}">Current Seeds</a></li>
                 <li><a href="/team_list/{{../tournamentId}}/{{this}}">Current Teams</a></li>
+                {{#if ../tournamentCoordinator}}
+                <li><a href="/round_robin/{{../tournamentId}}/{{this}}">Round Robin</a></li>
+                {{/if}}
             </ul>
         </div>
     </div>
