@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
 
     try {
         let userRole = "";
-    
+
         if(req.oidc.isAuthenticated()) {
             let filterObj = {
                 email: req.oidc.user.name
@@ -21,6 +21,7 @@ router.get("/", async (req, res) => {
 
             const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
+
         }
     
         const matchHistory = await matchesData.getTeamRecords();
@@ -49,6 +50,7 @@ router.get("/:id:sport", async (req, res) => {
 
     let tournamentId = req.params.id;
     let sportName = req.params.sport;
+    let tournamentCoordinator = false;
 
     try {
         let userRole = "";
@@ -63,6 +65,12 @@ router.get("/:id:sport", async (req, res) => {
 
             const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
+
+            const poolInfo = await poolsData.getPoolInfo(tournamentId);
+
+            if(user._id.toString() == poolInfo.coordinator) {
+                tournamentCoordinator = true;
+            }
         }
     
         const matchHistory = await matchesData.getTeamRecords();
@@ -71,6 +79,12 @@ router.get("/:id:sport", async (req, res) => {
         let isStage1 = true;
         if(seedsInfo.length > 0) {
             isStage1 = false;
+        }
+
+        const poolInfo = await poolsData.getPoolInfo(tournamentId);
+
+        if(user._id.toString() == poolInfo.coordinator) {
+            tournamentCoordinator = true;
         }
     
         res.render("partials/seeding_table", {
@@ -82,6 +96,7 @@ router.get("/:id:sport", async (req, res) => {
             stage1: isStage1,
             tournamentId: tournamentId,
             sportName: sportName,
+            tournamentCoordinator: tournamentCoordinator,
         });
     } catch (e) {
 

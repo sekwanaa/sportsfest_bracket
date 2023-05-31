@@ -12,6 +12,7 @@ router.get("/:id/:sport", async (req, res) => {
     let isRounds = false;
     let isStage1 = true;
     let tournamentId = req.params.id;
+    let tournamentCoordinator = false;
 
     try {
         if(req.oidc.isAuthenticated()) {
@@ -41,6 +42,10 @@ router.get("/:id/:sport", async (req, res) => {
             if(poolInfo.stage > 1) {
                 isStage1 = false;
             }
+
+            if(user._id.toString() == poolInfo.coordinator) {
+                tournamentCoordinator = true;
+            }
         }
     
         res.render("partials/round_robin", {
@@ -51,6 +56,7 @@ router.get("/:id/:sport", async (req, res) => {
             rounds: rounds,
             isRounds: isRounds,
             isStage1: isStage1,
+            tournamentCoordinator: tournamentCoordinator,
         });
     } catch (e) {
         return res.status(500).json({ error: e});

@@ -38,6 +38,7 @@ router.get("/:id/:sport", async (req, res) => {
     try {
         let tournamentId = req.params.id;
         let sportName = req.params.sport;
+        let tournamentCoordinator = false;
     
         let email = "not authenticated"
         let userRole = "";
@@ -77,6 +78,10 @@ router.get("/:id/:sport", async (req, res) => {
     
             const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
+
+            if(user._id.toString() == poolInfo.coordinator) {
+                tournamentCoordinator = true;
+            }
         }
     
         res.render("partials/team_list", {
@@ -87,6 +92,7 @@ router.get("/:id/:sport", async (req, res) => {
             allTeams: teamsArray,
             tournamentId: tournamentId,
             sportName: sportName,
+            tournamentCoordinator: tournamentCoordinator,
         });
     } catch (e) {
         return res.status(500).json({ error: e});

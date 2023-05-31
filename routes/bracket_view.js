@@ -105,6 +105,7 @@ router.get("/:id/:sport", async (req, res) => {
 
     let tournamentId = req.params.id;
     let sportName = req.params.sport;
+    let tournamentCoordinator = false;
     
     try {
         let userRole = "";
@@ -179,6 +180,12 @@ router.get("/:id/:sport", async (req, res) => {
 
             const user = await userData.getUserByEmail(filterObj, projectionObj);
             userRole = user.user_metadata.role;
+
+            const poolInfo = await poolsData.getPoolInfo(tournamentId);
+            
+            if (user._id.toString() == poolInfo.coordinator) {
+                tournamentCoordinator = true;
+            }
         }
 
         res.render("partials/bracket_view", {
@@ -193,6 +200,7 @@ router.get("/:id/:sport", async (req, res) => {
             eliminatedTeamsArr: eliminatedTeams,
             tournamentId: tournamentId,
             sportName: sportName,
+            tournamentCoordinator: tournamentCoordinator,
         });
 
         return;
