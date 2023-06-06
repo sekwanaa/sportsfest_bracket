@@ -28,7 +28,6 @@ router.get("/:id", async (req, res) => {
         const poolInfo = await poolsData.getPoolInfo(tournamentId);
         if(poolInfo.coordinator == user._id.toString()) {
             tournamentCoordinator = true;
-            console.log("true");
         }
     }
     
