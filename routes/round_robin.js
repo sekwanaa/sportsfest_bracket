@@ -13,6 +13,7 @@ router.get("/:id/:sport", async (req, res) => {
     let isStage1 = true;
     let tournamentId = req.params.id;
     let tournamentCoordinator = false;
+    let sportName = req.params.sport;
 
     try {
         if(req.oidc.isAuthenticated()) {
@@ -56,6 +57,8 @@ router.get("/:id/:sport", async (req, res) => {
             rounds: rounds,
             isRounds: isRounds,
             isStage1: isStage1,
+            tournamentId: tournamentId,
+            sportName: sportName,
             tournamentCoordinator: tournamentCoordinator,
         });
     } catch (e) {
