@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id:sport", async (req, res) => {
+router.get("/:id/:sport", async (req, res) => {
 
     let tournamentId = req.params.id;
     let sportName = req.params.sport;
