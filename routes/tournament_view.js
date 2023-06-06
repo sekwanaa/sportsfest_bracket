@@ -8,6 +8,7 @@ router.get("/:id", async (req, res) => {
 
     let tournamentId = req.params.id;
     let tournamentCoordinator = false;
+    let tournamentName = "No Name";
 
     let userRole = "";
     let sports = [
@@ -29,6 +30,7 @@ router.get("/:id", async (req, res) => {
         if(poolInfo.coordinator == user._id.toString()) {
             tournamentCoordinator = true;
         }
+        tournamentName = poolInfo.tournamentName;
     }
     
     const tournamentInfo = await poolsData.getPoolInfo(tournamentId);
@@ -41,6 +43,7 @@ router.get("/:id", async (req, res) => {
         sports: sports,
         tournamentId: tournamentId,
         tournamentCoordinator: tournamentCoordinator,
+        tournamentName: tournamentName,
     });
 });
 
