@@ -365,4 +365,22 @@ router.post("/add_sport", async (req, res) => {
     return res.json(insertSportName);
 });
 
+router.post("/join_tournament", async (req, res) => {
+
+    let userId = null;
+
+    if(req.oidc.isAuthenticated()) {
+        email = req.oidc.user.name;
+        const user = await userData.getUserByEmail(email);
+        userId = user._id.toString();
+    }
+    
+    const tournamentCode = req.body.tournamentCode;
+    const playerId = await teamsData.getPlayerByUserId(userId);
+
+    const joinTournament = await poolsData.addPlayerToTournament(playerId, tournamentCode);
+
+    return res.json(joinTournament);
+});
+
 module.exports = router;

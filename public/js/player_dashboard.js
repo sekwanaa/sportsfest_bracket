@@ -394,6 +394,7 @@
       stage: 1,
       coordinator: "",
       privacy: privacySetting,
+      players: [],
     };
 
     let sportsPool = [];

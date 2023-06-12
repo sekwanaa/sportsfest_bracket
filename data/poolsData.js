@@ -1249,6 +1249,22 @@ let exportedMethods = {
         return await poolsCollection.find({coordinator: userId}).sort({tournamentName: 1}).toArray();
     },
 
+    async addPlayerToTournament(playerId, tournamentCode) {
+        const poolsCollection = await pools();
+
+        const insertPlayerInTournament = poolsCollection.findOneAndUpdate(
+            {
+                tournamentCode: tournamentCode
+            }, 
+            {
+                $push: {
+                    players: playerId,
+                }
+            }
+        );
+
+        return;
+    },
   }
   
   module.exports = exportedMethods;
