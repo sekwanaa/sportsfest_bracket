@@ -39,92 +39,97 @@ const upload = multer({
 
 router.get("/", async (req, res) => {
 
-    let userRole = "";
-    let allUsers = [];
-    let nickname = "";
-    let name = "";
-    let hasTeam = false;
-    let teamCaptain = null;
-    let district = null;
-    let teamMembers = null;
-    let teamName = null;
-    let userId = null;
-    let profilePic = "../../public/images/R.png";
-    let shirt_number = null;
-    let position = null;
-    let sportList = await poolsData.getSportsList();
-    let tournamentArray = [];
-
-    if(req.oidc.isAuthenticated()) {
-        let filterObj = {
-            email: req.oidc.user.name
-        };
-        let projectionObj = {
-            _id: 1,
-            email: 1,
-            "user_metadata.role": 1,
-            "user_metadata.name": 1,
-            "user_metadata.profilePic": 1,
-        };
-
-        const user = await userData.getUserByEmail(filterObj, projectionObj);
-        userId = user._id.toString()
-        const player = await teamsData.getPlayerByUserId(userId);
-        allUsers = await userData.getAllUsers();
-        hasTeam = await teamsData.hasTeam(userId);
-        nickname = user.email
-        userRole = user.user_metadata.role
-        name = user.user_metadata.name
-
-        if(user.user_metadata.profilePic) {
-            profilePic = "../." + user.user_metadata.profilePic;
-        }
-
-        if (hasTeam) {
-            let team = await teamsData.getTeam(userId);
-            
-            shirt_number = player.shirtNum;
-            position = player.position;
-            teamCaptain = team.teamCaptain;
-            district = team.district;
-            teamMembers = [];
-            teamName = team.name;
-            let teamMember = {};
-
-            for(i=0; i < team.players.length; i++) {                
-                teamMember.name = team.players[i].name;
-                if(team.players[i].linked == false) {
-                    teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
-                }
-                teamMembers.push(teamMember);
-                teamMember = {};
+    try {
+        let userRole = "";
+        let allUsers = [];
+        let nickname = "";
+        let name = "";
+        let hasTeam = false;
+        let teamCaptain = null;
+        let district = null;
+        let teamMembers = null;
+        let teamName = null;
+        let userId = null;
+        let profilePic = "../../public/images/R.png";
+        let shirt_number = null;
+        let position = null;
+        let sportList = await poolsData.getSportsList();
+        let tournamentArray = [];
+    
+        if(req.oidc.isAuthenticated()) {
+            let filterObj = {
+                email: req.oidc.user.name
+            };
+            let projectionObj = {
+                _id: 1,
+                email: 1,
+                "user_metadata.role": 1,
+                "user_metadata.name": 1,
+                "user_metadata.profilePic": 1,
+            };
+    
+            const user = await userData.getUserByEmail(filterObj, projectionObj);
+            userId = user._id.toString()
+            const player = await teamsData.getPlayerByUserId(userId);
+            allUsers = await userData.getAllUsers();
+            hasTeam = await teamsData.hasTeam(userId);
+            nickname = user.email
+            userRole = user.user_metadata.role
+            name = user.user_metadata.name
+    
+            if(user.user_metadata.profilePic) {
+                profilePic = "../." + user.user_metadata.profilePic;
             }
+    
+            if (hasTeam) {
+                let team = await teamsData.getTeam(userId);
+                
+                shirt_number = player.shirtNum;
+                position = player.position;
+                teamCaptain = team.teamCaptain;
+                district = team.district;
+                teamMembers = [];
+                teamName = team.name;
+                let teamMember = {};
+    
+                for(i=0; i < team.players.length; i++) {                
+                    teamMember.name = team.players[i].name;
+                    if(team.players[i].linked == false) {
+                        teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
+                    }
+                    teamMembers.push(teamMember);
+                    teamMember = {};
+                }
+            }
+    
+            //get id's of tournaments created by user
+            tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
         }
-
-        //get id's of tournaments created by user
-        tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
+    
+        res.render("partials/player_dashboard", {
+            title: "Profile", 
+            shortcode: 'playerDashboard',
+            isAuthenticated: req.oidc.isAuthenticated(),
+            role: userRole,
+            allUsers: allUsers,
+            length: allUsers.length,
+            nickname: nickname,
+            name: name,
+            hasTeam: hasTeam,
+            teamCaptain: teamCaptain,
+            district: district,
+            teamMembers: teamMembers,
+            teamName: teamName,
+            profilePic: profilePic,
+            shirt_number: shirt_number,
+            position: position,
+            sportList: sportList,
+            tournamentArray: tournamentArray,
+        });
     }
-
-    res.render("partials/player_dashboard", {
-        title: "Profile", 
-        shortcode: 'playerDashboard',
-        isAuthenticated: req.oidc.isAuthenticated(),
-        role: userRole,
-        allUsers: allUsers,
-        length: allUsers.length,
-        nickname: nickname,
-        name: name,
-        hasTeam: hasTeam,
-        teamCaptain: teamCaptain,
-        district: district,
-        teamMembers: teamMembers,
-        teamName: teamName,
-        profilePic: profilePic,
-        shirt_number: shirt_number,
-        position: position,
-        sportList: sportList,
-        tournamentArray: tournamentArray,
-    });
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/submitTeams", async (req, res) => {
@@ -179,11 +184,16 @@ router.post("/submitTeams", async (req, res) => {
 router.post("/", async (req, res) => {
     const personArray = req.body.personArray;
 
-    for(i=0; i<personArray.length; i++) {
-        const updateUserRole = await userData.updateUserRole(personArray[i].email, personArray[i].role);
+    try {
+        for(i=0; i<personArray.length; i++) {
+            const updateUserRole = await userData.updateUserRole(personArray[i].email, personArray[i].role);
+        }
+    
+        return res.json("done");
     }
-
-    return res.json("done");
+    catch {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/join_team", async (req, res) => {
@@ -191,15 +201,20 @@ router.post("/join_team", async (req, res) => {
 
     let userId;
 
-    if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        userId = user._id.toString();
+    try {
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            userId = user._id.toString();
+        }
+    
+        const playerId = await teamsData.linkPlayerCode(code, userId);
+    
+        return;
     }
-
-    const playerId = await teamsData.linkPlayerCode(code, userId);
-
-    return;
+    catch {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/submitProfile", async (req, res) => {
@@ -209,37 +224,48 @@ router.post("/submitProfile", async (req, res) => {
     const position = userInfo.position;
     let userId = userInfo.userId;
 
-    if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        userId = user._id.toString();
+    try {
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            userId = user._id.toString();
+        }
+    
+        const userUpdate = await userData.updateProfileInfo(userId, name, shirtNum, position);
+    
+        return res.json(userUpdate);
     }
-
-    const userUpdate = await userData.updateProfileInfo(userId, name, shirtNum, position);
-
-    return res.json(userUpdate);
+    catch {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/editTeam", async (req, res) => {
     const teamInfo = req.body;
     let userId = null;
 
-    if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        userId = user._id.toString();
+    try {
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            userId = user._id.toString();
+        }
+    
+        const teamObj = {
+            name: teamInfo.name,
+            district: teamInfo.district,
+            players: teamInfo.players,
+            teamCaptain: teamInfo.teamCaptain,
+            userId: userId,
+        };
+    
+        const updateTeamInfo = await teamsData.updateTeamInfo(teamObj);
+        return res.json(updateTeamInfo);
     }
 
-    const teamObj = {
-        name: teamInfo.name,
-        district: teamInfo.district,
-        players: teamInfo.players,
-        teamCaptain: teamInfo.teamCaptain,
-        userId: userId,
-    };
-
-    const updateTeamInfo = await teamsData.updateTeamInfo(teamObj);
-    return res.json(updateTeamInfo);
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post('/upload-image', upload.single('user-image'), async (req, res) => {
@@ -344,14 +370,19 @@ router.post("/create_pool", async (req, res) => {
 //route for adding sports info to pool
 router.post("/submit_sport", async (req, res) => {
     const sportInfo = req.body;
-    
-    const insertSport = await poolsData.insertSportIntoPool
-    (
-        sportInfo.poolId, 
-        sportInfo.sportObj,
-    );
 
-    return res.json(insertSport);
+    try {
+        const insertSport = await poolsData.insertSportIntoPool
+        (
+            sportInfo.poolId, 
+            sportInfo.sportObj,
+        );
+    
+        return res.json(insertSport);
+    } 
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/add_sport", async (req, res) => {
@@ -360,27 +391,37 @@ router.post("/add_sport", async (req, res) => {
         sportName: req.body.sportName,
     }
 
-    const insertSportName = await poolsData.addSportToList(sportName);
+    try {
+        const insertSportName = await poolsData.addSportToList(sportName);
 
-    return res.json(insertSportName);
+        return res.json(insertSportName);
+    } 
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 router.post("/join_tournament", async (req, res) => {
 
     let userId = null;
 
-    if(req.oidc.isAuthenticated()) {
-        email = req.oidc.user.name;
-        const user = await userData.getUserByEmail(email);
-        userId = user._id.toString();
-    }
+    try {
+        if(req.oidc.isAuthenticated()) {
+            email = req.oidc.user.name;
+            const user = await userData.getUserByEmail(email);
+            userId = user._id.toString();
+        }
+        
+        const tournamentCode = req.body.tournamentCode;
+        const playerId = await teamsData.getPlayerByUserId(userId);
     
-    const tournamentCode = req.body.tournamentCode;
-    const playerId = await teamsData.getPlayerByUserId(userId);
-
-    const joinTournament = await poolsData.addPlayerToTournament(playerId, tournamentCode);
-
-    return res.json(joinTournament);
+        const joinTournament = await poolsData.addPlayerToTournament(playerId, tournamentCode);
+    
+        return res.json(joinTournament);
+    } 
+    catch (e) {
+        return res.status(500).json({ error: e});
+    }
 });
 
 module.exports = router;
