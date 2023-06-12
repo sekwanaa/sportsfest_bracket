@@ -1254,7 +1254,7 @@ let exportedMethods = {
 
         const insertPlayerInTournament = poolsCollection.findOneAndUpdate(
             {
-                tournamentCode: tournamentCode
+                tournamentCode: tournamentCode,
             }, 
             {
                 $push: {
