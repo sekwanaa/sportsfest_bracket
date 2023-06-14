@@ -167,18 +167,27 @@
 
             {{else}} {{!-- if they don't have a team this will display--}}
             <section id="noTeamDisplay"> 
-                <p>You don't currently have a team right now</p>
-                <div>
-                    {{#compareRole "coordinator" role}} {{!-- coordinators can create teams --}}
-                        <button type="button" id="create_team_button">Create a Team</button>
-                    {{/compareRole}}
+                <section id="joinTournament">
+                        <button id="joinTournamentBtn">Join tournament</button>
+                        <div id="joinTournamentDiv">
+                            <label for="joinTournamentCodeInput">Tournament Code</label>
+                            <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
+                        </div>
+                </section>
+                <section class='notJoinedTournament'>
+                    <p>You don't currently have a team right now</p>
+                    <div>
+                        {{#compareRole "coordinator" role}} {{!-- coordinators can create teams --}}
+                            <button type="button" id="create_team_button">Create a Team</button>
+                        {{/compareRole}}
 
-                    {{#compareRole "captain" role}} {{!-- captains can create teams --}}
-                        <button type="button" id="create_team_button">Create a Team</button>
-                    {{/compareRole}}
+                        {{#compareRole "captain" role}} {{!-- captains can create teams --}}
+                            <button type="button" id="create_team_button">Create a Team</button>
+                        {{/compareRole}}
 
-                    <button type="button" id="join_team_button">Join a Team</button>
-                </div>
+                        <button type="button" id="join_team_button">Join a Team</button>
+                    </div>
+                </section>
                 <section id="createTeamSection">
                     <div id ="div_join_team_input">
                         <input id="team_code_input" type="text" placeholder="Team code">
@@ -310,11 +319,6 @@
                 </form>
                 <button id="previous_button">Previous</button>
                 <button id="next_button">Next</button>
-            </div>
-            <button id="joinTournamentBtn">Join tournament</button>
-            <div id="joinTournamentDiv">
-                <label for="joinTournamentCodeInput">Tournament Code</label>
-                <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
             </div>
         </div>
     </div>
