@@ -55,6 +55,7 @@ router.get("/", async (req, res) => {
         let position = null;
         let sportList = await poolsData.getSportsList();
         let tournamentArray = [];
+        let tournamentJoinedArray = [];
     
         if(req.oidc.isAuthenticated()) {
             let filterObj = {
@@ -104,6 +105,9 @@ router.get("/", async (req, res) => {
     
             //get id's of tournaments created by user
             tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
+
+            //get id's of tournaments joined by the user
+            tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(userId);
         }
     
         res.render("partials/player_dashboard", {
@@ -125,6 +129,7 @@ router.get("/", async (req, res) => {
             position: position,
             sportList: sportList,
             tournamentArray: tournamentArray,
+            tournamentJoinedArray: tournamentJoinedArray,
         });
     }
     catch (e) {
