@@ -72,17 +72,17 @@ router.get('/', async (req, res) => {
 			userId = user._id.toString()
 
 			//check if user exists in player collection, create a player for user if not
-			const playerExists = await teamsData.checkPlayerExists(userId);
-			if(playerExists == false) {
+			const playerExists = await teamsData.checkPlayerExists(userId)
+			if (playerExists == false) {
 				let playerObj = {
 					name: user.user_metadata.name,
-					shirtNum: "N/A",
+					shirtNum: 'N/A',
 					userId: userId,
 					hasTeam: false,
 					linked: false,
 				}
 
-				const newPlayer = await teamsData.createPlayer(playerObj);
+				const newPlayer = await teamsData.createPlayer(playerObj)
 			}
 
 			const player = await teamsData.getPlayerByUserId(userId)
@@ -394,8 +394,6 @@ router.post('/add_sport', async (req, res) => {
 })
 
 router.post('/join_tournament', async (req, res) => {
-	console.log(`made it here`)
-
 	let userId = null
 
 	try {
@@ -412,7 +410,7 @@ router.post('/join_tournament', async (req, res) => {
 		const tournamentCode = req.body.tournamentCode
 		const playerId = await teamsData.getPlayerByUserId(userId)
 
-		const joinTournament = await poolsData.addPlayerToTournament(playerId, tournamentCode)
+		const joinTournament = await poolsData.addPlayerToTournament(playerId.userId, tournamentCode)
 
 		return res.json(joinTournament)
 	} catch (e) {
