@@ -70,6 +70,21 @@ router.get('/', async (req, res) => {
 
 			const user = await userData.getUserByEmail(filterObj, projectionObj)
 			userId = user._id.toString()
+
+			//check if user exists in player collection, create a player for user if not
+			const playerExists = await teamsData.checkPlayerExists(userId);
+			if(playerExists == false) {
+				let playerObj = {
+					name: user.user_metadata.name,
+					shirtNum: "N/A",
+					userId: userId,
+					hasTeam: false,
+					linked: false,
+				}
+
+				const newPlayer = await teamsData.createPlayer(playerObj);
+			}
+
 			const player = await teamsData.getPlayerByUserId(userId)
 			allUsers = await userData.getAllUsers()
 			hasTeam = await teamsData.hasTeam(userId)

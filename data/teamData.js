@@ -185,6 +185,27 @@ let exportedMethods = {
         return player;
     },
 
+    async createPlayer(playerObj) {
+        const playersCollection = await playersData();
+
+        const player = await playersCollection.insertOne(playerObj);
+
+        return player;
+    },
+
+    async checkPlayerExists(userId) {
+        const playersCollection = await playersData();
+
+        const player = await playersCollection.findOne({userId: userId});
+
+        if(player == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    },
+    
     async updateTeamInfo(teamObj) {
         const teamsCollection = await teams();
         const playersCollection = await playersData();
