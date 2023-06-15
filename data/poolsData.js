@@ -1249,6 +1249,11 @@ let exportedMethods = {
         return await poolsCollection.find({coordinator: userId}).sort({tournamentName: 1}).toArray();
     },
 
+    async getTournamentJoinedByUser(userId) {
+        const poolsCollection = await pools();
+        return await poolsCollection.find({players: userId}).sort({tournamentName: 1}).toArray();
+    },
+
     async addPlayerToTournament(playerId, tournamentCode) {
         const poolsCollection = await pools();
 
