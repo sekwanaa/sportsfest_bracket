@@ -1,10 +1,11 @@
 ;(function ($) {
 	var joinTeamButton = $('#join_team_button')
-	var submitCodeButton = $('#submit_team_code_button')
+	var submitTeamCodeButton = $('#submit_team_code_button')
 	var teamCodeInputDiv = $('#div_join_team_input')
 	var createTeamButton = $('#create_team_button')
 	var createTournamentBtn = $('#createTournamentBtn')
 	var joinTournamentBtn = $('#joinTournamentBtn')
+	var submitTournamentCodeBtn = $('#submitTournamentCodeBtn')
 	var tournamentPreviousBtn = $('#previous_button')
 	var tournamentNextBtn = $('#next_button')
 
@@ -248,7 +249,7 @@
 	})
 
 	// Submit code button stuff to join a team
-	submitCodeButton.click(function (event) {
+	submitTeamCodeButton.click(function (event) {
 		event.preventDefault()
 		var teamCodeInput = $('#team_code_input')
 		let joinCode = parseInt(teamCodeInput.val())
@@ -307,8 +308,10 @@
 			//take current info and put them into input fields
 		}
 	})
+
+	//join tournament button
 	joinTournamentDiv.hide()
-	joinTournamentBtn.click(event => {
+	joinTournamentBtn.click(function (event) {
 		event.preventDefault()
 		if (joinTournamentBtn.html() == 'Cancel') {
 			joinTournamentBtn.html('Join tournament')
@@ -319,6 +322,30 @@
 			createTournamentBtn.hide()
 			joinTournamentDiv.show()
 			//take current info and put them into input fields
+		}
+	})
+
+	//submit tournament code button
+	submitTournamentCodeBtn.click(event => {
+		event.preventDefault()
+		var tournamentCodeInput = $('#joinTournamentCodeInput')
+		const joinCode = parseInt(tournamentCodeInput.val())
+
+		try {
+			let req = {
+				method: 'POST',
+				url: '/player_dashboard/join_tournament',
+				contentType: 'application/json',
+				data: JSON.stringify({
+					tournamentCode: joinCode,
+				}),
+			}
+			$.ajax(req).then(function (res) {
+				//page reload on submit
+				location.reload()
+			})
+		} catch (e) {
+			console.log(e)
 		}
 	})
 
