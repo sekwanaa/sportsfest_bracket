@@ -407,10 +407,10 @@ router.post('/join_tournament', async (req, res) => {
 			const user = await userData.getUserByEmail(filterObj, projectionObj)
 			userId = user._id.toString()
 		}
-		const tournamentCode = req.body.tournamentCode
-		const playerId = await teamsData.getPlayerByUserId(userId)
+		const tournamentCode = req.body.tournamentCode;
+		const playerId = await teamsData.getPlayerByUserId(userId);
 
-		const joinTournament = await poolsData.addPlayerToTournament(playerId.userId, tournamentCode)
+		const joinTournament = await poolsData.addPlayerToTournament(playerId._id.toString(), tournamentCode)
 
 		return res.json(joinTournament)
 	} catch (e) {
