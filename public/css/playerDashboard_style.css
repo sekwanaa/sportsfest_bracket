@@ -96,8 +96,7 @@ label {
 	width: 90%;
 }
 
-#userCard section#playerInfo #playerInfoTopRow,
-#userCard section#playerInfo #playerInfoBottomRow {
+#userCard section#playerInfo #playerInfoTopRow {
 	font-family: mainFont;
 	font-size: 12px;
 	width: 100%;
@@ -108,8 +107,7 @@ label {
 	justify-content: space-between;
 }
 
-#playerInfoTopRow > div,
-#playerInfoBottomRow > div {
+#playerInfoTopRow > div {
 	flex: 0 1 30%;
 	display: flex;
 	flex-direction: column;
@@ -117,8 +115,7 @@ label {
 	align-items: center;
 }
 
-#playerInfoTopRow p,
-#playerInfoBottomRow p {
+#playerInfoTopRow p {
 	font-size: var(--displayedInfoFontSize);
 	width: 100%;
 	height: fit-content;

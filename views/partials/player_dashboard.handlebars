@@ -36,16 +36,6 @@
                         <input class="edit_inputs" id="shirt_number_input" type="text" placeholder="Update shirt number">
                     </div>
                 </div>
-                <div id="playerTournamentDiv">
-                    <label for="player_tournament">Tournament</label>
-                    {{#if tournament}}
-                        <p id="player_tournament">{{tournament}}</p>
-                    {{else}}
-                        <p id="player_tournament">N/A</p>
-                    {{/if}}
-                </div>
-            </section>
-            <section id="playerInfoBottomRow">
                 <div id="playerPositionDiv">
                     <label for="player_position">Position</label>
                     {{#if position}}
@@ -63,14 +53,6 @@
                             <option value="Opposite">Opposite</option>
                         </select>
                     </div>
-                </div>
-                <div id="playerTeamDiv">
-                    <label for="player_team">Team</label>
-                    {{#if hasTeam}}
-                        <p id="player_team">{{teamName}}</p>
-                    {{else}}
-                        <p id="player_team">N/A</p>
-                    {{/if}}
                 </div>
             </section>
         </section>
