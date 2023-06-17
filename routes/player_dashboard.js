@@ -121,7 +121,7 @@ router.get('/', async (req, res) => {
 			tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
 
 			//get id's of tournaments joined by the user
-			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(userId);
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 		}
 
 		res.render('partials/player_dashboard', {
@@ -334,6 +334,7 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 		});
 	} catch (err) {
 		return res.status(500).send('An error occurred while processing the image.');
+		return res.status(500).send('An error occurred while processing the image.');
 	}
 });
 
@@ -348,10 +349,12 @@ router.post('/create_pool', async (req, res) => {
 			};
 			let projectionObj = {
 				_id: 1,
-			};
+			}
 			const user = await userData.getUserByEmail(filterObj, projectionObj);
 			let userId = user._id.toString();
 			poolObj.coordinator = userId;
+			const player = await teamsData.getPlayerByUserId(userId);
+			poolObj.players.push(player._id);
 		}
 
 		const insertPool = await poolsData.insertPool(poolObj);
@@ -385,9 +388,9 @@ router.post('/add_sport', async (req, res) => {
 	};
 
 	try {
-		const insertSportName = await poolsData.addSportToList(sportName);
+		const insertSportName = await poolsData.addSportToList(sportName)
 
-		return res.json(insertSportName);
+		return res.json(insertSportName)
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
@@ -403,16 +406,16 @@ router.post('/join_tournament', async (req, res) => {
 			};
 			let projectionObj = {
 				_id: 1,
-			};
-			const user = await userData.getUserByEmail(filterObj, projectionObj);
-			userId = user._id.toString();
+			}
+			const user = await userData.getUserByEmail(filterObj, projectionObj)
+			userId = user._id.toString()
 		}
 		const tournamentCode = req.body.tournamentCode;
 		const playerId = await teamsData.getPlayerByUserId(userId);
 
-		const joinTournament = await poolsData.addPlayerToTournament(playerId.userId, tournamentCode);
+		const joinTournament = await poolsData.addPlayerToTournament(playerId.userId, tournamentCode)
 
-		return res.json(joinTournament);
+		return res.json(joinTournament)
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
