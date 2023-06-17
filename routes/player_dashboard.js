@@ -354,7 +354,7 @@ router.post('/create_pool', async (req, res) => {
 			let userId = user._id.toString();
 			poolObj.coordinator = userId;
 			const player = await teamsData.getPlayerByUserId(userId);
-			poolObj.players.push(player._id);
+			poolObj.players.push(player._id.toString());
 		}
 
 		const insertPool = await poolsData.insertPool(poolObj);
