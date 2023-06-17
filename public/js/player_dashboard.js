@@ -1,4 +1,5 @@
 (function ($) {
+	//clickable things
 	var joinTeamButton = $('#join_team_button');
 	var submitTeamCodeButton = $('#submit_team_code_button');
 	var teamCodeInputDiv = $('#div_join_team_input');
@@ -8,6 +9,8 @@
 	var submitTournamentCodeBtn = $('#submitTournamentCodeBtn');
 	var tournamentPreviousBtn = $('#previous_button');
 	var tournamentNextBtn = $('#next_button');
+	var tournamentLink = $('.tournamentLink');
+	var manageTeamElementBackBtn = $('#manageTeamElementBackBtn');
 
 	//joining and creating tournaments variables
 	var createTournamentDiv = $('#createTournamentDiv');
@@ -347,6 +350,22 @@
 		} catch (e) {
 			console.log(e);
 		}
+	});
+
+	tournamentLink.click(event => {
+		event.preventDefault();
+		const joinedTournamentsList = $('#joinedTournamentsList');
+		const manageTeamElement = $('#manageTeamElement');
+		manageTeamElement.removeClass('hidden');
+		joinedTournamentsList.addClass('hidden');
+	});
+
+	manageTeamElementBackBtn.click(event => {
+		event.preventDefault();
+		const joinedTournamentsList = $('#joinedTournamentsList');
+		const manageTeamElement = $('#manageTeamElement');
+		manageTeamElement.addClass('hidden');
+		joinedTournamentsList.removeClass('hidden');
 	});
 
 	//next button for create tournment

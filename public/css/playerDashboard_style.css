@@ -194,10 +194,6 @@ label {
 
 /* no team styling */
 
-.notJoinedTournament {
-	display: none;
-}
-
 #noTeamDisplay {
 	width: 90%;
 	font-family: mainFont;
@@ -209,6 +205,14 @@ label {
 
 #noTeamDisplay > * {
 	margin-bottom: 20px;
+}
+
+.tournamentLink {
+	list-style: none;
+}
+
+.tournamentLink:hover {
+	cursor: pointer;
 }
 
 #createTeamSection {
