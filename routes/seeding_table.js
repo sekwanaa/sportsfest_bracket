@@ -9,12 +9,15 @@ const poolsData = data.poolsData;
 router.get('/', async (req, res) => {
 	try {
 		let userRole = '';
+		let tournamentJoinedArray = [];
 
 		if (req.oidc.isAuthenticated()) {
 			const email = req.oidc.user.name;
 
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
+			const player = await teamsData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 		}
 
 		const matchHistory = await matchesData.getTeamRecords();
@@ -32,6 +35,7 @@ router.get('/', async (req, res) => {
 			role: userRole,
 			matches: matchHistory,
 			stage1: isStage1,
+			tournamentJoinedArray: tournamentJoinedArray,
 		});
 	} catch (e) {
 		return res.status(500).json({ error: e });
@@ -42,6 +46,7 @@ router.get('/:id/:sport', async (req, res) => {
 	let tournamentId = req.params.id;
 	let sportName = req.params.sport;
 	let tournamentCoordinator = false;
+	let tournamentJoinedArray = [];
 
 	try {
 		let userRole = '';
@@ -51,6 +56,8 @@ router.get('/:id/:sport', async (req, res) => {
 
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
+			const player = await teamsData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
 			const poolInfo = await poolsData.getPoolInfo(tournamentId);
 
@@ -83,6 +90,7 @@ router.get('/:id/:sport', async (req, res) => {
 			tournamentId: tournamentId,
 			sportName: sportName,
 			tournamentCoordinator: tournamentCoordinator,
+			tournamentJoinedArray: tournamentJoinedArray,
 		});
 	} catch (e) {
 		return res.status(500).json({ error: e });

@@ -1,68 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-    <title>{{{title}}}</title>
+    <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Sports bracket generator">
+        <title>{{{title}}}</title>
 
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="     crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/public/css/style.css">
-    {{#if shortcode}}
-    <link rel="stylesheet" href="/public/css/{{shortcode}}_style.css">
-    {{/if}}
-    {{!-- if we want the page to load faster this code below defers the css from applying until after the page loads --}}
-    {{!-- <link rel="preload" href="/public/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/public/css/style.css"></noscript>
-    {{#if shortcode}}
-    <link rel="preload" href="/public/css/{{shortcode}}_style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/public/css/{{shortcode}}_style.css"></noscript>
-    {{/if}} --}}
-</head>
-<body>
-    <header>
-        <nav>
-            <div id="logoDiv">
-                <a href="/" id="logo">SBG</a>
-            </div>
-            <div id="linkDiv">
-                <ul id="navLinks">
-                    <li id="tournamentList">
-                        <a href="#" class="link">TOURNAMENTS</a>
-                        <ul class="dropdownContainer">
-                            <li class="dropdownItem"><a href="/sportsfest">Sportsfest</a></li>
-                            <li class="dropdownItem"><a href="/e-sports">E-Sports</a></li>
-                        </ul>
-                    </li>
-                    <li id="profileLoginLink">
-                        {{#if isAuthenticated}}
+        <meta charset="utf-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta name="description" content="Sports bracket generator">
+
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/public/css/style.css">
+        {{#if shortcode}}
+        <link rel="stylesheet" href="/public/css/{{shortcode}}_style.css">
+        {{/if}}
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div id="logoDiv">
+                    <a href="/" id="logo">SBG</a>
+                </div>
+                <div id="linkDiv">
+                    <ul id="navLinks">
+                        {{#if tournamentJoinedArray}}
+                        <li id="tournamentList">
+                            <a href="#" class="link">TOURNAMENTS</a>
+                            <ul class="dropdownContainer">
+                                {{#each tournamentJoinedArray}}
+                                <li class="dropdownItem"><a
+                                        href="/tournament/{{this._id}}">{{this.tournamentName}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+                        {{/if}}
+                        <li id="profileLoginLink">
+                            {{#if isAuthenticated}}
                             <a href="#" id="profileLink" class="link">PROFILE</a>
                             <ul class="dropdownContainer">
-                                <li class="dropdownItem"><a href="/player_dashboard">View Profile</a></li>
-                                <li class="dropdownItem"><a href="/report_bug">Report Bug</a></li>
+                                <li class="dropdownItem"><a
+                                        href="/player_dashboard">View Profile</a></li>
+                                <li class="dropdownItem"><a href="/report_bug">Report
+                                        Bug</a></li>
                                 <li class="dropdownItem"><a href="/logout">Logout</a></li>
                             </ul>
-                        {{else}}
+                            {{else}}
                             <a href="/login" id="loginLink">LOGIN/SIGN UP</a>
-                        {{/if}}
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <ul id="sportsActiveDropdownMenu" class="hidden">
-            <li><a href="/bracket_view/{{tournamentId}}/{{sportName}}">Current Brackets</a></li>
-            <li><a href="/court_view/{{tournamentId}}/{{sportName}}">Current Games</a></li>
-            <li><a href="/seeding_table/{{tournamentId}}/{{sportName}}">Current Seeds</a></li>
-            <li><a href="/team_list/{{tournamentId}}/{{sportName}}">Current Teams</a></li>
-            {{#if tournamentCoordinator}}
-            <li><a href="/round_robin/{{tournamentId}}/{{sportName}}">Round Robin</a></li>
-            {{/if}}
-        </ul>
-    </header>   
-    <main>{{{body}}}</main>
-</body>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <ul id="sportsActiveDropdownMenu" class="hidden">
+                <li><a href="/bracket_view/{{tournamentId}}/{{sportName}}">Current
+                        Brackets</a></li>
+                <li><a href="/court_view/{{tournamentId}}/{{sportName}}">Current
+                        Games</a></li>
+                <li><a href="/seeding_table/{{tournamentId}}/{{sportName}}">Current
+                        Seeds</a></li>
+                <li><a href="/team_list/{{tournamentId}}/{{sportName}}">Current
+                        Teams</a></li>
+                {{#if tournamentCoordinator}}
+                <li><a href="/round_robin/{{tournamentId}}/{{sportName}}">Round
+                        Robin</a></li>
+                {{/if}}
+            </ul>
+        </header>
+        <main>{{{body}}}</main>
+    </body>
 </html>
 
 <script src="/public/js/nav_bar.js"></script>

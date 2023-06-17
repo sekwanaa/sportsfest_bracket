@@ -8,6 +8,7 @@ const teamsData = data.teamsData;
 router.get('/', async (req, res) => {
 	try {
 		let userRole = '';
+		let tournamentJoinedArray = [];
 
 		const numOfTeams = await teamsData.getAllTeamsCount();
 		let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
@@ -73,6 +74,8 @@ router.get('/', async (req, res) => {
 
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
+			const player = await teamsData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 		}
 
 		res.render('partials/bracket_view', {
@@ -85,6 +88,7 @@ router.get('/', async (req, res) => {
 			semiArr: semiArr,
 			finals: finals,
 			eliminatedTeamsArr: eliminatedTeams,
+			tournamentJoinedArray: tournamentJoinedArray,
 		});
 
 		return;
@@ -100,6 +104,7 @@ router.get('/:id/:sport', async (req, res) => {
 
 	try {
 		let userRole = '';
+		let tournamentJoinedArray = [];
 
 		const numOfTeams = await teamsData.getAllTeamsCount();
 		let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
@@ -165,6 +170,8 @@ router.get('/:id/:sport', async (req, res) => {
 
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
+			const player = await teamsData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
 			const poolInfo = await poolsData.getPoolInfo(tournamentId);
 
@@ -186,6 +193,7 @@ router.get('/:id/:sport', async (req, res) => {
 			tournamentId: tournamentId,
 			sportName: sportName,
 			tournamentCoordinator: tournamentCoordinator,
+			tournamentJoinedArray: tournamentJoinedArray,
 		});
 
 		return;

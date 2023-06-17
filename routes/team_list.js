@@ -41,6 +41,7 @@ router.get('/:id/:sport', async (req, res) => {
 
 		let email = 'not authenticated';
 		let userRole = '';
+		let tournamentJoinedArray = [];
 
 		let poolInfo = await poolsData.getPoolInfo(tournamentId);
 
@@ -71,6 +72,8 @@ router.get('/:id/:sport', async (req, res) => {
 
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
+			const player = await teamData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
 			if (user._id.toString() == poolInfo.coordinator) {
 				tournamentCoordinator = true;
@@ -86,6 +89,7 @@ router.get('/:id/:sport', async (req, res) => {
 			tournamentId: tournamentId,
 			sportName: sportName,
 			tournamentCoordinator: tournamentCoordinator,
+			tournamentJoinedArray: tournamentJoinedArray,
 		});
 	} catch (e) {
 		return res.status(500).json({ error: e });

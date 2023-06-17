@@ -9,12 +9,15 @@ router.get('/', requiresAuth(), async (req, res) => {
 	let email = 'not authenticated';
 	let loggedInUser = {};
 	let userRole = '';
+	let tournamentJoinedArray = [];
 
 	if (req.oidc.isAuthenticated()) {
 		const email = req.oidc.user.name;
 
 		const user = await userData.getUserByEmail(email);
 		userRole = user.user_metadata.role;
+		const player = await teamsData.getPlayerByUserId(user._id.toString());
+		tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 	}
 
 	res.render('partials/score_input', {
@@ -25,6 +28,7 @@ router.get('/', requiresAuth(), async (req, res) => {
 		year: '2023',
 		teamName1: 'NJ A',
 		teamName2: 'NJ X',
+		tournamentJoinedArray: tournamentJoinedArray,
 	});
 });
 

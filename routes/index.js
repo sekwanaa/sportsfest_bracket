@@ -6,17 +6,18 @@ const playerDashboardRoutes = require('./player_dashboard');
 const teamListRoutes = require('./team_list');
 const roundRobinRoutes = require('./round_robin');
 const seedingTableRoutes = require('./seeding_table');
-const sportsfestRoutes = require('./sportsfest');
-const esportsRoutes = require('./e-sports');
 const tournamentRoutes = require('./tournament_view');
 
 const data = require('../data');
 const userData = data.usersData;
+const poolsData = data.poolsData;
+const teamsData = data.teamsData;
 
 const constructorMethod = app => {
 	app.get('/', async (req, res) => {
 		let email = 'not authenticated';
 		let userRole = '';
+		let tournamentJoinedArray = [];
 		// let tournaments = await poolData //going to pull each tournament name from the pool name I assume.
 
 		if (req.oidc.isAuthenticated()) {
@@ -24,6 +25,8 @@ const constructorMethod = app => {
 
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
+			const player = await teamsData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 		}
 
 		res.render('partials/landingPage', {
@@ -31,6 +34,7 @@ const constructorMethod = app => {
 			shortcode: 'landingPage',
 			isAuthenticated: req.oidc.isAuthenticated(),
 			role: userRole,
+			tournamentJoinedArray: tournamentJoinedArray,
 		});
 	});
 
@@ -42,8 +46,6 @@ const constructorMethod = app => {
 	app.use('/round_robin', roundRobinRoutes);
 	app.use('/team_list', teamListRoutes);
 	app.use('/seeding_table', seedingTableRoutes);
-	app.use('/sportsfest', sportsfestRoutes);
-	app.use('/e-sports', esportsRoutes);
 	app.use('/tournament', tournamentRoutes);
 
 	app.use('*', (req, res) => {

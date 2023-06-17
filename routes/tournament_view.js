@@ -3,11 +3,13 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.usersData;
 const poolsData = data.poolsData;
+const teamsData = data.teamsData;
 
 router.get('/:id', async (req, res) => {
 	let tournamentId = req.params.id;
 	let tournamentCoordinator = false;
 	let tournamentName = 'No Name';
+	let tournamentJoinedArray = [];
 
 	let userRole = '';
 	let sports = ['volleyball', 'frisbee', 'basketball', 'soccer'];
@@ -17,6 +19,8 @@ router.get('/:id', async (req, res) => {
 
 		const user = await userData.getUserByEmail(email);
 		userRole = user.user_metadata.role;
+		const player = await teamsData.getPlayerByUserId(user._id.toString());
+		tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
 		const poolInfo = await poolsData.getPoolInfo(tournamentId);
 		if (poolInfo.coordinator == user._id.toString()) {
@@ -36,6 +40,7 @@ router.get('/:id', async (req, res) => {
 		tournamentId: tournamentId,
 		tournamentCoordinator: tournamentCoordinator,
 		tournamentName: tournamentName,
+		tournamentJoinedArray: tournamentJoinedArray,
 	});
 });
 
