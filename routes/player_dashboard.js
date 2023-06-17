@@ -118,10 +118,10 @@ router.get('/', async (req, res) => {
 			}
 
 			//get id's of tournaments created by user
-			tournamentArray = await poolsData.getTournamentsCreatedByUser(userId)
+			tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
 
 			//get id's of tournaments joined by the user
-			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(userId)
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(userId);
 		}
 
 		res.render('partials/player_dashboard', {
@@ -231,36 +231,36 @@ router.post('/join_team', async (req, res) => {
 })
 
 router.post('/submitProfile', async (req, res) => {
-	const userInfo = req.body
-	const name = userInfo.name
-	const shirtNum = userInfo.shirtNum
-	const position = userInfo.position
-	let userId = userInfo.userId
+	const userInfo = req.body;
+	const name = userInfo.name;
+	const shirtNum = userInfo.shirtNum;
+	const position = userInfo.position;
+	let userId = userInfo.userId;
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			email = req.oidc.user.name
-			const user = await userData.getUserByEmail(email)
-			userId = user._id.toString()
+			email = req.oidc.user.name;
+			const user = await userData.getUserByEmail(email);
+			userId = user._id.toString();
 		}
 
-		const userUpdate = await userData.updateProfileInfo(userId, name, shirtNum, position)
+		const userUpdate = await userData.updateProfileInfo(userId, name, shirtNum, position);
 
-		return res.json(userUpdate)
+		return res.json(userUpdate);
 	} catch {
-		return res.status(500).json({ error: e })
+		return res.status(500).json({ error: e });
 	}
 })
 
 router.post('/editTeam', async (req, res) => {
-	const teamInfo = req.body
-	let userId = null
+	const teamInfo = req.body;
+	let userId = null;
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			email = req.oidc.user.name
-			const user = await userData.getUserByEmail(email)
-			userId = user._id.toString()
+			email = req.oidc.user.name;
+			const user = await userData.getUserByEmail(email);
+			userId = user._id.toString();
 		}
 
 		const teamObj = {
@@ -271,10 +271,10 @@ router.post('/editTeam', async (req, res) => {
 			userId: userId,
 		}
 
-		const updateTeamInfo = await teamsData.updateTeamInfo(teamObj)
-		return res.json(updateTeamInfo)
+		const updateTeamInfo = await teamsData.updateTeamInfo(teamObj);
+		return res.json(updateTeamInfo);
 	} catch (e) {
-		return res.status(500).json({ error: e })
+		return res.status(500).json({ error: e });
 	}
 })
 
@@ -333,13 +333,13 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 			}
 		})
 	} catch (err) {
-		return res.status(500).send('An error occurred while processing the image.')
+		return res.status(500).send('An error occurred while processing the image.');
 	}
 })
 
 router.post('/create_pool', async (req, res) => {
-	let poolObj = req.body.poolObj
-	let sportsPool = req.body.sportsPool
+	let poolObj = req.body.poolObj;
+	let sportsPool = req.body.sportsPool;
 
 	try {
 		if (req.oidc.isAuthenticated()) {
@@ -349,9 +349,11 @@ router.post('/create_pool', async (req, res) => {
 			let projectionObj = {
 				_id: 1,
 			}
-			const user = await userData.getUserByEmail(filterObj, projectionObj)
-			let userId = user._id.toString()
-			poolObj.coordinator = userId
+			const user = await userData.getUserByEmail(filterObj, projectionObj);
+			let userId = user._id.toString();
+			poolObj.coordinator = userId;
+			const player = await teamsData.getPlayerByUserId(userId);
+			poolObj.players.push(player._id);
 		}
 
 		const insertPool = await poolsData.insertPool(poolObj)
@@ -360,18 +362,18 @@ router.post('/create_pool', async (req, res) => {
 			const insertSport = await poolsData.insertSportIntoPool(insertPool, sportsPool[i])
 		}
 
-		return res.json(insertPool)
+		return res.json(insertPool);
 	} catch (e) {
-		return res.status(500).json({ error: e })
+		return res.status(500).json({ error: e });
 	}
 })
 
 //route for adding sports info to pool
 router.post('/submit_sport', async (req, res) => {
-	const sportInfo = req.body
+	const sportInfo = req.body;
 
 	try {
-		const insertSport = await poolsData.insertSportIntoPool(sportInfo.poolId, sportInfo.sportObj)
+		const insertSport = await poolsData.insertSportIntoPool(sportInfo.poolId, sportInfo.sportObj);
 
 		return res.json(insertSport)
 	} catch (e) {
@@ -385,16 +387,15 @@ router.post('/add_sport', async (req, res) => {
 	}
 
 	try {
-		const insertSportName = await poolsData.addSportToList(sportName)
-
-		return res.json(insertSportName)
+		const insertSportName = await poolsData.addSportToList(sportName);
+		return res.json(insertSportName);
 	} catch (e) {
-		return res.status(500).json({ error: e })
+		return res.status(500).json({ error: e });
 	}
 })
 
 router.post('/join_tournament', async (req, res) => {
-	let userId = null
+	let userId = null;
 
 	try {
 		if (req.oidc.isAuthenticated()) {
@@ -404,17 +405,17 @@ router.post('/join_tournament', async (req, res) => {
 			let projectionObj = {
 				_id: 1,
 			}
-			const user = await userData.getUserByEmail(filterObj, projectionObj)
-			userId = user._id.toString()
+			const user = await userData.getUserByEmail(filterObj, projectionObj);
+			userId = user._id.toString();
 		}
 		const tournamentCode = req.body.tournamentCode;
 		const playerId = await teamsData.getPlayerByUserId(userId);
 
-		const joinTournament = await poolsData.addPlayerToTournament(playerId._id.toString(), tournamentCode)
+		const joinTournament = await poolsData.addPlayerToTournament(playerId._id.toString(), tournamentCode);
 
-		return res.json(joinTournament)
+		return res.json(joinTournament);;
 	} catch (e) {
-		return res.status(500).json({ error: e })
+		return res.status(500).json({ error: e });
 	}
 })
 
