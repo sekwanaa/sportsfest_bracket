@@ -57,18 +57,9 @@ router.get('/', async (req, res) => {
 		let tournamentJoinedArray = [];
 
 		if (req.oidc.isAuthenticated()) {
-			let filterObj = {
-				email: req.oidc.user.name,
-			};
-			let projectionObj = {
-				_id: 1,
-				email: 1,
-				'user_metadata.role': 1,
-				'user_metadata.name': 1,
-				'user_metadata.profilePic': 1,
-			};
+			const email = req.oidc.user.name;
 
-			const user = await userData.getUserByEmail(filterObj, projectionObj);
+			const user = await userData.getUserByEmail(email);
 			userId = user._id.toString();
 
 			//check if user exists in player collection, create a player for user if not
@@ -96,11 +87,12 @@ router.get('/', async (req, res) => {
 				profilePic = '../.' + user.user_metadata.profilePic;
 			}
 
+			shirt_number = player.shirtNum;
+			position = player.position;
+
 			if (hasTeam) {
 				let team = await teamsData.getTeam(userId);
 
-				shirt_number = player.shirtNum;
-				position = player.position;
 				teamCaptain = team.teamCaptain;
 				district = team.district;
 				teamMembers = [];
@@ -122,6 +114,7 @@ router.get('/', async (req, res) => {
 
 			//get id's of tournaments joined by the user
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+			// console.log(tournamentJoinedArray);
 		}
 
 		res.render('partials/player_dashboard', {
@@ -154,14 +147,9 @@ router.post('/submitTeams', async (req, res) => {
 	let userId;
 
 	if (req.oidc.isAuthenticated()) {
-		let filterObj = {
-			email: req.oidc.user.name,
-		};
-		let projectionObj = {
-			_id: 1,
-			email: 1,
-		};
-		const user = await userData.getUserByEmail(filterObj, projectionObj);
+		const email = req.oidc.user.name;
+
+		const user = await userData.getUserByEmail(email);
 		userId = user._id.toString();
 	}
 
@@ -217,7 +205,8 @@ router.post('/join_team', async (req, res) => {
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			email = req.oidc.user.name;
+			const email = req.oidc.user.name;
+
 			const user = await userData.getUserByEmail(email);
 			userId = user._id.toString();
 		}
@@ -239,7 +228,7 @@ router.post('/submitProfile', async (req, res) => {
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			email = req.oidc.user.name;
+			const email = req.oidc.user.name;
 			const user = await userData.getUserByEmail(email);
 			userId = user._id.toString();
 		}
@@ -258,7 +247,7 @@ router.post('/editTeam', async (req, res) => {
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			email = req.oidc.user.name;
+			const email = req.oidc.user.name;
 			const user = await userData.getUserByEmail(email);
 			userId = user._id.toString();
 		}
@@ -278,14 +267,23 @@ router.post('/editTeam', async (req, res) => {
 	}
 });
 
-router.post('/upload-image', upload.single('user-image'), async (req, res) => {
+router.post('/upload-image', async (req, res) => {
 	let newImageName = null;
 	let previousImagePath = null;
+
+	//check if image was uploaded, if not, return
+	if (req.file == null) {
+		return res.status(200).send({});
+	}
+
+	upload.single('user-image');
+
 	//get user email from session oidc
 	if (req.oidc.isAuthenticated()) {
-		email = req.oidc.user.name;
+		const email = req.oidc.user.name;
+
 		const user = await userData.getUserByEmail(email);
-		userId = user._id.toString();
+		const userId = user._id.toString();
 		newImageName = userId;
 		if (user.user_metadata.profilePic) {
 			previousImagePath = user.user_metadata.profilePic;
@@ -334,7 +332,6 @@ router.post('/upload-image', upload.single('user-image'), async (req, res) => {
 		});
 	} catch (err) {
 		return res.status(500).send('An error occurred while processing the image.');
-		return res.status(500).send('An error occurred while processing the image.');
 	}
 });
 
@@ -344,13 +341,9 @@ router.post('/create_pool', async (req, res) => {
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			let filterObj = {
-				email: req.oidc.user.name,
-			};
-			let projectionObj = {
-				_id: 1,
-			}
-			const user = await userData.getUserByEmail(filterObj, projectionObj);
+			const email = req.oidc.user.name;
+
+			const user = await userData.getUserByEmail(email);
 			let userId = user._id.toString();
 			poolObj.coordinator = userId;
 			const player = await teamsData.getPlayerByUserId(userId);
@@ -388,9 +381,9 @@ router.post('/add_sport', async (req, res) => {
 	};
 
 	try {
-		const insertSportName = await poolsData.addSportToList(sportName)
+		const insertSportName = await poolsData.addSportToList(sportName);
 
-		return res.json(insertSportName)
+		return res.json(insertSportName);
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
@@ -401,21 +394,20 @@ router.post('/join_tournament', async (req, res) => {
 
 	try {
 		if (req.oidc.isAuthenticated()) {
-			let filterObj = {
-				email: req.oidc.user.name,
-			};
-			let projectionObj = {
-				_id: 1,
-			}
-			const user = await userData.getUserByEmail(filterObj, projectionObj)
-			userId = user._id.toString()
+			const email = req.oidc.user.name;
+
+			const user = await userData.getUserByEmail(email);
+			userId = user._id.toString();
 		}
 		const tournamentCode = req.body.tournamentCode;
 		const player = await teamsData.getPlayerByUserId(userId);
 
-		const joinTournament = await poolsData.addPlayerToTournament(player._id.toString(), tournamentCode)
+		const joinTournament = await poolsData.addPlayerToTournament(
+			player._id.toString(),
+			tournamentCode
+		);
 
-		return res.json(joinTournament)
+		return res.json(joinTournament);
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}

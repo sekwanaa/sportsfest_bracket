@@ -1,213 +1,197 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const data = require('../data')
+const data = require('../data');
 const userData = data.usersData;
 const poolsData = data.poolsData;
 const teamsData = data.teamsData;
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
+	try {
+		let userRole = '';
 
-    try {
-        let userRole = "";
+		const numOfTeams = await teamsData.getAllTeamsCount();
+		let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
+		let playOffTeamsCount = (numOfSeeds * 2) / 3; //2/3 of the qualified teams stay in playoffs
+		let byeTeamsCount = numOfSeeds - playOffTeamsCount; //1/3 of the qualified teams get a bye
 
-        const numOfTeams = await teamsData.getAllTeamsCount();
-        let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
-        let playOffTeamsCount = (numOfSeeds * 2) / 3; //2/3 of the qualified teams stay in playoffs
-        let byeTeamsCount = numOfSeeds-playOffTeamsCount; //1/3 of the qualified teams get a bye
+		// playoffs
 
-        // playoffs
+		let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds);
 
-        let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds);
+		let playoffObj = {
+			team1: 'team1',
+			team2: 'team2',
+		};
+		let playoffArr = [];
+		let bracketDataIndex = 0;
 
-        let playoffObj = {
-            team1: "team1",
-            team2: "team2",
-        };
-        let playoffArr = [];
-        let bracketDataIndex = 0;
+		//this will always create the playoff games, even if bracketData is empty
+		for (i = numOfSeeds - playOffTeamsCount; i < playOffTeamsCount; i++) {
+			//if bracketData contains data, we can insert teams
+			if (bracketData.length > 0) {
+				for (j = bracketDataIndex; j < bracketData.length; j++) {
+					playoffObj.team1 = bracketData[j].team1;
+					playoffObj.team2 = bracketData[j].team2;
+					bracketDataIndex++;
 
-        //this will always create the playoff games, even if bracketData is empty
-        for(i=numOfSeeds-playOffTeamsCount; i<playOffTeamsCount; i++) {
-            //if bracketData contains data, we can insert teams
-            if(bracketData.length>0) {
-                for(j=bracketDataIndex; j<bracketData.length; j++) {
-                    playoffObj.team1 = bracketData[j].team1;
-                    playoffObj.team2 = bracketData[j].team2;
-                    bracketDataIndex++;
+					playoffArr.push(playoffObj);
 
-                    playoffArr.push(playoffObj);
-            
-                    playoffObj = {
-                        team1: "team1",
-                        team2: "team2",
-                    }
-                }
-            }
-            else {
-                playoffArr.push(playoffObj);
+					playoffObj = {
+						team1: 'team1',
+						team2: 'team2',
+					};
+				}
+			} else {
+				playoffArr.push(playoffObj);
 
-                playoffObj = {
-                    team1: "team1",
-                    team2: "team2",
-                }
-            }
-        }
+				playoffObj = {
+					team1: 'team1',
+					team2: 'team2',
+				};
+			}
+		}
 
-        //top 1/3 of teams move onto quarters
+		//top 1/3 of teams move onto quarters
 
-        // quarters
+		// quarters
 
-        let quarterArr = await poolsData.getBracketData("quarters");
-        eliminatedTeams = await poolsData.getAllSeeds("eliminated");
-        eliminatedTeamsArr = [];
+		let quarterArr = await poolsData.getBracketData('quarters');
+		eliminatedTeams = await poolsData.getAllSeeds('eliminated');
+		eliminatedTeamsArr = [];
 
-        // semis
+		// semis
 
-        // let semiArr = await poolsData.getBracketData("semis");
-        let semiArr = await poolsData.getFinals("semis");
+		// let semiArr = await poolsData.getBracketData("semis");
+		let semiArr = await poolsData.getFinals('semis');
 
-        // finals
-        
-        let finals = await poolsData.getFinals("finals");
+		// finals
 
-        if(req.oidc.isAuthenticated()) {
-            let filterObj = {
-                email: req.oidc.user.name
-            };
-            let projectionObj = {
-                "user_metadata.role": 1,
-            };
+		let finals = await poolsData.getFinals('finals');
 
-            const user = await userData.getUserByEmail(filterObj, projectionObj);
-            userRole = user.user_metadata.role;
-        }
+		if (req.oidc.isAuthenticated()) {
+			const email = req.oidc.user.name;
 
-        res.render("partials/bracket_view", {
-            title: 'View Bracket', 
-            shortcode: 'bracketView',
-            isAuthenticated: req.oidc.isAuthenticated(),
-            role: userRole,
-            playoffArr: playoffArr,
-            quarterArr: quarterArr,
-            semiArr: semiArr,
-            finals: finals,
-            eliminatedTeamsArr: eliminatedTeams,
-        });
+			const user = await userData.getUserByEmail(email);
+			userRole = user.user_metadata.role;
+		}
 
-        return;
+		res.render('partials/bracket_view', {
+			title: 'View Bracket',
+			shortcode: 'bracketView',
+			isAuthenticated: req.oidc.isAuthenticated(),
+			role: userRole,
+			playoffArr: playoffArr,
+			quarterArr: quarterArr,
+			semiArr: semiArr,
+			finals: finals,
+			eliminatedTeamsArr: eliminatedTeams,
+		});
 
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
+		return;
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
-router.get("/:id/:sport", async (req, res) => {
+router.get('/:id/:sport', async (req, res) => {
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
+	let tournamentCoordinator = false;
 
-    let tournamentId = req.params.id;
-    let sportName = req.params.sport;
-    let tournamentCoordinator = false;
-    
-    try {
-        let userRole = "";
+	try {
+		let userRole = '';
 
-        const numOfTeams = await teamsData.getAllTeamsCount();
-        let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
-        let playOffTeamsCount = (numOfSeeds * 2) / 3; //2/3 of the qualified teams stay in playoffs
-        let byeTeamsCount = numOfSeeds-playOffTeamsCount; //1/3 of the qualified teams get a bye
+		const numOfTeams = await teamsData.getAllTeamsCount();
+		let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
+		let playOffTeamsCount = (numOfSeeds * 2) / 3; //2/3 of the qualified teams stay in playoffs
+		let byeTeamsCount = numOfSeeds - playOffTeamsCount; //1/3 of the qualified teams get a bye
 
-        // playoffs
+		// playoffs
 
-        let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds);
+		let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds);
 
-        let playoffObj = {
-            team1: "team1",
-            team2: "team2",
-        };
-        let playoffArr = [];
-        let bracketDataIndex = 0;
+		let playoffObj = {
+			team1: 'team1',
+			team2: 'team2',
+		};
+		let playoffArr = [];
+		let bracketDataIndex = 0;
 
-        //this will always create the playoff games, even if bracketData is empty
-        for(i=numOfSeeds-playOffTeamsCount; i<playOffTeamsCount; i++) {
-            //if bracketData contains data, we can insert teams
-            if(bracketData.length>0) {
-                for(j=bracketDataIndex; j<bracketData.length; j++) {
-                    playoffObj.team1 = bracketData[j].team1;
-                    playoffObj.team2 = bracketData[j].team2;
-                    bracketDataIndex++;
+		//this will always create the playoff games, even if bracketData is empty
+		for (i = numOfSeeds - playOffTeamsCount; i < playOffTeamsCount; i++) {
+			//if bracketData contains data, we can insert teams
+			if (bracketData.length > 0) {
+				for (j = bracketDataIndex; j < bracketData.length; j++) {
+					playoffObj.team1 = bracketData[j].team1;
+					playoffObj.team2 = bracketData[j].team2;
+					bracketDataIndex++;
 
-                    playoffArr.push(playoffObj);
-            
-                    playoffObj = {
-                        team1: "team1",
-                        team2: "team2",
-                    }
-                }
-            }
-            else {
-                playoffArr.push(playoffObj);
+					playoffArr.push(playoffObj);
 
-                playoffObj = {
-                    team1: "team1",
-                    team2: "team2",
-                }
-            }
-        }
+					playoffObj = {
+						team1: 'team1',
+						team2: 'team2',
+					};
+				}
+			} else {
+				playoffArr.push(playoffObj);
 
-        //top 1/3 of teams move onto quarters
+				playoffObj = {
+					team1: 'team1',
+					team2: 'team2',
+				};
+			}
+		}
 
-        // quarters
+		//top 1/3 of teams move onto quarters
 
-        let quarterArr = await poolsData.getBracketData("quarters");
-        eliminatedTeams = await poolsData.getAllSeeds("eliminated");
-        eliminatedTeamsArr = [];
+		// quarters
 
-        // semis
+		let quarterArr = await poolsData.getBracketData('quarters');
+		eliminatedTeams = await poolsData.getAllSeeds('eliminated');
+		eliminatedTeamsArr = [];
 
-        // let semiArr = await poolsData.getBracketData("semis");
-        let semiArr = await poolsData.getFinals("semis");
+		// semis
 
-        // finals
-        
-        let finals = await poolsData.getFinals("finals");
+		// let semiArr = await poolsData.getBracketData("semis");
+		let semiArr = await poolsData.getFinals('semis');
 
-        if(req.oidc.isAuthenticated()) {
-            let filterObj = {
-                email: req.oidc.user.name
-            };
-            let projectionObj = {
-                "user_metadata.role": 1,
-            };
+		// finals
 
-            const user = await userData.getUserByEmail(filterObj, projectionObj);
-            userRole = user.user_metadata.role;
+		let finals = await poolsData.getFinals('finals');
 
-            const poolInfo = await poolsData.getPoolInfo(tournamentId);
-            
-            if (user._id.toString() == poolInfo.coordinator) {
-                tournamentCoordinator = true;
-            }
-        }
+		if (req.oidc.isAuthenticated()) {
+			const email = req.oidc.user.name;
 
-        res.render("partials/bracket_view", {
-            title: 'View Bracket', 
-            shortcode: 'bracketView',
-            isAuthenticated: req.oidc.isAuthenticated(),
-            role: userRole,
-            playoffArr: playoffArr,
-            quarterArr: quarterArr,
-            semiArr: semiArr,
-            finals: finals,
-            eliminatedTeamsArr: eliminatedTeams,
-            tournamentId: tournamentId,
-            sportName: sportName,
-            tournamentCoordinator: tournamentCoordinator,
-        });
+			const user = await userData.getUserByEmail(email);
+			userRole = user.user_metadata.role;
 
-        return;
+			const poolInfo = await poolsData.getPoolInfo(tournamentId);
 
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
+			if (user._id.toString() == poolInfo.coordinator) {
+				tournamentCoordinator = true;
+			}
+		}
+
+		res.render('partials/bracket_view', {
+			title: 'View Bracket',
+			shortcode: 'bracketView',
+			isAuthenticated: req.oidc.isAuthenticated(),
+			role: userRole,
+			playoffArr: playoffArr,
+			quarterArr: quarterArr,
+			semiArr: semiArr,
+			finals: finals,
+			eliminatedTeamsArr: eliminatedTeams,
+			tournamentId: tournamentId,
+			sportName: sportName,
+			tournamentCoordinator: tournamentCoordinator,
+		});
+
+		return;
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
 module.exports = router;

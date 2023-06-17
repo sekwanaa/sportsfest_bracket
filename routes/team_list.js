@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const data = require('../data')
+const data = require('../data');
 const userData = data.usersData;
 const teamData = data.teamsData;
 const poolsData = data.poolsData;
@@ -25,7 +25,7 @@ const poolsData = data.poolsData;
 //     }
 
 //     res.render("partials/team_list", {
-//         title: "Team List", 
+//         title: "Team List",
 //         shortcode: 'teamList',
 //         isAuthenticated: req.oidc.isAuthenticated(),
 //         role: userRole,
@@ -33,122 +33,113 @@ const poolsData = data.poolsData;
 //     });
 // });
 
-router.get("/:id/:sport", async (req, res) => {
+router.get('/:id/:sport', async (req, res) => {
+	try {
+		let tournamentId = req.params.id;
+		let sportName = req.params.sport;
+		let tournamentCoordinator = false;
 
-    try {
-        let tournamentId = req.params.id;
-        let sportName = req.params.sport;
-        let tournamentCoordinator = false;
-    
-        let email = "not authenticated"
-        let userRole = "";
-    
-        let poolInfo = await poolsData.getPoolInfo(tournamentId);
-    
-        let sportId = "";
-        let teamsArray = [];
-        let sportIdCheck = null;
+		let email = 'not authenticated';
+		let userRole = '';
 
-        for(let i = 0; i < poolInfo.sports.length; i++) {
-            sportIdCheck = await poolsData.getSportDataById(poolInfo.sports[i]);
-            if(sportIdCheck.sport == sportName) {
-                sportId = poolInfo.sports[i];
-                break;
-            }
-            else {
-                sportIdCheck = null;
-            }
-        }
+		let poolInfo = await poolsData.getPoolInfo(tournamentId);
 
-        if(sportIdCheck != null) {
-            for(let i = 0; i<sportIdCheck.teams.length; i++) {
-                let teamInfo = await teamData.getAllTeamsByID(sportIdCheck.teams[i]);
-                teamsArray.push(teamInfo);
-                teamInfo = null;
-            }
-        }
+		let sportId = '';
+		let teamsArray = [];
+		let sportIdCheck = null;
 
-        if(req.oidc.isAuthenticated()) {
-            let filterObj = {
-                email: req.oidc.user.name
-            };
-            let projectionObj = {
-                "user_metadata.role": 1,
-            };
-    
-            const user = await userData.getUserByEmail(filterObj, projectionObj);
-            userRole = user.user_metadata.role;
+		for (let i = 0; i < poolInfo.sports.length; i++) {
+			sportIdCheck = await poolsData.getSportDataById(poolInfo.sports[i]);
+			if (sportIdCheck.sport == sportName) {
+				sportId = poolInfo.sports[i];
+				break;
+			} else {
+				sportIdCheck = null;
+			}
+		}
 
-            if(user._id.toString() == poolInfo.coordinator) {
-                tournamentCoordinator = true;
-            }
-        }
-    
-        res.render("partials/team_list", {
-            title: "Team List", 
-            shortcode: 'teamList',
-            isAuthenticated: req.oidc.isAuthenticated(),
-            role: userRole,
-            allTeams: teamsArray,
-            tournamentId: tournamentId,
-            sportName: sportName,
-            tournamentCoordinator: tournamentCoordinator,
-        });
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
+		if (sportIdCheck != null) {
+			for (let i = 0; i < sportIdCheck.teams.length; i++) {
+				let teamInfo = await teamData.getAllTeamsByID(sportIdCheck.teams[i]);
+				teamsArray.push(teamInfo);
+				teamInfo = null;
+			}
+		}
 
+		if (req.oidc.isAuthenticated()) {
+			email = req.oidc.user.name;
+
+			const user = await userData.getUserByEmail(email);
+			userRole = user.user_metadata.role;
+
+			if (user._id.toString() == poolInfo.coordinator) {
+				tournamentCoordinator = true;
+			}
+		}
+
+		res.render('partials/team_list', {
+			title: 'Team List',
+			shortcode: 'teamList',
+			isAuthenticated: req.oidc.isAuthenticated(),
+			role: userRole,
+			allTeams: teamsArray,
+			tournamentId: tournamentId,
+			sportName: sportName,
+			tournamentCoordinator: tournamentCoordinator,
+		});
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
-router.post('/:id/:sport/modal_form_import_team', async (req, res) =>{
-    
-    let poolId = req.params.id;
-    let sportName = req.params.sport;
+router.post('/:id/:sport/modal_form_import_team', async (req, res) => {
+	let poolId = req.params.id;
+	let sportName = req.params.sport;
 
-    try{
-        const modalTeamArray = req.body.teamArray;
-        let teamId = await teamData.addTeam(modalTeamArray);
-        let insertedTeamPool = await poolsData.insertTeam(poolId, sportName, teamId);
-        return res.json("form has been imported");
-    }
-    catch (e) {
-        return res.status(500).json({ error: e});
-    }
-})
-
-router.post("/:id/:sport/batch_import_team", async (req, res) => {
-    let poolId = req.params.id;
-    let sportName = req.params.sport;
-
-    try {
-        const teamArray = req.body.teamArray;
-
-        for(let i=0; i<teamArray.length; i++) {
-
-            let teamid = await teamData.addTeam(teamArray[i]);
-            let insertTeam = await poolsData.insertTeam(poolId, sportName, teamid);
-        }
-        
-        return res.json("insertTeam");
-    }
-
-    catch (e) {
-        return res.status(500).json({ error: e});
-    }
+	try {
+		const modalTeamArray = req.body.teamArray;
+		let teamId = await teamData.addTeam(modalTeamArray);
+		let insertedTeamPool = await poolsData.insertTeam(poolId, sportName, teamId);
+		return res.json('form has been imported');
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
-router.post("/edit_power_ranking", async (req, res) => {
-    try {
-        const newPowerRank = req.body.teamRankObjArr;
+router.post('/:id/:sport/batch_import_team', async (req, res) => {
+	let poolId = req.params.id;
+	let sportName = req.params.sport;
 
-        for(i=0; i<newPowerRank.length; i++) {
-           const updatePowerRank = await teamData.updatePowerRanking(newPowerRank[i].teamName, newPowerRank[i].district, newPowerRank[i].newPowerRank);
-        }
+	try {
+		const teamArray = req.body.teamArray;
 
-        return res.json("");
-    } catch (error) {
-        return res.status(500).json({ error: error});
-    }
+		for (let i = 0; i < teamArray.length; i++) {
+			let teamid = await teamData.addTeam(teamArray[i]);
+			let insertTeam = await poolsData.insertTeam(poolId, sportName, teamid);
+		}
+
+		return res.json('insertTeam');
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
+});
+
+router.post('/edit_power_ranking', async (req, res) => {
+	try {
+		const newPowerRank = req.body.teamRankObjArr;
+
+		for (i = 0; i < newPowerRank.length; i++) {
+			const updatePowerRank = await teamData.updatePowerRanking(
+				newPowerRank[i].teamName,
+				newPowerRank[i].district,
+				newPowerRank[i].newPowerRank
+			);
+		}
+
+		return res.json('');
+	} catch (error) {
+		return res.status(500).json({ error: error });
+	}
 });
 
 module.exports = router;

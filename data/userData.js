@@ -1,87 +1,85 @@
-const mongoCollections = require("../config/mongoCollections");
+const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
 const players = mongoCollections.players;
 
-const { ObjectId } = require("mongodb");
+const { ObjectId } = require('mongodb');
 
 let exportedMethods = {
+	//method to get all teams information
+	async getAllUsers() {
+		const userCollection = await users();
 
-    //method to get all teams information
-    async getAllUsers() {
-        const userCollection = await users();
-    
-        const allUsers = await userCollection.find({}).toArray();
+		const allUsers = await userCollection.find({}).toArray();
 
-        return allUsers;
-    },
+		return allUsers;
+	},
 
-    async getUserByEmail(filterObj, projectionObj) {
-        const userCollection = await users();
+	async getUserByEmail(email) {
+		const userCollection = await users();
 
-        const user = await userCollection.findOne(filterObj, {projection: projectionObj});
+		const user = await userCollection.findOne({ email: email });
 
-        return user;
-    },
+		return user;
+	},
 
-    async updateUserRole(email, role) {
-        const userCollection = await users();
+	async updateUserRole(email, role) {
+		const userCollection = await users();
 
-        const roleChanged = await userCollection.findOneAndUpdate(
-            {email: email}, 
-            {$set: {
-                "user_metadata.role": role,
-                }
-            }
-        );
+		const roleChanged = await userCollection.findOneAndUpdate(
+			{ email: email },
+			{
+				$set: {
+					'user_metadata.role': role,
+				},
+			}
+		);
 
-        return;
-    },
+		return;
+	},
 
-    async updateProfileInfo(userId, name, shirtNum, position) {
-        const userCollection = await users();
-        const playerCollection = await players();
+	async updateProfileInfo(userId, name, shirtNum, position) {
+		const userCollection = await users();
+		const playerCollection = await players();
 
-        const updateUser = await userCollection.findOneAndUpdate(
-            {_id: new ObjectId(userId)},
-            {$set:
-                {
-                    "user_metadata.name" : name
-                }
-            }
-        );
+		const updateUser = await userCollection.findOneAndUpdate(
+			{ _id: new ObjectId(userId) },
+			{
+				$set: {
+					'user_metadata.name': name,
+				},
+			}
+		);
 
-        const updatedProfile = await playerCollection.findOneAndUpdate(
-            {userId: userId},
-            {$set: 
-                {   
-                    name: name, 
-                    shirtNum: shirtNum,
-                    position: position,
-                }
-            }
-        );
+		const updatedProfile = await playerCollection.findOneAndUpdate(
+			{ userId: userId },
+			{
+				$set: {
+					name: name,
+					shirtNum: shirtNum,
+					position: position,
+				},
+			}
+		);
 
-        return updatedProfile;
-    },
+		return updatedProfile;
+	},
 
-    async updateProfilePic(email, imagePath) {
-        const userCollection = await users();
+	async updateProfilePic(email, imagePath) {
+		const userCollection = await users();
 
-        const insertProfilePic = await userCollection.findOneAndUpdate(
-            {
-                email: email,
-            },
-            {
-                $set: {
-                    "user_metadata.profilePic": imagePath,
-                }
-            }
-        )
+		const insertProfilePic = await userCollection.findOneAndUpdate(
+			{
+				email: email,
+			},
+			{
+				$set: {
+					'user_metadata.profilePic': imagePath,
+				},
+			}
+		);
 
-        return;
-    },
+		return;
+	},
+};
 
-  }
-  
-  
-  module.exports = exportedMethods;
+module.exports = exportedMethods;

@@ -1,296 +1,287 @@
-const mongoCollections = require("../config/mongoCollections");
+const mongoCollections = require('../config/mongoCollections');
 const teams = mongoCollections.teams;
 const playersData = mongoCollections.players;
 const playerLink = mongoCollections.playerlink;
 
-const { ObjectId } = require("mongodb");
+const { ObjectId } = require('mongodb');
 
 let exportedMethods = {
+	//method to get all teams information
+	async getAllTeams() {
+		const teamsCollection = await teams();
 
-    //method to get all teams information
-    async getAllTeams() {
-        const teamsCollection = await teams();
+		const allTeams = await teamsCollection.find({}).toArray();
 
-        const allTeams = await teamsCollection.find({}).toArray();
+		return allTeams;
+	},
 
-        return allTeams;
-    },
+	//method to get all teams information by ID
+	async getAllTeamsByID(teamId) {
+		const teamsCollection = await teams();
 
-    //method to get all teams information by ID
-    async getAllTeamsByID(teamId) {
-        const teamsCollection = await teams();
+		const team = await teamsCollection.findOne({
+			_id: new ObjectId(teamId),
+		});
 
-        const team = await teamsCollection.findOne(
-            {
-                _id: new ObjectId(teamId),
-            }
-        );
+		return team;
+	},
 
-        return team;
-    },
+	async getAllTeamsByPowerRanking() {
+		const teamsCollection = await teams();
 
-    async getAllTeamsByPowerRanking() {
-        const teamsCollection = await teams();
+		const allTeams = await teamsCollection.find({}).sort({ powerRanking: 1 }).toArray();
 
-        const allTeams = await teamsCollection.find({}).sort({powerRanking: 1}).toArray();
+		return allTeams;
+	},
 
-        return allTeams;
-    },
+	async getAllTeamsCount() {
+		const teamsCollection = await teams();
 
-    async getAllTeamsCount() {
-        const teamsCollection = await teams();
+		const allTeams = await teamsCollection.countDocuments();
 
-        const allTeams = await teamsCollection.countDocuments();
+		return allTeams;
+	},
 
-        return allTeams;
-    },
+	//method to insert team data information
+	async addTeam(teamObj) {
+		let newTeam = {
+			name: teamObj.teamName,
+			district: teamObj.district,
+			players: [],
+			teamCaptain: null,
+			powerRanking: teamObj.powerRanking,
+		};
 
-    //method to insert team data information
-    async addTeam(teamObj) {
+		const teamsCollection = await teams();
+		const playersCollection = await playersData();
 
-        let newTeam = {
-            name: teamObj.teamName,
-            district: teamObj.district,
-            players: [],
-            teamCaptain: null,
-            powerRanking: teamObj.powerRanking,
-        };
+		const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
+		const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
+		newTeam.teamCaptain = insertTeamCaptainId;
 
-        const teamsCollection = await teams();
-        const playersCollection = await playersData();
+		for (i = 0; i < teamObj.players.length; i++) {
+			const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
+			const insertPlayerId = insertPlayer.insertedId.toString();
+			newTeam.players.push(insertPlayerId);
+			let check = true;
+			let tempCode = null;
 
-        const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
-        const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
-        newTeam.teamCaptain = insertTeamCaptainId;
+			if (teamObj.players[i].linked == false) {
+				const playerLinkCollection = await playerLink();
+				while (check == true) {
+					tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
 
-        for(i = 0; i < teamObj.players.length; i++) {
-            const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
-            const insertPlayerId = insertPlayer.insertedId.toString();
-            newTeam.players.push(insertPlayerId);
-            let check = true
-            let tempCode = null;
+					let checkCode = await playerLinkCollection.findOne({ code: tempCode });
+					if (checkCode != null) {
+						tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+					} else {
+						check = false;
+					}
+				}
+				let playerLinkObj = {
+					playerId: insertPlayerId,
+					code: Math.floor(Math.random() * (100000 - 10000) + 10000),
+				};
 
-            if(teamObj.players[i].linked == false) {
-                const playerLinkCollection = await playerLink();
-                while(check == true) {
-                    tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
-    
-                    let checkCode = await playerLinkCollection.findOne({code: tempCode});
-                    if(checkCode != null) {
-                        tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
-                    }
-                    else {
-                        check = false;
-                    }
-                }
-                let playerLinkObj = {
-                    playerId: insertPlayerId,
-                    code: Math.floor(Math.random() * (100000 - 10000) + 10000),
-                };
+				const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
+			}
+		}
 
-                const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
-                    
-            }            
-        }
+		const insertTeam = await teamsCollection.insertOne(newTeam);
+		const teamsId = insertTeam.insertedId.toString();
 
-        const insertTeam = await teamsCollection.insertOne(newTeam);
-        const teamsId = insertTeam.insertedId.toString();
+		return teamsId;
+	},
 
-        return teamsId;
-    },
+	//method to check if a player/captain is currently on a team
+	async hasTeam(userId) {
+		const playersCollection = await playersData();
 
-    //method to check if a player/captain is currently on a team
-    async hasTeam(userId) {
-        const playersCollection = await playersData();
+		const playerInfo = await playersCollection.findOne({ userId: userId });
 
-        const playerInfo = await playersCollection.findOne({userId: userId});
+		if (playerInfo != null && playerInfo.hasTeam) {
+			return true;
+		} else {
+			return false;
+		}
+	},
 
-        if (playerInfo != null && playerInfo.hasTeam) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    },
+	//method to get team data by user ID
+	async getTeam(userId) {
+		const playersCollection = await playersData();
 
-    //method to get team data by user ID
-    async getTeam(userId) {
-        const playersCollection = await playersData();
+		const playerInfo = await playersCollection.findOne({ userId: userId });
+		const playerId = playerInfo._id.toString();
 
-        const playerInfo = await playersCollection.findOne({userId: userId});
-        const playerId = playerInfo._id.toString();
+		const teamsCollection = await teams();
+		let teamInfo = await teamsCollection.findOne({ teamCaptain: playerId });
 
-        const teamsCollection = await teams();
-        let teamInfo = await teamsCollection.findOne({teamCaptain: playerId});
-        
-        if(teamInfo == null) {
-                teamInfo = await teamsCollection.findOne({players: {$in: [playerId]}});
-        }
+		if (teamInfo == null) {
+			teamInfo = await teamsCollection.findOne({ players: { $in: [playerId] } });
+		}
 
-        const teamCaptainId = new ObjectId(teamInfo.teamCaptain);
+		const teamCaptainId = new ObjectId(teamInfo.teamCaptain);
 
-        let teamCaptain = await playersCollection.findOne({_id: teamCaptainId});
-        
-        let teamObj = {
-            name: teamInfo.name,
-            district: teamInfo.district,
-            teamCaptain: teamCaptain.name,
-            players: [],
-        }
+		let teamCaptain = await playersCollection.findOne({ _id: teamCaptainId });
 
-        for(i=0; i < teamInfo.players.length; i++) {
-            teamObj.players.push(await playersCollection.findOne({_id: new ObjectId(teamInfo.players[i])}));
-        }
+		let teamObj = {
+			name: teamInfo.name,
+			district: teamInfo.district,
+			teamCaptain: teamCaptain.name,
+			players: [],
+		};
 
-        return teamObj;
-    },
+		for (i = 0; i < teamInfo.players.length; i++) {
+			teamObj.players.push(
+				await playersCollection.findOne({ _id: new ObjectId(teamInfo.players[i]) })
+			);
+		}
 
-    async getPlayerLinkCode(playerId) {
-            const playerLinkCollection = await playerLink();
+		return teamObj;
+	},
 
-            const player = await playerLinkCollection.findOne({playerId: playerId});
+	async getPlayerLinkCode(playerId) {
+		const playerLinkCollection = await playerLink();
 
-            return player.code;
-    },
+		const player = await playerLinkCollection.findOne({ playerId: playerId });
 
-    async linkPlayerCode(code, userId) {
-        const playerLinkCollection = await playerLink();
+		return player.code;
+	},
 
-        const player = await playerLinkCollection.findOne({code: code});
+	async linkPlayerCode(code, userId) {
+		const playerLinkCollection = await playerLink();
 
-        const playersCollection = await playersData();
+		const player = await playerLinkCollection.findOne({ code: code });
 
-        const playerUpdate = playersCollection.findOneAndUpdate(
-            {
-                _id: new ObjectId(player.playerId)
-            }, 
-            {
-                $set: 
-                    {
-                        userId: userId,
-                        linked: true,
-                    }
-            });
+		const playersCollection = await playersData();
 
-        const deletePlayerLink = playerLinkCollection.deleteOne({playerId: player.playerId});
-        
-        return;
-    },
+		const playerUpdate = playersCollection.findOneAndUpdate(
+			{
+				_id: new ObjectId(player.playerId),
+			},
+			{
+				$set: {
+					userId: userId,
+					linked: true,
+				},
+			}
+		);
 
-    async getPlayerByUserId(userId) {
-        const playersCollection = await playersData();
+		const deletePlayerLink = playerLinkCollection.deleteOne({ playerId: player.playerId });
 
-        const player = await playersCollection.findOne({userId: userId});
+		return;
+	},
 
-        return player;
-    },
+	async getPlayerByUserId(userId) {
+		const playersCollection = await playersData();
 
-    async createPlayer(playerObj) {
-        const playersCollection = await playersData();
+		const player = await playersCollection.findOne({ userId: userId });
 
-        const player = await playersCollection.insertOne(playerObj);
+		return player;
+	},
 
-        return player;
-    },
+	async createPlayer(playerObj) {
+		const playersCollection = await playersData();
 
-    async checkPlayerExists(userId) {
-        const playersCollection = await playersData();
+		const player = await playersCollection.insertOne(playerObj);
 
-        const player = await playersCollection.findOne({userId: userId});
+		return player;
+	},
 
-        if(player == null) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    },
-    
-    async updateTeamInfo(teamObj) {
-        const teamsCollection = await teams();
-        const playersCollection = await playersData();
-        const playerLinkCollection = await playerLink();
+	async checkPlayerExists(userId) {
+		const playersCollection = await playersData();
 
-        let teamCaptainInfo = await this.getPlayerByUserId(teamObj.userId);
+		const player = await playersCollection.findOne({ userId: userId });
 
-        const updateTeam = await teamsCollection.findOneAndUpdate(
-            {
-                teamCaptain: teamCaptainInfo._id.toString(),
-            },
-            {
-                $set: 
-                    {
-                        name: teamObj.name,
-                        district: teamObj.district,
-                    }
-            }
-        );
+		if (player == null) {
+			return false;
+		} else {
+			return true;
+		}
+	},
 
-        let teamInfo = await this.getTeam(teamObj.userId);
+	async updateTeamInfo(teamObj) {
+		const teamsCollection = await teams();
+		const playersCollection = await playersData();
+		const playerLinkCollection = await playerLink();
 
-        let newPlayersArray = [];
+		let teamCaptainInfo = await this.getPlayerByUserId(teamObj.userId);
 
-        for(i=0; i<teamObj.players.length; i++) {
-            let player = teamObj.players[i];
-            for(j=0; j<teamInfo.players.length; j++) {
-                if(player == teamInfo.players[j].name) {
-                    newPlayersArray.push(teamInfo.players[j]._id.toString());
-                    break;
-                }
-                if(j==teamInfo.players.length - 1) {
-                    const insertPlayer = await playersCollection.insertOne({
-                        name: player,
-                        shirtNumber: null,
-                        userId: null,
-                        hasTeam: true,
-                        linked: false,
-                    });
-                    const insertPlayerId = insertPlayer.insertedId.toString();
-                    newPlayersArray.push(insertPlayerId);
+		const updateTeam = await teamsCollection.findOneAndUpdate(
+			{
+				teamCaptain: teamCaptainInfo._id.toString(),
+			},
+			{
+				$set: {
+					name: teamObj.name,
+					district: teamObj.district,
+				},
+			}
+		);
 
-                    let playerLinkObj = {
-                        playerId: insertPlayerId,
-                        code: Math.floor(Math.random() * (100000 - 10000) + 10000),
-                    };
-    
-                    const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
-                }
-            }
-            player = null;
-        }
-        
-        const updateTeamPlayers = await teamsCollection.findOneAndUpdate(
-            {
-                teamCaptain: teamCaptainInfo._id.toString(),
-            },
-            {
-                $set: 
-                    {
-                        players: newPlayersArray,
-                    }
-            }
-        );
-        return updateTeamPlayers;
-    },
+		let teamInfo = await this.getTeam(teamObj.userId);
 
-    async updatePowerRanking (teamName, district, newPowerRanking) {
-        const teamsCollection = await teams();
+		let newPlayersArray = [];
 
-        //find team by team name and district and update their power ranking
-        const updatePowerRanking = await teamsCollection.findOneAndUpdate(
-            {
-                name: teamName, 
-                district: district
-            },
-            {
-                $set: {
-                    powerRanking: newPowerRanking
-                }
-            }
-        );
-        return updatePowerRanking;
-    },
-}
+		for (i = 0; i < teamObj.players.length; i++) {
+			let player = teamObj.players[i];
+			for (j = 0; j < teamInfo.players.length; j++) {
+				if (player == teamInfo.players[j].name) {
+					newPlayersArray.push(teamInfo.players[j]._id.toString());
+					break;
+				}
+				if (j == teamInfo.players.length - 1) {
+					const insertPlayer = await playersCollection.insertOne({
+						name: player,
+						shirtNumber: null,
+						userId: null,
+						hasTeam: true,
+						linked: false,
+					});
+					const insertPlayerId = insertPlayer.insertedId.toString();
+					newPlayersArray.push(insertPlayerId);
 
+					let playerLinkObj = {
+						playerId: insertPlayerId,
+						code: Math.floor(Math.random() * (100000 - 10000) + 10000),
+					};
+
+					const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
+				}
+			}
+			player = null;
+		}
+
+		const updateTeamPlayers = await teamsCollection.findOneAndUpdate(
+			{
+				teamCaptain: teamCaptainInfo._id.toString(),
+			},
+			{
+				$set: {
+					players: newPlayersArray,
+				},
+			}
+		);
+		return updateTeamPlayers;
+	},
+
+	async updatePowerRanking(teamName, district, newPowerRanking) {
+		const teamsCollection = await teams();
+
+		//find team by team name and district and update their power ranking
+		const updatePowerRanking = await teamsCollection.findOneAndUpdate(
+			{
+				name: teamName,
+				district: district,
+			},
+			{
+				$set: {
+					powerRanking: newPowerRanking,
+				},
+			}
+		);
+		return updatePowerRanking;
+	},
+};
 
 module.exports = exportedMethods;
