@@ -26,7 +26,9 @@ const constructorMethod = app => {
 			const user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
 			const player = await teamsData.getPlayerByUserId(user._id.toString());
-			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+			if(player != null) {
+				tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+			}
 		}
 
 		res.render('partials/landingPage', {
