@@ -52,7 +52,7 @@
     teamInputForm.submit(function (event) {
         event.preventDefault();
         
-        var tournamentId = $('#team_tournamentId').text();
+        var tournamentId = $('#team_tournament_name_class')[0].id;
         var teamName = $('#teamName').val();
         var district = parseInt($('#districtSelection').val());
         var teamCaptain = $('#teamCaptain').val();
@@ -85,6 +85,8 @@
                         hasTeam: true,
                         linked: true,
                     },
+                    tournamentId: tournamentId,
+                    sportId: sportId,
                 })
             };
             $.ajax(req).then(function (res) {
