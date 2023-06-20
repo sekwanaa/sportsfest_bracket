@@ -114,7 +114,6 @@ router.get('/', async (req, res) => {
 
 			//get id's of tournaments joined by the user
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
-			// console.log(tournamentJoinedArray);
 		}
 
 		res.render('partials/player_dashboard', {
