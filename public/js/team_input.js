@@ -51,13 +51,14 @@
 
     teamInputForm.submit(function (event) {
         event.preventDefault();
+        
+        var tournamentId = $('#team_tournamentId').text();
         var teamName = $('#teamName').val();
         var district = parseInt($('#districtSelection').val());
         var teamCaptain = $('#teamCaptain').val();
         var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
         
-
         for(i = 1; i < teamMemberCount; i++) {
             let playerData = {};
             playerData.name = $("#teamMemberName" + i).val();

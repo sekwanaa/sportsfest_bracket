@@ -358,6 +358,12 @@
 		const manageTeamElement = $('#manageTeamElement');
 		manageTeamElement.removeClass('hidden');
 		joinedTournamentsList.addClass('hidden');
+
+		//show tournamentName with label ID on the next "page"
+		var teamTournamentName = $("#team_tournament_name");
+		teamTournamentName.append(
+			"<p id='"+tournamentLink[0].id+"' class='team_tournament_name_class'>"+tournamentLink[0].innerHTML+"</p>"
+		);
 	});
 
 	manageTeamElementBackBtn.click(event => {
@@ -366,6 +372,10 @@
 		const manageTeamElement = $('#manageTeamElement');
 		manageTeamElement.addClass('hidden');
 		joinedTournamentsList.removeClass('hidden');
+
+		//remove selected tournament Name/Id in current team card
+		var teamTournamentName = $(".team_tournament_name_class");
+		teamTournamentName[0].remove();
 	});
 
 	//next button for create tournment

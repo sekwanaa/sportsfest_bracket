@@ -81,7 +81,7 @@
             <p>Tournaments joined</p>
             <ul>
                 {{#each tournamentJoinedArray}}
-                    <li class="tournamentLink">{{this.tournamentName}}</a></li>
+                    <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</a></li>
                 {{/each}}
             </ul>
             <section id="joinTournament">
@@ -177,6 +177,7 @@
             {{else}} {{!-- if they don't have a team this will display--}}
                 <section id="noTeamDisplay"> 
                     <p>You don't currently have a team right now</p>
+                    <div id="team_tournament_name"></div>
                     <div>
                         {{#compareRole "coordinator" role}} {{!-- coordinators can create teams --}}
                             <button type="button" id="create_team_button">Create a Team</button>

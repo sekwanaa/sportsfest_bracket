@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const teams = mongoCollections.teams;
 const playersData = mongoCollections.players;
 const playerLink = mongoCollections.playerlink;
+const sports = mongoCollections.sports;
 
 const { ObjectId } = require('mongodb');
 
@@ -281,6 +282,16 @@ let exportedMethods = {
 			}
 		);
 		return updatePowerRanking;
+	},
+
+	async addTeamToSport(teamId, tournamentId, sportId) {
+		
+		//insert teamId into sport collection
+		const sportsCollection = await sports();
+
+		const insertTeamIntoSport = sportsCollection.findOneAndUpdate({_id: new ObjectId(sportId)},{$push: {teams: teamId}});
+
+		return;
 	},
 };
 
