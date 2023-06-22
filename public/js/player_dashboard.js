@@ -370,14 +370,16 @@
 		manageTeamElement.removeClass('hidden');
 
 		//show tournamentName with label ID on the next "page"
-		var teamTournamentName = $('#team_tournament_name');
-		teamTournamentName.append(
+		var teamSportName = $('#team_sport_name');
+		teamSportName.append(
 			"<p id='" +
-				tournamentLink[0].id +
+				event.target.id +
 				"' class='team_tournament_name_class'>" +
-				tournamentLink[0].innerHTML +
+				event.target.innerHTML +
 				'</p>'
 		);
+
+		console.log(event.target.id);
 	});
 
 	manageTeamElementBackBtn.click(event => {
