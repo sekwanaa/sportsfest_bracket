@@ -79,11 +79,16 @@
             
         <section id="joinedTournamentsList">
             <p>Tournaments joined</p>
-            <ul>
-                {{#each tournamentJoinedArray}}
-                    <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</a></li>
-                {{/each}}
-            </ul>
+            <div id="test_asdf">
+                <ul>
+                    {{#each tournamentJoinedArray}} 
+                        <li id={{this._id}} class="tournamentLink"><a>{{this.tournamentName}}</a></li>
+                        {{#each this.sports}}
+                            <p id="{{this}}" class="tournamentSport">{{this}}</p> 
+                        {{/each}}
+                    {{/each}}
+                </ul>
+            </div>
             <section id="joinTournament">
                 <button id="joinTournamentBtn">Join tournament</button>
                 <div id="joinTournamentDiv">

@@ -11,6 +11,7 @@
 	var tournamentNextBtn = $('#next_button');
 	var tournamentLink = $('.tournamentLink');
 	var manageTeamElementBackBtn = $('#manageTeamElementBackBtn');
+	var tournamentSport = $('.tournamentSport');
 
 	//joining and creating tournaments variables
 	var createTournamentDiv = $('#createTournamentDiv');
@@ -352,17 +353,30 @@
 		}
 	});
 
+	tournamentSport.addClass('hidden');
+
 	tournamentLink.click(event => {
 		event.preventDefault();
+		tournamentLink.addClass('hidden');
+		tournamentSport.removeClass('hidden');
+	});
+
+	tournamentSport.click(event => {
+		event.preventDefault();
 		const joinedTournamentsList = $('#joinedTournamentsList');
-		const manageTeamElement = $('#manageTeamElement');
-		manageTeamElement.removeClass('hidden');
 		joinedTournamentsList.addClass('hidden');
 
+		const manageTeamElement = $('#manageTeamElement');
+		manageTeamElement.removeClass('hidden');
+
 		//show tournamentName with label ID on the next "page"
-		var teamTournamentName = $("#team_tournament_name");
+		var teamTournamentName = $('#team_tournament_name');
 		teamTournamentName.append(
-			"<p id='"+tournamentLink[0].id+"' class='team_tournament_name_class'>"+tournamentLink[0].innerHTML+"</p>"
+			"<p id='" +
+				tournamentLink[0].id +
+				"' class='team_tournament_name_class'>" +
+				tournamentLink[0].innerHTML +
+				'</p>'
 		);
 	});
 
@@ -374,7 +388,7 @@
 		joinedTournamentsList.removeClass('hidden');
 
 		//remove selected tournament Name/Id in current team card
-		var teamTournamentName = $(".team_tournament_name_class");
+		var teamTournamentName = $('.team_tournament_name_class');
 		teamTournamentName[0].remove();
 	});
 
