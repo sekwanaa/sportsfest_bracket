@@ -113,7 +113,26 @@ router.get('/', async (req, res) => {
 			tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
 
 			//get id's of tournaments joined by the user
-			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+			let tmpTournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+
+			//populate tournamentJoinedArray for the Your Current Team Card
+			let tournamentObj = {
+				_id: null,
+				sports: [],
+			};
+			for(let i=0; i < tmpTournamentJoinedArray.length; i++) {
+				tournamentObj._id = tmpTournamentJoinedArray[i]._id;
+				tournamentObj.tournamentName = tmpTournamentJoinedArray[i].tournamentName;
+				for(let j=0; j < tmpTournamentJoinedArray[i].sports.length; j++) {
+					const sportData = await poolsData.getSportDataById(tmpTournamentJoinedArray[i].sports[j]);
+					tournamentObj.sports.push(sportData);
+				}
+				tournamentJoinedArray.push(tournamentObj);
+				tournamentObj = {
+					_id: null,
+					sports: [],
+				};
+			}
 		}
 
 		res.render('partials/player_dashboard', {
