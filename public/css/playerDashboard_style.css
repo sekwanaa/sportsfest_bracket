@@ -211,7 +211,8 @@ label {
 	list-style: none;
 }
 
-.tournamentLink:hover {
+.tournamentLink:hover,
+.tournamentSport:hover {
 	cursor: pointer;
 }
 
