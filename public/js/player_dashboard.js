@@ -378,8 +378,6 @@
 				event.target.innerHTML +
 				'</p>'
 		);
-
-		console.log(event.target.id);
 	});
 
 	manageTeamElementBackBtn.click(event => {
