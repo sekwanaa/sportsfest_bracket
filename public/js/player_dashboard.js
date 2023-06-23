@@ -353,12 +353,15 @@
 		}
 	});
 
-	tournamentSport.addClass('hidden');
+	// tournamentSport.addClass('hidden');
 
 	tournamentLink.click(event => {
 		event.preventDefault();
 		tournamentLink.addClass('hidden');
-		tournamentSport.removeClass('hidden');
+		// tournamentSport.removeClass('hidden');
+
+		var showSportsForTournament = $(".sport_"+event.target.id);
+		showSportsForTournament.removeClass('hidden');
 	});
 
 	tournamentSport.click(event => {
@@ -374,7 +377,7 @@
 		teamSportName.append(
 			"<p id='" +
 				event.target.id +
-				"' class='team_tournament_name_class'>" +
+				"' class='team_sport_name_class'>" +
 				event.target.innerHTML +
 				'</p>'
 		);
@@ -388,8 +391,8 @@
 		joinedTournamentsList.removeClass('hidden');
 
 		//remove selected tournament Name/Id in current team card
-		var teamTournamentName = $('.team_tournament_name_class');
-		teamTournamentName[0].remove();
+		var teamSportName = $('.team_sport_name_class');
+		teamSportName[0].remove();
 	});
 
 	//next button for create tournment

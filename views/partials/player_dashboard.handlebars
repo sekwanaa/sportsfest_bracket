@@ -82,9 +82,11 @@
             <div id="test_asdf">
                 <ul>
                     {{#each tournamentJoinedArray}} 
-                        <li id={{this._id}} class="tournamentLink"><a>{{this.tournamentName}}</a></li>
+                        <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
                         {{#each this.sports}}
-                            <p id="{{this._id}}" class="tournamentSport">{{this.sport}}</p> 
+                            <div class="sport_{{../this._id}} hidden">
+                                <p id="{{this._id}}" class="tournamentSport">{{this.sport}}</p> 
+                            </div>
                         {{/each}}
                     {{/each}}
                 </ul>
