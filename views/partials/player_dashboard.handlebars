@@ -84,9 +84,7 @@
                     {{#each tournamentJoinedArray}} 
                         <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
                         {{#each this.sports}}
-                            <div class="sport_{{../this._id}} hidden">
-                                <p id="{{this._id}}" class="tournamentSport">{{this.sport}}</p> 
-                            </div>
+                            <p id="{{this._id}}" class="tournamentSport sport_{{../this._id}} hidden">{{this.sport}}</p> 
                         {{/each}}
                     {{/each}}
                 </ul>
