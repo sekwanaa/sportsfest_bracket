@@ -99,7 +99,7 @@
             </section>
         </section>
         <div id='manageTeamElement' class="hidden">
-            {{#if hasTeam}} {{!-- if they have a team this will display --}}
+            <div id="doesHaveTeam">
                 <section id="team_display_card">
                     <section id="teamInfo">
                         <div>
@@ -130,7 +130,6 @@
                         <div class="editInfoDiv">
                             <label for="edit_team_name">Team Name :</label>
                             <input id="edit_team_name"type="text"></input>
-                            {{!-- <button id="submit_team_name_change_btn">Change</button> --}}
                         </div>
                         <div class="editInfoDiv">
                             <label for="edit_districtSelection">District :</label>
@@ -167,31 +166,18 @@
                     </div>
                 </section>
                 <section id="edit_submit_buttons">
-                    {{#compareRole "captain" role}} {{!-- captains can edit teams --}}
-                        <button id="edit_team_btn">Edit Team</button>
-                    {{/compareRole}}
-
-                    {{#compareRole "coordinator" role}} {{!-- coordinators can edit teams --}}
-                        <button id="edit_team_btn">Edit Team</button>
-                    {{/compareRole}}
-
+                    <button id="edit_team_btn">Edit Team</button>
                     <div id="div_edit_team_submit_btn">
                         <button id="edit_team_submit_btn">Submit</button>
                     </div>
                 </section>
-            {{else}} {{!-- if they don't have a team this will display--}}
+            </div>
+            <div id="hasNoTeam">
                 <section id="noTeamDisplay"> 
                     <p>You don't currently have a team right now</p>
                     <div id="team_sport_name"></div>
                     <div>
-                        {{#compareRole "coordinator" role}} {{!-- coordinators can create teams --}}
-                            <button type="button" id="create_team_button">Create a Team</button>
-                        {{/compareRole}}
-
-                        {{#compareRole "captain" role}} {{!-- captains can create teams --}}
-                            <button type="button" id="create_team_button">Create a Team</button>
-                        {{/compareRole}}
-
+                        <button type="button" id="create_team_button">Create a Team</button>
                         <button type="button" id="join_team_button">Join a Team</button>
                     </div>
                 </section>
@@ -241,7 +227,7 @@
                         </div>
                     </form>
                 </section>
-            {{/if}}
+            </div>
             <button id="manageTeamElementBackBtn">Back</button>
         </div>
     </div>

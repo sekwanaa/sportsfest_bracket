@@ -381,6 +381,34 @@
 				event.target.innerHTML +
 				'</p>'
 		);
+
+		//check if player has team - POST to checkPlayerTeam
+
+		var sportId = event.target.id;
+
+		try {
+			let req = {
+				method: 'POST',
+				url: window.location.pathname + '/check_player_team',
+				contentType: 'application/json',
+				data: JSON.stringify({
+					sportId: sportId,
+				}),
+			};
+			$.ajax(req).then(function (res) {
+				//populate fields for team on completion
+				console.log(res);
+				let teamName = res.name;
+				let players = res.players;
+				let teamCaptain = res.teamCaptain;
+				let district = res.district;
+
+				
+			});
+		} catch (e) {
+			console.log(e);
+		}
+
 	});
 
 	manageTeamElementBackBtn.click(event => {

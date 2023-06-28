@@ -163,12 +163,15 @@ router.get('/', async (req, res) => {
 
 router.post('/submitTeams', async (req, res) => {
 	let userId;
+	let playerId;
 
 	if (req.oidc.isAuthenticated()) {
 		const email = req.oidc.user.name;
 
 		const user = await userData.getUserByEmail(email);
 		userId = user._id.toString();
+		const player = await teamsData.getPlayerByUserId(userId);
+		playerId = player._id.toString();
 	}
 
 	try {
@@ -179,6 +182,7 @@ router.post('/submitTeams', async (req, res) => {
 
 		if (teamCaptain) {
 			teamCaptain.userId = userId;
+			teamCaptain.playerId = playerId;
 		} else {
 		}
 
@@ -189,12 +193,12 @@ router.post('/submitTeams', async (req, res) => {
 			teamCaptain: teamCaptain,
 		};
 
-		const teamId = await teamsData.addTeam(teamObj);
+		// const teamId = await teamsData.addTeam(teamObj);
 
 		const sportId = req.body.sportId;
-		const insertTeamToSport = await teamsData.addTeamToSport(teamId, sportId);
+		// const insertTeamToSport = await teamsData.addTeamToSport(teamId, sportId);
 
-		return res.json(teamId);
+		return res.json("teamId");
 	} catch (e) {
 		console.log(e);
 	}
@@ -429,6 +433,27 @@ router.post('/join_tournament', async (req, res) => {
 		);
 
 		return res.json(joinTournament);
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
+});
+
+router.post('/check_player_team', async (req, res) => {
+	let userId = null;
+	let sportId = req.body.sportId;
+
+	try {
+		if (req.oidc.isAuthenticated()) {
+			const email = req.oidc.user.name;
+			const user = await userData.getUserByEmail(email);
+			userId = user._id.toString();
+		}
+
+		const player = await teamsData.getPlayerByUserId(userId);
+
+		const team = await teamsData.displayCurrentTeam(sportId, player._id.toString());
+
+		return res.json(team);
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}

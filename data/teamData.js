@@ -56,9 +56,13 @@ let exportedMethods = {
 		const teamsCollection = await teams();
 		const playersCollection = await playersData();
 
-		const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
-		const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
-		newTeam.teamCaptain = insertTeamCaptainId;
+		//get teamCaptain Id
+		const teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
+		console.log(teamCaptain);
+
+		// const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
+		// const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
+		newTeam.teamCaptain = teamCaptain._id.toString();
 
 		for (i = 0; i < teamObj.players.length; i++) {
 			const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
@@ -322,13 +326,19 @@ let exportedMethods = {
 
 	async displayCurrentTeam(sportId, playerId) {
 
+		console.log(sportId);
+		console.log(playerId);
+
 		const sportsCollection = await sports();
 		const teamsCollection = await teams();
 
 		const sportInfo = await sportsCollection.findOne({_id: new ObjectId(sportId)});
 
+		console.log(sportInfo);
+
 		for(let i = 0; i < sportInfo.teams.length; i++) {
 			let teamInfo = await teamsCollection.findOne({_id: new ObjectId(sportInfo.teams[i])});
+			console.log(teamInfo);
 			if(teamInfo.players.includes(playerId) || teamInfo.teamCaptain == playerId) {
 				return teamInfo;
 			}
