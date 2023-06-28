@@ -191,6 +191,9 @@ router.post('/submitTeams', async (req, res) => {
 
 		const teamId = await teamsData.addTeam(teamObj);
 
+		const sportId = req.body.sportId;
+		const insertTeamToSport = await teamsData.addTeamToSport(teamId, sportId);
+
 		return res.json(teamId);
 	} catch (e) {
 		console.log(e);

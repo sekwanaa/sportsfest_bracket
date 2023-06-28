@@ -284,7 +284,7 @@ let exportedMethods = {
 		return updatePowerRanking;
 	},
 
-	async addTeamToSport(teamId, tournamentId, sportId) {
+	async addTeamToSport(teamId, sportId) {
 		
 		//insert teamId into sport collection
 		const sportsCollection = await sports();
