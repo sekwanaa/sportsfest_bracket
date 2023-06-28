@@ -293,6 +293,13 @@ let exportedMethods = {
 
 		return;
 	},
+
+	async getTeamByTournament() {
+
+		
+
+		return;
+	},
 };
 
 module.exports = exportedMethods;
