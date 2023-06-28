@@ -294,11 +294,30 @@ let exportedMethods = {
 		return;
 	},
 
-	async getTeamByTournament() {
+	async getTeamByTournament(tournamentId, sportId, playerId) {
 
+		const poolsCollection = await pools();
+		const sportsCollection = await sports();
+		const teamsCollection = await teams();
+
+		const tournament = await poolsCollection.find({_id: new ObjectId(tournamentId)});
+
+		//iterate through each sport
+		for(let i = 0; i < tournament.sports.length; i++) {
+
+			let tournamentSportId = tournament.sports[i];
+			let tournamentSportInfo = await sportsCollection.findOne({_id: new ObjectId(tournamentSportId)});
+
+			//iterate through each team
+			for(let j = 0; j < tournamentSportInfo.teams.length; j++) {
+				let team = await teamsCollection.findOne({_id: new ObjectId(tournamentSportInfo.teams[j])});
+				if(team.players.includes(playerId) || team.teamCaptain == playerId) {
+					return team;
+				}
+			}
+		}
 		
-
-		return;
+		return null;
 	},
 };
 
