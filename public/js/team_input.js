@@ -82,7 +82,7 @@
                         name: teamCaptain,
                         shirtNum: teamCaptainShirtNum,
                         userId: null,
-                        hasTeam: true,
+                        // hasTeam: true,
                         linked: true,
                     },
                     tournamentId: tournamentId,
