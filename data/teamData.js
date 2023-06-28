@@ -319,6 +319,23 @@ let exportedMethods = {
 		
 		return null;
 	},
+
+	async displayCurrentTeam(sportId, playerId) {
+
+		const sportsCollection = await sports();
+		const teamsCollection = await teams();
+
+		const sportInfo = await sportsCollection.findOne({_id: new ObjectId(sportId)});
+
+		for(let i = 0; i < sportInfo.teams.length; i++) {
+			let teamInfo = await teamsCollection.findOne({_id: new ObjectId(sportInfo.teams[i])});
+			if(teamInfo.players.includes(playerId) || teamInfo.teamCaptain == playerId) {
+				return teamInfo;
+			}
+		}
+
+		return null;
+	},
 };
 
 module.exports = exportedMethods;
