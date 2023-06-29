@@ -59,8 +59,6 @@
         var teamCaptain = $('#teamCaptain').val();
         var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
-
-        console.log(teamName);
         
         for(i = 1; i < teamMemberCount; i++) {
             let playerData = {};
