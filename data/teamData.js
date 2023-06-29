@@ -340,6 +340,14 @@ let exportedMethods = {
 
 		return null;
 	},
+
+	async getPlayerNameByPlayerId(playerId) {
+		const playersCollection = await playersData();
+
+		const player = await playersCollection.findOne({_id: new ObjectId(playerId)});
+
+		return player.name;
+	},
 };
 
 module.exports = exportedMethods;

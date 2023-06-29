@@ -453,7 +453,23 @@ router.post('/check_player_team', async (req, res) => {
 
 		const team = await teamsData.displayCurrentTeam(sportId, player._id.toString());
 
-		return res.json(team);
+		let teamObj = {
+			name: team.name,
+			teamCaptain: null,
+			district: team.district,
+			players: [],
+		}
+
+		const teamCaptainName = await teamsData.getPlayerNameByPlayerId(team.teamCaptain);
+
+		teamObj.teamCaptain = teamCaptainName;
+
+		for(let i = 0; i < team.players.length; i++) {
+			let playerName = await teamsData.getPlayerNameByPlayerId(team.players[i]);
+			teamObj.players.push(playerName);
+		}
+		
+		return res.json(teamObj);
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
