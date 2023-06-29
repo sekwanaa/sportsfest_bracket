@@ -104,24 +104,24 @@
                     <section id="teamInfo">
                         <div>
                             <label for="teamName">Team Name</label>
-                            <p id="teamName">{{teamName}}</p>
+                            <p id="teamName"></p>
                         </div>
                         <div>
                             <label for="district">District</label>
-                            <p id="teamDistrict">{{district}}</p>
+                            <p id="teamDistrict"></p>
                         </div>
                         <div>
                             <label for="teamCaptain">Team Captain</label>
-                            <p id="teamCaptain">{{teamCaptain}}</p>
+                            <p id="teamCaptain"></p>
                         </div>
                     </section>
                     <section id="teamMembers">
-                        {{#each teamMembers}}
+                        {{!-- {{#each teamMembers}}
                             <div class="teamMemberName">
                                 <p id="teamMember{{@index}}">{{this.name}}</p>
                                 {{#if this.code}}<p>{{this.code}}</p>{{/if}}
                             </div>
-                        {{/each}}   
+                        {{/each}}    --}}
                     </section>      
                 </section>
 
@@ -172,7 +172,7 @@
                     </div>
                 </section>
             </div>
-            <div id="hasNoTeam">
+            <div id="hasNoTeam" class="hidden">
                 <section id="noTeamDisplay"> 
                     <p>You don't currently have a team right now</p>
                     <div id="team_sport_name"></div>

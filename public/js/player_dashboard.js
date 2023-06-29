@@ -398,11 +398,15 @@
 			$.ajax(req).then(function (res) {
 				//populate fields for team on completion
 				console.log(res);
-				let teamName = res.name;
-				let players = res.players;
-				let teamCaptain = res.teamCaptain;
-				let district = res.district;
+				var teamName = $("#teamName");
+				var teamCaptain = $("#teamCaptain");
+				var district = $("#teamDistrict");
+				var teamMembersDiv = $(".teamMemberName");
 
+				teamName.text(res.name);
+				// let y = res.players;
+				teamCaptain.text(res.teamCaptain);
+				district.text(res.district);
 				
 			});
 		} catch (e) {
