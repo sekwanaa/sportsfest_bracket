@@ -453,6 +453,10 @@ router.post('/check_player_team', async (req, res) => {
 
 		const team = await teamsData.displayCurrentTeam(sportId, player._id.toString());
 
+		if(team == null) {
+			return res.json(null);
+		}
+
 		let teamObj = {
 			name: team.name,
 			teamCaptain: null,

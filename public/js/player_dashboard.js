@@ -397,23 +397,30 @@
 			};
 			$.ajax(req).then(function (res) {
 				//populate fields for team on completion
-				var teamName = $("#teamName");
-				var teamCaptain = $("#teamCaptain");
-				var district = $("#teamDistrict");
-				var teamMembersDiv = $(".teamMemberName");
-
-				teamName.text(res.name);
-				teamCaptain.text(res.teamCaptain);
-				district.text(res.district);
-
-				//remove any previous data from team member div
-				teamMembersDiv.empty();
-				
-				for(let i = 0; i < res.players.length; i++) {
-					teamMembersDiv.append(
-						"<p id='teamMember"+i+"'>"+res.players[i]+"</p>"
-					)
+				if(res != null) {
+					var teamName = $("#teamName");
+					var teamCaptain = $("#teamCaptain");
+					var district = $("#teamDistrict");
+					var teamMembersDiv = $(".teamMemberName");
+	
+					teamName.text(res.name);
+					teamCaptain.text(res.teamCaptain);
+					district.text(res.district);
+	
+					//remove any previous data from team member div
+					teamMembersDiv.empty();
+					
+					for(let i = 0; i < res.players.length; i++) {
+						teamMembersDiv.append(
+							"<p id='teamMember"+i+"'>"+res.players[i]+"</p>"
+						)
+					}
 				}
+
+				else {
+					console.log("no team");
+				}
+
 			});
 		} catch (e) {
 			console.log(e);
