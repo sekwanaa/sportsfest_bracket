@@ -55,7 +55,7 @@
             if ($("#powerRankingInput"+i).val() == 0) { //if there is no change
                 continue
             } else { //if there is a change
-                teamRankObj.teamName = $("#email"+i)[0].innerHTML;
+                teamRankObj.teamName = $("#teamName"+i)[0].innerHTML;
                 teamRankObj.district = parseInt($("#districtNum"+i)[0].innerHTML);
                 teamRankObj.newPowerRank = parseInt($("#powerRankingInput"+i).val());
                 teamRankObjArr.push(teamRankObj);
