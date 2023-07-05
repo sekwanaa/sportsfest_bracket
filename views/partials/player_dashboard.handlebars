@@ -100,6 +100,7 @@
         </section>
         <div id='manageTeamElement' class="hidden">
             <div id="noTeamDiv" class="hidden">
+                <div id="team_sport_name"></div>
                 <button type="button" id="create_team_button">Create a Team</button>
                 <button type="button" id="join_team_button">Join a Team</button>
                 
@@ -111,21 +112,21 @@
 
                     <form id="teamInputForm" method="post">
                         <div>
-                            <input id="teamNameSSS" type="text" placeholder="Team Name" required>
+                            <input id="teamName_form" type="text" placeholder="Team Name" required>
                             <br>
-                            <input id="districtSelectionSSS" type="text" list="districts" placeholder="District" required>
-                            <datalist id="districtsSSS">
+                            <input id="districtSelection_form" type="text" list="districts" placeholder="District" required>
+                            <datalist id="districts_form">
                                 <option value="1"></option>
                             </datalist>
                         </div>
-                        <div id="teamMembersSSS">
+                        <div id="teamMembers_form">
                             <div>
-                                <label for="teamCaptainSSS">Team Captain</label>
-                                <input name="teamCaptainSSS" id="teamCaptainSSS" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
+                                <label for="teamCaptain_form">Team Captain</label>
+                                <input name="teamCaptain_form" id="teamCaptain_form" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
                             </div>
                             <label>Members</label>
-                            <div id="teamMembersListSSS">
-                                <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
+                            <div id="teamMembersList">
+                                <input name="teamMemberName_form1" id="teamMemberName_form1" type="text" placeholder="Team Member Name" required>
                             </div>
                         </div>
                         <div id="add_remove_buttons">

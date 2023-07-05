@@ -193,14 +193,15 @@ router.post('/submitTeams', async (req, res) => {
 			teamCaptain: teamCaptain,
 		};
 
-		// const teamId = await teamsData.addTeam(teamObj);
+		const teamId = await teamsData.addTeam(teamObj);
 
 		const sportId = req.body.sportId;
-		// const insertTeamToSport = await teamsData.addTeamToSport(teamId, sportId);
 
-		return res.json("teamId");
+		const insertTeamToSport = await teamsData.addTeamToSport(teamId, sportId);
+
+		return res.json(teamId);
 	} catch (e) {
-		console.log(e);
+		return res.status(500).json({ error: e });
 	}
 
 	return;
