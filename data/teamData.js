@@ -298,9 +298,10 @@ let exportedMethods = {
 		return updateTeamPlayers;
 	},
 
-	async updatePowerRanking(teamName, district, newPowerRanking) {
+	async updatePowerRanking(teamName, district, newPowerRanking, tournamentId, sportId) {
 		const teamsCollection = await teams();
 
+		
 		//find team by team name and district and update their power ranking
 		const updatePowerRanking = await teamsCollection.findOneAndUpdate(
 			{

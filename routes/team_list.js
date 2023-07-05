@@ -128,7 +128,11 @@ router.post('/:id/:sport/batch_import_team', async (req, res) => {
 	}
 });
 
-router.post('/edit_power_ranking', async (req, res) => {
+router.post('/:id/:sport/edit_power_ranking', async (req, res) => {
+
+	const tournamentId = req.params.id;
+	const sportId = req.params.sport;
+
 	try {
 		const newPowerRank = req.body.teamRankObjArr;
 
@@ -136,7 +140,9 @@ router.post('/edit_power_ranking', async (req, res) => {
 			const updatePowerRank = await teamData.updatePowerRanking(
 				newPowerRank[i].teamName,
 				newPowerRank[i].district,
-				newPowerRank[i].newPowerRank
+				newPowerRank[i].newPowerRank,
+				tournamentId,
+				sportId,
 			);
 		}
 
