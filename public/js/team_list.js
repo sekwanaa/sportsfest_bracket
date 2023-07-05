@@ -42,7 +42,7 @@
     submitPowerRankingBtn.click((event) => {
         event.preventDefault()
 
-        console.log(window.location.pathname);
+        // console.log(window.location.pathname);
         let teamRankObjArr = []
         let teamRankObj = {
             teamName: "",
@@ -50,11 +50,16 @@
             newPowerRank: null,
         }
 
-        for (i=0; i<powerRankingInputs.length; i++) { //loop through each input entry in the table, if it's 0 skip, else add team name, district, and updated rank to match obj
+        //loop through each input entry in the table, if it's 0 skip, else add team name, district, and updated rank to match obj
+        for (i=0; i<powerRankingInputs.length; i++) { 
 
-            if ($("#powerRankingInput"+i).val() == 0) { //if there is no change
-                continue
-            } else { //if there is a change
+            //if there is no change
+            if ($("#powerRankingInput"+i).val() == 0) { 
+                continue;
+            } 
+
+            //if there is a change
+            else { 
                 teamRankObj.teamName = $("#teamName"+i)[0].innerHTML;
                 teamRankObj.district = parseInt($("#districtNum"+i)[0].innerHTML);
                 teamRankObj.newPowerRank = parseInt($("#powerRankingInput"+i).val());
@@ -106,9 +111,9 @@
                         continue;
                     } 
                     else {
-                        $('#test_list').append('<div class="info grid-row-name" id="email'+(i-1)+'">'+tmpString[0]+'</div>');
-                        $('#test_list').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
-                        $('#test_list').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
+                        $('#all_teams_list').append('<div class="info grid-row-name" id="email'+(i-1)+'">'+tmpString[0]+'</div>');
+                        $('#all_teams_list').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
+                        $('#all_teams_list').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
                     }
                 }
             };
@@ -122,7 +127,7 @@
     uploadCSVButton.click(function(event) {
         event.preventDefault();
         // console.log("click");
-        var teamListTable = $("test_list");
+        var teamListTable = $("all_teams_list");
 
         var header = $(".header");
 

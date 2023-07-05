@@ -2,7 +2,7 @@
     <h1>Current registered teams</h1>
 </div>
 
-<div id="test">
+<div id="csv_upload_div">
     {{#compareRole "coordinator" role}}
     <button id="upload_csv_button">Upload CSV File</button>
     <input type="file" name="filename" id="filename">
@@ -31,7 +31,7 @@
         <div class="header grid-row-power-ranking"><b>Power Ranking</b></div>
     </div> 
 
-        <div id="test_list" class="grid-column-teams">
+        <div id="all_teams_list" class="grid-column-teams">
             {{#each allTeams}}
                 <div class="info grid-row-name" id="teamName{{@index}}">{{this.name}}</div> 
                 <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>
