@@ -228,6 +228,7 @@ router.post('/join_team', async (req, res) => {
 	const code = req.body.code;
 
 	let userId;
+	let player;
 
 	try {
 		if (req.oidc.isAuthenticated()) {
@@ -235,12 +236,14 @@ router.post('/join_team', async (req, res) => {
 
 			const user = await userData.getUserByEmail(email);
 			userId = user._id.toString();
+
+			player = await teamsData.getPlayerByUserId(userId);
 		}
 
-		const playerId = await teamsData.linkPlayerCode(code, userId);
+		const playerId = await teamsData.linkPlayerCode(code, userId, player._id.toString());
 
 		return;
-	} catch {
+	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
 });

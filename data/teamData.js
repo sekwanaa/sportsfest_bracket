@@ -58,7 +58,6 @@ let exportedMethods = {
 
 		//get teamCaptain Id
 		const teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
-		console.log(teamCaptain);
 
 		// const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
 		// const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
@@ -153,14 +152,14 @@ let exportedMethods = {
 		return player.code;
 	},
 
-	async linkPlayerCode(code, userId) {
+	async linkPlayerCode(code, userId, playerId) {
 		const playerLinkCollection = await playerLink();
 
 		const player = await playerLinkCollection.findOne({ code: code });
 
 		const playersCollection = await playersData();
 
-		const playerUpdate = playersCollection.findOneAndUpdate(
+		const playerUpdate = await playersCollection.findOneAndUpdate(
 			{
 				_id: new ObjectId(player.playerId),
 			},
@@ -172,7 +171,36 @@ let exportedMethods = {
 			}
 		);
 
-		const deletePlayerLink = playerLinkCollection.deleteOne({ playerId: player.playerId });
+		const deletePlayerLink = await playerLinkCollection.deleteOne({ playerId: player.playerId });
+
+		//replace temp player object Id on team with real player id
+
+		const teamsCollection = await teams();
+
+		const team = await teamsCollection.findOneAndUpdate(
+			{
+				players: player.playerId,
+			},
+			{
+				$push: {
+					players: playerId,
+				},
+			}	
+		)
+
+		const teamRemove = await teamsCollection.findOneAndUpdate(
+			{
+				players: player.playerId,
+			}, 
+			{
+				$pull: {
+					players: player.playerId,
+				},
+			}
+		)
+
+		//delete temp player object
+		const tempPlayerDelete = await playersCollection.deleteOne({_id: new ObjectId(player.playerId)});
 
 		return;
 	},
