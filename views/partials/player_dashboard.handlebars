@@ -99,7 +99,48 @@
             </section>
         </section>
         <div id='manageTeamElement' class="hidden">
-            <div id="doesHaveTeam">
+            <div id="noTeamDiv" class="hidden">
+                <button type="button" id="create_team_button">Create a Team</button>
+                <button type="button" id="join_team_button">Join a Team</button>
+                
+                <section id="createTeamSection">
+                    <div id ="div_join_team_input">
+                        <input id="team_code_input" type="text" placeholder="Team code">
+                        <button id="submit_team_code_button" type="submit">Submit</button>
+                    </div>
+
+                    <form id="teamInputForm" method="post">
+                        <div>
+                            <input id="teamNameSSS" type="text" placeholder="Team Name" required>
+                            <br>
+                            <input id="districtSelectionSSS" type="text" list="districts" placeholder="District" required>
+                            <datalist id="districtsSSS">
+                                <option value="1"></option>
+                            </datalist>
+                        </div>
+                        <div id="teamMembersSSS">
+                            <div>
+                                <label for="teamCaptainSSS">Team Captain</label>
+                                <input name="teamCaptainSSS" id="teamCaptainSSS" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
+                            </div>
+                            <label>Members</label>
+                            <div id="teamMembersListSSS">
+                                <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
+                            </div>
+                        </div>
+                        <div id="add_remove_buttons">
+                            <button id="add_more_button" type="button">Add Member</button>
+                            <button id="remove_button" type="button">Remove Member</button>
+                        </div>
+                        <div>
+                            <button id="submit" type="submit">Submit</button>
+                            <button type="reset">Reset</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <div id="doesHaveTeam" class="hidden">
                 <section id="team_display_card">
                     <section id="teamInfo">
                         <div>
@@ -172,7 +213,7 @@
                     </div>
                 </section>
             </div>
-            <div id="hasNoTeam" class="hidden">
+            {{!-- <div id="hasNoTeam" class="hidden">
                 <section id="noTeamDisplay"> 
                     <p>You don't currently have a team right now</p>
                     <div id="team_sport_name"></div>
@@ -227,7 +268,7 @@
                         </div>
                     </form>
                 </section>
-            </div>
+            </div> --}}
             <button id="manageTeamElementBackBtn">Back</button>
         </div>
     </div>

@@ -399,6 +399,9 @@
 			$.ajax(req).then(function (res) {
 				//populate fields for team on completion
 				if(res != null) {
+					var hasTeamDiv = $("#doesHaveTeam");
+					hasTeamDiv.removeClass("hidden");
+
 					var teamName = $("#teamName");
 					var teamCaptain = $("#teamCaptain");
 					var district = $("#teamDistrict");
@@ -419,6 +422,8 @@
 				}
 
 				else {
+					var noTeamDiv = $("#noTeamDiv");
+					noTeamDiv.removeClass("hidden");
 					console.log("no team");
 				}
 
