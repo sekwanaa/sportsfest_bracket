@@ -198,6 +198,7 @@
 		//take current team info and place them in editable inputs
 		$('#edit_team_name').val($('#teamName').html());
 		$('#edit_team_captain').val($('#teamCaptain').html());
+		$('#edit_districtSelection').val($('#teamDistrict').html());
 
 		//toggle display for edit info for team changes
 		if (editTeamButton.html() == 'Cancel') {
