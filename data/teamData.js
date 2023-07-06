@@ -57,11 +57,18 @@ let exportedMethods = {
 		const playersCollection = await playersData();
 
 		//get teamCaptain Id
-		const teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
+		let teamCaptainId = "";
+		let teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
 
-		// const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
-		// const insertTeamCaptainId = insertTeamCaptain.insertedId.toString();
-		newTeam.teamCaptain = teamCaptain._id.toString();
+		if(teamCaptain != null) {
+			teamCaptainId = teamCaptain._id.toString()
+		}
+		else {
+			const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
+			teamCaptainId = insertTeamCaptain.insertedId.toString();
+		}
+		
+		newTeam.teamCaptain = teamCaptainId;
 
 		for (i = 0; i < teamObj.players.length; i++) {
 			const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
