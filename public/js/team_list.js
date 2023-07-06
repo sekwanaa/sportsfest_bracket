@@ -111,9 +111,9 @@
                         continue;
                     } 
                     else {
-                        $('#all_teams_list_csv').append('<div class="info grid-row-name" id="teamName'+(i-1)+'">'+tmpString[0]+'</div>');
-                        $('#all_teams_list_csv').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
-                        $('#all_teams_list_csv').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
+                        $('#all_teams_list_csv').append('<div class="csv_info info grid-row-name" id="csv_teamName'+(i-1)+'">'+tmpString[0]+'</div>');
+                        $('#all_teams_list_csv').append('<div class="csv_info info grid-row-district" id="csv_districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
+                        $('#all_teams_list_csv').append('<div class="csv_info info grid-row-power-ranking" id="csv_powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
                     }
                 }
             };
@@ -127,9 +127,9 @@
     uploadCSVButton.click(function(event) {
         event.preventDefault();
         // console.log("click");
-        var teamListTable = $("all_teams_list");
+        var teamListTable = $("all_teams_list_csv");
 
-        var header = $(".header");
+        var header = $(".csv_header");
 
         let teamArray = [];
         let teamObj = {
@@ -142,12 +142,12 @@
             powerRanking: null,  
         }
 
-        for(i=0; i<($(".info").length/header.length); i++) {
-            teamObj.teamName = $("#email" + i)[0].innerHTML;
-            teamObj.district = parseInt($("#districtNum" + i)[0].innerHTML);
+        for(i=0; i<($(".csv_info").length/header.length); i++) {
+            teamObj.teamName = $("#csv_teamName" + i).text();
+            teamObj.district = parseInt($("#csv_districtNum" + i).text());
             teamObj.players = [];
             teamObj.teamCaptain.name = "blank";
-            teamObj.powerRanking = parseInt($("#powerRanking" + i)[0].innerHTML);
+            teamObj.powerRanking = parseInt($("#csv_powerRanking" + i).text());
 
             teamArray.push(teamObj);
 
@@ -161,6 +161,8 @@
                 powerRanking: null,
             }
         }
+
+        console.log(teamArray);
 
         try {
             let req = {
