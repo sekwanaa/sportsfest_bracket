@@ -4,7 +4,6 @@
 
 <div id="csv_upload_div">
     {{#compareRole "coordinator" role}}
-    <button id="upload_csv_button">Upload CSV File</button>
     <button id="uploadCSVBtn">uploadCSVBtn</button>
     {{/compareRole}}
 </div>
@@ -70,11 +69,17 @@
     <div class="modal-box">
         <span class="close">&times;</span>
         <input type="file" name="filename" id="filename">
+        <button id="upload_csv_button">Upload CSV File</button>
         <div class="grid-column-header">
             <div id="upload_csv_teamName" class="header grid-row-name"><b>Team Name</b></div> 
             <div id="upload_csv_district" class="header grid-row-district"><b>District</b></div>
             <div id="upload_csv_powerRanking" class="header grid-row-power-ranking"><b>Power Ranking</b></div>
         </div> 
+        <div id="all_teams_list_csv" class="grid-column-teams">
+            {{!-- <div id="teamName" class="info grid-row-name"></div> 
+            <div id="districtNum" class="info grid-row-district"></div>
+            <div id="powerRanking" class="info grid-row-power-ranking"></div> --}}
+        </div>
     </div>
 </div>
 

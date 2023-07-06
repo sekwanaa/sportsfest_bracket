@@ -111,9 +111,9 @@
                         continue;
                     } 
                     else {
-                        $('#all_teams_list').append('<div class="info grid-row-name" id="email'+(i-1)+'">'+tmpString[0]+'</div>');
-                        $('#all_teams_list').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
-                        $('#all_teams_list').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
+                        $('#all_teams_list_csv').append('<div class="info grid-row-name" id="teamName'+(i-1)+'">'+tmpString[0]+'</div>');
+                        $('#all_teams_list_csv').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
+                        $('#all_teams_list_csv').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
                     }
                 }
             };
