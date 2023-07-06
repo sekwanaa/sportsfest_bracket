@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
 					shirtNum: 'N/A',
 					userId: userId,
 					// hasTeam: false,
-					linked: false,
+					// linked: false,
 				};
 
 				const newPlayer = await teamsData.createPlayer(playerObj);

@@ -269,7 +269,7 @@ let exportedMethods = {
 						shirtNumber: null,
 						userId: null,
 						// hasTeam: true,
-						linked: false,
+						// linked: false,
 					});
 					const insertPlayerId = insertPlayer.insertedId.toString();
 					newPlayersArray.push(insertPlayerId);
