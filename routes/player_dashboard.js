@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
 		let allUsers = [];
 		let nickname = '';
 		let name = '';
-		let hasTeam = false;
+		// let hasTeam = false;
 		let teamCaptain = null;
 		let district = null;
 		let teamMembers = null;
@@ -69,7 +69,7 @@ router.get('/', async (req, res) => {
 					name: user.user_metadata.name,
 					shirtNum: 'N/A',
 					userId: userId,
-					hasTeam: false,
+					// hasTeam: false,
 					linked: false,
 				};
 
@@ -78,7 +78,7 @@ router.get('/', async (req, res) => {
 
 			const player = await teamsData.getPlayerByUserId(userId);
 			allUsers = await userData.getAllUsers();
-			hasTeam = await teamsData.hasTeam(userId);
+			// hasTeam = await teamsData.hasTeam(userId);
 			nickname = user.email;
 			userRole = user.user_metadata.role;
 			name = user.user_metadata.name;
@@ -90,24 +90,24 @@ router.get('/', async (req, res) => {
 			shirt_number = player.shirtNum;
 			position = player.position;
 
-			if (hasTeam) {
-				let team = await teamsData.getTeam(userId);
+			// if (hasTeam) {
+			// 	let team = await teamsData.getTeam(userId);
 
-				teamCaptain = team.teamCaptain;
-				district = team.district;
-				teamMembers = [];
-				teamName = team.name;
-				let teamMember = {};
+			// 	teamCaptain = team.teamCaptain;
+			// 	district = team.district;
+			// 	teamMembers = [];
+			// 	teamName = team.name;
+			// 	let teamMember = {};
 
-				for (i = 0; i < team.players.length; i++) {
-					teamMember.name = team.players[i].name;
-					if (team.players[i].linked == false) {
-						teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
-					}
-					teamMembers.push(teamMember);
-					teamMember = {};
-				}
-			}
+			// 	for (i = 0; i < team.players.length; i++) {
+			// 		teamMember.name = team.players[i].name;
+			// 		if (team.players[i].linked == false) {
+			// 			teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
+			// 		}
+			// 		teamMembers.push(teamMember);
+			// 		teamMember = {};
+			// 	}
+			// }
 
 			//get id's of tournaments created by user
 			tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
@@ -144,7 +144,7 @@ router.get('/', async (req, res) => {
 			length: allUsers.length,
 			nickname: nickname,
 			name: name,
-			hasTeam: hasTeam,
+			// hasTeam: hasTeam,
 			teamCaptain: teamCaptain,
 			district: district,
 			teamMembers: teamMembers,

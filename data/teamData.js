@@ -98,17 +98,17 @@ let exportedMethods = {
 	},
 
 	//method to check if a player/captain is currently on a team
-	async hasTeam(userId) {
-		const playersCollection = await playersData();
+	// async hasTeam(userId) {
+	// 	const playersCollection = await playersData();
 
-		const playerInfo = await playersCollection.findOne({ userId: userId });
+	// 	const playerInfo = await playersCollection.findOne({ userId: userId });
 
-		if (playerInfo != null && playerInfo.hasTeam) {
-			return true;
-		} else {
-			return false;
-		}
-	},
+	// 	if (playerInfo != null && playerInfo.hasTeam) {
+	// 		return true;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// },
 
 	//method to get team data by user ID
 	async getTeam(userId) {
@@ -268,7 +268,7 @@ let exportedMethods = {
 						name: player,
 						shirtNumber: null,
 						userId: null,
-						hasTeam: true,
+						// hasTeam: true,
 						linked: false,
 					});
 					const insertPlayerId = insertPlayer.insertedId.toString();
