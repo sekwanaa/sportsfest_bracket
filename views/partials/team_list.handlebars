@@ -5,7 +5,7 @@
 <div id="csv_upload_div">
     {{#compareRole "coordinator" role}}
     <button id="upload_csv_button">Upload CSV File</button>
-    <input type="file" name="filename" id="filename">
+    <button id="uploadCSVBtn">uploadCSVBtn</button>
     {{/compareRole}}
 </div>
 
@@ -47,21 +47,35 @@
         </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal for Add Team-->
 <div id="addTeamModal" class="modal">
     <div class="modal-box">
-    <span class="close">&times;</span>
-    <form id="addTeamForm" class="modal-content">
-        <label for="teamName">Team Name:</label>
-        <input type="text" id="teamName" name="teamName" required>     
-        <label for="district">District:</label>
-        <input type="number" id="district" name="district" required> 
-        <label for="powerRanking">Power Ranking:</label>
-        <input type="number" id="powerRanking" name="powerRanking" required>
-        <label for="teamCaptain">Team Captain:</label>
-        <input type="text" id="teamCaptain" name="teamCaptain" required>
-        <input type="submit" value="Add Team">
-    </form>
+        <span class="close">&times;</span>
+        <form id="addTeamForm" class="modal-content">
+            <label for="teamName">Team Name:</label>
+            <input type="text" id="teamName" name="teamName" required>     
+            <label for="district">District:</label>
+            <input type="number" id="district" name="district" required> 
+            <label for="powerRanking">Power Ranking:</label>
+            <input type="number" id="powerRanking" name="powerRanking" required>
+            <label for="teamCaptain">Team Captain:</label>
+            <input type="text" id="teamCaptain" name="teamCaptain" required>
+            <input type="submit" value="Add Team">
+        </form>
+    </div>
+</div>
+
+<!-- Modal for CSV Upload-->
+<div id="uploadCSVModal" class="modal">
+    <div class="modal-box">
+        <span class="close">&times;</span>
+        <input type="file" name="filename" id="filename">
+        <div class="grid-column-header">
+            <div id="upload_csv_teamName" class="header grid-row-name"><b>Team Name</b></div> 
+            <div id="upload_csv_district" class="header grid-row-district"><b>District</b></div>
+            <div id="upload_csv_powerRanking" class="header grid-row-power-ranking"><b>Power Ranking</b></div>
+        </div> 
+    </div>
 </div>
 
 <script src="/public/js/team_list.js"></script>

@@ -192,6 +192,15 @@
         $('#addTeamModal').hide();
     });
 
+    $('#uploadCSVBtn').click(function() {
+        $('#uploadCSVModal').show();
+    });
+    
+    // Hide modal when "X" is clicked
+    $('.close').click(function() {
+        $('#uploadCSVModal').hide();
+    });
+
     addTeamForm.submit(function(event){
         event.preventDefault();
         
