@@ -43,6 +43,30 @@ let exportedMethods = {
 		return allTeams;
 	},
 
+	//method to check if team already exists for batch import
+	async checkIfTeamExists(teamObj) {
+
+		const teamsCollection = await teams();
+
+		console.log(teamObj);
+		const team = await teamsCollection.findOne(
+			{
+				name: teamObj.teamName,
+				district: teamObj.district,
+			},
+		)
+
+		//if a team does not exist, we return true
+		if(team == null) {
+			return true;
+		}
+
+		//if a team exists, we return false
+		else {
+			return false;
+		}
+	},
+
 	//method to insert team data information
 	async addTeam(teamObj) {
 		let newTeam = {
