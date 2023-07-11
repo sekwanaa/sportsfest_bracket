@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.usersData;
 const poolsData = data.poolsData;
+const teamsData = data.teamsData;
 
 router.get('/:id/:sport', async (req, res) => {
 	let userRole = '';
