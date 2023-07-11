@@ -542,6 +542,7 @@
 				numOfFields: numOfFields,
 				numOfSeedingGames: numOfSeedingGames,
 				numOfPlayoffTeams: numOfPlayoffTeams,
+				scheduleType: null,
 				teams: [],
 				schedule: [],
 				playoffs: [],
