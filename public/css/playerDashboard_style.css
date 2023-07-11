@@ -1,9 +1,32 @@
+/* Universal classes */
+.marginY10 {
+	margin: 10px 0;
+}
+
+.marginY20 {
+	margin: 20px 0;
+}
+
+.marginX10 {
+	margin: 0 10px;
+}
+
+.marginX20 {
+	margin: 0 10px;
+}
+/* universal classes end */
+
 body {
 	background-color: black;
 }
 
 button {
 	padding: 3px;
+}
+
+
+#manageTeamCard input {
+	margin: 20px 0;
 }
 
 #titleDiv {

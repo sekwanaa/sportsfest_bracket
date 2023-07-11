@@ -68,36 +68,42 @@
         <h1 class="cardTitles">Your Current Team</h1>
         {{#unless tournamentJoinedArray}}
             <section id="joinTournament">
-                    <button id="joinTournamentBtn">Join tournament</button>
                     <div id="joinTournamentDiv">
                         <label for="joinTournamentCodeInput">Tournament Code</label>
                         <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
                         <button id="submitTournamentCodeBtn">Submit</button>
                     </div>
+                    <button class= "marginY10" id="joinTournamentBtn">Join tournament</button>
             </section>
         {{/unless}}
-            
-        <section id="joinedTournamentsList">
-            <p>Tournaments joined</p>
-            <div id="tournaments_joined_list">
-                <ul>
-                    {{#each tournamentJoinedArray}} 
-                        <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
-                        {{#each this.sports}}
-                            <p id="{{this._id}}" class="tournamentSport sport_{{../this._id}} hidden">{{this.sport}}</p> 
+        
+        {{#if tournamentJoinedArray}}
+            <section id="joinedTournamentsList">
+                <div id="tournaments_joined_list">
+                    <p>Tournaments joined</p>
+                    <br>
+                    <ul>
+                        {{#each tournamentJoinedArray}} 
+                            <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
+                            {{#each this.sports}}
+                                <p id="{{this._id}}" class="tournamentSport sport_{{../this._id}} hidden">{{this.sport}}</p> 
+                            {{/each}}
                         {{/each}}
-                    {{/each}}
-                </ul>
-            </div>
-            <section id="joinTournament">
-                <button id="joinTournamentBtn">Join tournament</button>
-                <div id="joinTournamentDiv">
-                    <label for="joinTournamentCodeInput">Tournament Code</label>
-                    <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
-                    <button id="submitTournamentCodeBtn">Submit</button>
+                    </ul>
                 </div>
+                <br>
+                <section id="joinTournament">
+                    <div id="joinTournamentDiv">
+                        <label for="joinTournamentCodeInput">Tournament Code</label>
+                        <br>
+                        <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
+                        <button id="submitTournamentCodeBtn">Submit</button>
+                    </div>
+                    <button class= "marginY10" id="joinTournamentBtn">Join tournament</button>
+                </section>
             </section>
-        </section>
+        {{/if}}
+        
         <div id='manageTeamElement' class="hidden">
             <div id="noTeamDiv" class="hidden">
                 <div id="team_sport_name"></div>
@@ -314,17 +320,16 @@
     </div>
 
     <div class="dashboardCards" id="createPool">
-        <h1 class="cardTitles">Create Pool</h1>
+        <h1 class="cardTitles">Create Tournament</h1>
         <div>
             <h3>Your Tournaments</h3>
             {{#each tournamentArray}}
-                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a>
+                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a> - {{this.tournamentCode}}
                 </br>
             {{/each}}
             </br>
         </div>
         <div>
-            <button id="createTournamentBtn">Create tournament</button>
             <div id="submit_tournament_info_div" hidden="true">
                 <button id="submit_tournament_info_button">Submit</button>
             </div>
@@ -354,7 +359,9 @@
                 </form>
                 <button id="previous_button">Previous</button>
                 <button id="next_button">Next</button>
+
             </div>
+                <button class= "marginY10" id="createTournamentBtn">Create tournament</button>
         </div>
     </div>
     {{!-- <script src="/public/js/create_pool.js"></script> --}}

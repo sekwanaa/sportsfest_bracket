@@ -51,10 +51,10 @@
         }
 
         //loop through each input entry in the table, if it's 0 skip, else add team name, district, and updated rank to match obj
-        for (i=0; i<powerRankingInputs.length; i++) { 
+        for (i=0; i<powerRankingInputs.length-1; i++) { 
 
             //if there is no change
-            if ($("#powerRankingInput"+i).val() == 0) { 
+            if (!$("#powerRankingInput"+i).val()) { 
                 continue;
             } 
 
