@@ -112,7 +112,7 @@ router.post('/:id/:sport/round_robin_schedule/', async (req, res) => {
 			);
 		}
 
-		return res.json(roundRobinId);
+		return res.json("done");
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
