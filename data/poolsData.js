@@ -835,8 +835,8 @@ let exportedMethods = {
 		let sportSchedule = [];
 
 		for(let i = 0; i<poolInfo.sports.length; i++) {
-			if(poolInfo.sports[i] == sportName) {
-				const sportInfo = await this.getSportDataById(poolInfo.sports[i]);
+			const sportInfo = await this.getSportDataById(poolInfo.sports[i]);
+			if(sportInfo.sport == sportName) {
 				sportSchedule = sportInfo.schedule;
 				break;
 			}
@@ -866,13 +866,13 @@ let exportedMethods = {
 
 		//FIX: COME BACK AND FIX THIS
 
-		// const createPlayoffs = await this.insertPlayOff();
+		const createPlayoffs = await this.insertPlayOff();
 
-		// const incrementStage = await this.incrementStage();
+		const incrementStage = await this.incrementStage();
 
 		//END FIX
 		
-		return completeRoundRobinGames;
+		return "completeRoundRobinGames";
 	},
 
 	async updateCurrentPlacement(seedNum, placement) {
