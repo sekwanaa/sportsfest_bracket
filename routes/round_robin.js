@@ -124,7 +124,7 @@ router.post('/:id/:sport/round_robin_complete/', async (req, res) => {
 	let sportName = req.params.sport;
 	
 	try {
-		const roundRobinComplete = await poolsData.completeRoundRobin();
+		const roundRobinComplete = await poolsData.completeRoundRobin(tournamentId, sportName);
 		return res.json(roundRobinComplete);
 	} catch (e) {
 		return res.status(500).json({ error: e });

@@ -769,18 +769,49 @@ let exportedMethods = {
 		return seedsIdArray;
 	},
 
-	async completeRoundRobin() {
+	async completeRoundRobin(tournamentId, sportName) {
+
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		let sportSchedule = [];
+
+		for(let i = 0; i<poolInfo.sports.length; i++) {
+			if(poolInfo.sports[i] == sportName) {
+				const sportInfo = await this.getSportDataById(poolInfo.sports[i]);
+				sportSchedule = sportInfo.schedule;
+				break;
+			}
+		}
+
 		const roundRobinCollection = await roundrobin();
 
-		const completeRoundRobinGames = await roundRobinCollection.updateMany(
-			{ complete: false },
-			{ $set: { complete: true } }
-		);
+		for(let i=0; i<sportSchedule.length; i++) {
+			const completeRoundRobinGame = roundRobinCollection.findOneAndUpdate(
+				{
+					_id: new ObjectId(sportSchedule[i]),
+					complete: false,
+				},
+				{
+					$set: {
+						complete: true,
+					}
+				}
+			)
+		}
 
-		const createPlayoffs = await this.insertPlayOff();
+		// const completeRoundRobinGames = await roundRobinCollection.updateMany(
+		// 	{ complete: false },
+		// 	{ $set: { complete: true } }
+		// );
 
-		const incrementStage = await this.incrementStage();
 
+		//FIX: COME BACK AND FIX THIS
+
+		// const createPlayoffs = await this.insertPlayOff();
+
+		// const incrementStage = await this.incrementStage();
+
+		//END FIX
+		
 		return completeRoundRobinGames;
 	},
 
