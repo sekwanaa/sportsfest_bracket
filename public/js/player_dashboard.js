@@ -13,6 +13,9 @@
 	var manageTeamElementBackBtn = $('#manageTeamElementBackBtn');
 	var tournamentSport = $('.tournamentSport');
 
+	//other variables we need
+	var joinedTournamentsList = $('#tournaments_joined_list')
+
 	//joining and creating tournaments variables
 	var createTournamentDiv = $('#createTournamentDiv');
 	var joinTournamentDiv = $('#joinTournamentDiv');
@@ -322,10 +325,12 @@
 			joinTournamentBtn.html('Join tournament');
 			createTournamentBtn.show();
 			joinTournamentDiv.hide();
+			joinedTournamentsList.show()
 		} else {
 			joinTournamentBtn.html('Cancel');
 			createTournamentBtn.hide();
 			joinTournamentDiv.show();
+			joinedTournamentsList.hide()
 			//take current info and put them into input fields
 		}
 	});
