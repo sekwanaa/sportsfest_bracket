@@ -65,19 +65,33 @@ let exportedMethods = {
 		let roundRobinTeamList = [];
 		let teamObj = {};
 
-		//FIX: SHOULD NOT USE ALL TEAMS
-		const allTeams = await teamData.getAllTeams();
-		//END FIX
-
 		const poolsInfo = await this.getPoolInfo(tournamentId);
 
-		//FIX: SPORT INFO COMES FROM SPORTS COLLECTION
-		let numOfFields = poolsInfo.numOfFields;
-		let numOfRoundRobinGames = poolsInfo.seedingGames;
-		let numOfTeams = await teamData.getAllTeamsCount();
+		let teamsId = [];
+		let sportInfo = null;
 
-		// let numOfRefs = poolsInfo.numOfRefs;
-		let numOfRefs = 2;
+		//get sport Info
+		for(let i=0; i<poolsInfo.sports.length; i++) {
+			sportInfo = await this.getSportDataById(poolsInfo.sports[i]);
+			if(sportInfo.sport == sportName) {
+				teamsId = sportInfo.teams;
+				break;
+			}
+		}
+
+		let allTeams = [];
+
+		for(let i=0; i<teamsId.length; i++) {
+			teamInfo = await teamData.getAllTeamsByID(teamsId[i]);
+			console.log(teamInfo);
+			allTeams.push(teamInfo);
+		}
+
+		let numOfFields = sportInfo.numOfFields;
+		let numOfRoundRobinGames = sportInfo.numOfSeedingGames;
+		let numOfTeams = allTeams.length;
+
+		let numOfRefs = sportInfo.numOfRefs;
 		let numOfPlayingTeams = 2;
 
 		//create an array of team Objects
@@ -92,6 +106,8 @@ let exportedMethods = {
 			roundRobinTeamList.push(teamObj);
 			teamObj = {};
 		}
+
+		console.log(roundRobinTeamList);
 
 		let pool = [];
 		let possibleGames = [];
