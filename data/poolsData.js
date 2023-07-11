@@ -1262,6 +1262,31 @@ let exportedMethods = {
 
 		return;
 	},
+
+	async updateSportScheduleType(tournamentId, sportName, scheduleType) {
+		const sportsCollection = await sports();
+
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		
+		for(let i = 0; i<poolInfo.sports.length; i++) {
+			let sportInfo = await this.getSportDataById(poolInfo.sports[i]);
+			if(sportInfo.sport == sportName) {
+				const insertScheduleType = await sportsCollection.findOneAndUpdate(
+					{
+						_id: sportInfo._id
+					},
+					{
+						$set: {
+							scheduleType: scheduleType,
+						}
+					}
+				);
+				return
+			}
+		}
+
+		return;
+	},
 };
 
 module.exports = exportedMethods;

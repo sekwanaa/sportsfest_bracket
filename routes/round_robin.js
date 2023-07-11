@@ -81,27 +81,36 @@ router.post('/', async (req, res) => {
 	}
 });
 
-router.post('/round_robin_schedule/', async (req, res) => {
-	let roundRobinInfo = req.body.roundRobinMatches;
+router.post('/:id/:sport/round_robin_schedule/', async (req, res) => {
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
 
-	let gameNum = roundRobinInfo.gameNum;
-	let team1 = roundRobinInfo.team1;
-	let team2 = roundRobinInfo.team2;
-	let field = roundRobinInfo.field;
-	let complete = roundRobinInfo.complete;
-	let ref1 = roundRobinInfo.ref1;
-	let ref2 = roundRobinInfo.ref2;
+	let roundRobinInfo = req.body.roundRobinMatches;
+	let scheduleType = req.body.scheduleType;
+
+	//insert scheduleType into Tournament
+	const insertScheduleType = await poolsData.updateSportScheduleType(tournamentId, sportName, scheduleType);
 
 	try {
-		const roundRobinId = await poolsData.insertRoundRobin(
-			gameNum,
-			team1,
-			team2,
-			field,
-			complete,
-			ref1,
-			ref2
-		);
+		for(let i = 0; i <roundRobinInfo.length; i++) {
+			let gameNum = roundRobinInfo[i].gameNum;
+			let team1 = roundRobinInfo[i].team1;
+			let team2 = roundRobinInfo[i].team2;
+			let field = roundRobinInfo[i].field;
+			let complete = roundRobinInfo[i].complete;
+			let ref1 = roundRobinInfo[i].ref1;
+			let ref2 = roundRobinInfo[i].ref2;
+
+			const roundRobinId = await poolsData.insertRoundRobin(
+				gameNum,
+				team1,
+				team2,
+				field,
+				complete,
+				ref1,
+				ref2
+			);
+		}
 
 		return res.json(roundRobinId);
 	} catch (e) {

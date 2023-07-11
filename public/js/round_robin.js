@@ -126,7 +126,9 @@
         event.preventDefault();
 
         let numOfGames = parseInt(totalGames.html());
+        let scheduleType = poolSelection.val();
         let matchObj = {};
+        let matchArray = [];
 
         for(i=0; i < numOfGames; i++) {
             matchObj.gameNum = parseInt($('#gameNum'+i).text());
@@ -137,24 +139,28 @@
             matchObj.ref1 = $("#ref1"+i).text();
             matchObj.ref2 = $("#ref2"+i).text();
 
-            try {
-                let req = {
-                    method: 'POST',
-                    url: '/round_robin/round_robin_schedule',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        roundRobinMatches: matchObj,
-                    })
-                };
-                $.ajax(req).then(function (res) {
-                    location.reload();
-                });
-            } 
-            catch (e) {
-                console.log(e)
-            }
-
+            matchArray.push(matchObj);
             matchObj = {};            
+        }
+
+        console.log(window.location.pathname + '/round_robin_schedule')
+        
+        try {
+            let req = {
+                method: 'POST',
+                url: window.location.pathname + '/round_robin_schedule',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    roundRobinMatches: matchArray,
+                    scheduleType: scheduleType,
+                })
+            };
+            $.ajax(req).then(function (res) {
+                location.reload();
+            });
+        } 
+        catch (e) {
+            console.log(e)
         }
     });
 })(window.jQuery);
