@@ -17,11 +17,11 @@
     generaterrBtn.click(function (event) {
 
         let selection = poolSelection.val();
-        console.log(window.location.pathname);
+        // console.log(window.location.pathname);
 
         let url = window.location.pathname.split("/");
 
-        console.log(url);
+        // console.log(url);
 
         let id = url[2];
         let sport = url[3];
