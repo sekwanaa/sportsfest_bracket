@@ -83,7 +83,6 @@ let exportedMethods = {
 
 		for(let i=0; i<teamsId.length; i++) {
 			teamInfo = await teamData.getAllTeamsByID(teamsId[i]);
-			console.log(teamInfo);
 			allTeams.push(teamInfo);
 		}
 
@@ -106,8 +105,6 @@ let exportedMethods = {
 			roundRobinTeamList.push(teamObj);
 			teamObj = {};
 		}
-
-		console.log(roundRobinTeamList);
 
 		let pool = [];
 		let possibleGames = [];
