@@ -76,28 +76,31 @@
                     </div>
             </section>
         {{/unless}}
-            
-        <section id="joinedTournamentsList">
-            <p>Tournaments joined</p>
-            <div id="tournaments_joined_list">
-                <ul>
-                    {{#each tournamentJoinedArray}} 
-                        <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
-                        {{#each this.sports}}
-                            <p id="{{this._id}}" class="tournamentSport sport_{{../this._id}} hidden">{{this.sport}}</p> 
+        
+        {{#if tournamentJoinedArray}}
+            <section id="joinedTournamentsList">
+                <p>Tournaments joined</p>
+                <div id="tournaments_joined_list">
+                    <ul>
+                        {{#each tournamentJoinedArray}} 
+                            <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
+                            {{#each this.sports}}
+                                <p id="{{this._id}}" class="tournamentSport sport_{{../this._id}} hidden">{{this.sport}}</p> 
+                            {{/each}}
                         {{/each}}
-                    {{/each}}
-                </ul>
-            </div>
-            <section id="joinTournament">
-                <button id="joinTournamentBtn">Join tournament</button>
-                <div id="joinTournamentDiv">
-                    <label for="joinTournamentCodeInput">Tournament Code</label>
-                    <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
-                    <button id="submitTournamentCodeBtn">Submit</button>
+                    </ul>
                 </div>
+                <section id="joinTournament">
+                    <button id="joinTournamentBtn">Join tournament</button>
+                    <div id="joinTournamentDiv">
+                        <label for="joinTournamentCodeInput">Tournament Code</label>
+                        <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
+                        <button id="submitTournamentCodeBtn">Submit</button>
+                    </div>
+                </section>
             </section>
-        </section>
+        {{/if}}
+        
         <div id='manageTeamElement' class="hidden">
             <div id="noTeamDiv" class="hidden">
                 <div id="team_sport_name"></div>
@@ -314,11 +317,11 @@
     </div>
 
     <div class="dashboardCards" id="createPool">
-        <h1 class="cardTitles">Create Pool</h1>
+        <h1 class="cardTitles">Create Tournament</h1>
         <div>
             <h3>Your Tournaments</h3>
             {{#each tournamentArray}}
-                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a>
+                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a> - {{this.tournamentCode}}
                 </br>
             {{/each}}
             </br>
