@@ -65,9 +65,13 @@ let exportedMethods = {
 		let roundRobinTeamList = [];
 		let teamObj = {};
 
+		//FIX: SHOULD NOT USE ALL TEAMS
 		const allTeams = await teamData.getAllTeams();
+		//END FIX
+
 		const poolsInfo = await this.getPoolInfo(tournamentId);
 
+		//FIX: SPORT INFO COMES FROM SPORTS COLLECTION
 		let numOfFields = poolsInfo.numOfFields;
 		let numOfRoundRobinGames = poolsInfo.seedingGames;
 		let numOfTeams = await teamData.getAllTeamsCount();
