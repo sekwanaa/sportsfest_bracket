@@ -12,9 +12,15 @@
 	var tournamentLink = $('.tournamentLink');
 	var manageTeamElementBackBtn = $('#manageTeamElementBackBtn');
 	var tournamentSport = $('.tournamentSport');
+	var reviewTournamentButton = $('#review_tournament_info_button');
+	var submitTournamentButton = $('#submit_tournament_button')
 
 	//other variables we need
+	var reviewTournamentDiv = $('#review_tournament_info_div')
 	var joinedTournamentsList = $('#tournaments_joined_list')
+	var tournamentSummaryInfo = $('#summaryInfo')
+	var tournamentSummaryInfoSports = $('#summaryInfoSports')
+	var yourTournamentsList = $('#yourTournaments')
 
 	//joining and creating tournaments variables
 	var createTournamentDiv = $('#createTournamentDiv');
@@ -24,9 +30,9 @@
 	let createTournamentArray = [];
 	let sportsListArray = [];
 	var sportsQuestionsDiv = $('#create_tournament_sports_questions');
+	var tournamentSummary = $('#tournament_summary')
 	createTournamentArray.push(sportsQuestionsDiv);
 	var createTournamentPageCounter = 0;
-	var submitTournamentButton = $('#submit_tournament_info_div');
 
 	//initialize items for editing team
 	var editTeamButton = $('#edit_team_btn');
@@ -309,10 +315,12 @@
 			createTournamentBtn.html('Create tournament');
 			joinTournamentBtn.show();
 			createTournamentDiv.hide();
+			yourTournamentsList.show()
 		} else {
 			createTournamentBtn.html('Cancel');
 			joinTournamentBtn.hide();
 			createTournamentDiv.show();
+			yourTournamentsList.hide()
 			//take current info and put them into input fields
 		}
 	});
@@ -461,6 +469,7 @@
 
 			sportsListDiv.hide();
 
+
 			for (let i = 0; i < sportsCheckList.length; i++) {
 				if (sportsCheckList[i].checked == true) {
 					sportsQuestionsDiv.append(
@@ -493,16 +502,24 @@
 					sportsListArray.push(tmpSportsListItem);
 				}
 			}
-			createTournamentArray.push(submitTournamentButton);
+			
+			createTournamentArray.push(submitTournamentButton)
+			
 			//show first sports question div
+			console.log(createTournamentPageCounter)
 			createTournamentPageCounter++;
 			createTournamentArray[createTournamentPageCounter].show();
-		} else if (createTournamentPageCounter >= createTournamentArray.length - 1) {
+		} else if (createTournamentPageCounter >= createTournamentArray.length - 2) {
 			createTournamentArray[createTournamentPageCounter].hide();
+			console.log(createTournamentPageCounter, "Last page")
+			submitTournamentButton.removeClass('hidden')
+			reviewTournamentDiv.removeClass('hidden')
+			tournamentNextBtn.hide()
 			createTournamentPageCounter++;
 			createTournamentArray[createTournamentPageCounter].show();
 		} else {
 			createTournamentArray[createTournamentPageCounter].hide();
+			console.log(createTournamentPageCounter)
 			createTournamentPageCounter++;
 			createTournamentArray[createTournamentPageCounter].show();
 		}
@@ -513,9 +530,48 @@
 		if (createTournamentPageCounter > 1) {
 			createTournamentArray[createTournamentPageCounter].hide();
 			createTournamentPageCounter--;
+			tournamentNextBtn.show()
 			createTournamentArray[createTournamentPageCounter].show();
 		}
 	});
+
+	reviewTournamentButton.click(event => {
+		event.preventDefault()
+		var sportsCheckList = $('.sports_list_input');
+
+		if (reviewTournamentButton.html() == 'Cancel') {
+			reviewTournamentButton.html('Review Tournament');
+			tournamentSummaryInfo.empty()
+			tournamentSummaryInfoSports.empty()
+			tournamentSummary.toggleClass("hidden")
+		} else {
+			reviewTournamentButton.html('Cancel');
+			tournamentSummaryInfo.append(
+				'<h3>Tournament Name</h3>\
+				<p>'+$('#tournament_name').val()+'</p>\
+				<br>\
+				<h3>Tournament Privacy</h3>\
+				<p>'+$('#privacy_question').val()+'</p>'
+			)
+	
+			for (let i = 0; i<sportsCheckList.length; i++) {
+				if (sportsCheckList[i].checked == true) {
+					tournamentSummaryInfoSports.append(
+						'<div class="sports_question_summary_div">\
+						<h3>'+sportsCheckList[i].value+'</h3>\
+						<h5>How many games will each team play?</h5>\
+						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_seedingGames').val()+'</p>\
+						<h5>How many games will each team play?</h5>\
+						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfFields').val()+'</p>\
+						<h5>How many games will each team play?</h5>\
+						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfPlayOffTeams').val()+'</p>\
+						</div>'
+					)
+				}}
+			tournamentSummary.toggleClass("hidden")
+		}
+		
+	})
 
 	//submit tournament info
 	submitTournamentButton.click(event => {
@@ -568,7 +624,7 @@
 			};
 			$.ajax(req).then(function (res) {
 				//page reload on submit
-				// location.reload();
+				location.reload();
 			});
 		} catch (e) {
 			console.log(e);

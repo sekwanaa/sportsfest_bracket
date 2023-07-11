@@ -321,7 +321,7 @@
 
     <div class="dashboardCards" id="createPool">
         <h1 class="cardTitles">Create Tournament</h1>
-        <div>
+        <div id="yourTournaments">
             <h3>Your Tournaments</h3>
             {{#each tournamentArray}}
                 <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a> - {{this.tournamentCode}}
@@ -330,8 +330,17 @@
             </br>
         </div>
         <div>
-            <div id="submit_tournament_info_div" hidden="true">
-                <button id="submit_tournament_info_button">Submit</button>
+            <div id="review_tournament_info_div" class="hidden">
+                <button id="review_tournament_info_button">Review Tournament</button>
+                <div class='hidden' id="tournament_summary">
+                    <h1>Tournament Summary</h1>
+                    <section id="summaryInfo">
+
+                    </section>
+                    <section id="summaryInfoSports">
+                        
+                    </section>
+                </div>
             </div>
             <div id="createTournamentDiv">
                 <form id="create_tournament_form">
@@ -362,6 +371,7 @@
 
             </div>
                 <button class= "marginY10" id="createTournamentBtn">Create tournament</button>
+                <button class="hidden" id="submit_tournament_button">Submit</button>
         </div>
     </div>
     {{!-- <script src="/public/js/create_pool.js"></script> --}}

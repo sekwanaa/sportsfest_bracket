@@ -394,4 +394,13 @@ section#edit_team_display_card > div {
 
 /* create pool styling */
 
+#summaryInfoSports {
+	max-height: 200px;
+	overflow-y: scroll;
+}
+
+/* .sports_question_summary_div {
+	color: blue
+} */
+
 /* create pool end */
