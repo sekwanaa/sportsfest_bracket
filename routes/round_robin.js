@@ -26,7 +26,7 @@ router.get('/:id/:sport', async (req, res) => {
 			const player = await teamsData.getPlayerByUserId(user._id.toString());
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
-			rounds = await poolsData.getRoundRobinSchedule();
+			rounds = await poolsData.getRoundRobinSchedule(tournamentId, sportName);
 
 			if (rounds.length > 0) {
 				isRounds = true;

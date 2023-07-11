@@ -717,13 +717,32 @@ let exportedMethods = {
 		return stage;
 	},
 
-	async getRoundRobinSchedule() {
+	async getRoundRobinSchedule(tournamentId, sportName) {
+		
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		let sportInfo = null;
+		let roundRobinIds = [];
+
+		for(let i=0; i < poolInfo.sports.length; i++) {
+			sportInfo = await this.getSportDataById(poolInfo.sports[i]);
+			if(sportInfo.sport == sportName) {
+				roundRobinIds = sportInfo.schedule;
+				break;
+			}
+		}
+
 		const roundRobinCollection = await roundrobin();
 
-		const roundRobinSchedule = await roundRobinCollection
-			.find({})
-			.sort({ gameNum: 1, field: 1 })
-			.toArray();
+		let roundRobinSchedule = [];
+
+		for(let i=0; i<roundRobinIds.length; i++) {
+			const roundRobinGameInfo = await roundRobinCollection.findOne(
+				{
+					_id: new ObjectId(roundRobinIds[i]),
+				},
+			)
+			roundRobinSchedule.push(roundRobinGameInfo);
+		}
 
 		return roundRobinSchedule;
 	},
