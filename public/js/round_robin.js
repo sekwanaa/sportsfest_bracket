@@ -75,10 +75,12 @@
         completeRoundRobinBtn.click(function (event) {
             event.preventDefault();
 
+            // console.log(window.location.pathname + '/round_robin_schedule')
+            
             try {
                 let req = {
                     method: 'POST',
-                    url: '/round_robin/round_robin_complete',
+                    url: window.location.pathname + '/round_robin_complete',
                     contentType: 'application/json',
                     data: JSON.stringify({
     
@@ -143,7 +145,7 @@
             matchObj = {};            
         }
 
-        console.log(window.location.pathname + '/round_robin_schedule')
+        // console.log(window.location.pathname + '/round_robin_schedule')
         
         try {
             let req = {

@@ -118,7 +118,11 @@ router.post('/:id/:sport/round_robin_schedule/', async (req, res) => {
 	}
 });
 
-router.post('/round_robin_complete/', async (req, res) => {
+router.post('/:id/:sport/round_robin_complete/', async (req, res) => {
+
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
+	
 	try {
 		const roundRobinComplete = await poolsData.completeRoundRobin();
 		return res.json(roundRobinComplete);
