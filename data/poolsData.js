@@ -248,7 +248,35 @@ let exportedMethods = {
 		const insertRoundRobin = await roundRobinCollection.insertOne(newRoundRobin);
 		const roundRobinId = insertRoundRobin.insertedId.toString();
 
+		console.log(roundRobinId)
+
 		return roundRobinId;
+	},
+
+	//method to insert roundRobin Id into respective sport collection
+	async addRoundRobinToSport(tournamentId, sportName, roundRobinId) {
+		const sportsCollection = await sports();
+
+		const poolInfo = await this.getPoolInfo(tournamentId);
+
+		for(let i = 0; i<poolInfo.sports.length; i++) {
+			let sportInfo = await this.getSportDataById(poolInfo.sports[i]);
+			if(sportInfo.sport == sportName) {
+				const insertScheduleType = await sportsCollection.findOneAndUpdate(
+					{
+						_id: sportInfo._id
+					},
+					{
+						$push: {
+							schedule: roundRobinId,
+						}
+					}
+				);
+				return
+			}
+		}
+
+		return;
 	},
 
 	//method to insert finalized playoff schedule
