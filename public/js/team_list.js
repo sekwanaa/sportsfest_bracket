@@ -214,12 +214,12 @@
                 data: JSON.stringify({
                     teamArray: {
                         teamName: $("#teamName").val(),
-                        district: $("#district").val(),
+                        district: parseInt($("#district").val()),
                         players: [],
                         teamCaptain: {
                             name: $("#teamCaptain").val(),
                         },
-                        powerRanking: $("#powerRanking").val(),  
+                        powerRanking: parseInt($("#powerRanking").val()),  
                     }
                 })
             };
