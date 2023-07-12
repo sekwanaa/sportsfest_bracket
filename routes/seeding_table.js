@@ -66,7 +66,7 @@ router.get('/:id/:sport', async (req, res) => {
 			}
 		}
 
-		const matchHistory = await matchesData.getTeamRecords();
+		const matchHistory = await matchesData.getTeamRecords(tournamentId, sportName);
 		const seedsInfo = await poolsData.getAllSeeds();
 
 		let isStage1 = true;

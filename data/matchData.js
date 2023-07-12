@@ -36,9 +36,27 @@ let exportedMethods = {
         return matchId;
     },
 
-    async getTeamRecords() {
+    async getTeamRecords(tournamentId, sportName) {
 
-        const allTeams = await teamData.getAllTeams();
+        // const allTeams = await teamData.getAllTeams();
+        let allTeams = []
+        let teamsList = [];
+        
+        const poolInfo = await poolsData.getPoolInfo(tournamentId);
+
+        for(let i=0; i<poolInfo.sports.length; i++) {
+            let sportsInfo = await poolsData.getSportDataById(poolInfo.sports[i])
+            if(sportsInfo.sport == sportName) {
+                teamsList = sportsInfo.teams;
+                break;
+            }
+        }
+
+        for(let i =0; i<teamsList.length; i++) {
+            let team = await teamData.getAllTeamsByID(teamsList[i]);
+            allTeams.push(team);
+        }
+        
         const matchesCollection = await matches();
 
         let matchHistory = [];
