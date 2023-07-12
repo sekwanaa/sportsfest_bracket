@@ -68,7 +68,7 @@ const teamsData = data.teamsData;
 
 router.get('/:id/:sport', async (req, res) => {
 	let tournamentId = req.params.id;
-	let sportName = req.params.id;
+	let sportName = req.params.sport;
 
 	try {
 		let userRole = '';
@@ -83,8 +83,18 @@ router.get('/:id/:sport', async (req, res) => {
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 		}
 
+		let numOfFields = null;
+
 		let poolInfo = await poolsData.getPoolInfo(tournamentId);
-		let numOfFields = poolInfo.numOfFields;
+
+		for(let i=0; i<poolInfo.sports.length; i++) {
+			const sportInfo = await poolsData.getSportDataById(poolInfo.sports[i]);
+			if(sportInfo.sport == sportName) {
+				numOfFields = sportInfo.numOfFields;
+				break;
+			}
+		}
+		
 		let courtArray = [];
 		let courtObj = {};
 		let courtData = '';
