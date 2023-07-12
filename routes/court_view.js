@@ -141,19 +141,11 @@ router.get('/:id/:sport', async (req, res) => {
 
 router.post('/:id/:sport/', async (req, res) => {
 	const matchInfo = req.body;
+	matchInfo.month = new Date().getMonth()+1;
+	matchInfo.day = new Date().getDate();
+	matchInfo.year = new Date().getFullYear(); // gets the current year, court view can only submit current year scores
 
-	const insertMatch = await matchesData.insertMatch(
-		matchInfo.fieldNum,
-		matchInfo.team1,
-		matchInfo.team2,
-		matchInfo.score1,
-		matchInfo.score2,
-		matchInfo.winner,
-		matchInfo.loser,
-		matchInfo.winnerPointDifferential,
-		matchInfo.loserPointDifferential,
-		(matchInfo.year = new Date().getFullYear().toString()) // gets the current year, court view can only submit current year scores
-	);
+	const insertMatch = await matchesData.insertMatch(matchInfo);
 
 	return res.json(insertMatch);
 });
