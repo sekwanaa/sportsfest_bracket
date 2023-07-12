@@ -50,20 +50,17 @@ router.get('/:id/:sport', async (req, res) => {
 
 	try {
 		let userRole = '';
+		let user = null;
+		
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
 
 		if (req.oidc.isAuthenticated()) {
 			const email = req.oidc.user.name;
 
-			const user = await userData.getUserByEmail(email);
+			user = await userData.getUserByEmail(email);
 			userRole = user.user_metadata.role;
 			const player = await teamsData.getPlayerByUserId(user._id.toString());
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
-
-			const poolInfo = await poolsData.getPoolInfo(tournamentId);
-
-			if (user._id.toString() == poolInfo.coordinator) {
-				tournamentCoordinator = true;
-			}
 		}
 
 		const matchHistory = await matchesData.getTeamRecords(tournamentId, sportName);
@@ -74,11 +71,9 @@ router.get('/:id/:sport', async (req, res) => {
 			isStage1 = false;
 		}
 
-		const poolInfo = await poolsData.getPoolInfo(tournamentId);
-
 		if (user._id.toString() == poolInfo.coordinator) {
 			tournamentCoordinator = true;
-		}
+		}		
 
 		res.render('partials/seeding_table', {
 			title: 'Seeding Table',

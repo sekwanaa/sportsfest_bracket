@@ -775,20 +775,30 @@ let exportedMethods = {
 	async getAllSeeds(placement) {
 		let currentPlacement = 0;
 
+		
+
 		const seedsCollection = await seeds();
 
 		if (placement == 'eliminated') {
 			const seedData = await seedsCollection.find({ currentPlacement: { $lt: 0 } }).toArray();
 			return seedData;
-		} else {
+		} 
+		
+		else {
 			if (placement == 'playoffs') {
 				currentPlacement = 1;
-			} else if (placement == 'quarters') {
+			} 
+			else if (placement == 'quarters') {
 				currentPlacement = 2;
-			} else if (placement == 'semis') {
+			} 
+			else if (placement == 'semis') {
 				currentPlacement = 3;
-			} else if (placement == 'finals') {
+			} 
+			else if (placement == 'finals') {
 				currentPlacement = 4;
+			}
+			else {
+				currentPlacement = currentPlacement;
 			}
 
 			const seedData = await seedsCollection
