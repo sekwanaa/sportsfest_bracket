@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const mongoCollection = require('../config/mongoCollections')
+const sportslist = mongoCollection.sportslist
 const data = require('../data');
+const { ObjectId } = require('mongodb');
 const userData = data.usersData;
 const poolsData = data.poolsData;
 const teamsData = data.teamsData;
@@ -12,7 +15,13 @@ router.get('/:id', async (req, res) => {
 	let tournamentJoinedArray = [];
 
 	let userRole = '';
-	let sports = ['volleyball', 'frisbee', 'basketball', 'soccer'];
+	let tournamentData = await poolsData.getPoolInfo(tournamentId)
+	let sportsIds = tournamentData.sports
+	let sportsData = await Promise.all(sportsIds.map(async (id) => {
+		const sportsData = await poolsData.getSportDataById(id)
+		return sportsData
+	}))
+	let sports = sportsData.map(sport => sport.sport)
 
 	if (req.oidc.isAuthenticated()) {
 		const email = req.oidc.user.name;
