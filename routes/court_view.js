@@ -139,7 +139,7 @@ router.get('/:id/:sport', async (req, res) => {
 	}
 });
 
-router.post('/', async (req, res) => {
+router.post('/:id/:sport/', async (req, res) => {
 	const matchInfo = req.body;
 
 	const insertMatch = await matchesData.insertMatch(
@@ -158,7 +158,7 @@ router.post('/', async (req, res) => {
 	return res.json(insertMatch);
 });
 
-router.post('/get_current_game', async (req, res) => {
+router.post('/:id/:sport/get_current_game', async (req, res) => {
 	const fieldNum = req.body.fieldNum;
 
 	const currentGame = await courtviewData.getCurrentGameData(fieldNum);
@@ -166,7 +166,7 @@ router.post('/get_current_game', async (req, res) => {
 	return res.json(currentGame);
 });
 
-router.post('/playoff', async (req, res) => {
+router.post('/:id/:sport/playoff', async (req, res) => {
 	const matchInfo = req.body;
 	const fieldNum = matchInfo.fieldNum;
 
