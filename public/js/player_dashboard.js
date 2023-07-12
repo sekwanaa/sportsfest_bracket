@@ -561,9 +561,9 @@
 						<h3>'+sportsCheckList[i].value+'</h3>\
 						<h5>How many games will each team play?</h5>\
 						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_seedingGames').val()+'</p>\
-						<h5>How many games will each team play?</h5>\
+						<h5>How many fields will be used?</h5>\
 						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfFields').val()+'</p>\
-						<h5>How many games will each team play?</h5>\
+						<h5>How many teams will make it to playoffs?</h5>\
 						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfPlayOffTeams').val()+'</p>\
 						</div>'
 					)
