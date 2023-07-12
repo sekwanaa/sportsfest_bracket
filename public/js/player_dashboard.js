@@ -476,29 +476,29 @@
 						'<div id="sports_questions_' +
 							sportsCheckList[i].value +
 							'" class="sports_questions_class" hidden="true">\
-              <h3 id="sports_questions_' +
+                <h3 id="sports_questions_' +
 							sportsCheckList[i].value +
 							'_sport">' +
 							sportsCheckList[i].value +
 							'</h3>\
-              </br>\
-              <p>How many games will each team play?</p>\
-              <input id="sports_questions_' +
+                </br>\
+                <p>How many games will each team play?</p>\
+                <input id="sports_questions_' +
 							sportsCheckList[i].value +
 							'_seedingGames" type="number" required>\
-              <p>How many fields will be used?</p>\
-              <input id="sports_questions_' +
+                <p>How many fields will be used?</p>\
+                <input id="sports_questions_' +
 							sportsCheckList[i].value +
 							'_numOfFields" type="number" required>\
-              <p>How many teams will make it to playoffs?</p>\
-              <input id="sports_questions_' +
+                <p>How many teams will make it to playoffs?</p>\
+                <input id="sports_questions_' +
 							sportsCheckList[i].value +
 							'_numOfPlayOffTeams" type="number" required>\
-              </br></br>\
-			  <p>How many refs per game?</p>\
-              <input id="sports_questions_' +
+							<p>How many refs per game?</p>\
+							<input id="sports_questions_' +
 							sportsCheckList[i].value +
 							'_numOfRefs" type="number" required>\
+				</br></br>\
             </div>'
 					);
 					var tmpSportsListItem = $('#sports_questions_' + sportsCheckList[i].value + '');
