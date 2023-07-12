@@ -495,6 +495,10 @@
 							sportsCheckList[i].value +
 							'_numOfPlayOffTeams" type="number" required>\
               </br></br>\
+			  <p>How many refs per game?</p>\
+              <input id="sports_questions_' +
+							sportsCheckList[i].value +
+							'_numOfRefs" type="number" required>\
             </div>'
 					);
 					var tmpSportsListItem = $('#sports_questions_' + sportsCheckList[i].value + '');
@@ -565,6 +569,8 @@
 						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfFields').val()+'</p>\
 						<h5>How many teams will make it to playoffs?</h5>\
 						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfPlayOffTeams').val()+'</p>\
+						<h5>How many refs per game?</h5>\
+						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfRefs').val()+'</p>\
 						</div>'
 					)
 				}}
@@ -597,12 +603,14 @@
 			let numOfFields = parseInt($('#' + sportsListString + '_numOfFields').val());
 			let numOfSeedingGames = parseInt($('#' + sportsListString + '_seedingGames').val());
 			let numOfPlayoffTeams = parseInt($('#' + sportsListString + '_numOfPlayOffTeams').val());
+			let numOfRefs = parseInt($('#' + sportsListString + '_numOfRefs').val())
 
 			let tmpSportObj = {
 				sport: sportName,
 				numOfFields: numOfFields,
 				numOfSeedingGames: numOfSeedingGames,
 				numOfPlayoffTeams: numOfPlayoffTeams,
+				numOfRefs: numOfRefs,
 				scheduleType: null,
 				teams: [],
 				schedule: [],
