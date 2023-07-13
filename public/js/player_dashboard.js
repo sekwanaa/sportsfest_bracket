@@ -14,8 +14,10 @@
 	var tournamentSport = $('.tournamentSport');
 	var reviewTournamentButton = $('#review_tournament_info_button');
 	var submitTournamentButton = $('#submit_tournament_button')
+	var tournamentJoinedBackBtn = $('#tournaments_joined_back_btn')
 
 	//other variables we need
+	var tournamentTitle = $('#tournamentTitle')
 	var reviewTournamentDiv = $('#review_tournament_info_div')
 	var joinedTournamentsList = $('#tournaments_joined_list')
 	var tournamentSummaryInfo = $('#summaryInfo')
@@ -368,15 +370,31 @@
 	});
 
 	// tournamentSport.addClass('hidden');
+	tournamentJoinedBackBtn.addClass("hidden")
 
 	tournamentLink.click(event => {
 		event.preventDefault();
+		tournamentTitle[0].innerHTML = event.target.innerHTML
+		joinTournamentBtn.addClass("hidden")
+		tournamentJoinedBackBtn.removeClass("hidden")
 		tournamentLink.addClass('hidden');
+		
 		// tournamentSport.removeClass('hidden');
 
 		var showSportsForTournament = $(".sport_"+event.target.id);
 		showSportsForTournament.removeClass('hidden');
 	});
+
+	tournamentJoinedBackBtn.click(event => {
+		event.preventDefault()
+		tournamentTitle[0].innerHTML = "Tournaments Joined"
+		joinTournamentBtn.removeClass("hidden")
+		tournamentJoinedBackBtn.addClass("hidden")
+		tournamentLink.removeClass('hidden');
+
+		var showSportsForTournament = $(".tournamentSport");
+		showSportsForTournament.addClass('hidden');
+	})
 
 	tournamentSport.click(event => {
 		event.preventDefault();

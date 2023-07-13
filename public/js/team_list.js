@@ -1,5 +1,4 @@
 (function($) {
-    $("#tournamentList").toggleClass("hidden")
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
     
     let editBtn = $("#editTeamsBtn");
@@ -18,23 +17,30 @@
         powerRankingInputs[i].hide()
     }
 
+    submitPowerRankingBtn.addClass("hidden")
     editBtn.click(function (event) {
         count += 1
         if(editBtn.html() === "Cancel") {
             editBtn.html("Edit Teams");
+            submitPowerRankingBtn.addClass("hidden")
+
         }
         else {
             editBtn.html("Cancel");
+            submitPowerRankingBtn.removeClass("hidden")
+
         }
         if (count%2==0) { //on second click
             for (j=0; j<powerRankingInputs.length; j++) {
                 currentPowerRankingArr[j].show()
                 powerRankingInputs[j].hide()
+
             }
         } else { //on first click
             for (k=0; k<powerRankingInputs.length; k++) {
                 powerRankingInputs[k].show()
                 currentPowerRankingArr[k].hide()
+
             }   
         }
     });
