@@ -1,4 +1,5 @@
 (function ($) {
+	var baseUrl = window.location.pathname + " ";
 	$('#sportsActiveDropdownMenu').toggleClass('hidden sportsActive');
 
 	$(':button').click(function (event) {
@@ -37,7 +38,7 @@
 		try {
 			let req = {
 				method: 'POST',
-				url: '/court_view',
+				url: baseUrl,
 				contentType: 'application/json',
 				data: JSON.stringify({
 					team1: team1,

@@ -619,6 +619,7 @@
 				scheduleType: null,
 				teams: [],
 				schedule: [],
+				matchHistory: [],
 				playoffs: [],
 			};
 			sportsPool.push(tmpSportObj);

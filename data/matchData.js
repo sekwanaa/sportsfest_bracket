@@ -13,25 +13,21 @@ let exportedMethods = {
         return allMatches;
     },
 
-    async insertMatch(fieldNum, team1, team2, score1, score2, winner, loser, winnerPointDifferential, loserPointDifferential, year) {
+    async insertMatch(newMatch, tournamentId, sportName) {
         const matchesCollection = await matches();
-
-        let newMatch = {
-            team1: team1,
-            team2: team2,
-            score1: score1,
-            score2: score2,
-            winner: winner,
-            loser: loser,
-            winnerPointDifferential: winnerPointDifferential,
-            loserPointDifferential: loserPointDifferential,
-            year: year,
-        };
 
         const insertMatch = await matchesCollection.insertOne(newMatch);
         const matchId = insertMatch.insertedId.toString();
 
-        const completeMatch = await poolsData.completeMatch(fieldNum, team1, team2, winner, loser);
+        const poolInfo = await poolsData.getPoolInfo(tournamentId);
+        for(let i=0; i<poolInfo.sports.length; i++) {
+            let sportData = await poolsData.getSportDataById(poolInfo.sports[i]);
+            if(sportData.sport == sportName) {
+                let insertIntoSportMatchHistory = await poolsData.insertIntoSportMatchHistory(matchId, sportData._id);
+            }
+        }
+
+        const completeMatch = await poolsData.completeMatch(newMatch.fieldNum, newMatch.team1, newMatch.team2, newMatch.winner, newMatch.loser, tournamentId, sportName);
 
         return matchId;
     },
