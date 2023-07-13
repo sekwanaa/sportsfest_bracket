@@ -35,9 +35,9 @@ let exportedMethods = {
 		return poolId;
 	},
 
-	async incrementStage() {
+	async incrementStage(tournamentId) {
 		const poolsCollection = await pools();
-		const incrementPoolStage = await poolsCollection.findOneAndUpdate({}, { $inc: { stage: 1 } });
+		const incrementPoolStage = await poolsCollection.findOneAndUpdate({_id: new ObjectId(tournamentId)}, { $inc: { stage: 1 } });
 
 		return;
 	},
@@ -280,11 +280,14 @@ let exportedMethods = {
 	},
 
 	//method to insert finalized playoff schedule
-	async insertPlayOff() {
-		const numOfTeams = await teamData.getAllTeamsCount();
+	async insertPlayOff(tournamentId, sportName) {
 
-		const poolInfo = await this.getPoolInfo();
-		const numOfFields = poolInfo.numOfFields;
+		const poolInfo = await this.getPoolInfo(tournamentId);
+
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
+		
+		const numOfFields = sportInfo.numOfFields;
+		const numOfTeams = await sportInfo.teams.length;
 
 		let numOfSeeds = Math.floor(0.6 * numOfTeams);
 		let numOfPlayoffTeams = (numOfSeeds * 2) / 3;
@@ -866,9 +869,9 @@ let exportedMethods = {
 
 		//FIX: COME BACK AND FIX THIS
 
-		const createPlayoffs = await this.insertPlayOff();
+		const createPlayoffs = await this.insertPlayOff(tournamentId, sportName);
 
-		const incrementStage = await this.incrementStage();
+		const incrementStage = await this.incrementStage(tournamentId);
 
 		//END FIX
 		
@@ -1379,6 +1382,17 @@ let exportedMethods = {
 
 		return;
 	},
+
+	async getSportInfo(sportsArray, sportName) {
+		for(let i=0; i<sportsArray.length; i++) {
+			const sportData = await this.getSportDataById(sportsArray[i]);
+			if(sportData.sport == sportName) {
+				return sportData;
+			}
+		}
+
+		return null;
+	}
 };
 
 module.exports = exportedMethods;
