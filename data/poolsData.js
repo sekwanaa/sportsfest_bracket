@@ -1403,7 +1403,7 @@ let exportedMethods = {
 		}
 
 		return null;
-	}
+	},
 
 	async insertIntoSportMatchHistory(matchId, sportId) {
 		const sportsCollection = await sports();
