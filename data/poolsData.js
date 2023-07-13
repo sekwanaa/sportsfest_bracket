@@ -279,18 +279,36 @@ let exportedMethods = {
 		return;
 	},
 
+	async insertIntoSportPlayOffs(sportId, playOffId) {
+		const sportsCollection = await sports();
+
+		console.log("this");
+
+		const insertIntoSport = await sportsCollection.findOneAndUpdate(
+			{
+				_id: sportId,
+			},
+			{
+				$push: {
+					playoffs: playOffId,
+				}
+			}
+		)
+		
+		return;
+	},
+
 	//method to insert finalized playoff schedule
 	async insertPlayOff(tournamentId, sportName) {
 
 		const poolInfo = await this.getPoolInfo(tournamentId);
-
 		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 		
 		const numOfFields = sportInfo.numOfFields;
 		const numOfTeams = await sportInfo.teams.length;
 
 		let numOfSeeds = Math.floor(0.6 * numOfTeams);
-		let numOfPlayoffTeams = (numOfSeeds * 2) / 3;
+		let numOfPlayoffTeams = sportInfo.numOfPlayoffTeams;
 
 		let finalizedSeed = [];
 		let matchObj = {};
@@ -298,16 +316,20 @@ let exportedMethods = {
 		let fieldCount = 0;
 		let gamesCount = 0;
 
-		const seedsCollection = await seeds();
+		// const seedsCollection = await seeds();
 		const playoffsCollection = await playoffs();
 
 		let insertPlayOffGame = null;
 		let playOffId = null;
 
-		const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
+
+		const seedData = await this.returnSeeds(sportInfo.seeds);
+
+		// console.log(seedData);
+		// const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
 
 		for (
-			i = seedData.length - numOfPlayoffTeams;
+			let i = seedData.length - numOfPlayoffTeams;
 			i < seedData.length - numOfPlayoffTeams + numOfPlayoffTeams / 2;
 			i++
 		) {
@@ -322,6 +344,8 @@ let exportedMethods = {
 
 			insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
 			playOffId = insertPlayOffGame.insertedId.toString();
+
+			const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);
 
 			fieldCount++;
 			fieldCount = fieldCount % numOfFields;
@@ -357,6 +381,8 @@ let exportedMethods = {
 
 			insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
 			playOffId = insertPlayOffGame.insertedId.toString();
+
+			const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);
 
 			fieldCount++;
 			fieldCount = fieldCount % numOfFields;
@@ -409,6 +435,8 @@ let exportedMethods = {
 
 			insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
 			playOffId = insertPlayOffGame.insertedId.toString();
+
+			const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);
 
 			fieldCount += 1;
 			fieldCount = fieldCount % numOfFields;
@@ -472,6 +500,8 @@ let exportedMethods = {
 
 			insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
 			playOffId = insertPlayOffGame.insertedId.toString();
+
+			const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);
 
 			fieldCount += 1;
 			fieldCount = fieldCount % numOfFields;
@@ -750,9 +780,7 @@ let exportedMethods = {
 		return roundRobinSchedule;
 	},
 
-	async getPlayOffTeams(numOfSeeds, startSeed, endSeed, seedIdArray) {
-		let playOffTeamsArray = [];
-		let playOffGame = {};
+	async returnSeeds(seedIdArray) {
 
 		const seedsCollection = await seeds();
 
@@ -763,8 +791,19 @@ let exportedMethods = {
 		}
 
 		tmpSeeds = tmpSeeds.sort((a, b) => (a.seed > b.seed) ? 1 : (a.seed < b.seed) ? -1 : 0)
+		
+		return tmpSeeds;
+	},
 
-		const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
+	async getPlayOffTeams(numOfSeeds, startSeed, endSeed, seedIdArray) {
+		let playOffTeamsArray = [];
+		let playOffGame = {};
+
+		const seedsCollection = await seeds();
+
+		const seedData = await this.returnSeeds(seedIdArray);
+
+		// const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
 
 		if (seedData.length > 0) {
 			for (i = startSeed; i < startSeed + (endSeed - startSeed) / 2; i++) {
@@ -912,9 +951,9 @@ let exportedMethods = {
 
 		const createPlayoffs = await this.insertPlayOff(tournamentId, sportName);
 
-		const incrementStage = await this.incrementStage(tournamentId);
-
 		//END FIX
+
+		const incrementStage = await this.incrementStage(tournamentId);
 		
 		return "completeRoundRobinGames";
 	},
