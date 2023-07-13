@@ -853,8 +853,8 @@ let exportedMethods = {
 	},
 
 	async insertSeedIntoSport(seedId, tournamentId, sportName) {
-		const poolInfo = this.getPoolInfo(tournamentId);
-		const sportInfo = this.getSportInfo(poolInfo.sports, sportName);
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 
 		const sportsCollection = await sports();
 
