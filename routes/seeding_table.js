@@ -100,7 +100,7 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 			}
 		}
 
-		const seedId = await poolsData.seedInsert(seeds);
+		const seedId = await poolsData.seedInsert(seeds,tournamentId, sportName);
 
 		return res.json(seedId);
 	} catch (e) {

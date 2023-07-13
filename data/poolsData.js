@@ -837,7 +837,7 @@ let exportedMethods = {
 		}
 	},
 
-	async seedInsert(seedsArray) {
+	async seedInsert(seedsArray, tournamentId, sportName) {
 		const seedsCollection = await seeds();
 		let seedsIdArray = [];
 
@@ -845,10 +845,32 @@ let exportedMethods = {
 			let insertSeed = await seedsCollection.insertOne(seedsArray[i]);
 			let seedId = insertSeed.insertedId.toString();
 
+			const insertSeedIntoSport = await this.insertSeedIntoSport(seedId, tournamentId, sportName);
 			seedsIdArray.push(seedId);
 		}
 
 		return seedsIdArray;
+	},
+
+	async insertSeedIntoSport(seedId, tournamentId, sportName) {
+		const poolInfo = this.getPoolInfo(tournamentId);
+		const sportInfo = this.getSportInfo(poolInfo.sports, sportName);
+
+		const sportsCollection = await sports();
+
+		const insertSeedId = await sportsCollection.findOneAndUpdate(
+			{
+				_id: sportInfo._id,
+			},
+			{
+				$push:
+					{
+						seeds: seedId,
+					}
+			}
+		)
+
+		return insertSeedId;
 	},
 
 	async completeRoundRobin(tournamentId, sportName) {

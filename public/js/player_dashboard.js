@@ -638,6 +638,7 @@
 				teams: [],
 				schedule: [],
 				matchHistory: [],
+				seeds: [],
 				playoffs: [],
 			};
 			sportsPool.push(tmpSportObj);
