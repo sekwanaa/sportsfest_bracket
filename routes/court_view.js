@@ -28,8 +28,10 @@ router.get('/:id/:sport', async (req, res) => {
 
 		let poolInfo = await poolsData.getPoolInfo(tournamentId);
 
+		let sportInfo = null;
+
 		for(let i=0; i<poolInfo.sports.length; i++) {
-			const sportInfo = await poolsData.getSportDataById(poolInfo.sports[i]);
+			sportInfo = await poolsData.getSportDataById(poolInfo.sports[i]);
 			if(sportInfo.sport == sportName) {
 				numOfFields = sportInfo.numOfFields;
 				break;
@@ -42,7 +44,7 @@ router.get('/:id/:sport', async (req, res) => {
 
 		for (i = 0; i < numOfFields; i++) {
 			let fieldNum = i + 1;
-			courtData = await courtviewData.getCurrentGameData(fieldNum);
+			courtData = await courtviewData.getCurrentGameData(sportInfo.schedule, fieldNum);
 
 			if (courtData != null) {
 				courtObj.gameNum = courtData.gameNum;
