@@ -750,11 +750,19 @@ let exportedMethods = {
 		return roundRobinSchedule;
 	},
 
-	async getPlayOffTeams(numOfSeeds, startSeed, endSeed) {
+	async getPlayOffTeams(numOfSeeds, startSeed, endSeed, seedIdArray) {
 		let playOffTeamsArray = [];
 		let playOffGame = {};
 
 		const seedsCollection = await seeds();
+
+		let tmpSeeds = [];
+		for(let i=0; i<seedIdArray.length; i++) {
+			const tmpSeed = await seedsCollection.findOne({_id: new ObjectId(seedIdArray[i])});
+			tmpSeeds.push(tmpSeed);
+		}
+
+		tmpSeeds = tmpSeeds.sort((a, b) => (a.seed > b.seed) ? 1 : (a.seed < b.seed) ? -1 : 0)
 
 		const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
 
