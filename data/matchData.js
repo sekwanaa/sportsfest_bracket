@@ -34,23 +34,13 @@ let exportedMethods = {
 
     async getTeamRecords(tournamentId, sportName) {
 
-        // const allTeams = await teamData.getAllTeams();
-        let allTeams = []
-        let teamsList = [];
-        
+        const allTeams = []
+
         const poolInfo = await poolsData.getPoolInfo(tournamentId);
+        const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
-        for(let i=0; i<poolInfo.sports.length; i++) {
-            let sportsInfo = await poolsData.getSportDataById(poolInfo.sports[i])
-            if(sportsInfo.sport == sportName) {
-                teamsList = sportsInfo.teams;
-                break;
-            }
-        }
-
-        for(let i =0; i<teamsList.length; i++) {
-            let team = await teamData.getAllTeamsByID(teamsList[i]);
-            allTeams.push(team);
+        for(let i=0; i<sportInfo.teams.length; i++) {
+            allTeams.push(await teamData.getAllTeamsByID(sportInfo.teams[i]));
         }
         
         const matchesCollection = await matches();
