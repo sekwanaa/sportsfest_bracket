@@ -6,42 +6,6 @@ const matchesData = data.matchesData;
 const teamsData = data.teamsData;
 const poolsData = data.poolsData;
 
-// router.get('/', async (req, res) => {
-// 	try {
-// 		let userRole = '';
-// 		let tournamentJoinedArray = [];
-
-// 		if (req.oidc.isAuthenticated()) {
-// 			const email = req.oidc.user.name;
-
-// 			const user = await userData.getUserByEmail(email);
-// 			userRole = user.user_metadata.role;
-// 			const player = await teamsData.getPlayerByUserId(user._id.toString());
-// 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
-// 		}
-
-// 		const matchHistory = await matchesData.getTeamRecords();
-// 		const seedsInfo = await poolsData.getAllSeeds();
-
-// 		let isStage1 = true;
-// 		if (seedsInfo.length > 0) {
-// 			isStage1 = false;
-// 		}
-
-// 		res.render('partials/seeding_table', {
-// 			title: 'Seeding Table',
-// 			shortcode: 'seedingTable',
-// 			isAuthenticated: req.oidc.isAuthenticated(),
-// 			role: userRole,
-// 			matches: matchHistory,
-// 			stage1: isStage1,
-// 			tournamentJoinedArray: tournamentJoinedArray,
-// 		});
-// 	} catch (e) {
-// 		return res.status(500).json({ error: e });
-// 	}
-// });
-
 router.get('/:id/:sport', async (req, res) => {
 	let tournamentId = req.params.id;
 	let sportName = req.params.sport;
@@ -97,18 +61,27 @@ router.get('/:id/:sport', async (req, res) => {
 	}
 });
 
-router.get('/seedCount', async (req, res) => {
+router.get('/:id/:sport/seedCount', async (req, res) => {
+	const tournamentId = req.params.id;
+	const sportName = req.params.sport;
+
 	try {
-		return res.json(await matchesData.getTeamRecords());
+		return res.json(await matchesData.getTeamRecords(tournamentId, sportName));
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
 });
 
-router.post('/insertSeeds', async (req, res) => {
+router.post('/:id/:sport/insertSeeds', async (req, res) => {
+
+	const tournamentId = req.params.id;
+	const sportName = req.params.sport;
+
 	try {
-		const poolInfo = await poolsData.getPoolInfo();
-		let numOfSeeds = Math.floor(poolInfo.numOfTeams * 0.6);
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+		let numOfSeeds = Math.floor(sportInfo.teams.length * 0.6);
 		let numOfPlayoffTeams = Math.floor((numOfSeeds * 2) / 3);
 		let seeds = req.body.seedsArray;
 

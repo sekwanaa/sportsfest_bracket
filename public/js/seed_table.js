@@ -1,4 +1,6 @@
 (function ($) {
+    var baseUrl = window.location.pathname;
+    
     $("#tournamentList").toggleClass("hidden")
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
     
@@ -15,7 +17,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/seeding_table/seeds',
+                url: baseUrl + '/seeding_table/seeds',
                 contentType: 'application/json',
                 data: JSON.stringify({
 
@@ -106,7 +108,7 @@
             try {
                 let req = {
                     method: 'POST',
-                    url: '/seeding_table/insertSeeds',
+                    url: baseUrl + '/insertSeeds',
                     contentType: 'application/json',
                     data: JSON.stringify({
                         seedsArray: seedsArray,
