@@ -10,6 +10,7 @@ const teamsData = data.teamsData;
 router.get('/:id/:sport', async (req, res) => {
 	let tournamentId = req.params.id;
 	let sportName = req.params.sport;
+	let tournamentCoordinator = false;
 
 	try {
 		let userRole = '';
@@ -22,6 +23,12 @@ router.get('/:id/:sport', async (req, res) => {
 			userRole = user.user_metadata.role;
 			const player = await teamsData.getPlayerByUserId(user._id.toString());
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+			
+			const poolInfo = await poolsData.getPoolInfo(tournamentId);
+
+			if (user._id.toString() == poolInfo.coordinator) {
+				tournamentCoordinator = true;
+			}
 		}
 
 		let numOfFields = null;
@@ -76,6 +83,7 @@ router.get('/:id/:sport', async (req, res) => {
 			tournamentId: tournamentId,
 			sportName: sportName,
 			tournamentJoinedArray: tournamentJoinedArray,
+			tournamentCoordinator: tournamentCoordinator,
 		});
 	} catch (e) {
 		return res.status(500).json({ error: e });
