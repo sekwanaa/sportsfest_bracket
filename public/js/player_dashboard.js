@@ -413,7 +413,10 @@
 				//populate fields for team on completion
 				if(res != null) {
 					var hasTeamDiv = $("#doesHaveTeam");
+					var noTeamDiv = $("#noTeamDiv");
 					hasTeamDiv.removeClass("hidden");
+					noTeamDiv.addClass("hidden");
+
 
 					var teamName = $("#teamName");
 					var teamCaptain = $("#teamCaptain");
@@ -436,7 +439,9 @@
 
 				else {
 					var noTeamDiv = $("#noTeamDiv");
+					var hasTeamDiv = $("#doesHaveTeam");
 					noTeamDiv.removeClass("hidden");
+					hasTeamDiv.addClass("hidden")
 					console.log("no team");
 				}
 
