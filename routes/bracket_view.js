@@ -106,7 +106,13 @@ router.get('/:id/:sport', async (req, res) => {
 		let userRole = '';
 		let tournamentJoinedArray = [];
 
-		const numOfTeams = await teamsData.getAllTeamsCount();
+
+		//get the count of all teams
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+		const numOfTeams = sportInfo.teams.length;
+		// const numOfTeams = await teamsData.getAllTeamsCount();
 		let numOfSeeds = Math.floor(numOfTeams * 0.6); //60% of teams move on from the round robin
 		let playOffTeamsCount = (numOfSeeds * 2) / 3; //2/3 of the qualified teams stay in playoffs
 		let byeTeamsCount = numOfSeeds - playOffTeamsCount; //1/3 of the qualified teams get a bye
