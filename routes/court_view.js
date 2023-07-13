@@ -7,65 +7,6 @@ const courtviewData = data.courtviewData;
 const poolsData = data.poolsData;
 const teamsData = data.teamsData;
 
-// router.get('/', async (req, res) => {
-// 	try {
-// 		let tournamentId = req.params.id;
-// 		let userRole = '';
-// 		let tournamentJoinedArray = [];
-
-// 		if (req.oidc.isAuthenticated()) {
-// 			const email = req.oidc.user.name;
-
-// 			const user = await userData.getUserByEmail(email);
-// 			userRole = user.user_metadata.role;
-// 			const player = await teamsData.getPlayerByUserId(user._id.toString());
-// 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
-// 		}
-
-// 		let poolInfo = await poolsData.getPoolInfo(tournamentId);
-// 		let numOfFields = poolInfo.numOfFields;
-// 		let courtArray = [];
-// 		let courtObj = {};
-// 		let courtData = '';
-
-// 		for (i = 0; i < numOfFields; i++) {
-// 			let fieldNum = i + 1;
-// 			courtData = await courtviewData.getCurrentGameData(fieldNum);
-
-// 			if (courtData != null) {
-// 				courtObj.gameNum = courtData.gameNum;
-// 				courtObj.numOfFields = i + 1;
-// 				courtObj.teamName1 = courtData.team1;
-// 				courtObj.teamName2 = courtData.team2;
-// 				courtObj.ref1 = courtData.ref1;
-// 				courtObj.ref2 = courtData.ref2;
-// 				courtArray.push(courtObj);
-// 				courtObj = {};
-// 				courtData = '';
-// 			} else {
-// 				courtObj.numOfFields = i + 1;
-// 				courtObj.teamName1 = 'No team scheduled';
-// 				courtObj.teamName2 = 'No team scheduled';
-// 				courtObj.gamesFinished = true;
-// 				courtArray.push(courtObj);
-// 				courtObj = {};
-// 				courtData = '';
-// 			}
-// 		}
-
-// 		res.render('partials/court_view', {
-// 			title: 'Current Games by Court',
-// 			shortcode: 'courtView',
-// 			isAuthenticated: req.oidc.isAuthenticated(),
-// 			role: userRole,
-// 			courtArray: courtArray,
-// 			tournamentJoinedArray: tournamentJoinedArray,
-// 		});
-// 	} catch (e) {
-// 		return res.status(500).json({ error: e });
-// 	}
-// });
-
 router.get('/:id/:sport', async (req, res) => {
 	let tournamentId = req.params.id;
 	let sportName = req.params.sport;
@@ -140,12 +81,15 @@ router.get('/:id/:sport', async (req, res) => {
 });
 
 router.post('/:id/:sport/', async (req, res) => {
+	const tournamentId = req.params.id;
+	const sportName = req.params.sport;
+	
 	const matchInfo = req.body;
 	matchInfo.month = new Date().getMonth()+1;
 	matchInfo.day = new Date().getDate();
 	matchInfo.year = new Date().getFullYear(); // gets the current year, court view can only submit current year scores
 
-	const insertMatch = await matchesData.insertMatch(matchInfo);
+	const insertMatch = await matchesData.insertMatch(matchInfo, tournamentId, sportName);
 
 	return res.json(insertMatch);
 });

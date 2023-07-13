@@ -488,12 +488,12 @@ let exportedMethods = {
 		return finalizedSeed;
 	},
 
-	async completeMatch(fieldNum, team1, team2, winner, loser) {
+	async completeMatch(fieldNum, team1, team2, winner, loser, tournamentId, sportName) {
 		const poolsCollection = await pools();
 
 		// const stage = await poolsCollection.find({}, {stage: 1});
 
-		const poolInfo = await poolsCollection.findOne({});
+		const poolInfo = await poolsCollection.findOne({_id: new ObjectId(tournamentId)});
 
 		const stage = parseInt(poolInfo.stage);
 
@@ -1386,6 +1386,23 @@ let exportedMethods = {
 				return
 			}
 		}
+
+		return;
+	},
+
+	async insertIntoSportMatchHistory(matchId, sportId) {
+		const sportsCollection = await sports();
+
+		const insertMatchIntoHistory = await sportsCollection.findOneAndUpdate(
+			{
+				_id: sportId,
+			},
+			{
+				$push: {
+					matchHistory: matchId,
+				}
+			}
+		)
 
 		return;
 	},
