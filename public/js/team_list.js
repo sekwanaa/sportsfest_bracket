@@ -1,5 +1,4 @@
 (function($) {
-    $("#tournamentList").toggleClass("hidden")
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
     
     let editBtn = $("#editTeamsBtn");
