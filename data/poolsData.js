@@ -799,6 +799,7 @@ let exportedMethods = {
 				.sort({ seed: 1 })
 				.toArray();
 			currentPlacement *= -1;
+
 			const loserSeedData = await seedsCollection
 				.find({ currentPlacement: { $lte: currentPlacement } })
 				.sort({ seed: 1 })
