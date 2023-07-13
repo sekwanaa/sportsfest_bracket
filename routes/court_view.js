@@ -44,7 +44,7 @@ router.get('/:id/:sport', async (req, res) => {
 
 		for (i = 0; i < numOfFields; i++) {
 			let fieldNum = i + 1;
-			courtData = await courtviewData.getCurrentGameData(sportInfo.schedule, fieldNum);
+			courtData = await courtviewData.getCurrentGameData(sportInfo, fieldNum);
 
 			if (courtData != null) {
 				courtObj.gameNum = courtData.gameNum;
