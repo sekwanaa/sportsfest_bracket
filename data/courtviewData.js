@@ -23,6 +23,7 @@ let exportedMethods = {
             }
         }
 
+        //if the tournament is past the round robin/stage 1 phase, the playoffs logic will execute
         if(currentGame == null) {
             const playOffCollection = await playoffs();
             // currentGame = await playOffCollection.find({field: fieldNum, complete: false}).sort({gameNum: 1}).limit(1).toArray();
