@@ -17,7 +17,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: baseUrl + '/seeding_table/seeds',
+                url: baseUrl + '/seeds',
                 contentType: 'application/json',
                 data: JSON.stringify({
 
