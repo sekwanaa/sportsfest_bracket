@@ -1,7 +1,6 @@
 (function ($) {
     var baseUrl = window.location.pathname;
     
-    $("#tournamentList").toggleClass("hidden")
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
     
     var submitSeedsBtn = null;
