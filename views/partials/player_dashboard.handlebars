@@ -227,7 +227,7 @@
 
     {{!-- Coordinator dashboard --}}
 
-    {{#compareRole "coordinator" role}}
+    {{#if tournamentCoordinator}}
 
     <div class="dashboardCards" id="editUserRoles">
         <h1 class="cardTitles">Edit User Roles</h1>
@@ -263,6 +263,9 @@
             </div> 
         </div>
     </div>
+    <script src="/public/js/role_change.js"></script>
+    {{/if}}
+
 
     <div class="dashboardCards" id="createPool">
         <h1 class="cardTitles">Create Tournament</h1>
@@ -319,9 +322,6 @@
                 <button class="hidden" id="submit_tournament_button">Submit</button>
         </div>
     </div>
-    {{!-- <script src="/public/js/create_pool.js"></script> --}}
-    <script src="/public/js/role_change.js"></script>
-    {{/compareRole}}
 
     <script src="/public/js/team_input.js"></script>
     <script src="/public/js/player_dashboard.js"></script>

@@ -17,7 +17,8 @@
         {{#unless this.gamesFinished}}       
         <div class="score-submission">
             {{! "Input Score"}}
-            {{#compareRole "coordinator" ../role}}
+            {{!-- //! should also include any helpers/assistans --}}
+            {{#if tournamentCoordinator}}
             
             <h3>Submit scores here</h3>
 
@@ -43,7 +44,7 @@
             <button class="{{this.numOfFields}}">Submit</button>
 
             </form>
-            {{/compareRole}}
+            {{/if}}
 
         </div>
         {{/unless}}

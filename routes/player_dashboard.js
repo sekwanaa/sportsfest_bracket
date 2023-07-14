@@ -7,6 +7,7 @@ const poolsData = data.poolsData;
 const fs = require('fs');
 const sharp = require('sharp');
 const multer = require('multer');
+const { pools } = require('../config/mongoCollections');
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -53,6 +54,7 @@ router.get('/', async (req, res) => {
 		let shirt_number = null;
 		let position = null;
 		let sportList = await poolsData.getSportsList();
+		let tournamentCoordinator = false
 		let tournamentArray = [];
 		let tournamentJoinedArray = [];
 
@@ -90,24 +92,11 @@ router.get('/', async (req, res) => {
 			shirt_number = player.shirtNum;
 			position = player.position;
 
-			// if (hasTeam) {
-			// 	let team = await teamsData.getTeam(userId);
+			//! let poolInfo = await poolsData.getPoolInfo(tournamentId)
 
-			// 	teamCaptain = team.teamCaptain;
-			// 	district = team.district;
-			// 	teamMembers = [];
-			// 	teamName = team.name;
-			// 	let teamMember = {};
-
-			// 	for (i = 0; i < team.players.length; i++) {
-			// 		teamMember.name = team.players[i].name;
-			// 		if (team.players[i].linked == false) {
-			// 			teamMember.code = await teamsData.getPlayerLinkCode(team.players[i]._id.toString());
-			// 		}
-			// 		teamMembers.push(teamMember);
-			// 		teamMember = {};
-			// 	}
-			// }
+			//! if (user._id.toString() == poolInfo.coordinator) {
+			//! 	tournamentCoordinator = true;
+			//! }
 
 			//get id's of tournaments created by user
 			tournamentArray = await poolsData.getTournamentsCreatedByUser(userId);
@@ -153,6 +142,7 @@ router.get('/', async (req, res) => {
 			shirt_number: shirt_number,
 			position: position,
 			sportList: sportList,
+			tournamentCoordinator: tournamentCoordinator,
 			tournamentArray: tournamentArray,
 			tournamentJoinedArray: tournamentJoinedArray,
 		});

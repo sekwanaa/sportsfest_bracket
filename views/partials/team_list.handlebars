@@ -3,22 +3,20 @@
 </div>
 
 <div id="csv_upload_div">
-    {{#compareRole "coordinator" role}}
-    <button id="uploadCSVBtn">uploadCSVBtn</button>
-    {{/compareRole}}
+    {{#if tournamentCoordinator}}
+        <button id="uploadCSVBtn">uploadCSVBtn</button>
+    {{/if}}
 </div>
 
 <div>
     <div id="submitPowerRankingBtnRow">
         <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
         <div id="buttonDiv">
-            {{#compareRole "coordinator" role}}
+            {{#if tournamentCoordinator}}
                 <button id="editTeamsBtn">Edit Teams</button>
                 <button id="submitPowerRankingsBtn">Submit</button>
-            {{/compareRole}}
-            {{#compareRole "coordinator" role}}
                 <button id="addTeamBtn">Add Team</button>
-            {{/compareRole}}
+            {{/if}}
         </div>
     </div>
     
