@@ -426,7 +426,12 @@ router.post('/join_tournament', async (req, res) => {
 			tournamentCode
 		);
 
-		return res.json(joinTournament);
+		if (joinTournament !== "success") {
+			return res.json(joinTournament)
+		} else {
+			return res.json(joinTournament);
+		}
+
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}

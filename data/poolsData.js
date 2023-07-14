@@ -1424,18 +1424,27 @@ let exportedMethods = {
 	async addPlayerToTournament(playerId, tournamentCode) {
 		const poolsCollection = await pools();
 
-		const insertPlayerInTournament = poolsCollection.findOneAndUpdate(
-			{
-				tournamentCode: tournamentCode,
-			},
-			{
-				$push: {
-					players: playerId,
+		try {
+			const insertPlayerInTournament = await poolsCollection.findOneAndUpdate(
+				{
+					tournamentCode: tournamentCode,
 				},
+				{
+					$push: {
+						players: playerId,
+					},
+				}
+			);
+				
+			if (insertPlayerInTournament.value == null) {
+				return "Could not find tournament."
+			} else {
+				return "success";
 			}
-		);
-
-		return;
+		} catch (error) {
+			return error	
+		}
+		
 	},
 
 	async updateSportScheduleType(tournamentId, sportName, scheduleType) {

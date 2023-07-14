@@ -361,8 +361,12 @@
 				}),
 			};
 			$.ajax(req).then(function (res) {
-				//page reload on submit
-				location.reload();
+				if (res == "success") {
+					//page reload on submit
+					location.reload()
+				} else {
+					$('#joinTournamentCodeInput').css({"border-color": "red", "color": "red"})
+				}
 			});
 		} catch (e) {
 			console.log(e);
