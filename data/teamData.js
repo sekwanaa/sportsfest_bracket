@@ -78,48 +78,36 @@ let exportedMethods = {
 		};
 
 		const teamsCollection = await teams();
-		const playersCollection = await playersData();
+		// const playersCollection = await playersData();
 
 		//get teamCaptain Id
-		let teamCaptainId = "";
-		let teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
+		// let teamCaptainId = "";
+		let teamCaptain = await this.getPlayerByPlayerId(teamObj.teamCaptain.playerId);
+		console.log(teamCaptain);
+		// let teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
 
 		if(teamCaptain != null) {
-			teamCaptainId = teamCaptain._id.toString()
+			newTeam.teamCaptain = teamCaptain._id.toString()
 		}
 		else {
-			const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
-			teamCaptainId = insertTeamCaptain.insertedId.toString();
+			// const insertTeamCaptain = await playersCollection.insertOne(teamObj.teamCaptain);
+			 const playerId = await this.createPlayer(teamObj.teamCaptain);
+			 newTeam.teamCaptain = playerId;
+			 const playerLinkId = await this.createPlayerLink(playerId);
+
+			// teamCaptainId = insertTeamCaptain.insertedId.toString();
 		}
+
+		console.log("test");
 		
-		newTeam.teamCaptain = teamCaptainId;
+		// newTeam.teamCaptain = teamCaptainId;
 
 		for (i = 0; i < teamObj.players.length; i++) {
-			const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
-			const insertPlayerId = insertPlayer.insertedId.toString();
+			const insertPlayerId = await this.createPlayer(teamObj.players[i]);
+			// const insertPlayer = await playersCollection.insertOne(teamObj.players[i]);
+			// const insertPlayerId = insertPlayer.insertedId.toString();
 			newTeam.players.push(insertPlayerId);
-			let check = true;
-			let tempCode = null;
-
-			if (teamObj.players[i].linked == false) {
-				const playerLinkCollection = await playerLink();
-				while (check == true) {
-					tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
-
-					let checkCode = await playerLinkCollection.findOne({ code: tempCode });
-					if (checkCode != null) {
-						tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
-					} else {
-						check = false;
-					}
-				}
-				let playerLinkObj = {
-					playerId: insertPlayerId,
-					code: Math.floor(Math.random() * (100000 - 10000) + 10000),
-				};
-
-				const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
-			}
+			const playerLinkId = await this.createPlayerLink(insertPlayerId);
 		}
 
 		const insertTeam = await teamsCollection.insertOne(newTeam);
@@ -197,7 +185,7 @@ let exportedMethods = {
 			{
 				$set: {
 					userId: userId,
-					linked: true,
+					// linked: true,
 				},
 			}
 		);
@@ -244,12 +232,44 @@ let exportedMethods = {
 		return player;
 	},
 
+	//creates a player object in player collection and returns the ID
 	async createPlayer(playerObj) {
 		const playersCollection = await playersData();
 
 		const player = await playersCollection.insertOne(playerObj);
+		const playerId = player.insertedId.toString();
 
-		return player;
+		return playerId;
+	},
+
+	//creates a playerLink object in playerlink collection and returns the ID
+	async createPlayerLink(playerId) {
+		const playerLinkCollection = await playerLink();
+
+		let check = true;
+		let tempCode = null;
+
+		while (check == true) {
+			tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+
+			let checkCode = await playerLinkCollection.findOne({ code: tempCode });
+			if (checkCode != null) {
+				tempCode = Math.floor(Math.random() * (100000 - 10000) + 10000);
+			} else {
+				check = false;
+			}
+		}
+
+		let playerLinkObj = {
+			playerId: playerId,
+			code: tempCode,
+		};
+
+		const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
+
+		const playerLinkId = insertPlayerLink.insertedId.toString();
+
+		return playerLinkId;
 	},
 
 	async checkPlayerExists(userId) {
@@ -407,6 +427,14 @@ let exportedMethods = {
 		const player = await playersCollection.findOne({_id: new ObjectId(playerId)});
 
 		return player.name;
+	},
+
+	async getPlayerByPlayerId(playerId) {
+		const playersCollection = await playersData();
+
+		const player = await playersCollection.findOne({_id: new ObjectId(playerId)});
+
+		return player;
 	},
 };
 

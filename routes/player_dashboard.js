@@ -7,7 +7,6 @@ const poolsData = data.poolsData;
 const fs = require('fs');
 const sharp = require('sharp');
 const multer = require('multer');
-const { pools } = require('../config/mongoCollections');
 
 const storage = multer.memoryStorage();
 const upload = multer({
