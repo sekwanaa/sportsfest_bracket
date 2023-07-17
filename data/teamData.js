@@ -185,13 +185,13 @@ let exportedMethods = {
 		for(let i=0; i<sportData.teams.length; i++) {
 			const team = await this.getAllTeamsByID(sportData.teams[i]);
 			if(team.players.includes(tmpPlayerObjId)) {
-				const removePlayerFromTeam = await this.removePlayerFromTeam(team._id.toString(), tmpPlayerObjId, "false");
-				const addPlayerToTeam = await this.addPlayerToTeam(team._id.toString(), playerId);
+				const removePlayerFromTeam = await this.removePlayerFromTeam(team._id.toString(), tmpPlayerObjId, false);
+				const addPlayerToTeam = await this.addPlayerToTeam(team._id.toString(), playerId, false);
 				break;
 			}
 			if(team.teamCaptain == tmpPlayerObjId) {
-				const removePlayerFromTeam = await this.removePlayerFromTeam(team._id.toString(), tmpPlayerObjId, "true");
-				const addPlayerToTeam = await this.addPlayerToTeam(team._id.toString(), playerId);
+				const removePlayerFromTeam = await this.removePlayerFromTeam(team._id.toString(), tmpPlayerObjId, true);
+				const addPlayerToTeam = await this.addPlayerToTeam(team._id.toString(), playerId, true);
 				break;
 			}
 		}
