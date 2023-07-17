@@ -455,8 +455,14 @@
 					teamMembersDiv.empty();
 					
 					for(let i = 0; i < res.players.length; i++) {
+						let x = "<p id='teamMember"+i+"'>"+res.players[i].name
+						if (res.players[i].code != null) {
+							x += " - "+res.players[i].code+"</p>"
+						} else {
+							x += "</p>"
+						}
 						teamMembersDiv.append(
-							"<p id='teamMember"+i+"'>"+res.players[i].name+" - "+res.players[i].code+"</p>"
+							x
 						)
 					}
 				}

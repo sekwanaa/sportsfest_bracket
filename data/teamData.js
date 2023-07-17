@@ -163,6 +163,7 @@ let exportedMethods = {
 		const playerLinkCollection = await playerLink();
 
 		const player = await playerLinkCollection.findOne({ playerId: playerId });
+		if (player == null) return null
 
 		return player.code;
 	},

@@ -470,7 +470,7 @@ router.post('/check_player_team', async (req, res) => {
 		for(let i = 0; i < team.players.length; i++) {
 			let player = await teamsData.getPlayerByPlayerId(team.players[i]);
 			let playerCode = await teamsData.getPlayerLinkCode(team.players[i])
-			player.code = playerCode;
+			player.code = playerCode; 
 			teamObj.players.push(player);
 		}
 		
