@@ -215,6 +215,7 @@ router.post('/', async (req, res) => {
 
 router.post('/join_team', async (req, res) => {
 	const code = req.body.code;
+	const sportId = req.body.sportId;
 
 	let userId;
 	let player;
@@ -229,9 +230,9 @@ router.post('/join_team', async (req, res) => {
 			player = await teamsData.getPlayerByUserId(userId);
 		}
 
-		const playerId = await teamsData.linkPlayerCode(code, userId, player._id.toString());
+		const playerId = await teamsData.linkPlayerCode(code, player._id.toString(), sportId);
 
-		return;
+		return res.json("done");
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}

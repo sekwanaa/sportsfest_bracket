@@ -48,7 +48,6 @@ let exportedMethods = {
 
 		const teamsCollection = await teams();
 
-		console.log(teamObj);
 		const team = await teamsCollection.findOne(
 			{
 				name: teamObj.teamName,
@@ -83,7 +82,6 @@ let exportedMethods = {
 		//get teamCaptain Id
 		// let teamCaptainId = "";
 		let teamCaptain = await this.getPlayerByPlayerId(teamObj.teamCaptain.playerId);
-		console.log(teamCaptain);
 		// let teamCaptain = await playersCollection.findOne({_id: new ObjectId(teamObj.teamCaptain.playerId)});
 
 		if(teamCaptain != null) {
@@ -97,8 +95,6 @@ let exportedMethods = {
 
 			// teamCaptainId = insertTeamCaptain.insertedId.toString();
 		}
-
-		console.log("test");
 		
 		// newTeam.teamCaptain = teamCaptainId;
 
@@ -171,55 +167,36 @@ let exportedMethods = {
 		return player.code;
 	},
 
-	async linkPlayerCode(code, userId, playerId) {
+	async linkPlayerCode(code, playerId, sportId) {
 		const playerLinkCollection = await playerLink();
 
-		const player = await playerLinkCollection.findOne({ code: code });
+		const tmpPlayer = await playerLinkCollection.findOne({ code: code });
+		const tmpPlayerObjId = tmpPlayer.playerId;
 
 		const playersCollection = await playersData();
+		const sportsCollection = await sports();
 
-		const playerUpdate = await playersCollection.findOneAndUpdate(
-			{
-				_id: new ObjectId(player.playerId),
-			},
-			{
-				$set: {
-					userId: userId,
-					// linked: true,
-				},
-			}
-		);
+		const sportData = await sportsCollection.findOne({_id: new ObjectId(sportId)});
 
-		const deletePlayerLink = await playerLinkCollection.deleteOne({ playerId: player.playerId });
+		//delete the playerLinkObj in playerLink Collection
+		const deletePlayerLink = await playerLinkCollection.deleteOne({ _id: tmpPlayer._id });
 
 		//replace temp player object Id on team with real player id
-
-		const teamsCollection = await teams();
-
-		const team = await teamsCollection.findOneAndUpdate(
-			{
-				players: player.playerId,
-			},
-			{
-				$push: {
-					players: playerId,
-				},
-			}	
-		)
-
-		const teamRemove = await teamsCollection.findOneAndUpdate(
-			{
-				players: player.playerId,
-			}, 
-			{
-				$pull: {
-					players: player.playerId,
-				},
+		for(let i=0; i<sportData.teams.length; i++) {
+			const team = await this.getAllTeamsByID(sportData.teams[i]);
+			if(team.players.includes(tmpPlayerObjId)) {
+				const removePlayerFromTeam = await this.removePlayerFromTeam(team._id.toString(), tmpPlayerObjId);
+				const addPlayerToTeam = await this.addPlayerToTeam(team._id.toString(), playerId);
+				break;
 			}
-		)
-
+			if(team.teamCaptain == tmpPlayerObjId) {
+				const removePlayerFromTeam = await this.removePlayerFromTeam(team._id.toString(), tmpPlayerObjId);
+				const addPlayerToTeam = await this.addPlayerToTeam(team._id.toString(), playerId);
+				break;
+			}
+		}
 		//delete temp player object
-		const tempPlayerDelete = await playersCollection.deleteOne({_id: new ObjectId(player.playerId)});
+		const tempPlayerDelete = await playersCollection.deleteOne({_id: new ObjectId(tmpPlayerObjId)});
 
 		return;
 	},
@@ -435,6 +412,68 @@ let exportedMethods = {
 		const player = await playersCollection.findOne({_id: new ObjectId(playerId)});
 
 		return player;
+	},
+
+	async removePlayerFromTeam(teamId, playerId, isCaptain) {
+		const teamsCollection = await teams();
+		
+		if(isCaptain == false) {
+			const teamRemove = await teamsCollection.findOneAndUpdate(
+				{
+					_id: new ObjectId(teamId),
+				}, 
+				{
+					$pull: {
+						players: playerId,
+					},
+				}
+			)
+		}
+		else {
+			const teamRemove = await teamsCollection.findOneAndUpdate(
+				{
+					_id: new ObjectId(teamId),
+				}, 
+				{
+					$set: {
+						teamCaptain: null,
+					},
+				}
+			)
+		}
+
+		return;
+	},
+
+	async addPlayerToTeam(teamId, playerId, isCaptain) {
+		const teamsCollection = await teams();
+		
+		if(isCaptain == false) {
+			const teamAdd = await teamsCollection.findOneAndUpdate(
+				{
+					_id: new ObjectId(teamId),
+				}, 
+				{
+					$push: {
+						players: playerId,
+					},
+				}
+			)
+		}
+		else {
+			const teamAdd = await teamsCollection.findOneAndUpdate(
+				{
+					_id: new ObjectId(teamId),
+				}, 
+				{
+					$set: {
+						teamCaptain: playerId,
+					},
+				}
+			)
+		}
+
+		return;
 	},
 };
 

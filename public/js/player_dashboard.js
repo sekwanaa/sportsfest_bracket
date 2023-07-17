@@ -268,6 +268,7 @@
 	submitTeamCodeButton.click(function (event) {
 		event.preventDefault();
 		var teamCodeInput = $('#team_code_input');
+		var sportId = $(".team_sport_name_class")[0].id;
 		let joinCode = parseInt(teamCodeInput.val());
 
 		try {
@@ -277,6 +278,7 @@
 				contentType: 'application/json',
 				data: JSON.stringify({
 					code: joinCode,
+					sportId: sportId,
 				}),
 			};
 			$.ajax(req).then(function (res) {});
