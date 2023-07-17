@@ -3,6 +3,7 @@
 	$('#sportsActiveDropdownMenu').toggleClass('hidden sportsActive');
 
 	$(':button').click(function (event) {
+		$(this).hide()
 		var submitButtonNumber = $(this).attr('class');
 		var scoreInputForm = $('#scoreInputForm' + submitButtonNumber);
 		event.preventDefault();
