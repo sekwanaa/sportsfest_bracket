@@ -456,7 +456,7 @@
 					
 					for(let i = 0; i < res.players.length; i++) {
 						teamMembersDiv.append(
-							"<p id='teamMember"+i+"'>"+res.players[i]+"</p>"
+							"<p id='teamMember"+i+"'>"+res.players[i].name+" - "+res.players[i].code+"</p>"
 						)
 					}
 				}

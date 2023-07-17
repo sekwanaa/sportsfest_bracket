@@ -468,8 +468,10 @@ router.post('/check_player_team', async (req, res) => {
 		teamObj.teamCaptain = teamCaptainName;
 
 		for(let i = 0; i < team.players.length; i++) {
-			let playerName = await teamsData.getPlayerNameByPlayerId(team.players[i]);
-			teamObj.players.push(playerName);
+			let player = await teamsData.getPlayerByPlayerId(team.players[i]);
+			let playerCode = await teamsData.getPlayerLinkCode(team.players[i])
+			player.code = playerCode;
+			teamObj.players.push(player);
 		}
 		
 		return res.json(teamObj);
