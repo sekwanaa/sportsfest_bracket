@@ -248,7 +248,7 @@ let exportedMethods = {
 		const insertRoundRobin = await roundRobinCollection.insertOne(newRoundRobin);
 		const roundRobinId = insertRoundRobin.insertedId.toString();
 
-		console.log(roundRobinId)
+		// console.log(roundRobinId)
 
 		return roundRobinId;
 	},
@@ -281,8 +281,6 @@ let exportedMethods = {
 
 	async insertIntoSportPlayOffs(sportId, playOffId) {
 		const sportsCollection = await sports();
-
-		console.log("this");
 
 		const insertIntoSport = await sportsCollection.findOneAndUpdate(
 			{
@@ -744,7 +742,7 @@ let exportedMethods = {
 			}
 		} else if (stage == 3) {
 		} else {
-			console.log('stage 3');
+			// console.log('stage 3');
 		}
 
 		return stage;

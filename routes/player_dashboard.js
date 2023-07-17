@@ -22,7 +22,7 @@ const upload = multer({
 			return cb(err);
 		}
 		if (file.mimetype === 'image/heic') {
-			console.log('HEIC file detected');
+			// console.log('HEIC file detected');
 			const err = new Error('HEIC file type is not allowed.');
 			err.status = 400;
 			return cb(err);

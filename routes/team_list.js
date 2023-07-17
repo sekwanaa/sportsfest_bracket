@@ -137,7 +137,7 @@ router.post('/:id/:sport/edit_power_ranking', async (req, res) => {
 
 	try {
 		const newPowerRank = req.body.teamRankObjArr;
-		console.log(newPowerRank)
+		// console.log(newPowerRank)
 
 		for (i = 0; i < newPowerRank.length; i++) {
 			const updatePowerRank = await teamData.updatePowerRanking(

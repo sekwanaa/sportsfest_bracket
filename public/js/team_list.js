@@ -168,7 +168,7 @@
             }
         }
 
-        console.log(teamArray);
+        // console.log(teamArray);
 
         try {
             let req = {

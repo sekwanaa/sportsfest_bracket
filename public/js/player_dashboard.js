@@ -162,7 +162,7 @@
 				processData: false,
 				contentType: false,
 			}).then(function (res) {
-				console.log(res);
+				// console.log(res);
 
 				let req = {
 					method: 'POST',
@@ -466,7 +466,7 @@
 					var hasTeamDiv = $("#doesHaveTeam");
 					noTeamDiv.removeClass("hidden");
 					hasTeamDiv.addClass("hidden")
-					console.log("no team");
+					// console.log("no team");
 				}
 
 			});
