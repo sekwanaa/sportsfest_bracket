@@ -1122,7 +1122,7 @@ let exportedMethods = {
 
 		//end numOfTeams/numOfCourts to each pool by powerranking
 
-		teamMatchAgainstCount = 0;
+		// teamMatchAgainstCount = 0;
 
 		// each teams plays each other #? of times
 
@@ -1138,6 +1138,8 @@ let exportedMethods = {
 			ref1: null,
 			ref2: null,
 		};
+
+		await this.createMatchUps();
 
 		// for each pool
 		for (i = 0; i < poolsArray.length; i++) {
@@ -1310,6 +1312,27 @@ let exportedMethods = {
 		);
 
 		return finalPoolsArray;
+	},
+
+	async createMatchUps() {
+
+		let array = ["me", "myself", "I", "we", "us", "them", "monka", "ass"];
+		let arrayLength = array.length;
+
+		function randomNumber(arrayLength) {
+			return Math.floor(Math.random() * arrayLength);
+		}
+
+		let index = 0;
+
+		while(arrayLength > 0) {
+			index = randomNumber(arrayLength);
+			console.log(array[index]);
+			// array.splice(index, 1);
+			arrayLength -= 1;
+		}
+
+		return;
 	},
 
 	async tournamentPrivacy(tournamentID, privacySetting) {
