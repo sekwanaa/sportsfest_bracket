@@ -27,10 +27,19 @@ let exportedMethods = {
 		return team;
 	},
 
-	async getAllTeamsByPowerRanking() {
+	async getAllTeamsByPowerRanking(teamArray) {
 		const teamsCollection = await teams();
 
-		const allTeams = await teamsCollection.find({}).sort({ powerRanking: 1 }).toArray();
+		const allTeams = []
+		
+		//find all teamObjs in the array and push them to allTeams
+		for(let i=0; i<teamArray.length; i++) {
+			let team = await teamsCollection.findOne({_id: new ObjectId(teamArray[i])});
+			allTeams.push(team);
+		}
+
+		//sort allTeams by powerRanking
+		allTeams.sort((a,b) => (a.powerRanking > b.powerRanking)? 1 : (a.powerRanking < b.powerRanking) ? -1 : 0);
 
 		return allTeams;
 	},
@@ -44,25 +53,30 @@ let exportedMethods = {
 	},
 
 	//method to check if team already exists for batch import
-	async checkIfTeamExists(teamObj) {
-
+	async checkIfTeamExists(currentTeamsArray, teamObj) {		
 		const teamsCollection = await teams();
 
-		const team = await teamsCollection.findOne(
+		const team = await teamsCollection.find(
 			{
 				name: teamObj.teamName,
 				district: teamObj.district,
 			},
-		)
+		).toArray();
 
-		//if a team does not exist, we return true
-		if(team == null) {
-			return true;
+		//if the returned teamId exists in the current pool, we return false
+		if(team != null) {
+
+			for(let i=0; i<team.length; i++) {
+				if(currentTeamsArray.includes(team[i]._id.toString())) {
+					return false;
+				}
+			}
+			return false;
 		}
 
-		//if a team exists, we return false
+		//if a team exists, we return true
 		else {
-			return false;
+			return true;
 		}
 	},
 

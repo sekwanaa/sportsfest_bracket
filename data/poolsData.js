@@ -1065,9 +1065,10 @@ let exportedMethods = {
 	},
 
 	async createPoolPlay(tournamentId, sportName) {
-		const poolsInfo = await this.getPoolInfo(tournamentId);
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 
-		const numOfFields = poolsInfo.numOfFields;
+		const numOfFields = sportInfo.numOfFields;
 
 		let poolsArray = [];
 
@@ -1091,8 +1092,9 @@ let exportedMethods = {
 			};
 		}
 
-		const teams = await teamData.getAllTeamsByPowerRanking();
+		const teams = await teamData.getAllTeamsByPowerRanking(sportInfo.teams);
 
+		console.log(teams);
 		// console.log(teams);
 		let teamsPerPool = Math.floor(teams.length / numOfFields);
 

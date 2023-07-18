@@ -116,9 +116,11 @@ router.post('/:id/:sport/batch_import_team', async (req, res) => {
 
 	try {
 		const teamArray = req.body.teamArray;
+		const poolInfo = await poolsData.getPoolInfo(poolId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
 		for (let i = 0; i < teamArray.length; i++) {
-			if(await teamData.checkIfTeamExists(teamArray[i])) {
+			if(await teamData.checkIfTeamExists(sportInfo.teams, teamArray[i])) {
 				let teamId = await teamData.addTeam(teamArray[i]);
 				let insertTeam = await poolsData.insertTeam(poolId, sportName, teamId);
 			}
