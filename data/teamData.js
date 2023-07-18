@@ -64,7 +64,7 @@ let exportedMethods = {
 		).toArray();
 
 		//if the returned teamId exists in the current pool, we return false
-		if(team != null) {
+		if(team.length > 0) {
 
 			for(let i=0; i<team.length; i++) {
 				if(currentTeamsArray.includes(team[i]._id.toString())) {
@@ -74,7 +74,7 @@ let exportedMethods = {
 			return false;
 		}
 
-		//if a team exists, we return true
+		//if no teams exists, we return true
 		else {
 			return true;
 		}

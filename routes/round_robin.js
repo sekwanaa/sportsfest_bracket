@@ -64,8 +64,8 @@ router.get('/:id/:sport', async (req, res) => {
 });
 
 router.post('/:id/:sport/', async (req, res) => {
-	let tournamentId = req.body.id;
-	let sportName = req.body.sport;
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
 
 	try {
 		let schedule = null;

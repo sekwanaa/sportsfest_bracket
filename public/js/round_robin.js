@@ -32,7 +32,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: baseUrl + '/round_robin',
+                url: baseUrl,
                 contentType: 'application/json',
                 data: JSON.stringify({
                     selection: selection,

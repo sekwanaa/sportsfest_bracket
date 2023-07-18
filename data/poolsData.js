@@ -1094,7 +1094,6 @@ let exportedMethods = {
 
 		const teams = await teamData.getAllTeamsByPowerRanking(sportInfo.teams);
 
-		console.log(teams);
 		// console.log(teams);
 		let teamsPerPool = Math.floor(teams.length / numOfFields);
 
