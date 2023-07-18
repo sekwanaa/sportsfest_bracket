@@ -1094,7 +1094,6 @@ let exportedMethods = {
 
 		const teams = await teamData.getAllTeamsByPowerRanking(sportInfo.teams);
 
-		// console.log(teams);
 		let teamsPerPool = Math.floor(teams.length / numOfFields);
 
 		/* add numOfTeams/numOfCourts to each pool randomly
@@ -1120,8 +1119,6 @@ let exportedMethods = {
 		for (i = 0; i < teams.length; i++) {
 			poolsArray[i % numOfFields].teams.push(teams[i]);
 		}
-
-		// console.log(poolsArray);
 
 		//end numOfTeams/numOfCourts to each pool by powerranking
 

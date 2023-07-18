@@ -71,7 +71,7 @@ let exportedMethods = {
 					return false;
 				}
 			}
-			return false;
+			return true;
 		}
 
 		//if no teams exists, we return true
