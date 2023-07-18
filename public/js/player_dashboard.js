@@ -217,11 +217,22 @@
 			editTeamSubmitButtonDiv.hide();
 			teamDisplayCard.show();
 			editTeamDisplayCard.hide();
+			editTeamMembersDiv.empty()
 		} else {
 			editTeamButton.html('Cancel');
 			editTeamSubmitButtonDiv.show();
 			editTeamDisplayCard.show();
 			teamDisplayCard.hide();
+			var teamMemberName = $(".teamMemberName")
+			console.log(teamMemberName[0].children.length)
+			for (let i=0;i<teamMemberName[0].children.length;i++) {
+				// console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
+				editTeamMembersDiv.append(
+					'<input id="editTeamMemberInput' + teamMemberCount + '" type="text">'
+				)
+				$("#editTeamMemberInput" + teamMemberCount).val($('#teamMember' + i)[0].innerHTML.split("-")[0])
+				teamMemberCount++
+			}
 
 			//take current info and put them into input fields
 		}
@@ -293,11 +304,7 @@
 	editAddMemberBtn.click(function (event) {
 		editRemoveMemberBtn.show();
 		editTeamMembersDiv.append(
-			'<input id="editTeamMemberInput' +
-				teamMemberCount +
-				'" type="text"></input><id="memberBreak' +
-				teamMemberCount +
-				'" br>'
+			'<input id="editTeamMemberInput' + teamMemberCount + '" type="text">'//'</input><id="memberBreak' + teamMemberCount + '" br>'
 		);
 		teamMemberCount++;
 	});
