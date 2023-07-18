@@ -224,7 +224,6 @@
 			editTeamDisplayCard.show();
 			teamDisplayCard.hide();
 			var teamMemberName = $(".teamMemberName")
-			console.log(teamMemberName[0].children.length)
 			for (let i=0;i<teamMemberName[0].children.length;i++) {
 				// console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
 				editTeamMembersDiv.append(
