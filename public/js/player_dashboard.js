@@ -225,11 +225,11 @@
 			teamDisplayCard.hide();
 			var teamMemberName = $(".teamMemberName")
 			for (let i=0;i<teamMemberName[0].children.length;i++) {
-				// console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
+				console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
 				editTeamMembersDiv.append(
 					'<input id="editTeamMemberInput' + teamMemberCount + '" type="text">'
 				)
-				$("#editTeamMemberInput" + teamMemberCount).val($('#teamMember' + i)[0].innerHTML.split("-")[0])
+				$("#editTeamMemberInput" + teamMemberCount).val($('#teamMember' + i)[0].innerHTML.split("-")[0].trim())
 				teamMemberCount++
 			}
 
@@ -267,7 +267,7 @@
 			};
 			$.ajax(req).then(function (res) {
 				//page reload on submit
-				location.reload();
+				// location.reload();
 			});
 		} catch (e) {
 			console.log(e);

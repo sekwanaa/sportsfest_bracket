@@ -287,12 +287,11 @@ let exportedMethods = {
 
 		for (i = 0; i < teamObj.players.length; i++) {
 			let player = teamObj.players[i];
-			for (j = 0; j < teamInfo.players.length; j++) {
-				if (player == teamInfo.players[j].name) {
-					newPlayersArray.push(teamInfo.players[j]._id.toString());
-					break;
-				}
-				if (j == teamInfo.players.length - 1) {
+			if (player == teamInfo?.players[i]?.name) {
+				newPlayersArray.push(teamInfo.players[i]._id.toString());
+				continue;
+			} else {
+				try {
 					const insertPlayer = await playersCollection.insertOne({
 						name: player,
 						shirtNumber: null,
@@ -302,16 +301,17 @@ let exportedMethods = {
 					});
 					const insertPlayerId = insertPlayer.insertedId.toString();
 					newPlayersArray.push(insertPlayerId);
-
+	
 					let playerLinkObj = {
 						playerId: insertPlayerId,
 						code: Math.floor(Math.random() * (100000 - 10000) + 10000),
 					};
-
+	
 					const insertPlayerLink = await playerLinkCollection.insertOne(playerLinkObj);
+				} catch (error) {
+					console.log(error)
 				}
 			}
-			player = null;
 		}
 
 		const updateTeamPlayers = await teamsCollection.findOneAndUpdate(
