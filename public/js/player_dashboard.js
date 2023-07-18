@@ -267,7 +267,7 @@
 			};
 			$.ajax(req).then(function (res) {
 				//page reload on submit
-				// location.reload();
+				location.reload();
 			});
 		} catch (e) {
 			console.log(e);
