@@ -1,7 +1,10 @@
 const mongoCollections = require("../config/mongoCollections");
 const matches = mongoCollections.matches;
+const roundrobin = mongoCollections.roundrobin;
 const teamData = require("./teamData");
 const poolsData = require("./poolsData");
+
+const { ObjectId } = require('mongodb');
 
 let exportedMethods = {
 
@@ -30,6 +33,35 @@ let exportedMethods = {
         const completeMatch = await poolsData.completeMatch(newMatch.fieldNum, newMatch.team1, newMatch.team2, newMatch.winner, newMatch.loser, tournamentId, sportName);
 
         return matchId;
+    },
+
+    async checkIfMatchIsCompleted(tournamentId, sportName, matchInfo) {
+        const poolInfo = await poolsData.getPoolInfo(tournamentId);
+        const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+        const roundRobinCollection = await roundrobin();
+
+        let matchArray = [];
+
+        for(let i=0; i<sportInfo.schedule.length; i++) {
+            const match = await roundRobinCollection.findOne({_id: new ObjectId(sportInfo.schedule[i])});
+            matchArray.push(match);
+        }
+
+        let isMatchComplete = null;
+
+        for(let i=0; i<matchArray.length; i++) {
+            if(
+                matchArray[i].team1 == matchInfo.team1 &&
+                matchArray[i].team2 == matchInfo.team2 &&
+                matchArray[i].field == matchInfo.fieldNum
+            ) {
+                isMatchComplete = matchArray[i].complete;
+                console.log(isMatchComplete);
+                break;
+            }
+        }
+        return isMatchComplete;
     },
 
     async getTeamRecords(tournamentId, sportName) {

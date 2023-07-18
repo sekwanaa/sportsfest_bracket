@@ -93,15 +93,24 @@ router.get('/:id/:sport', async (req, res) => {
 router.post('/:id/:sport/', async (req, res) => {
 	const tournamentId = req.params.id;
 	const sportName = req.params.sport;
-	
 	const matchInfo = req.body;
-	matchInfo.month = new Date().getMonth()+1;
-	matchInfo.day = new Date().getDate();
-	matchInfo.year = new Date().getFullYear(); // gets the current year, court view can only submit current year scores
 
-	const insertMatch = await matchesData.insertMatch(matchInfo, tournamentId, sportName);
+	try {
+		const checkIfMatchIsCompleted = await matchesData.checkIfMatchIsCompleted(tournamentId, sportName, matchInfo);
+		if(checkIfMatchIsCompleted == true) {	
+			return res.json("match already submitted");
+		}
+		else {
+			matchInfo.month = new Date().getMonth()+1;
+			matchInfo.day = new Date().getDate();
+			matchInfo.year = new Date().getFullYear(); // gets the current year, court view can only submit current year scores
 
-	return res.json(insertMatch);
+			const insertMatch = await matchesData.insertMatch(matchInfo, tournamentId, sportName);
+			return res.json(insertMatch);
+		}
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
 router.post('/:id/:sport/get_current_game', async (req, res) => {
