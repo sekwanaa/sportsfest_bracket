@@ -7,7 +7,8 @@
     var roundRobinGrid = $('#roundRobinGridInfo');
     var completeRoundRobinBtn = null;
     var downloadCSVButton = $("#downloadCSVBtn");
-    var poolSelection = $("#pool_algorithm_input")
+    var poolSelection = $("#pool_algorithm_input");
+    var baseUrl = window.location.pathname;
 
     if($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn = $("#completeRoundRobinButton");
@@ -18,12 +19,12 @@
         let selection = poolSelection.val();
         // console.log(window.location.pathname);
 
-        let url = window.location.pathname.split("/");
+        // let url = window.location.pathname.split("/");
 
         // console.log(url);
 
-        let id = url[2];
-        let sport = url[3];
+        // let id = url[2];
+        // let sport = url[3];
 
         if(generaterrBtn.html() == "Create Schedule") {
             generaterrBtn.html("Refresh Schedule");
@@ -31,12 +32,12 @@
         try {
             let req = {
                 method: 'POST',
-                url: '/round_robin',
+                url: baseUrl + '/round_robin',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     selection: selection,
-                    id: id,
-                    sport: sport,
+                    // id: id,
+                    // sport: sport,
                 })
             };
             $.ajax(req).then(function (roundRobinArray) {
@@ -79,7 +80,7 @@
             try {
                 let req = {
                     method: 'POST',
-                    url: window.location.pathname + '/round_robin_complete',
+                    url: baseUrl + '/round_robin_complete',
                     contentType: 'application/json',
                     data: JSON.stringify({
     
@@ -149,7 +150,7 @@
         try {
             let req = {
                 method: 'POST',
-                url: window.location.pathname + '/round_robin_schedule',
+                url: baseUrl + '/round_robin_schedule',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     roundRobinMatches: matchArray,

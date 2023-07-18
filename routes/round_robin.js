@@ -63,7 +63,7 @@ router.get('/:id/:sport', async (req, res) => {
 	}
 });
 
-router.post('/', async (req, res) => {
+router.post('/:id/:sport/', async (req, res) => {
 	let tournamentId = req.body.id;
 	let sportName = req.body.sport;
 
@@ -115,7 +115,6 @@ router.post('/:id/:sport/round_robin_schedule/', async (req, res) => {
 
 		}
 
-
 		return res.json("done");
 	} catch (e) {
 		return res.status(500).json({ error: e });
@@ -135,10 +134,13 @@ router.post('/:id/:sport/round_robin_complete/', async (req, res) => {
 	}
 });
 
-router.post('/goldsilver_schedule/', async (req, res) => {
+router.post('/:id/:sport/create_pool_play/', async (req, res) => {
+	const tournamentId = req.params.id;
+	const sportname = req.params.sport;
+
 	try {
-		const goldsilver_schedule = await poolsData.createGoldSilverPool();
-		return res.json(goldsilver_schedule);
+		const poolPlaySchedule = await poolsData.createPoolPlay(tournamentId, sportName);
+		return res.json(poolPlaySchedule);
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
