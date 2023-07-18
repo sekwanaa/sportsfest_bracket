@@ -23,25 +23,23 @@
         if(editBtn.html() === "Cancel") {
             editBtn.html("Edit Teams");
             submitPowerRankingBtn.addClass("hidden")
-
+            for (let j=0; j<powerRankingInputs.length; j++) {
+                currentPowerRankingArr[j].show()
+                powerRankingInputs[j].hide()
+            }
         }
         else {
             editBtn.html("Cancel");
             submitPowerRankingBtn.removeClass("hidden")
-
-        }
-        if (count%2==0) { //on second click
-            for (j=0; j<powerRankingInputs.length; j++) {
-                currentPowerRankingArr[j].show()
-                powerRankingInputs[j].hide()
-
-            }
-        } else { //on first click
-            for (k=0; k<powerRankingInputs.length; k++) {
+            for (let k=0; k<powerRankingInputs.length-1; k++) {
                 powerRankingInputs[k].show()
+                if (currentPowerRankingArr[k][0].innerHTML == "N/A") {
+                    currentPowerRankingArr[k].hide()
+                    continue
+                }
+                powerRankingInputs[k][0].value = currentPowerRankingArr[k][0].innerHTML
                 currentPowerRankingArr[k].hide()
-
-            }   
+            }
         }
     });
 

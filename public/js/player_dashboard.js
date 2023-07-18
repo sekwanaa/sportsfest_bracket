@@ -225,7 +225,7 @@
 			teamDisplayCard.hide();
 			var teamMemberName = $(".teamMemberName")
 			for (let i=0;i<teamMemberName[0].children.length;i++) {
-				console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
+				// console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
 				editTeamMembersDiv.append(
 					'<input id="editTeamMemberInput' + teamMemberCount + '" type="text">'
 				)
@@ -323,12 +323,10 @@
 		event.preventDefault();
 		if (createTournamentBtn.html() == 'Cancel') {
 			createTournamentBtn.html('Create tournament');
-			joinTournamentBtn.show();
 			createTournamentDiv.hide();
 			yourTournamentsList.show()
 		} else {
 			createTournamentBtn.html('Cancel');
-			joinTournamentBtn.hide();
 			createTournamentDiv.show();
 			yourTournamentsList.hide()
 			//take current info and put them into input fields
