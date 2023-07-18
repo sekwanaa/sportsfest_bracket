@@ -323,12 +323,10 @@
 		event.preventDefault();
 		if (createTournamentBtn.html() == 'Cancel') {
 			createTournamentBtn.html('Create tournament');
-			joinTournamentBtn.show();
 			createTournamentDiv.hide();
 			yourTournamentsList.show()
 		} else {
 			createTournamentBtn.html('Cancel');
-			joinTournamentBtn.hide();
 			createTournamentDiv.show();
 			yourTournamentsList.hide()
 			//take current info and put them into input fields
