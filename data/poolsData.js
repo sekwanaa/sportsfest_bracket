@@ -1338,7 +1338,7 @@ let exportedMethods = {
 			let team1 = array[i];
 			// array.splice(i, 1);
 			for(let j=i+1; j<array.length; j++) {
-				let newMatch = new matchObj(gameNum, team1.name, array[j].name, gameNum+1, gameNum+1);
+				let newMatch = new matchObj(gameNum, team1.name, array[j].name, null, gameNum+1, gameNum+1);
 				gamesArray.push(newMatch)
 				gameNum++;
 			}
@@ -1590,10 +1590,11 @@ let exportedMethods = {
 };
 
 class matchObj {
-	constructor(gameNum, team1, team2, ref1, ref2) {
+	constructor(gameNum, team1, team2, field, ref1, ref2) {
 		this.gameNum = gameNum;
 		this.team1 = team1;
 		this.team2 = team2;
+		this.field = field;
 		this.complete = false;
 		this.ref1 = ref1;
 		this.ref2 = ref2;
