@@ -1319,18 +1319,35 @@ let exportedMethods = {
 		let array = ["me", "myself", "I", "we", "us", "them", "monka", "ass"];
 		let arrayLength = array.length;
 
-		function randomNumber(arrayLength) {
-			return Math.floor(Math.random() * arrayLength);
+		let gamesArray = [];
+
+		//create matchups for every team, so every team plays each other once in the pool
+		for(let i=0; i<array.length; i++) {
+			let team1 = array[i];
+			array.splice(i, 1);
+			for(let j=0; j<array.length; j++) {
+				let matchObj = {
+					team1: team1,
+					team2: array[j],
+				}
+				gamesArray.push(matchObj)
+			}
+			array = ["me", "myself", "I", "we", "us", "them", "monka", "ass"];
 		}
 
-		let index = 0;
+		console.log(gamesArray);
+		// function randomNumber(arrayLength) {
+		// 	return Math.floor(Math.random() * arrayLength);
+		// }
 
-		while(arrayLength > 0) {
-			index = randomNumber(arrayLength);
-			console.log(array[index]);
-			// array.splice(index, 1);
-			arrayLength -= 1;
-		}
+		// let index = 0;
+
+		// while(arrayLength > 0) {
+		// 	index = randomNumber(arrayLength);
+		// 	console.log(array[index]);
+		// 	// array.splice(index, 1);
+		// 	arrayLength -= 1;
+		// }
 
 		return;
 	},
