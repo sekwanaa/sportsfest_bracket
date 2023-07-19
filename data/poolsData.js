@@ -1139,10 +1139,15 @@ let exportedMethods = {
 			ref2: null,
 		};
 
+
+		
 		let totalGamesArray = [];
 		for(let i=0; i<poolsArray.length; i++) {
+			//create matchups for each pool of teams
 			let gameMatchUps = await this.createMatchUps(poolsArray[i].teams);
-			totalGamesArray.push(gameMatchUps);
+			
+			//sort games so that teams do not play back to back
+			let sortedGameArray = await this.sortMatchUps(gameMatchUps);
 		}
 
 		// for each pool
@@ -1319,17 +1324,6 @@ let exportedMethods = {
 	},
 
 	async createMatchUps(teamsArray) {
-		class matchObj {
-			constructor(gameNum, team1, team2, ref1, ref2) {
-				this.gameNum = gameNum;
-				this.team1 = team1;
-				this.team2 = team2;
-				this.complete = false;
-				this.ref1 = ref1;
-				this.ref2 = ref2;
-			}
-		}
-
 		let array = [];
 
 		for(let i=0; i<teamsArray.length; i++) {
@@ -1338,21 +1332,14 @@ let exportedMethods = {
 
 		let gamesArray = [];
 		let gameNum = 1;
-		
-		// matchObj.gameNum = gameNum;
-		// matchObj.team1 = poolsArray[i].teams[j].name;
-		// matchObj.team2 = poolsArray[i].teams[k].name;
-		// matchObj.field = i + 1;
-		// matchObj.ref1 = gameNum + 1;
-		// matchObj.ref2 = gameNum + 1;
 
 		//create matchups for every team, so every team plays each other once in the pool
-		for(let i=0; i<array.length; i++) {
+		for(let i=0; i<array.length-1; i++) {
 			let team1 = array[i];
-			array.splice(i, 1);
-			for(let j=0; j<array.length; j++) {
+			// array.splice(i, 1);
+			for(let j=i+1; j<array.length; j++) {
 				let newMatch = new matchObj(gameNum, team1.name, array[j].name, gameNum+1, gameNum+1);
-				gamesArray.push(matchObj)
+				gamesArray.push(newMatch)
 				gameNum++;
 			}
 			array = [];
@@ -1361,21 +1348,60 @@ let exportedMethods = {
 			}
 		}
 
-		// console.log(gamesArray);
-		// function randomNumber(arrayLength) {
-		// 	return Math.floor(Math.random() * arrayLength);
-		// }
-
-		// let index = 0;
-
-		// while(arrayLength > 0) {
-		// 	index = randomNumber(arrayLength);
-		// 	console.log(array[index]);
-		// 	// array.splice(index, 1);
-		// 	arrayLength -= 1;
-		// }
-
 		return gamesArray;
+	},
+
+	async sortMatchUps(array) {
+		let tmpArray = [];
+		for(let i=0; i<array.length; i++) {
+			tmpArray.push(array[i]);
+		}
+		let sortedMatches = [];
+		
+		let gameNum = 1;
+		let index = randomNum(tmpArray.length);
+		tmpArray[index].gameNum = gameNum;
+		tmpArray[index].ref1 = (gameNum)%(array.length)+1;
+		tmpArray[index].ref2 = (gameNum)%(array.length)+1;
+		gameNum++;
+		sortedMatches.push(tmpArray[index]);
+		tmpArray.splice(index, 1);
+		let count = 0;
+
+		while(tmpArray.length > 0) {
+			index = randomNum(tmpArray.length);
+			let teamNames = [tmpArray[index].team1, tmpArray[index].team2]
+			if(teamNames.includes(sortedMatches[sortedMatches.length-1].team1)  || teamNames.includes(sortedMatches[sortedMatches.length-1].team2)) {
+				if(count > 1000) {
+					tmpArray[index].gameNum = gameNum;
+					tmpArray[index].ref1 = (gameNum)%(array.length)+1;
+					tmpArray[index].ref2 = (gameNum)%(array.length)+1;
+					gameNum++;
+					sortedMatches.push(tmpArray[index]);
+					tmpArray.splice(index, 1);	
+				}
+				else {
+					// console.log("goNext")
+					count++;
+				}
+			}
+			else {
+				//push if criteria is met
+				tmpArray[index].gameNum = gameNum;
+				tmpArray[index].ref1 = (gameNum)%(array.length)+1;
+				tmpArray[index].ref2 = (gameNum)%(array.length)+1;
+				gameNum++;
+				sortedMatches.push(tmpArray[index]);
+				tmpArray.splice(index, 1);
+				count = 0;
+			}
+		}
+
+		function randomNum(num) {
+			return (Math.floor(Math.random() * num));
+		}
+
+		return sortedMatches;
 	},
 
 	async tournamentPrivacy(tournamentID, privacySetting) {
@@ -1562,5 +1588,16 @@ let exportedMethods = {
 		return;
 	},
 };
+
+class matchObj {
+	constructor(gameNum, team1, team2, ref1, ref2) {
+		this.gameNum = gameNum;
+		this.team1 = team1;
+		this.team2 = team2;
+		this.complete = false;
+		this.ref1 = ref1;
+		this.ref2 = ref2;
+	}
+}
 
 module.exports = exportedMethods;
