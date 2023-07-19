@@ -1139,7 +1139,10 @@ let exportedMethods = {
 			ref2: null,
 		};
 
-		await this.createMatchUps();
+		let gameMatchUps = null;
+		for(let i=0; i<poolsArray.length; i++) {
+			gameMatchUps = await this.createMatchUps(poolsArray[i].teams);
+		}
 
 		// for each pool
 		for (i = 0; i < poolsArray.length; i++) {
@@ -1314,10 +1317,13 @@ let exportedMethods = {
 		return finalPoolsArray;
 	},
 
-	async createMatchUps() {
+	async createMatchUps(teamsArray) {
 
-		let array = ["me", "myself", "I", "we", "us", "them", "monka", "ass"];
-		let arrayLength = array.length;
+		let array = [];
+
+		for(let i=0; i<teamsArray.length; i++) {
+			array.push(teamsArray[i]);
+		}
 
 		let gamesArray = [];
 
@@ -1332,10 +1338,13 @@ let exportedMethods = {
 				}
 				gamesArray.push(matchObj)
 			}
-			array = ["me", "myself", "I", "we", "us", "them", "monka", "ass"];
+			array = [];
+			for(let index=0; index<teamsArray.length; index++) {
+				array.push(teamsArray[index]);
+			}
 		}
 
-		console.log(gamesArray);
+		// console.log(gamesArray);
 		// function randomNumber(arrayLength) {
 		// 	return Math.floor(Math.random() * arrayLength);
 		// }
@@ -1349,7 +1358,7 @@ let exportedMethods = {
 		// 	arrayLength -= 1;
 		// }
 
-		return;
+		return gamesArray;
 	},
 
 	async tournamentPrivacy(tournamentID, privacySetting) {
