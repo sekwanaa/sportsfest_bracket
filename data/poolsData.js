@@ -1148,6 +1148,8 @@ let exportedMethods = {
 			
 			//sort games so that teams do not play back to back
 			let sortedGameArray = await this.sortMatchUps(gameMatchUps);
+
+			let finalizedGameArray = await this.addRefsToMatchUp(sortedGameArray);
 		}
 
 		// for each pool
@@ -1402,6 +1404,14 @@ let exportedMethods = {
 		}
 
 		return sortedMatches;
+	},
+
+	async addRefsToMatchUp(matchArray) {		
+		for(let i=0; i<matchArray.length; i++) {
+			matchArray[i].ref1 = matchArray[(i+1)%(matchArray.length)].team1;
+			matchArray[i].ref2 = matchArray[(i+1)%(matchArray.length)].team2;
+		}
+		return matchArray;
 	},
 
 	async tournamentPrivacy(tournamentID, privacySetting) {
