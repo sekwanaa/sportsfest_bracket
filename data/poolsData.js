@@ -1144,14 +1144,16 @@ let exportedMethods = {
 		let totalGamesArray = [];
 		for(let i=0; i<poolsArray.length; i++) {
 			//create matchups for each pool of teams
-			let gameMatchUps = await this.createMatchUps(poolsArray[i].teams);
+			let gameMatchUps = await this.createMatchUps(poolsArray[i].teams, poolsArray[i].field);
 			
 			//sort games so that teams do not play back to back
 			let sortedGameArray = await this.sortMatchUps(gameMatchUps);
 
 			let finalizedGameArray = await this.addRefsToMatchUp(sortedGameArray);
+			poolsArray[i].games = finalizedGameArray;
 		}
 
+		/* Testing New Thing 
 		// for each pool
 		for (i = 0; i < poolsArray.length; i++) {
 			gameNum = 1;
@@ -1273,6 +1275,8 @@ let exportedMethods = {
 			delete poolsArray[i].teams;
 		}
 
+		*/
+
 		// add refs to each game
 		// for(i=0; i<poolsArray.length; i++) {
 		//     for(j=0; j<poolsArray[i].games.length-1; j++) {
@@ -1325,7 +1329,7 @@ let exportedMethods = {
 		return finalPoolsArray;
 	},
 
-	async createMatchUps(teamsArray) {
+	async createMatchUps(teamsArray, field) {
 		let array = [];
 
 		for(let i=0; i<teamsArray.length; i++) {
@@ -1340,7 +1344,7 @@ let exportedMethods = {
 			let team1 = array[i];
 			// array.splice(i, 1);
 			for(let j=i+1; j<array.length; j++) {
-				let newMatch = new matchObj(gameNum, team1.name, array[j].name, null, gameNum+1, gameNum+1);
+				let newMatch = new matchObj(gameNum, team1.name, array[j].name, field, gameNum+1, gameNum+1);
 				gamesArray.push(newMatch)
 				gameNum++;
 			}
