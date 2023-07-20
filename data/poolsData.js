@@ -1358,28 +1358,29 @@ let exportedMethods = {
 	},
 
 	async sortMatchUps(array, teams) {
-		let tmpArray = [];
-		let queue = [];
+		let sortedMatchCheck = false;
 		let sortedMatches = [];
 
-		//create a temporary array to manipulate all games
-		for(let i=0; i<array.length; i++) {
-			tmpArray.push(array[i]);
-		}
-		
-		//create a queue of all teams
-		for(let i=0; i<teams.length; i++) {
-			queue.push(teams[i].name);
-		}
-
-		//randomize the queue and games order
-		randomizeArray(queue);
-		randomizeArray(tmpArray);
-
-		let gameNum = 1;
-		let sortedMatchCheck = false;
-
 		while(sortedMatchCheck == false) {
+			let tmpArray = [];
+			let queue = [];
+			sortedMatches = [];
+	
+			//create a temporary array to manipulate all games
+			for(let i=0; i<array.length; i++) {
+				tmpArray.push(array[i]);
+			}
+			
+			//create a queue of all teams
+			for(let i=0; i<teams.length; i++) {
+				queue.push(teams[i].name);
+			}
+	
+			//randomize the queue and games order
+			randomizeArray(queue);
+			randomizeArray(tmpArray);
+	
+			let gameNum = 1;
 			while(tmpArray.length > 0) {
 
 				//select first team in queue
@@ -1420,23 +1421,38 @@ let exportedMethods = {
 						break;
 					}
 				}
+
+				// //if no games can be inserted, move this team to the end of the queue
+				queue.push(queue[0]);
+				queue.splice(0, 1);
 			}
 
 			for(let i=0; i<queue.length; i++) {
 				let count = 0;
-				let maxBackToBackGames = queue.length-1;
+				let maxBackToBackGames = queue.length-2;
 
+				let restartCheck = false;
 				for(let j=0; j<sortedMatches.length; j++) {
 					if(queue[i] == sortedMatches[j].team1 || queue[i] == sortedMatches[j].team2) {
 						count++;
+						if(count > maxBackToBackGames) {
+							restartCheck = true;
+							break;
+						}
+					} 
+					else {
+						count = 0;
 					}
 				}
 
-				if(count > maxBackToBackGames) {
+				if(restartCheck == true) {
 					break;
 				}
+
+				if(i==queue.length-1) {
+					sortedMatchCheck = true;
+				}
 			}
-			sortedMatchCheck = true;
 		}
 
 		function randomNum(num) {
