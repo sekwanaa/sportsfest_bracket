@@ -1147,7 +1147,7 @@ let exportedMethods = {
 			let gameMatchUps = await this.createMatchUps(poolsArray[i].teams, poolsArray[i].field);
 			
 			//sort games so that teams do not play back to back
-			let sortedGameArray = await this.sortMatchUps(gameMatchUps);
+			let sortedGameArray = await this.sortMatchUps(gameMatchUps, poolsArray[i].teams);
 
 			let finalizedGameArray = await this.addRefsToMatchUp(sortedGameArray);
 			poolsArray[i].games = finalizedGameArray;
@@ -1357,12 +1357,23 @@ let exportedMethods = {
 		return gamesArray;
 	},
 
-	async sortMatchUps(array) {
+	async sortMatchUps(array, teams) {
 		let tmpArray = [];
+		let queue = [];
+		let sortedMatches = [];
+
+		//create a temporary array to manipulate all games
 		for(let i=0; i<array.length; i++) {
 			tmpArray.push(array[i]);
 		}
-		let sortedMatches = [];
+		
+		//create a queue of all teams
+		for(let i=0; i<teams.length; i++) {
+			queue.push(teams[i].name);
+		}
+
+		//randomize the queue order
+		randomizeArray(queue);
 		
 		let gameNum = 1;
 		let index = randomNum(tmpArray.length);
@@ -1372,6 +1383,12 @@ let exportedMethods = {
 		gameNum++;
 		sortedMatches.push(tmpArray[index]);
 		tmpArray.splice(index, 1);
+		
+		//add team1 and team2 to queue
+		addTeamsToQueue(sortedMatches, queue);
+		
+
+
 		let count = 0;
 
 		while(tmpArray.length > 0) {
@@ -1384,6 +1401,7 @@ let exportedMethods = {
 					tmpArray[index].ref2 = (gameNum)%(array.length)+1;
 					gameNum++;
 					sortedMatches.push(tmpArray[index]);
+					addTeamsToQueue(sortedMatches, queue);
 					tmpArray.splice(index, 1);	
 				}
 				else {
@@ -1398,13 +1416,29 @@ let exportedMethods = {
 				tmpArray[index].ref2 = (gameNum)%(array.length)+1;
 				gameNum++;
 				sortedMatches.push(tmpArray[index]);
+				addTeamsToQueue(sortedMatches, queue);
 				tmpArray.splice(index, 1);
 				count = 0;
 			}
+			// console.log(queue)
 		}
 
 		function randomNum(num) {
 			return (Math.floor(Math.random() * num));
+		}
+		
+		function randomizeArray(array) {
+			for (let i=array.length-1; i>0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				const temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			  }
+		}
+		
+		function addTeamsToQueue(sortedMatches, queue) {
+			queue.push(sortedMatches[sortedMatches.length-1].team1);
+			queue.push(sortedMatches[sortedMatches.length-1].team2);
 		}
 
 		return sortedMatches;
