@@ -1372,55 +1372,71 @@ let exportedMethods = {
 			queue.push(teams[i].name);
 		}
 
-		//randomize the queue order
+		//randomize the queue and games order
 		randomizeArray(queue);
-		
+		randomizeArray(tmpArray);
+
 		let gameNum = 1;
-		let index = randomNum(tmpArray.length);
-		tmpArray[index].gameNum = gameNum;
-		tmpArray[index].ref1 = (gameNum)%(array.length)+1;
-		tmpArray[index].ref2 = (gameNum)%(array.length)+1;
-		gameNum++;
-		sortedMatches.push(tmpArray[index]);
-		tmpArray.splice(index, 1);
-		
-		//add team1 and team2 to queue
-		addTeamsToQueue(sortedMatches, queue);
-		
+		let sortedMatchCheck = false;
 
+		while(sortedMatchCheck == false) {
+			while(tmpArray.length > 0) {
 
-		let count = 0;
-
-		while(tmpArray.length > 0) {
-			index = randomNum(tmpArray.length);
-			let teamNames = [tmpArray[index].team1, tmpArray[index].team2]
-			if(teamNames.includes(sortedMatches[sortedMatches.length-1].team1)  || teamNames.includes(sortedMatches[sortedMatches.length-1].team2)) {
-				if(count > 1000) {
-					tmpArray[index].gameNum = gameNum;
-					tmpArray[index].ref1 = (gameNum)%(array.length)+1;
-					tmpArray[index].ref2 = (gameNum)%(array.length)+1;
-					gameNum++;
-					sortedMatches.push(tmpArray[index]);
-					addTeamsToQueue(sortedMatches, queue);
-					tmpArray.splice(index, 1);	
-				}
-				else {
-					// console.log("goNext")
-					count++;
+				//select first team in queue
+				let nextTeam = queue[0];
+	
+				console.log(nextTeam);
+	
+				//find a game where this team is playing
+				for(let i=0; i<tmpArray.length; i++) {
+					let teams = [];
+					let previousGamesTeams = [];
+	
+					if(sortedMatches.length != 0) {
+						previousGamesTeams.push(sortedMatches[sortedMatches.length-1].team1);
+						previousGamesTeams.push(sortedMatches[sortedMatches.length-1].team2);
+					}
+	
+					teams.push(tmpArray[i].team1);
+					teams.push(tmpArray[i].team2);
+					if(tmpArray.length == 1 || (teams.includes(nextTeam) && !teams.includes(previousGamesTeams))) {
+						tmpArray[i].gameNum = gameNum;
+						tmpArray[i].ref1 = (gameNum)%(array.length)+1;
+						tmpArray[i].ref2 = (gameNum)%(array.length)+1;
+						gameNum++;
+	
+						sortedMatches.push(tmpArray[i]);
+	
+						//remove previous positions of teams in queue
+						queue.splice(queue.indexOf(tmpArray[i].team1), 1);
+						queue.splice(queue.indexOf(tmpArray[i].team2), 1);
+	
+						//add the two teams to back of queue
+						queue.push(tmpArray[i].team1);
+						queue.push(tmpArray[i].team2);
+	
+						//remove game from array of all games
+						tmpArray.splice(i, 1);
+						break;
+					}
 				}
 			}
-			else {
-				//push if criteria is met
-				tmpArray[index].gameNum = gameNum;
-				tmpArray[index].ref1 = (gameNum)%(array.length)+1;
-				tmpArray[index].ref2 = (gameNum)%(array.length)+1;
-				gameNum++;
-				sortedMatches.push(tmpArray[index]);
-				addTeamsToQueue(sortedMatches, queue);
-				tmpArray.splice(index, 1);
-				count = 0;
+
+			for(let i=0; i<queue.length; i++) {
+				let count = 0;
+				let maxBackToBackGames = queue.length-1;
+
+				for(let j=0; j<sortedMatches.length; j++) {
+					if(queue[i] == sortedMatches[j].team1 || queue[i] == sortedMatches[j].team2) {
+						count++;
+					}
+				}
+
+				if(count > maxBackToBackGames) {
+					break;
+				}
 			}
-			// console.log(queue)
+			sortedMatchCheck = true;
 		}
 
 		function randomNum(num) {
