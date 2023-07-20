@@ -1386,8 +1386,6 @@ let exportedMethods = {
 				//select first team in queue
 				let nextTeam = queue[0];
 	
-				console.log(nextTeam);
-	
 				//find a game where this team is playing
 				for(let i=0; i<tmpArray.length; i++) {
 					let teams = [];
