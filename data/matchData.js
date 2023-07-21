@@ -92,42 +92,35 @@ let exportedMethods = {
 
         let matchHistory = [];
 
-        let matchObj = {};
-        let winnerCount = "";
-        let loserCount = "";
-        let pointDiff = 0;
-        let winnerMatches = null;
-        let loserMatches = null;
+        //get all match history in sportInfo
+        let gameHistory = []
 
-        for(i=0; i < allTeams.length; i++) {
-            winnerCount = await matchesCollection.count({
-                "winner": allTeams[i].name
-            });
-            loserCount = await matchesCollection.count({
-                "loser": allTeams[i].name
-            });
+        for(let i=0; i<sportInfo.matchHistory.length; i++) {
+            let game = await matchesCollection.findOne({_id: new ObjectId(sportInfo.matchHistory[i])});
+            gameHistory.push(game);
+        }
 
-            winnerMatches = await matchesCollection.find({"winner": allTeams[i].name}).toArray();
-            loserMatches = await matchesCollection.find({"loser": allTeams[i].name}).toArray();
-
-            for(j=0; j<winnerMatches.length; j++) {
-                pointDiff += winnerMatches[j].winnerPointDifferential;
+        //for each team, find losses and wins
+        for(let i=0; i<allTeams.length; i++) {
+            let winnerCount = 0;
+            let loserCount = 0;
+            let pointDiff = 0;
+            for(let j=0; j<gameHistory.length; j++) {
+                if(allTeams[i].name == gameHistory[j].winner) {
+                    winnerCount++;
+                    pointDiff += gameHistory[j].winnerPointDifferential;
+                    break;                    
+                }
+                if(allTeams[i].name == gameHistory[j].loser) {
+                    loserCount++;
+                    pointDiff += gameHistory[j].loserPointDifferential;
+                    break;                    
+                }
             }
-
-            for(j=0; j<loserMatches.length; j++) {
-                pointDiff += loserMatches[j].loserPointDifferential;
-            }
-
-            matchObj.name = allTeams[i].name;
-            matchObj.winnerCount = winnerCount;
-            matchObj.loserCount = loserCount;
-            matchObj.pointDifferential = pointDiff;
-
-            matchHistory.push(matchObj);
-            matchObj = {};
-            winnerCount = "";
-            loserCount = "";
-            pointDiff = 0;
+            
+            //create matchInfo object and push to matchHistory array
+            let teamMatchInfo = new gameInfo(allTeams[i].name, winnerCount, loserCount, pointDiff);
+            matchHistory.push(teamMatchInfo);
         }
 
         matchHistory = this.sortMatchHistory(matchHistory);
@@ -152,6 +145,17 @@ let exportedMethods = {
         return sortedMatchHistory;
 
     },
+}
+
+//gameInfo class
+
+class gameInfo {
+    constructor(teamName, winnerCount, loserCount, pointDiff) {
+        this.name = teamName;
+        this.winnerCount = winnerCount;
+        this.loserCount = loserCount;
+        this.pointDiff = pointDiff;
+    }
 }
 
 module.exports = exportedMethods;
