@@ -822,9 +822,7 @@ let exportedMethods = {
 
 	async getAllSeeds(placement) {
 		let currentPlacement = 0;
-
 		
-
 		const seedsCollection = await seeds();
 
 		if (placement == 'eliminated') {
