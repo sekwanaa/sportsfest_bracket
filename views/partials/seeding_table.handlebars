@@ -9,18 +9,22 @@
         <h2>Point Differential</h2>
     </div>
     <div class="seed_information">
-    {{#each matches}}
+        {{#each matches}}
         <div id="seed_info_div" class="seed_info">
-            <p id="seed{{#incrementIndex @index}}{{/incrementIndex}}">{{#incrementIndex @index}}{{/incrementIndex}}</p>
+            <p id="seed{{#incrementIndex @index}}{{/incrementIndex}}">{{#incrementIndex
+                @index}}{{/incrementIndex}}</p>
             <p id="teamName{{#incrementIndex @index}}{{/incrementIndex}}">{{this.name}}</p>
             <p id="wins{{#incrementIndex @index}}{{/incrementIndex}}">{{this.winnerCount}}</p>
             <p id="losses{{#incrementIndex @index}}{{/incrementIndex}}">{{this.loserCount}}</p>
             <p id="pointDiff{{#incrementIndex @index}}{{/incrementIndex}}">{{this.pointDifferential}}</p>
         </div>
-    {{/each}}
+        {{/each}}
     </div>
     {{#if stage1}}
-        <button id="seed_submit_button" type="submit">Submit Seeds</button>
+    <button id="seed_submit_button" type="submit">Submit Seeds</button>
+    <dialog id="errorDialog">
+        <p>Please finish all games before submitting seeds</p>
+    </dialog>
     {{/if}}
 </div>
 

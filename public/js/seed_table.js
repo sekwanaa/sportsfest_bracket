@@ -113,10 +113,14 @@
                         seedsArray: seedsArray,
                     })
                 };
-                $.ajax(req).then(function (res) {
+                $.ajax(req).then(async function (res) {
                     if (!res.startsWith("success")) {
                         submitSeedsBtn.css({ "color": "red", "border-color": "red" })
-                        alert(res)
+                        $('#errorDialog').showModal()
+                        // alert(res)
+                        setTimeout(() => {
+                            submitSeedsBtn.css({ "color": "black", "border-color": "black" })
+                        }, 5000)
                     } else {
                         console.log("reloaded")
                         location.reload();
