@@ -57,7 +57,7 @@ let exportedMethods = {
                 matchArray[i].field == matchInfo.fieldNum
             ) {
                 isMatchComplete = matchArray[i].complete;
-                console.log(isMatchComplete);
+                // console.log(isMatchComplete);
                 break;
             }
         }
