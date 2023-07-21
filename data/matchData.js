@@ -40,13 +40,26 @@ let exportedMethods = {
         const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
         const roundRobinCollection = await roundrobin();
+        const playoffCollection = await mongoCollections.playoffs();
+
+        const poolStage = poolInfo.stage;
 
         let matchArray = [];
 
-        for(let i=0; i<sportInfo.schedule.length; i++) {
-            const match = await roundRobinCollection.findOne({_id: new ObjectId(sportInfo.schedule[i])});
-            matchArray.push(match);
+        if(poolStage == 1) {
+            for(let i=0; i<sportInfo.schedule.length; i++) {
+                const match = await roundRobinCollection.findOne({_id: new ObjectId(sportInfo.schedule[i])});
+                matchArray.push(match);
+            }
         }
+
+        else {
+            for(let i=0; i<sportInfo.schedule.length; i++) {
+                const match = await playoffCollection.findOne({_id: new ObjectId(sportInfo.playoffs[i])});
+                matchArray.push(match);
+            }
+        }
+
 
         let isMatchComplete = null;
 
