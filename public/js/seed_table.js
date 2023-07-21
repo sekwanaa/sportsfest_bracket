@@ -114,9 +114,13 @@
                     })
                 };
                 $.ajax(req).then(function (res) {
-                    submitSeedsBtn.css({ "color": "red", "border-color": "red" })
-                    console.log(res)
-                    // location.reload();
+                    if (!res.startsWith("success")) {
+                        submitSeedsBtn.css({ "color": "red", "border-color": "red" })
+                        alert(res)
+                    } else {
+                        console.log("reloaded")
+                        location.reload();
+                    }
                 });
             }
             catch (e) {

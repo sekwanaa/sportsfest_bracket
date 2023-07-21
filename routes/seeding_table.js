@@ -86,9 +86,7 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 
 		const numOfTeams = await teamsCollection.find({}).toArray()
 		const matchSubmitted = await matchesCollection.find({ submitted: true }).toArray()
-		console.log(matchSubmitted)
 		if (matchSubmitted.length !== numOfTeams.length) {
-			console.log("You need to complete all the games before submitting the seeds")
 			return res.json("You need to submit all scores first")
 		}
 
@@ -116,7 +114,7 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 
 		const seedId = await poolsData.seedInsert(seeds, tournamentId, sportName);
 
-		return res.json(seedId);
+		return res.json("success");
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
