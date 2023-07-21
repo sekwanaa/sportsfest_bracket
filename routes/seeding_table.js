@@ -36,14 +36,14 @@ router.get('/:id/:sport', async (req, res) => {
 
 		let isStage1 = true;
 
-		if (seedsInfo!=null && seedsInfo.length > 0) {
+		if (seedsInfo != null && seedsInfo.length > 0) {
 			isStage1 = false;
 		}
 
 		if (user._id.toString() == poolInfo.coordinator) {
 			tournamentCoordinator = true;
 		}
-		
+
 		res.render('partials/seeding_table', {
 			title: 'Seeding Table',
 			shortcode: 'seedingTable',
@@ -78,6 +78,20 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 	const sportName = req.params.sport;
 
 	try {
+		const mongoCollection = require('../config/mongoCollections')
+		const matches = mongoCollection.matches
+		const teams = mongoCollection.teams
+		const matchesCollection = await matches()
+		const teamsCollection = await teams()
+
+		const numOfTeams = await teamsCollection.find({}).toArray()
+		const matchSubmitted = await matchesCollection.find({ submitted: true }).toArray()
+		console.log(matchSubmitted)
+		if (matchSubmitted.length !== numOfTeams.length) {
+			console.log("You need to complete all the games before submitting the seeds")
+			return res.json("You need to submit all scores first")
+		}
+
 		const poolInfo = await poolsData.getPoolInfo(tournamentId);
 		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 

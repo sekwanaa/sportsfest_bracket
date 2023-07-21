@@ -23,7 +23,7 @@ router.get('/:id/:sport', async (req, res) => {
 			userRole = user.user_metadata.role;
 			const player = await teamsData.getPlayerByUserId(user._id.toString());
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
-			
+
 			const poolInfo = await poolsData.getPoolInfo(tournamentId);
 
 			if (user._id.toString() == poolInfo.coordinator) {
@@ -37,14 +37,14 @@ router.get('/:id/:sport', async (req, res) => {
 
 		let sportInfo = null;
 
-		for(let i=0; i<poolInfo.sports.length; i++) {
+		for (let i = 0; i < poolInfo.sports.length; i++) {
 			sportInfo = await poolsData.getSportDataById(poolInfo.sports[i]);
-			if(sportInfo.sport == sportName) {
+			if (sportInfo.sport == sportName) {
 				numOfFields = sportInfo.numOfFields;
 				break;
 			}
 		}
-		
+
 		let courtArray = [];
 		let courtObj = {};
 		let courtData = '';
@@ -97,13 +97,14 @@ router.post('/:id/:sport/', async (req, res) => {
 
 	try {
 		const checkIfMatchIsCompleted = await matchesData.checkIfMatchIsCompleted(tournamentId, sportName, matchInfo);
-		if(checkIfMatchIsCompleted == true) {	
+		if (checkIfMatchIsCompleted == true) {
 			return res.json("match already submitted");
 		}
 		else {
-			matchInfo.month = new Date().getMonth()+1;
+			matchInfo.month = new Date().getMonth() + 1;
 			matchInfo.day = new Date().getDate();
 			matchInfo.year = new Date().getFullYear(); // gets the current year, court view can only submit current year scores
+			matchInfo.submitted = true
 
 			const insertMatch = await matchesData.insertMatch(matchInfo, tournamentId, sportName);
 			return res.json(insertMatch);
