@@ -20,11 +20,16 @@
         </div>
         {{/each}}
     </div>
+    <dialog id="errorDialog">
+        <form method="dialog">
+            <p>Please finish all games before submitting seeds</p>
+            <section>
+                <button type="button" id="errorDialogCancelButton">Ok</button>
+            </section>
+        </form>
+    </dialog>
     {{#if stage1}}
     <button id="seed_submit_button" type="submit">Submit Seeds</button>
-    <dialog id="errorDialog">
-        <p>Please finish all games before submitting seeds</p>
-    </dialog>
     {{/if}}
 </div>
 

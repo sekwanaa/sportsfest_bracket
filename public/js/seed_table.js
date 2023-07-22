@@ -1,5 +1,6 @@
 (function ($) {
     var baseUrl = window.location.pathname;
+    let errorDialog = $('#errorDialog')
 
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
 
@@ -113,14 +114,15 @@
                         seedsArray: seedsArray,
                     })
                 };
-                $.ajax(req).then(async function (res) {
+                $.ajax(req).then(function (res) {
                     if (!res.startsWith("success")) {
                         submitSeedsBtn.css({ "color": "red", "border-color": "red" })
-                        $('#errorDialog').showModal()
-                        // alert(res)
+                        errorDialog.show()
+                        errorDialog.css({ "display": "block" })
                         setTimeout(() => {
                             submitSeedsBtn.css({ "color": "black", "border-color": "black" })
-                        }, 5000)
+                        }, 10000)
+                        submitSeedsBtn.hide()
                     } else {
                         console.log("reloaded")
                         location.reload();
@@ -132,5 +134,11 @@
             }
         });
     }
+
+    $('#errorDialogCancelButton').click((event) => {
+        event.preventDefault()
+        errorDialog.hide()
+        submitSeedsBtn.show()
+    })
 
 })(window.jQuery);
