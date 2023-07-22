@@ -828,7 +828,7 @@ let exportedMethods = {
 		const poolInfo = await this.getPoolInfo(tournamentId);
 		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 		let seedData = [];
-		
+
 		if (placement == 'eliminated') {
 
 			for(let i=0; i<sportInfo.seeds.length; i++) {
@@ -858,16 +858,31 @@ let exportedMethods = {
 				currentPlacement = currentPlacement;
 			}
 
-			const seedData = await seedsCollection
-				.find({ currentPlacement: { $gte: currentPlacement } })
-				.sort({ seed: 1 })
-				.toArray();
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let seed = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(seed.currentPlacement >= currentPlacement) {
+					seedData.push(seed);
+				}
+			}
+			// const seedData = await seedsCollection
+			// 	.find({ currentPlacement: { $gte: currentPlacement } })
+			// 	.sort({ seed: 1 })
+			// 	.toArray();
 			currentPlacement *= -1;
 
-			const loserSeedData = await seedsCollection
-				.find({ currentPlacement: { $lte: currentPlacement } })
-				.sort({ seed: 1 })
-				.toArray();
+			let loserSeedData = [];
+
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let seed = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(seed.currentPlacement <= currentPlacement) {
+					seedData.push(seed);
+				}
+			}
+
+			// const loserSeedData = await seedsCollection
+			// 	.find({ currentPlacement: { $lte: currentPlacement } })
+			// 	.sort({ seed: 1 })
+			// 	.toArray();
 			let allSeedData = [];
 
 			for (i = 0; i < seedData.length; i++) {
