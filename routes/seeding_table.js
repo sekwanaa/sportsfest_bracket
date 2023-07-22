@@ -81,8 +81,6 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 		const poolInfo = await poolsData.getPoolInfo(tournamentId);
 		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
-		console.log(sportInfo)
-		console.log(sportName)
 		if (sportInfo.sport == sportName) {
 			if (sportInfo.schedule.length !== sportInfo.matchHistory.length) {
 				return res.json("You need to submit all scores first")

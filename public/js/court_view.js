@@ -10,8 +10,8 @@
 
 		var team1 = $('#court' + submitButtonNumber + 'team1Name').text();
 		var team2 = $('#court' + submitButtonNumber + 'team2Name').text();
-		var team1Score = parseInt($('#court' + submitButtonNumber + 'score1').val());
-		var team2Score = parseInt($('#court' + submitButtonNumber + 'score2').val());
+		var team1Score = parseInt($('#court' + submitButtonNumber + 'score1').val()) || 0;
+		var team2Score = parseInt($('#court' + submitButtonNumber + 'score2').val()) || 0;
 		var fieldNum = parseInt(
 			$('#court' + submitButtonNumber)
 				.text()
@@ -53,7 +53,8 @@
 					loserPointDifferential: loserPointDifferential,
 				}),
 			};
-			$.ajax(req).then(function (res) {});
+			$.ajax(req).then(function (res) {
+			});
 		} catch (e) {
 			console.log(e);
 		}
