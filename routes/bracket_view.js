@@ -159,8 +159,8 @@ router.get('/:id/:sport', async (req, res) => {
 
 		// quarters
 
-		let quarterArr = await poolsData.getBracketData('quarters');
-		eliminatedTeams = await poolsData.getAllSeeds('eliminated');
+		let quarterArr = await poolsData.getBracketData(tournamentId, sportName, 'quarters');
+		eliminatedTeams = await poolsData.getAllSeeds(tournamentId, sportName, 'eliminated');
 		eliminatedTeamsArr = [];
 
 		// semis

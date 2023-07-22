@@ -820,13 +820,24 @@ let exportedMethods = {
 		return playOffTeamsArray;
 	},
 
-	async getAllSeeds(placement) {
+	async getAllSeeds(tournamentId, sportName, placement) {
 		let currentPlacement = 0;
 		
 		const seedsCollection = await seeds();
 
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
+		let seedData = [];
+
 		if (placement == 'eliminated') {
-			const seedData = await seedsCollection.find({ currentPlacement: { $lt: 0 } }).toArray();
+
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let seed = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(seed.currentPlacement < 0) {
+					seedData.push(seed);
+				}
+			}
+			// let seedData = await seedsCollection.find({ currentPlacement: { $lt: 0 } }).toArray();
 			return seedData;
 		} 
 		
@@ -847,16 +858,31 @@ let exportedMethods = {
 				currentPlacement = currentPlacement;
 			}
 
-			const seedData = await seedsCollection
-				.find({ currentPlacement: { $gte: currentPlacement } })
-				.sort({ seed: 1 })
-				.toArray();
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let seed = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(seed.currentPlacement >= currentPlacement) {
+					seedData.push(seed);
+				}
+			}
+			// const seedData = await seedsCollection
+			// 	.find({ currentPlacement: { $gte: currentPlacement } })
+			// 	.sort({ seed: 1 })
+			// 	.toArray();
 			currentPlacement *= -1;
 
-			const loserSeedData = await seedsCollection
-				.find({ currentPlacement: { $lte: currentPlacement } })
-				.sort({ seed: 1 })
-				.toArray();
+			let loserSeedData = [];
+
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let seed = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(seed.currentPlacement <= currentPlacement) {
+					seedData.push(seed);
+				}
+			}
+
+			// const loserSeedData = await seedsCollection
+			// 	.find({ currentPlacement: { $lte: currentPlacement } })
+			// 	.sort({ seed: 1 })
+			// 	.toArray();
 			let allSeedData = [];
 
 			for (i = 0; i < seedData.length; i++) {
@@ -973,7 +999,7 @@ let exportedMethods = {
 
 	//getBracketData will take a string input, that will determine the round - playoffs, quarters, semis, etc
 	//returns an array of objects with team data
-	async getBracketData(round) {
+	async getBracketData(tournamentId, sportName, round) {
 		let completedArray = [];
 		let finishedTeams = [];
 
@@ -990,7 +1016,7 @@ let exportedMethods = {
 
 		const playoffsCollection = await playoffs();
 
-		const getAllSeedsArray = await this.getAllSeeds(round);
+		const getAllSeedsArray = await this.getAllSeeds(tournamentId, sportName, round);
 
 		let currentPlacement = null;
 		let teamName = null;

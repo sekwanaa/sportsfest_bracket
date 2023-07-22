@@ -154,7 +154,7 @@ class gameInfo {
         this.name = teamName;
         this.winnerCount = winnerCount;
         this.loserCount = loserCount;
-        this.pointDiff = pointDiff;
+        this.pointDifferential = pointDiff;
     }
 }
 

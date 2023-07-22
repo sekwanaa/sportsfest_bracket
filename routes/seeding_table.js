@@ -32,7 +32,7 @@ router.get('/:id/:sport', async (req, res) => {
 		}
 
 		const matchHistory = await matchesData.getTeamRecords(tournamentId, sportName);
-		const seedsInfo = await poolsData.getAllSeeds();
+		const seedsInfo = await poolsData.getAllSeeds(tournamentId, sportName, null);
 
 		let isStage1 = true;
 
