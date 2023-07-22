@@ -1,6 +1,6 @@
 (function ($) {
     var baseUrl = window.location.pathname;
-    let errorDialog = $('#errorDialog')
+    let errorDialog = $('.errorDialog')
 
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
 
@@ -124,7 +124,6 @@
                         }, 10000)
                         submitSeedsBtn.hide()
                     } else {
-                        console.log("reloaded")
                         location.reload();
                     }
                 });
@@ -135,7 +134,7 @@
         });
     }
 
-    $('#errorDialogCancelButton').click((event) => {
+    $('.errorDialogCancelButton').click((event) => {
         event.preventDefault()
         errorDialog.hide()
         submitSeedsBtn.show()

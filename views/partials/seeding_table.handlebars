@@ -3,11 +3,11 @@
         <button id="refresh_seed_table_button">Refresh Table</button>
         {{#if stage1}}
         <button id="seed_submit_button" type="submit">Submit Seeds</button>
-        <dialog id="errorDialog">
+        <dialog id="errorDialogSubmitSeeds" class="errorDialog">
             <form method="dialog">
                 <p>Please finish all games before submitting seeds</p>
                 <section>
-                    <button type="button" id="errorDialogCancelButton">Ok</button>
+                    <button type="button" class="errorDialogCancelButton">Ok</button>
                 </section>
             </form>
         </dialog>

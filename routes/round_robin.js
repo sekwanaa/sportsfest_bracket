@@ -92,7 +92,7 @@ router.post('/:id/:sport/round_robin_schedule/', async (req, res) => {
 		//insert scheduleType into Tournament
 		const insertScheduleType = await poolsData.updateSportScheduleType(tournamentId, sportName, scheduleType);
 
-		for(let i = 0; i <roundRobinInfo.length; i++) {
+		for (let i = 0; i < roundRobinInfo.length; i++) {
 			let gameNum = roundRobinInfo[i].gameNum;
 			let team1 = roundRobinInfo[i].team1;
 			let team2 = roundRobinInfo[i].team2;
@@ -127,8 +127,19 @@ router.post('/:id/:sport/round_robin_complete/', async (req, res) => {
 	let sportName = req.params.sport;
 
 	try {
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+		if (sportInfo.seeds.length == 0) {
+			return res.json("You need to submit seeds first")
+		}
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
+
+	try {
 		const roundRobinComplete = await poolsData.completeRoundRobin(tournamentId, sportName);
-		return res.json(roundRobinComplete);
+		return res.json("success");
 	} catch (e) {
 		return res.status(500).json({ error: e });
 	}
