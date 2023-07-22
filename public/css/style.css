@@ -1,128 +1,138 @@
 :root {
-    --borderRadius: 20px;
-    --textColor: rgb(234, 234, 234);
-    --linkTransitionIn: 250ms ease-in;
-    --linkTransitionOut: 250ms ease-out;
-    --displayedInfoFontSize: 16px;
-    --volleyballBGColor: rgb(221, 221, 0);
-    --frisbeeBGColor: rgb(73, 152, 248);
-    --basketballBGColor: rgb(211, 110, 0);
-    --soccerBGColor: rgb(0, 145, 2);
+  --borderRadius: 20px;
+  --textColor: rgb(234, 234, 234);
+  --linkTransitionIn: 250ms ease-in;
+  --linkTransitionOut: 250ms ease-out;
+  --displayedInfoFontSize: 16px;
+  --volleyballBGColor: rgb(221, 221, 0);
+  --frisbeeBGColor: rgb(73, 152, 248);
+  --basketballBGColor: rgb(211, 110, 0);
+  --soccerBGColor: rgb(0, 145, 2);
 }
 
 @keyframes fadein {
-    from {
-        opacity: 0%;
-    }
-    to {
-        opacity: 100%;
-    }
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
 }
 
 @font-face {
-    font-family: mainFont;
-    src: url(../fonts/Favorit_Expanded_Dynamo/ABCFavoritExpanded-Light-Trial.otf);
+  font-family: mainFont;
+  src: url(../fonts/Favorit_Expanded_Dynamo/ABCFavoritExpanded-Light-Trial.otf);
 }
 
 @font-face {
-    font-family: titleFont;
-    src: url(../fonts/Favorit_Expanded_Dynamo/ABCFavoritExpanded-Medium-Trial.otf);
+  font-family: titleFont;
+  src: url(../fonts/Favorit_Expanded_Dynamo/ABCFavoritExpanded-Medium-Trial.otf);
 }
 
-* { /* get rid of default margin / padding */
-    margin: 0;
-    padding: 0;
+* {
+  /* get rid of default margin / padding */
+  margin: 0;
+  padding: 0;
 }
 
-body::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari and Opera */
-    display: none;
-}
-
-body { /* Hide scrollbar for IE, Edge and Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+body::-webkit-scrollbar {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  display: none;
 }
 
 body {
-    overflow-x: hidden;
-    background-color: var(--textColor);
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--textColor);
 }
 
 header {
-    padding: 0;
+  padding: 0;
 }
 
-header a, header li { /* make header and li text normal */
-    text-decoration: none;
-    list-style: none;
-    color: var(--textColor);
+header a,
+header li {
+  /* make header and li text normal */
+  text-decoration: none;
+  list-style: none;
+  color: var(--textColor);
 }
 
 nav {
-    border: 1px solid black;
-    background-color: white;
-    border-radius: var(--borderRadius);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: var(--borderRadius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 ul#navLinks {
-    display: flex;
+  display: flex;
 }
 
 .hidden {
-    visibility: hidden;
-    position: absolute;
+  visibility: hidden;
+  position: absolute;
 }
 
 ul#sportsActiveDropdownMenu.sportsActive {
-    padding: 10px;
-    background-color: white;
-    border-bottom: 1px solid black;
-    border-radius: 20px;
-    visibility: visible;
-    display: flex;
-    justify-content: space-around;
-    position: initial;
+  padding: 10px;
+  background-color: white;
+  border-bottom: 1px solid black;
+  border-radius: 20px;
+  visibility: visible;
+  display: flex;
+  justify-content: space-around;
+  position: initial;
 }
 
 ul#sportsActiveDropdownMenu li {
-    border-radius: 20px;
-    background-color: black;
+  border-radius: 20px;
+  background-color: black;
 }
 
 ul#sportsActiveDropdownMenu a {
-    font-family: mainFont;
-    font-size: 24px;
-    word-spacing: .5rem;
-    letter-spacing: .1rem;
-    padding: 2px 10px;
-    color: white;
+  font-family: mainFont;
+  font-size: 24px;
+  word-spacing: 0.5rem;
+  letter-spacing: 0.1rem;
+  padding: 2px 10px;
+  color: white;
 }
 
 /* hover styling */
 
 #logo:hover {
-    color: black;
-    transition: var(--linkTransitionIn);
+  color: black;
+  transition: var(--linkTransitionIn);
 }
 
-#profileLink:hover, #loginLink:hover, #sportsActiveDropdownMenu li:hover { /* hover over the profile link / login link */
-    background-color: var(--textColor);
-    color: black;
-    transition: var(--linkTransitionIn);
+#profileLink:hover,
+#loginLink:hover,
+#sportsActiveDropdownMenu li:hover {
+  /* hover over the profile link / login link */
+  background-color: var(--textColor);
+  color: black;
+  transition: var(--linkTransitionIn);
 }
 
-#navLinks li:hover .dropdownContainer { /* makes dropdown visible*/
-    visibility: visible;
-    opacity: 1;
-    transition: var(--linkTransitionIn);
+#navLinks li:hover .dropdownContainer {
+  /* makes dropdown visible*/
+  visibility: visible;
+  opacity: 1;
+  transition: var(--linkTransitionIn);
 }
 
-.dropdownContainer li:hover a, #sportsActiveDropdownMenu li:hover a {
-    color: black;
-    transition: var(--linkTransitionIn);
+.dropdownContainer li:hover a,
+#sportsActiveDropdownMenu li:hover a {
+  color: black;
+  transition: var(--linkTransitionIn);
 }
 
 /* hover styling end */
@@ -130,39 +140,40 @@ ul#sportsActiveDropdownMenu a {
 /* link styling */
 
 #navLinks > li {
-    position: relative;
+  position: relative;
 }
 
-#logoDiv, #linkDiv {
-    font-family: mainFont;
-    padding: 5px 10px;
+#logoDiv,
+#linkDiv {
+  font-family: mainFont;
+  padding: 5px 10px;
 }
 
 #logo {
-    transition: var(--linkTransitionOut);
+  transition: var(--linkTransitionOut);
 }
 
 .link {
-    text-align: center;
-    padding: 2px 10px;
-    margin: 0 10px;
-    border-radius: var(--borderRadius);
-    background-color: black;
-    transition: var(--linkTransitionOut);
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  text-align: center;
+  padding: 2px 10px;
+  margin: 0 10px;
+  border-radius: var(--borderRadius);
+  background-color: black;
+  transition: var(--linkTransitionOut);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #loginLink {
-    text-align: center;
-    padding: 2px 10px;
-    border-radius: var(--borderRadius);
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  text-align: center;
+  padding: 2px 10px;
+  border-radius: var(--borderRadius);
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* link styling end */
@@ -170,21 +181,28 @@ ul#sportsActiveDropdownMenu a {
 /* dropdown styling */
 
 .dropdownContainer {
-    padding-top: .75rem;
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    left: 25%;
-    transition: var(--linkTransitionOut);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    gap: .75rem;
+  padding-top: 0.75rem;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  left: 25%;
+  transition: var(--linkTransitionOut);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 0.75rem;
 }
 
 .dropdownContainer a {
-    color: white;
-    transition: var(--linkTransitionOut);
+  color: white;
+  transition: var(--linkTransitionOut);
 }
 
 /* dropdown styling end */
+
+/* Universal classes */
+
+.top_grid_buttons_div {
+  display: flex;
+  justify-content: space-between;
+}

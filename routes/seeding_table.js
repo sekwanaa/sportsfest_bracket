@@ -78,20 +78,16 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 	const sportName = req.params.sport;
 
 	try {
-		const mongoCollection = require('../config/mongoCollections')
-		const matches = mongoCollection.matches
-		const teams = mongoCollection.teams
-		const matchesCollection = await matches()
-		const teamsCollection = await teams()
-
-		const numOfTeams = await teamsCollection.find({}).toArray()
-		const matchSubmitted = await matchesCollection.find({ submitted: true }).toArray()
-		if (matchSubmitted.length !== numOfTeams.length) {
-			return res.json("You need to submit all scores first")
-		}
-
 		const poolInfo = await poolsData.getPoolInfo(tournamentId);
 		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+		console.log(sportInfo)
+		console.log(sportName)
+		if (sportInfo.sport == sportName) {
+			if (sportInfo.schedule.length !== sportInfo.matchHistory.length) {
+				return res.json("You need to submit all scores first")
+			}
+		}
 
 		let numOfSeeds = Math.floor(sportInfo.teams.length * 0.6);
 		let numOfPlayoffTeams = Math.floor((numOfSeeds * 2) / 3);
