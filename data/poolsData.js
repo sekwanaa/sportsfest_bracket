@@ -820,7 +820,7 @@ let exportedMethods = {
 		return playOffTeamsArray;
 	},
 
-	async getAllSeeds(placement) {
+	async getAllSeeds(tournamentId, sportName, placement) {
 		let currentPlacement = 0;
 		
 		const seedsCollection = await seeds();
@@ -973,7 +973,7 @@ let exportedMethods = {
 
 	//getBracketData will take a string input, that will determine the round - playoffs, quarters, semis, etc
 	//returns an array of objects with team data
-	async getBracketData(round) {
+	async getBracketData(tournamentId, sportName, round) {
 		let completedArray = [];
 		let finishedTeams = [];
 
@@ -990,7 +990,7 @@ let exportedMethods = {
 
 		const playoffsCollection = await playoffs();
 
-		const getAllSeedsArray = await this.getAllSeeds(round);
+		const getAllSeedsArray = await this.getAllSeeds(tournamentId, sportName, round);
 
 		let currentPlacement = null;
 		let teamName = null;
