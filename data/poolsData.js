@@ -825,8 +825,19 @@ let exportedMethods = {
 		
 		const seedsCollection = await seeds();
 
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
+		let seedData = [];
+		
 		if (placement == 'eliminated') {
-			const seedData = await seedsCollection.find({ currentPlacement: { $lt: 0 } }).toArray();
+
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let seed = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(seed.currentPlacement < 0) {
+					seedData.push(seed);
+				}
+			}
+			// let seedData = await seedsCollection.find({ currentPlacement: { $lt: 0 } }).toArray();
 			return seedData;
 		} 
 		
