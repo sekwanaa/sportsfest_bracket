@@ -524,7 +524,9 @@ let exportedMethods = {
 
 		// const stage = await poolsCollection.find({}, {stage: 1});
 
-		const poolInfo = await poolsCollection.findOne({_id: new ObjectId(tournamentId)});
+		// const poolInfo = await poolsCollection.findOne({_id: new ObjectId(tournamentId)});
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 
 		const stage = parseInt(poolInfo.stage);
 
@@ -532,63 +534,94 @@ let exportedMethods = {
 
 		//if current stage is round robin
 		if (stage == 1) {
+			const sportsSchedule = sportInfo.schedule;
 			const roundRobinCollection = await roundrobin();
 
-			const updateRoundRobin = await roundRobinCollection.findOneAndUpdate(
-				{
-					field: fieldNum,
-					team1: team1,
-					team2: team2,
-				},
-				{
-					$set: {
-						complete: true,
-					},
+			for(let i=0; i<sportsSchedule.length; i++) {
+				let game = await roundRobinCollection.findOne({_id: new ObjectId(sportsSchedule[i])});
+				if(game.field == fieldNum && game.team1 == team1 && game.team2 == team2) {
+					const updateRoundRobin = await roundRobinCollection.findOneAndUpdate(
+						{
+							_id: new ObjectId(sportsSchedule[i]),
+						},
+						{
+							$set: {
+								complete: true,
+							},
+						}
+					);
+					break;
 				}
-			);
-		} else if (stage == 2) {
+			}
+		} 
+		
+		//if current stage is in playoffs
+		else if (stage == 2) {
+			const sportsSchedule = sportInfo.playoffs;
 			const playOffCollection = await playoffs();
-			const updatePlayOffs = await playOffCollection.findOneAndUpdate(
-				{
-					field: fieldNum,
-					team1: team1,
-					team2: team2,
-				},
-				{
-					$set: {
-						complete: true,
-					},
+
+			for(let i=0; i<sportsSchedule.length; i++) {
+				let game = await playOffCollection.findOne({_id: new ObjectId(sportsSchedule[i])});
+				if(game.field == fieldNum && game.team1 == team1 && game.team2 == team2) {
+					const updateRoundRobin = await playOffCollection.findOneAndUpdate(
+						{
+							_id: new ObjectId(sportsSchedule[i]),
+						},
+						{
+							$set: {
+								complete: true,
+							},
+						}
+					)
+					break;					
 				}
-			);
+			}
 
 			//for each team, update seed collection currentPlacement
 
 			const seedsCollection = await seeds();
-			const updateTeam1 = await seedsCollection.findOneAndUpdate(
-				{
-					team: winner,
-				},
-				{
-					$inc: {
-						currentPlacement: 1,
-					},
+
+			let winnerSeedInfo = null;
+			let loserSeedInfo = null;
+
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				winnerSeedInfo = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(winnerSeedInfo.team == winner) {
+					const updateTeam1 = await seedsCollection.findOneAndUpdate(
+						{
+							_id: winnerSeedInfo._id
+						},
+						{
+							$inc: {
+								currentPlacement: 1,
+							},
+						}
+					)
+					break;
 				}
-			);
-			const updateTeam2 = await seedsCollection.findOneAndUpdate(
-				{
-					team: loser,
-				},
-				{
-					$mul: {
-						currentPlacement: -1,
-					},
+			}
+
+			for(let i=0; i<sportInfo.seeds.length; i++) {
+				let loserSeedInfo = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				if(loserSeedInfo.team == loser) {
+					const updateTeam2 = await seedsCollection.findOneAndUpdate(
+						{
+							_id: loserSeedInfo._id
+						},
+						{
+							$mul: {
+								currentPlacement: -1,
+							},
+						}
+					)
+					break;
 				}
-			);
+			}
 
 			//add winning team to next placement match
 
-			let winnerSeedInfo = await seedsCollection.findOne({ team: winner });
-			let loserSeedInfo = await seedsCollection.findOne({ team: loser });
+			// let winnerSeedInfo = await seedsCollection.findOne({ team: winner });
+			// let loserSeedInfo = await seedsCollection.findOne({ team: loser });
 
 			let winnerSeedNum = winnerSeedInfo.seed;
 			let winnerCurrentPlacement = winnerSeedInfo.currentPlacement;
@@ -600,148 +633,190 @@ let exportedMethods = {
 				return;
 			}
 
-			const playOffSeed = await playOffCollection.findOne(
-				{ gameNum: winnerCurrentPlacement, complete: false },
-				{ sort: { gameNum: 1 } }
-			);
 
-			//if else block for quarters
-			if (playOffSeed.gameNum == 2) {
-				const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-					{
-						gameNum: 2,
-						nextTeam2: winnerSeedNum,
-						complete: false,
+			/* NEW inserting winners for playoffs */
+
+
+			//winners for quarters
+			const playoffSeed = await playOffCollection.findOneAndUpdate(
+				{
+					gameNum: winnerCurrentPlacement,
+					nexTeam2: winnerSeedNum,
+				},
+				{
+					$set: {
+						team2: winner,
 					},
-					{
-						$set: {
-							team2: winner,
-						},
-					},
-					{
-						sort: {
-							gameNum: 1,
-						},
-					}
-				);
-			}
-			//if else block for semis
-			else if (playOffSeed.gameNum == 3) {
-				if (winnerSeedNum % 4 == 1 || winnerSeedNum % 4 == 3) {
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 3,
-							nextTeam1: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team1: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
-				} else {
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 3,
-							nextTeam2: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team2: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
 				}
-			} else if (playOffSeed.gameNum == 4) {
-				if (loserSeedNum % 4 < 3 && loserSeedNum % 4 != 0) {
-					const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam2: loserSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team2: loser,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
+			)
 
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam1: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team1: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
-				} else {
-					const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam1: loserSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team1: loser,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
+			//winners for semis
 
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam2: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team2: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
-				}
-			} else {
-			}
-		} else if (stage == 3) {
-		} else {
+
+			//winners for finals
+
+
+
+			
+			/* END NEW inserting winners for playoffs */ 
+			
+			// const playOffSeed = await playOffCollection.findOne(
+			// 	{ gameNum: winnerCurrentPlacement, complete: false },
+			// 	{ sort: { gameNum: 1 } }
+			// );
+
+			// //if else block for quarters
+			// if (playOffSeed.gameNum == 2) {
+			// 	const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 		{
+			// 			gameNum: 2,
+			// 			nextTeam2: winnerSeedNum,
+			// 			complete: false,
+			// 		},
+			// 		{
+			// 			$set: {
+			// 				team2: winner,
+			// 			},
+			// 		},
+			// 		{
+			// 			sort: {
+			// 				gameNum: 1,
+			// 			},
+			// 		}
+			// 	);
+			// }
+
+			// //if else block for semis
+			// else if (playOffSeed.gameNum == 3) {
+			// 	if (winnerSeedNum % 4 == 1 || winnerSeedNum % 4 == 3) {
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 3,
+			// 				nextTeam1: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team1: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	} 
+				
+			// 	else {
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 3,
+			// 				nextTeam2: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team2: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	}
+			// } 
+			
+			// else if (playOffSeed.gameNum == 4) {
+			// 	if (loserSeedNum % 4 < 3 && loserSeedNum % 4 != 0) {
+			// 		const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam2: loserSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team2: loser,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam1: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team1: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	} 
+				
+			// 	else {
+			// 		const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam1: loserSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team1: loser,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam2: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team2: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	}
+			// } 
+
+			// else {
+
+			// }
+		}
+		
+		else if (stage == 3) {
+
+		}
+		
+		else {
 			// console.log('stage 3');
 		}
 
