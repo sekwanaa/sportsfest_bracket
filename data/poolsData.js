@@ -624,10 +624,10 @@ let exportedMethods = {
 			// let loserSeedInfo = await seedsCollection.findOne({ team: loser });
 
 			let winnerSeedNum = winnerSeedInfo.seed;
-			let winnerCurrentPlacement = winnerSeedInfo.currentPlacement;
+			let winnerCurrentPlacement = winnerSeedInfo.currentPlacement+1;
 
 			let loserSeedNum = loserSeedInfo.seed;
-			let loserCurrentPlacement = loserSeedInfo.currentPlacement;
+			let loserCurrentPlacement = loserSeedInfo.currentPlacement*-1;
 
 			if (winnerCurrentPlacement >= 4) {
 				return;
