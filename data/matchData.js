@@ -109,12 +109,14 @@ let exportedMethods = {
                 if(allTeams[i].name == gameHistory[j].winner) {
                     winnerCount++;
                     pointDiff += gameHistory[j].winnerPointDifferential;
-                    break;                    
+                    continue;
+                    // break;                    
                 }
                 if(allTeams[i].name == gameHistory[j].loser) {
                     loserCount++;
                     pointDiff += gameHistory[j].loserPointDifferential;
-                    break;                    
+                    continue;
+                    // break;                    
                 }
             }
             
@@ -123,7 +125,7 @@ let exportedMethods = {
             matchHistory.push(teamMatchInfo);
         }
 
-        matchHistory = this.sortMatchHistory(matchHistory);
+        matchHistory = await this.sortMatchHistory(matchHistory);
 
         return matchHistory;
     },
