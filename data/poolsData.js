@@ -324,26 +324,30 @@ let exportedMethods = {
 		const allSeedData = await this.returnSeeds(sportInfo.seeds);
 		const seedData = allSeedData.slice(0, numOfPlayoffTeams);
 
-		// console.log(seedData);
 
-		// console.log(seedData);
-		// const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
+		//first 4 matches
 
-		for (
-			let i = seedData.length - numOfPlayoffTeams;
-			i < seedData.length - numOfPlayoffTeams + numOfPlayoffTeams / 2;
-			i++
-		) {
-			finalizedSeed.push(seedData[i]);
-			finalizedSeed.push(seedData[i + seedData.length - numOfPlayoffTeams]);
+		class playOffMatch {
+			constructor (gameNum, team1, team2, field, complete) {
+				this.gameNum = gameNum;
+				this.team1 = team1;
+				this.team2 = team2;
+				this.field = field;
+				this.complete = complete;
+			}
+		}
 
-			matchObj.gameNum = gameNum;
-			matchObj.team1 = seedData[i].team;
-			matchObj.team2 = seedData[i + seedData.length - numOfPlayoffTeams].team;
-			matchObj.field = fieldCount + 1;
-			matchObj.complete = false;
+		for(let i=4; i<seedData.length-4; i++) {
+			
+			let team1 = seedData[i];
+			let team2 = seedData[seedData.length-4+i%4];
+			
+			finalizedSeed.push(team1);
+			finalizedSeed.push(team2);
 
-			insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
+			let match = new playOffMatch(gameNum, team1.team, team2.team, fieldCount + 1, false);
+			
+			insertPlayOffGame = await playoffsCollection.insertOne(match);
 			playOffId = insertPlayOffGame.insertedId.toString();
 
 			const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);
@@ -356,9 +360,40 @@ let exportedMethods = {
 			if (gamesCount == numOfPlayoffTeams / 2) {
 				gameNum++;
 			}
-
-			matchObj = {};
 		}
+
+		console.log(finalizedSeed);
+
+		// for (
+		// 	let i = seedData.length - numOfPlayoffTeams;
+		// 	i < seedData.length - numOfPlayoffTeams + numOfPlayoffTeams / 2;
+		// 	i++
+		// ) {
+		// 	finalizedSeed.push(seedData[i]);
+		// 	finalizedSeed.push(seedData[i + seedData.length - numOfPlayoffTeams]);
+
+		// 	matchObj.gameNum = gameNum;
+		// 	matchObj.team1 = seedData[i].team;
+		// 	matchObj.team2 = seedData[i + seedData.length - numOfPlayoffTeams].team;
+		// 	matchObj.field = fieldCount + 1;
+		// 	matchObj.complete = false;
+
+		// 	insertPlayOffGame = await playoffsCollection.insertOne(matchObj);
+		// 	playOffId = insertPlayOffGame.insertedId.toString();
+
+		// 	const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);
+
+		// 	fieldCount++;
+		// 	fieldCount = fieldCount % numOfFields;
+
+		// 	gamesCount++;
+
+		// 	if (gamesCount == numOfPlayoffTeams / 2) {
+		// 		gameNum++;
+		// 	}
+
+		// 	matchObj = {};
+		// }
 
 		//create playoff games for bye teams
 
