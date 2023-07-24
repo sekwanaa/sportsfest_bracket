@@ -633,157 +633,183 @@ let exportedMethods = {
 				return;
 			}
 
-			
-			const playOffSeed = await playOffCollection.findOne(
-				{ gameNum: winnerCurrentPlacement, complete: false },
-				{ sort: { gameNum: 1 } }
-			);
 
-			//if else block for quarters
-			if (playOffSeed.gameNum == 2) {
-				const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-					{
-						gameNum: 2,
-						nextTeam2: winnerSeedNum,
-						complete: false,
+			/* NEW inserting winners for playoffs */
+
+
+			//winners for quarters
+			const playoffSeed = await playOffCollection.findOneAndUpdate(
+				{
+					gameNum: winnerCurrentPlacement,
+					nexTeam2: winnerSeedNum,
+				},
+				{
+					$set: {
+						team2: winner,
 					},
-					{
-						$set: {
-							team2: winner,
-						},
-					},
-					{
-						sort: {
-							gameNum: 1,
-						},
-					}
-				);
-			}
-
-			//if else block for semis
-			else if (playOffSeed.gameNum == 3) {
-				if (winnerSeedNum % 4 == 1 || winnerSeedNum % 4 == 3) {
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 3,
-							nextTeam1: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team1: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
-				} 
-				
-				else {
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 3,
-							nextTeam2: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team2: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
 				}
-			} 
+			)
+
+			//winners for semis
+
+
+			//winners for finals
+
+
+
 			
-			else if (playOffSeed.gameNum == 4) {
-				if (loserSeedNum % 4 < 3 && loserSeedNum % 4 != 0) {
-					const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam2: loserSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team2: loser,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
+			/* END NEW inserting winners for playoffs */ 
+			
+			// const playOffSeed = await playOffCollection.findOne(
+			// 	{ gameNum: winnerCurrentPlacement, complete: false },
+			// 	{ sort: { gameNum: 1 } }
+			// );
 
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam1: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team1: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
-				} 
+			// //if else block for quarters
+			// if (playOffSeed.gameNum == 2) {
+			// 	const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 		{
+			// 			gameNum: 2,
+			// 			nextTeam2: winnerSeedNum,
+			// 			complete: false,
+			// 		},
+			// 		{
+			// 			$set: {
+			// 				team2: winner,
+			// 			},
+			// 		},
+			// 		{
+			// 			sort: {
+			// 				gameNum: 1,
+			// 			},
+			// 		}
+			// 	);
+			// }
+
+			// //if else block for semis
+			// else if (playOffSeed.gameNum == 3) {
+			// 	if (winnerSeedNum % 4 == 1 || winnerSeedNum % 4 == 3) {
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 3,
+			// 				nextTeam1: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team1: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	} 
 				
-				else {
-					const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam1: loserSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team1: loser,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
+			// 	else {
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 3,
+			// 				nextTeam2: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team2: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	}
+			// } 
+			
+			// else if (playOffSeed.gameNum == 4) {
+			// 	if (loserSeedNum % 4 < 3 && loserSeedNum % 4 != 0) {
+			// 		const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam2: loserSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team2: loser,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
 
-					const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
-						{
-							gameNum: 4,
-							nextTeam2: winnerSeedNum,
-							complete: false,
-						},
-						{
-							$set: {
-								team2: winner,
-							},
-						},
-						{
-							sort: {
-								gameNum: 1,
-							},
-						}
-					);
-				}
-			} 
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam1: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team1: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	} 
+				
+			// 	else {
+			// 		const updateNextPlayOffLoser = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam1: loserSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team1: loser,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
 
-			else {
+			// 		const updateNextPlayOffWinner = await playOffCollection.findOneAndUpdate(
+			// 			{
+			// 				gameNum: 4,
+			// 				nextTeam2: winnerSeedNum,
+			// 				complete: false,
+			// 			},
+			// 			{
+			// 				$set: {
+			// 					team2: winner,
+			// 				},
+			// 			},
+			// 			{
+			// 				sort: {
+			// 					gameNum: 1,
+			// 				},
+			// 			}
+			// 		);
+			// 	}
+			// } 
 
-			}
+			// else {
+
+			// }
 		}
 		
 		else if (stage == 3) {
