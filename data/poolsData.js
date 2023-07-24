@@ -321,7 +321,10 @@ let exportedMethods = {
 		let playOffId = null;
 
 
-		const seedData = await this.returnSeeds(sportInfo.seeds);
+		const allSeedData = await this.returnSeeds(sportInfo.seeds);
+		const seedData = allSeedData.slice(0, numOfPlayoffTeams);
+
+		// console.log(seedData);
 
 		// console.log(seedData);
 		// const seedData = await seedsCollection.find({}).sort({ seed: 1 }).limit(numOfSeeds).toArray();
