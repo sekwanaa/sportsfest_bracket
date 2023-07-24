@@ -602,7 +602,7 @@ let exportedMethods = {
 			}
 
 			for(let i=0; i<sportInfo.seeds.length; i++) {
-				let loserSeedInfo = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
+				loserSeedInfo = await seedsCollection.findOne({_id: new ObjectId(sportInfo.seeds[i])});
 				if(loserSeedInfo.team == loser) {
 					const updateTeam2 = await seedsCollection.findOneAndUpdate(
 						{
