@@ -296,6 +296,70 @@ let exportedMethods = {
 		return;
 	},
 
+	//new method to insert finalized playoff schedule
+	async insertPlayoffNew(tournamentId, sportName) {
+		const poolInfo = await this.getPoolInfo(tournamentId);
+		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
+
+		const numOfFields = sportInfo.numOfFields;
+		const numOfTeams = sportInfo.teams.length;
+		const numOfPlayoffTeams = sportInfo.numOfPlayoffTeams;
+
+		let powers = 0;
+
+		while(1) {
+			if(Math.pow(2, powers+1) > numOfPlayoffTeams) {
+				break;
+			}
+			else {
+				powers++;
+			}
+		}
+
+		const numOfPlayoffMatches = Math.pow(2, powers);
+
+		class playOffMatch {
+			constructor (gameNum, team1, team2, field, complete) {
+				this.gameNum = gameNum;
+				this.team1 = team1;
+				this.team2 = team2;
+				this.field = field;
+				this.complete = complete;
+			}
+		}
+
+		let gameNum = 1;
+		let playoffMatches = [];
+		let field = 0;
+
+		//create empty matches for playoffs
+		for(let i=0; i<numOfPlayoffMatches/2; i++) {
+			let match = new playOffMatch(gameNum, i+1, numOfPlayoffMatches-i, field, false);
+			playoffMatches.push(match);
+		}
+
+		//assign seeded teams to playoffs
+		const allSeedData = await this.returnSeeds(sportInfo.seeds);
+
+		for(let i=0; i<numOfPlayoffTeams; i++) {
+			let team = allSeedData[i];
+			console.log(team);
+			// console.log(team);
+			for(let j=0; j<playoffMatches.length; j++) {
+				if(playoffMatches[j].team1 == team.seed) {
+					playoffMatches[j].team1 = team;
+					break;
+				}
+				if(playoffMatches[j].team2 == team.seed) {
+					playoffMatches[j].team2 = team;
+					break;
+				}
+			}
+		}
+
+		return playoffMatches;
+	},
+
 	//method to insert finalized playoff schedule
 	async insertPlayOff(tournamentId, sportName) {
 
@@ -303,7 +367,7 @@ let exportedMethods = {
 		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 		
 		const numOfFields = sportInfo.numOfFields;
-		const numOfTeams = await sportInfo.teams.length;
+		const numOfTeams = sportInfo.teams.length;
 
 		let numOfSeeds = Math.floor(0.6 * numOfTeams);
 		let numOfPlayoffTeams = sportInfo.numOfPlayoffTeams;
