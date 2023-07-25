@@ -343,8 +343,6 @@ let exportedMethods = {
 
 		for(let i=0; i<numOfPlayoffTeams; i++) {
 			let team = allSeedData[i];
-			console.log(team);
-			// console.log(team);
 			for(let j=0; j<playoffMatches.length; j++) {
 				if(playoffMatches[j].team1 == team.seed) {
 					playoffMatches[j].team1 = team;
