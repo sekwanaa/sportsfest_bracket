@@ -449,17 +449,18 @@ let exportedMethods = {
 		const numOfPlayoffMatches = Math.pow(2, powers);
 		
 		//assign seeded teams to playoffs
-		const allSeedData = await this.returnSeeds(sportInfo.seeds);
+		let allSeedData = await this.returnSeeds(sportInfo.seeds);
+		allSeedData = allSeedData.slice(0, (allSeedData.length-numOfPlayoffTeams)*-1);
 
 		bracketIndex = Math.pow(2, powers-1)-1;
 
 		for(let i=bracketIndex; i<allMatches.length; i++) {
 			for(let j=0; j<allSeedData.length; j++) {
 				if(allMatches[i].team1 == allSeedData[j].seed) {
-					allMatches[i].team1 = allSeedData[j];
+					allMatches[i].team1 = allSeedData[j].team;
 				}
 				if(allMatches[i].team2 == allSeedData[j].seed) {
-					allMatches[i].team2 = allSeedData[j];
+					allMatches[i].team2 = allSeedData[j].team;
 				}
 			}
 		}
