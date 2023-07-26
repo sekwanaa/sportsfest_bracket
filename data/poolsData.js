@@ -459,9 +459,11 @@ let exportedMethods = {
 			for(let j=0; j<allSeedData.length; j++) {
 				if(allMatches[i].team1 == allSeedData[j].seed) {
 					allMatches[i].team1 = allSeedData[j].team;
+					allMatches[i].complete = true;
 				}
 				if(allMatches[i].team2 == allSeedData[j].seed) {
 					allMatches[i].team2 = allSeedData[j].team;
+					allMatches[i].complete = true;
 				}
 			}
 		}
