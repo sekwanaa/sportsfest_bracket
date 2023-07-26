@@ -472,16 +472,43 @@ let exportedMethods = {
 			if(typeof(allMatches[i].team1) == "number") {
 				allMatches[i].team1 = "BYE";
 				allMatches[i].complete = true;
-				allMatches[i].winner = team2;
-				allMatches[i].loser = team1;
+				allMatches[i].winner = allMatches[i].team2;
+				allMatches[i].loser = allMatches[i].team1;
 			}
 			if(typeof(allMatches[i].team2) == "number") {
 				allMatches[i].team2 = "BYE";
 				allMatches[i].complete = true;
-				allMatches[i].winner = team1;
-				allMatches[i].loser = team2;
+				allMatches[i].winner = allMatches[i].team1;
+				allMatches[i].loser = allMatches[i].team2;
 			}
 		}
+
+		//check entire bracket tree and move any teams up if they had a bye
+		function updateBracket(node) {
+			let tmpNode = node;
+
+			if(tmpNode == null) {
+				console.log("fin");
+				return;
+			}
+
+			else {
+				if(tmpNode.left != null) {
+					if(tmpNode.left.winner != null) {
+						tmpNode.team1 = tmpNode.left.winner;
+					}
+					updateBracket(tmpNode.left);
+				}
+				if(tmpNode.right != null) {
+					if(tmpNode.right.winner != null) {
+						tmpNode.team2 = tmpNode.right.winner;
+					}
+					updateBracket(tmpNode.right);
+				}
+			}
+		}
+
+		updateBracket(allMatches[0]);
 
 		//insert each match into playoffs
 		const playoffsCollection = await playoffs();
