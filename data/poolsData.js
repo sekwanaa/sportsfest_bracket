@@ -1118,6 +1118,8 @@ let exportedMethods = {
 			let playoffGame = await playoffsCollection.findOne({_id: new ObjectId(playOffIdArray[i])});
 			playOffArr.push(playoffGame);
 		}
+
+		playOffArr = playOffArr.sort((a,b) => (a.gameNum > b.gameNum ? 1 : a.gameNum < b.gameNum ? -1 : 0))
 		return playOffArr;
 	},
 

@@ -18,34 +18,29 @@ router.get('/:id/:sport', async (req, res) => {
 		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 		let playoffArr = await poolsData.getPlayOffs(sportInfo.playoffs);
 
-		
+		//create arrays equal to highest gameNum in playoffArr for each section (finals, semis, quarters, etc)
 
+		const numOfArraysToCreate = playoffArr[playoffArr.length-1].gameNum-1;
+		let bracketSections = [];
+		for(let i=0; i<numOfArraysToCreate; i++) {
+			bracketSections.push([]);
+		}
 
+		let section = 0;
+		let gameNum = 1;
 
+		for(let i=0; i<playoffArr.length; i++) {
+			if(playoffArr[i].gameNum == gameNum) {
+				bracketSections[section].push(playoffArr[i]);
+			}
+			else {
+				gameNum++;
+				section++;
+			}
+		}
 
-		// playoffs
-
-		// let bracketData = await poolsData.getPlayOffTeams(numOfSeeds, byeTeamsCount, numOfSeeds, sportInfo.seeds);
-
-		// quarters
-		let quarterArr = [];
-		// let quarterArr = await poolsData.getBracketData(tournamentId, sportName, 'quarters');
 		let eliminatedTeams = await poolsData.getAllSeeds(tournamentId, sportName, 'eliminated');
-		let eliminatedTeamsArr = [];
-
-		// semis
-		
-
-		let semiArr = [];
-		// let semiArr = await poolsData.getBracketData("semis");
-		// let semiArr = await poolsData.getFinals('semis');
-
-		// finals
-
-		let finals = [];
-		// let finals = await poolsData.getFinals('finals');
-
-		
+		let eliminatedTeamsArr = [];		
 
 		if (req.oidc.isAuthenticated()) {
 			const email = req.oidc.user.name;
@@ -67,15 +62,16 @@ router.get('/:id/:sport', async (req, res) => {
 			shortcode: 'bracketView',
 			isAuthenticated: req.oidc.isAuthenticated(),
 			role: userRole,
-			playoffArr: playoffArr,
-			quarterArr: quarterArr,
-			semiArr: semiArr,
-			finals: finals,
+			// playoffArr: playoffArr,
+			// quarterArr: quarterArr,
+			// semiArr: semiArr,
+			// finals: finals,
 			eliminatedTeamsArr: eliminatedTeams,
 			tournamentId: tournamentId,
 			sportName: sportName,
 			tournamentCoordinator: tournamentCoordinator,
 			tournamentJoinedArray: tournamentJoinedArray,
+			bracketSections: bracketSections,
 		});
 
 		return;
