@@ -157,4 +157,20 @@ router.post('/:id/:sport/create_pool_play/', async (req, res) => {
 	}
 });
 
+//testing new method
+router.post('/:id/:sport/round_robin_complete_test/', async (req, res) => {
+
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
+
+	try {
+		const playOffmatches = await poolsData.insertPlayoffNew(tournamentId, sportName);
+		// const insertPlayoffMatches = 
+		return res.json(roundRobinComplete);
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
+});
+//end testing
+
 module.exports = router;
