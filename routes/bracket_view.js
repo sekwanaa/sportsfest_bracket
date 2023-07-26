@@ -20,23 +20,15 @@ router.get('/:id/:sport', async (req, res) => {
 
 		//create arrays equal to highest gameNum in playoffArr for each section (finals, semis, quarters, etc)
 
-		const numOfArraysToCreate = playoffArr[playoffArr.length-1].gameNum-1;
+		const numOfArraysToCreate = playoffArr[playoffArr.length-1].gameNum;
 		let bracketSections = [];
 		for(let i=0; i<numOfArraysToCreate; i++) {
 			bracketSections.push([]);
 		}
 
-		let section = 0;
-		let gameNum = 1;
-
 		for(let i=0; i<playoffArr.length; i++) {
-			if(playoffArr[i].gameNum == gameNum) {
-				bracketSections[section].push(playoffArr[i]);
-			}
-			else {
-				gameNum++;
-				section++;
-			}
+			let section = playoffArr[i].gameNum-1;
+			bracketSections[section].push(playoffArr[i]);
 		}
 
 		let eliminatedTeams = await poolsData.getAllSeeds(tournamentId, sportName, 'eliminated');
