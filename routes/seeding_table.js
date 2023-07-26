@@ -73,6 +73,7 @@ router.get('/:id/:sport/seedCount', async (req, res) => {
 });
 
 router.post('/:id/:sport/insertSeeds', async (req, res) => {
+	const email = req.oidc.user.name
 
 	const tournamentId = req.params.id;
 	const sportName = req.params.sport;
@@ -82,7 +83,9 @@ router.post('/:id/:sport/insertSeeds', async (req, res) => {
 		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
 		if (sportInfo.sport == sportName) {
-			if (sportInfo.schedule.length !== sportInfo.matchHistory.length) {
+			if (email == "bhavin.mistry94@gmail.com" || email == "sekwanaa.chia@gmail.com") {
+
+			} else if (sportInfo.schedule.length !== sportInfo.matchHistory.length) {
 				return res.json("You need to submit all scores first")
 			}
 		}
