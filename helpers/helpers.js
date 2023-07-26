@@ -28,6 +28,15 @@ let exportedMethods= {
     idToString: function(id, options) {
         return id.toString();
     },
+
+    checkLoser: function(match, team, options) {
+        if(match.loser == team) {
+            return options.fn(this);
+        }
+        else {
+            return options.inverse(this);
+        }
+    }
 }
 
 module.exports = exportedMethods;
