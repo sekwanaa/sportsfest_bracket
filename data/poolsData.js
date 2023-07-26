@@ -384,28 +384,87 @@ let exportedMethods = {
 			}
 		}
 
-		const numOfPlayoffMatches = Math.pow(2, powers);
 		
-		let playoffMatches = [];
+		//find the sorted order of games
+		class queueNode {
+			constructor(team1, team2) {
+				this.team1 = team1;
+				this.team2 = team2;
+				this.next = null;
+				this.previous = null;
+			}
+		}
+		
+		let headNode = null;
+		let tailNode = null;
+		let tmpNode = null;
+		direction = "back";
+		let x = Math.pow(2, powers);
+		
+		headNode = new queueNode(1, x);
+		tailNode = new queueNode(2, x-1);
+		headNode.next = tailNode;
+		tailNode.previous = headNode;
+		
+		tmpNode = headNode;
+		
+		let order = ["back", "front", "front", "back"];
+		let index = 0;
+		
+		for(let i=2; i<x/2; i++) {
+		
+			//insert node after head
+			if(order[index] == "front") {
+				tmpNode = headNode.next;
+				headNode.next = new queueNode(i+1, x-i);
+				headNode.next.next = tmpNode;
+				tmpNode.previous = headNode.next;
+				headNode.next.previous = headNode;
+			}
+		
+			//insert node after tail
+			else {
+				tmpNode = tailNode.previous;
+				tailNode.previous = new queueNode(i+1, x-i);
+				tailNode.previous.previous = tmpNode;
+				tmpNode.next = tailNode.previous;
+				tailNode.previous.next = tailNode;
+			}
+		
+			index++
+			index = index%4;
+		}
+		
+		let bracketIndex = Math.pow(2, powers-1)-1;
+		
+		tmpNode = headNode;
+		
+		while(tmpNode != null) {
+			allMatches[bracketIndex].team1 = tmpNode.team1;
+			allMatches[bracketIndex].team2 = tmpNode.team2;
+			tmpNode = tmpNode.next;
+			bracketIndex++;
+		}
+		
+		const numOfPlayoffMatches = Math.pow(2, powers);
 		
 		//assign seeded teams to playoffs
 		const allSeedData = await this.returnSeeds(sportInfo.seeds);
 
-		// for(let i=0; i<numOfPlayoffTeams; i++) {
-		// 	let team = allSeedData[i];
-		// 	for(let j=0; j<playoffMatches.length; j++) {
-		// 		if(playoffMatches[j].team1 == team.seed) {
-		// 			playoffMatches[j].team1 = team;
-		// 			break;
-		// 		}
-		// 		if(playoffMatches[j].team2 == team.seed) {
-		// 			playoffMatches[j].team2 = team;
-		// 			break;
-		// 		}
-		// 	}
-		// }
+		bracketIndex = Math.pow(2, powers-1)-1;
 
-		return playoffMatches;
+		for(let i=bracketIndex; i<allMatches.length; i++) {
+			for(let j=0; j<allSeedData.length; j++) {
+				if(allMatches[i].team1 == allSeedData[j].seed) {
+					allMatches[i].team1 = allSeedData[j];
+				}
+				if(allMatches[i].team2 == allSeedData[j].seed) {
+					allMatches[i].team2 = allSeedData[j];
+				}
+			}
+		}
+
+		return allMatches;
 	},
 
 	//method to insert finalized playoff schedule
