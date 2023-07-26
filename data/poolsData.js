@@ -307,17 +307,6 @@ let exportedMethods = {
 
 		let powers = 0;
 
-		while(1) {
-			if(Math.pow(2, powers+1) > numOfPlayoffTeams) {
-				break;
-			}
-			else {
-				powers++;
-			}
-		}
-
-		const numOfPlayoffMatches = Math.pow(2, powers);
-
 		class playOffMatch {
 			constructor (gameNum, team1, team2, field, complete) {
 				this.gameNum = gameNum;
@@ -325,35 +314,96 @@ let exportedMethods = {
 				this.team2 = team2;
 				this.field = field;
 				this.complete = complete;
+				this.left = null;
+				this.right = null;
+				this.winner = null;
+				this.loser = null;
 			}
 		}
 
-		let gameNum = 1;
-		let playoffMatches = [];
-		let field = 0;
-
-		//create empty matches for playoffs
-		for(let i=0; i<numOfPlayoffMatches/2; i++) {
-			let match = new playOffMatch(gameNum, i+1, numOfPlayoffMatches-i, field, false);
-			playoffMatches.push(match);
+		while(1) {
+			if(Math.pow(2, powers) > numOfPlayoffTeams) {
+				break;
+			}
+			else {
+				powers++;
+			}
 		}
 
+		let bracketRows = powers;
+		let fieldNum = 0;
+		let brackMatch = 0;
+		let allMatches = [];
+		let row = 0;
+		let gameNum = 1;
+		let field = 0;
+		let nodeNum = 0;
+
+		//create empty matches for playoffs
+		while(bracketRows > 0) {
+			brackMatch = Math.pow(2, row);
+			gameNum = bracketRows;
+
+			for(let i=0; i<brackMatch; i++) {
+				let match = new playOffMatch(gameNum, "TBD", "TBD", field, false);
+				match.nodeNum = nodeNum;
+				nodeNum++;
+				allMatches.push(match);
+			}
+
+			bracketRows--;
+			row++;
+		}
+
+		//link matches together as a bracket
+		row = 1;
+		let direction = "left";
+		let nextNodeCount = Math.pow(2, row)-1;
+		let lines = Math.pow(2, row)+nextNodeCount;
+
+		for(let i=0; i<allMatches.length; i++) {
+			if(row == powers) {
+				break;
+			}
+
+			for(let j=0; j<2; j++) {
+				if(direction == "left") {
+					allMatches[i].left = allMatches[nextNodeCount];
+					direction = "right";
+				}
+				else {
+					allMatches[i].right = allMatches[nextNodeCount];
+					direction = "left";
+				}
+				nextNodeCount++;
+			}
+			if(nextNodeCount == lines) {
+				row++;
+				nextNodeCount = Math.pow(2, row)-1;
+				lines = Math.pow(2, row)+nextNodeCount;
+			}
+		}
+
+		const numOfPlayoffMatches = Math.pow(2, powers);
+		
+		let playoffMatches = [];
+		
 		//assign seeded teams to playoffs
 		const allSeedData = await this.returnSeeds(sportInfo.seeds);
 
-		for(let i=0; i<numOfPlayoffTeams; i++) {
-			let team = allSeedData[i];
-			for(let j=0; j<playoffMatches.length; j++) {
-				if(playoffMatches[j].team1 == team.seed) {
-					playoffMatches[j].team1 = team;
-					break;
-				}
-				if(playoffMatches[j].team2 == team.seed) {
-					playoffMatches[j].team2 = team;
-					break;
-				}
-			}
-		}
+		// for(let i=0; i<numOfPlayoffTeams; i++) {
+		// 	let team = allSeedData[i];
+		// 	for(let j=0; j<playoffMatches.length; j++) {
+		// 		if(playoffMatches[j].team1 == team.seed) {
+		// 			playoffMatches[j].team1 = team;
+		// 			break;
+		// 		}
+		// 		if(playoffMatches[j].team2 == team.seed) {
+		// 			playoffMatches[j].team2 = team;
+		// 			break;
+		// 		}
+		// 	}
+		// }
 
 		return playoffMatches;
 	},
