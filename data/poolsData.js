@@ -466,6 +466,17 @@ let exportedMethods = {
 			}
 		}
 
+		//check for bye teams
+
+		for(let i=0; i<allMatches.length; i++) {
+			if(typeof(allMatches[i].team1) == "number") {
+				allMatches[i].team1 = "BYE";
+			}
+			if(typeof(allMatches[i].team2) == "number") {
+				allMatches[i].team2 = "BYE";
+			}
+		}
+
 		//insert each match into playoffs
 		const playoffsCollection = await playoffs();
 
