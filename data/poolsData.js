@@ -484,31 +484,8 @@ let exportedMethods = {
 		}
 
 		//check entire bracket tree and move any teams up if they had a bye
-		function updateBracket(node) {
-			let tmpNode = node;
 
-			if(tmpNode == null) {
-				console.log("fin");
-				return;
-			}
-
-			else {
-				if(tmpNode.left != null) {
-					if(tmpNode.left.winner != null) {
-						tmpNode.team1 = tmpNode.left.winner;
-					}
-					updateBracket(tmpNode.left);
-				}
-				if(tmpNode.right != null) {
-					if(tmpNode.right.winner != null) {
-						tmpNode.team2 = tmpNode.right.winner;
-					}
-					updateBracket(tmpNode.right);
-				}
-			}
-		}
-
-		updateBracket(allMatches[0]);
+		await this.updateBracket(allMatches[0]);
 
 		//insert each match into playoffs
 		const playoffsCollection = await playoffs();
@@ -521,6 +498,30 @@ let exportedMethods = {
 		}
 
 		return allMatches;
+	},
+
+	async updateBracket(node) {
+		let tmpNode = node;
+
+		if(tmpNode == null) {
+			console.log("fin");
+			return;
+		}
+
+		else {
+			if(tmpNode.left != null) {
+				if(tmpNode.left.winner != null) {
+					tmpNode.team1 = tmpNode.left.winner;
+				}
+				await this.updateBracket(tmpNode.left);
+			}
+			if(tmpNode.right != null) {
+				if(tmpNode.right.winner != null) {
+					tmpNode.team2 = tmpNode.right.winner;
+				}
+				await this.updateBracket(tmpNode.right);
+			}
+		}
 	},
 
 	//method to insert finalized playoff schedule
