@@ -35,7 +35,7 @@
     addMoreButton.click(function () {
         removeMember.show()
         const div = $("#teamMembersList");
-        div.append('<input id="teamMemberName' + i++ +'" type="text" placeholder="Team Member Name"></input>');
+        div.append('<input id="teamMemberName_form' + i++ +'" type="text" placeholder="Team Member Name"></input>');
         teamMemberCount = i;
     });
 
@@ -44,27 +44,29 @@
             $(this).hide()
         }
         i -= 1
-        const input = $("#teamMemberName" + i);
+        const input = $("#teamMemberName_form" + i);
         input.remove();
         teamMemberCount = i;
     });
 
     teamInputForm.submit(function (event) {
         event.preventDefault();
-        var teamName = $('#teamName').val();
-        var district = parseInt($('#districtSelection').val());
-        var teamCaptain = $('#teamCaptain').val();
+        
+        // var tournamentId = $('#team_tournament_name_class')[0].id;
+        var sportId = $('.team_sport_name_class')[0].id;
+        var teamName = $('#teamName_form').val();
+        var district = parseInt($('#districtSelection_form').val());
+        var teamCaptain = $('#teamCaptain_form').val();
         var teamCaptainShirtNum = $('#shirt_number').text();
         let teamMembers = [];
         
-
         for(i = 1; i < teamMemberCount; i++) {
             let playerData = {};
-            playerData.name = $("#teamMemberName" + i).val();
+            playerData.name = $("#teamMemberName_form" + i).val();
             playerData.shirtNum = null;
             playerData.userId = null,
-            playerData.hasTeam = true,
-            playerData.linked = false,
+            // playerData.hasTeam = true,
+            // playerData.linked = false,
             teamMembers.push(playerData);
         }
 
@@ -81,9 +83,11 @@
                         name: teamCaptain,
                         shirtNum: teamCaptainShirtNum,
                         userId: null,
-                        hasTeam: true,
-                        linked: true,
+                        // hasTeam: true,
+                        // linked: true,
                     },
+                    // tournamentId: tournamentId,
+                    sportId: sportId,
                 })
             };
             $.ajax(req).then(function (res) {

@@ -2,53 +2,62 @@
     <h1>Round Robin Games List</h1>
     <br>
     {{#unless isRounds}}
-        <div id="poolAlgorithm">
-            <select id="pool_algorithm_input">
-                <option value="roundRobin">Round Robin</option>
-                <option value="goldSilver">Gold Silver</option>
-            </select>
-        </div>
-        <button id="rrGenerateRoundRobin">Create Schedule</button>
+    <div id="poolAlgorithm">
+        <select id="pool_algorithm_input">
+            <option value="roundRobin">Round Robin</option>
+            <option value="poolPlay">Pool Play</option>
+        </select>
+    </div>
+    <button id="rrGenerateRoundRobin">Create Schedule</button>
     {{/unless}}
     <button id="downloadCSVBtn">Download CSV</button>
     <br>
     <div>
         <label for="totalGames">Total Games:</label>
         {{#if isRounds}}
-            <section id="completeBtnRow">
-                <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
-                {{#if isStage1}}
-                    <button id="completeRoundRobinButton" type="submit">Complete Round Robin</button>
-                {{/if}}
-            </section>  
-            {{else}}
-            <p id="totalGames" value="0">0</p>
+        <section id="completeBtnRow">
+            <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
+            {{#if isStage1}}
+            <button id="completeRoundRobinButton" type="submit">Complete Round
+                Robin</button>
+            <dialog id="errorDialogCompleteRoundRobin" class="errorDialog">
+                <form method="dialog">
+                    <p>Please submit your seeds before completing round robin</p>
+                    <section>
+                        <button type="button" class="errorDialogCancelButton">Ok</button>
+                    </section>
+                </form>
+            </dialog>
+            {{/if}}
+        </section>
+        {{else}}
+        <p id="totalGames" value="0">0</p>
         {{/if}}
         <br>
-            <div id="roundRobinGrid" class="grid-column">
-                <div class="header grid-row-name"><b>Game</b></div> 
-                <div class="header grid-row-name"><b>Team 1</b></div> 
-                <div class="header grid-row-name"><b>Team 2</b></div>
-                <div class="header grid-row-name"><b>Field</b></div>
-                <div class="header grid-row-name"><b>Ref 1</b></div>
-                <div class="header grid-row-name"><b>Ref 2</b></div>
-            </div>
-            <div id="roundRobinGridInfo" class="grid-column">
-                {{#if isRounds}}
-                    {{#each rounds}}
-                        <div class="grid-row-name" id="gameNum{{@index}}">{{this.gameNum}}</div>
-                        <div class="grid-row-name" id="team1Name{{@index}}">{{this.team1}}</div>
-                        <div class="grid-row-name" id="team2Name{{@index}}">{{this.team2}}</div>
-                        <div class="grid-row-name" id="field{{@index}}">{{this.field}}</div>
-                        <div class="grid-row-name" id="ref1{{@index}}">{{this.ref1}}</div>
-                        <div class="grid-row-name" id="ref2{{@index}}">{{this.ref2}}</div>
-                    {{/each}}
-                {{/if}}
-            </div> 
-            <br>
-            {{#unless isRounds}}
-            <button id="rrSubmit" type="submit">Submit Round Robin</button>
-            {{/unless}}
+        <div id="roundRobinGrid" class="grid-column">
+            <div class="header grid-row-name"><b>Game</b></div>
+            <div class="header grid-row-name"><b>Team 1</b></div>
+            <div class="header grid-row-name"><b>Team 2</b></div>
+            <div class="header grid-row-name"><b>Field</b></div>
+            <div class="header grid-row-name"><b>Ref 1</b></div>
+            <div class="header grid-row-name"><b>Ref 2</b></div>
+        </div>
+        <div id="roundRobinGridInfo" class="grid-column">
+            {{#if isRounds}}
+            {{#each rounds}}
+            <div class="grid-row-name" id="gameNum{{@index}}">{{this.gameNum}}</div>
+            <div class="grid-row-name" id="team1Name{{@index}}">{{this.team1}}</div>
+            <div class="grid-row-name" id="team2Name{{@index}}">{{this.team2}}</div>
+            <div class="grid-row-name" id="field{{@index}}">{{this.field}}</div>
+            <div class="grid-row-name" id="ref1{{@index}}">{{this.ref1}}</div>
+            <div class="grid-row-name" id="ref2{{@index}}">{{this.ref2}}</div>
+            {{/each}}
+            {{/if}}
+        </div>
+        <br>
+        {{#unless isRounds}}
+        <button id="rrSubmit" type="submit">Submit Round Robin</button>
+        {{/unless}}
     </div>
 </div>
 

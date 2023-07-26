@@ -1,6 +1,6 @@
 <div class="bracket-container">
     {{!-- <button class="clickButton">click me</button> --}}
-    <div class="playoffs">
+    {{!-- <div class="playoffs">
         {{#each playoffArr}}
         <div>
             {{#eliminatedTeam ../eliminatedTeamsArr this.team1 1}}
@@ -14,10 +14,6 @@
                 {{else}}
                 <h5>{{this.team2}}</h5>
             {{/eliminatedTeam}} 
-{{!-- 
-            {{#if this.team1Elim}}
-            {{else}}
-            {{/if}} --}}
         </div>
         {{/each}}
     </div>
@@ -64,7 +60,31 @@
             <h5>{{this.team2}}</h5>
         </div>
         {{/each}}
-    </div>
+    </div> --}}
+
+    
+        {{#each bracketSections}}
+        <div>
+            {{#each this}}
+                <div id="{{this.name}}">
+                    {{#checkLoser this this.team1}}
+                        <s>{{this.team1}}</s>
+                    {{else}}
+                        <h5>{{this.team1}}</h5>
+                    {{/checkLoser}}
+                    <p>vs.</p>
+                    {{#checkLoser this this.team2}}
+                        <s>{{this.team2}}</s>
+                    {{else}}
+                        <h5>{{this.team2}}</h5>
+                    {{/checkLoser}}
+                </div>
+            {{/each}}
+        </div>
+        {{/each}}
+
 </div>
+
+
 
 <script src="/public/js/bracket_view.js"></script>

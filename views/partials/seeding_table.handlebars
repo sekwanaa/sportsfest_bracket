@@ -1,5 +1,18 @@
 <div class="teamList">
-    <button id="refresh_seed_table_button">Refresh Table</button>
+    <div class="top_grid_buttons_div">
+        <button id="refresh_seed_table_button">Refresh Table</button>
+        {{#if stage1}}
+        <button id="seed_submit_button" type="submit">Submit Seeds</button>
+        <dialog id="errorDialogSubmitSeeds" class="errorDialog">
+            <form method="dialog">
+                <p>Please finish all games before submitting seeds</p>
+                <section>
+                    <button type="button" class="errorDialogCancelButton">Ok</button>
+                </section>
+            </form>
+        </dialog>
+        {{/if}}
+    </div>
     <br>
     <div class="header_bar">
         <h2>Seed #</h2>
@@ -9,19 +22,17 @@
         <h2>Point Differential</h2>
     </div>
     <div class="seed_information">
-    {{#each matches}}
+        {{#each matches}}
         <div id="seed_info_div" class="seed_info">
-            <p id="seed{{#incrementIndex @index}}{{/incrementIndex}}">{{#incrementIndex @index}}{{/incrementIndex}}</p>
+            <p id="seed{{#incrementIndex @index}}{{/incrementIndex}}">{{#incrementIndex
+                @index}}{{/incrementIndex}}</p>
             <p id="teamName{{#incrementIndex @index}}{{/incrementIndex}}">{{this.name}}</p>
             <p id="wins{{#incrementIndex @index}}{{/incrementIndex}}">{{this.winnerCount}}</p>
             <p id="losses{{#incrementIndex @index}}{{/incrementIndex}}">{{this.loserCount}}</p>
             <p id="pointDiff{{#incrementIndex @index}}{{/incrementIndex}}">{{this.pointDifferential}}</p>
         </div>
-    {{/each}}
+        {{/each}}
     </div>
-    {{#if stage1}}
-        <button id="seed_submit_button" type="submit">Submit Seeds</button>
-    {{/if}}
 </div>
 
 <script src="/public/js/seed_table.js"></script>

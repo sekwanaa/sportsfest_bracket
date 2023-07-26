@@ -1,62 +1,83 @@
 <div class="teamList">
-    <h1>Current registered teams</h1>
-    </div>
-    <div id="test">
-        {{#compareRole "coordinator" role}}
-        <button id="upload_csv_button">Upload CSV File</button>
-        <input type="file" name="filename" id="filename">
-        {{/compareRole}}
-    </div>
-    <div>
+    <h1>Current Registered Teams</h1>
+</div>
+
+<div id="csv_upload_div">
+    {{#if tournamentCoordinator}}
+        <button id="uploadCSVBtn">uploadCSVBtn</button>
+    {{/if}}
+</div>
+
+<div>
     <div id="submitPowerRankingBtnRow">
         <p id="totalUsers" value="{{allTeams.length}}">Total Teams: {{allTeams.length}}</p>
         <div id="buttonDiv">
-        {{#compareRole "coordinator" role}}
-        <button id="editTeamsBtn">Edit Teams</button>
-        <button id="submitPowerRankingsBtn">Submit</button>
-        {{/compareRole}}
-        {{#compareRole "coordinator" role}}
-        <button id="addTeamBtn">Add Team</button>
-        {{/compareRole}}
+            {{#if tournamentCoordinator}}
+                <button id="editTeamsBtn">Edit Teams</button>
+                <button id="submitPowerRankingsBtn">Submit</button>
+                <button id="addTeamBtn">Add Team</button>
+            {{/if}}
         </div>
     </div>
+    
     <br>
+
     <div class="grid-column-header">
         <div class="header grid-row-name"><b>Team Name</b></div> 
         <div class="header grid-row-district"><b>District</b></div>
         <div class="header grid-row-power-ranking"><b>Power Ranking</b></div>
     </div> 
-    <div id="test_list" class="grid-column-teams">
-        {{#each allTeams}}
-        <div class="info grid-row-name" id="email{{@index}}">{{this.name}}</div> 
-        <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>
-        <div class="info grid-row-power-ranking">
-        {{#if this.powerRanking}}
-        <p id="powerRanking{{@index}}">{{this.powerRanking}}</p>
-        {{else}}
-        <p id="powerRanking{{@index}}">N/A</p>
-        {{/if}}
-        <input type="number" id="powerRankingInput{{@index}}">
-        </div>
-        {{/each}}
-    </div>
-    </div>
 
-    <!-- Modal -->
-    <div id="addTeamModal" class="modal">
+        <div id="all_teams_list" class="grid-column-teams">
+            {{#each allTeams}}
+                <div class="info grid-row-name" id="teamName{{@index}}">{{this.name}}</div> 
+                <div class="info grid-row-district" id="districtNum{{@index}}">{{this.district}}</div>
+                <div class="info grid-row-power-ranking">
+                    {{#if this.powerRanking}}
+                        <p id="powerRanking{{@index}}">{{this.powerRanking}}</p>
+                    {{else}}
+                        <p id="powerRanking{{@index}}">N/A</p>
+                    {{/if}}
+                        <input type="number" id="powerRankingInput{{@index}}">
+                </div>
+            {{/each}}
+        </div>
+</div>
+
+<!-- Modal for Add Team-->
+<div id="addTeamModal" class="modal">
     <div class="modal-box">
-    <span class="close">&times;</span>
-    <form id="addTeamForm" class="modal-content">
-        <label for="teamName">Team Name:</label>
-        <input type="text" id="teamName" name="teamName" required>     
-        <label for="district">District:</label>
-        <input type="number" id="district" name="district" required> 
-        <label for="powerRanking">Power Ranking:</label>
-        <input type="number" id="powerRanking" name="powerRanking" required>
-        <label for="teamCaptain">Team Captain:</label>
-        <input type="text" id="teamCaptain" name="teamCaptain" required>
-        <input type="submit" value="Add Team">
-    </form>
+        <span class="close">&times;</span>
+        <form id="addTeamForm" class="modal-content">
+            <label for="teamName">Team Name:</label>
+            <input type="text" id="teamName" name="teamName" required>     
+            <label for="district">District:</label>
+            <input type="number" id="district" name="district" required> 
+            <label for="powerRanking">Power Ranking:</label>
+            <input type="number" id="powerRanking" name="powerRanking" required>
+            <label for="teamCaptain">Team Captain:</label>
+            <input type="text" id="teamCaptain" name="teamCaptain" required>
+            <input type="submit" value="Add Team">
+        </form>
+    </div>
+</div>
+
+<!-- Modal for CSV Upload-->
+<div id="uploadCSVModal" class="modal">
+    <div class="modal-box">
+        <span class="close">&times;</span>
+        <input type="file" name="filename" id="filename">
+        <button id="upload_csv_button">Upload CSV File</button>
+        <div class="grid-column-header">
+            <div id="upload_csv_teamName" class="csv_header header grid-row-name"><b>Team Name</b></div> 
+            <div id="upload_csv_district" class="csv_header header grid-row-district"><b>District</b></div>
+            <div id="upload_csv_powerRanking" class="csv_header header grid-row-power-ranking"><b>Power Ranking</b></div>
+        </div> 
+        <div id="all_teams_list_csv" class="grid-column-teams">
+            {{!-- <div id="teamName" class="info grid-row-name"></div> 
+            <div id="districtNum" class="info grid-row-district"></div>
+            <div id="powerRanking" class="info grid-row-power-ranking"></div> --}}
+        </div>
     </div>
 </div>
 

@@ -1,156 +1,128 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const data = require('../data')
+const data = require('../data');
 const userData = data.usersData;
 const matchesData = data.matchesData;
 const teamsData = data.teamsData;
 const poolsData = data.poolsData;
 
-router.get("/", async (req, res) => {
+router.get('/:id/:sport', async (req, res) => {
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
+	let tournamentCoordinator = false;
+	let tournamentJoinedArray = [];
 
-    try {
-        let userRole = "";
+	try {
+		let userRole = '';
+		let user = null;
 
-        if(req.oidc.isAuthenticated()) {
-            let filterObj = {
-                email: req.oidc.user.name
-            };
-            let projectionObj = {
-                "user_metadata.role": 1,
-            };
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
 
-            const user = await userData.getUserByEmail(filterObj, projectionObj);
-            userRole = user.user_metadata.role;
+		if (req.oidc.isAuthenticated()) {
+			const email = req.oidc.user.name;
 
-        }
-    
-        const matchHistory = await matchesData.getTeamRecords();
-        const seedsInfo = await poolsData.getAllSeeds();
+			user = await userData.getUserByEmail(email);
+			userRole = user.user_metadata.role;
+			const player = await teamsData.getPlayerByUserId(user._id.toString());
+			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
-        let isStage1 = true;
-        if(seedsInfo.length > 0) {
-            isStage1 = false;
-        }
-    
-        res.render("partials/seeding_table", {
-            title: "Seeding Table", 
-            shortcode: 'seedingTable',
-            isAuthenticated: req.oidc.isAuthenticated(),
-            role: userRole,
-            matches: matchHistory,
-            stage1: isStage1,
-        });
-    } catch (e) {
+			if (user._id.toString() == poolInfo.coordinator) {
+				tournamentCoordinator = true;
+			}
+		}
 
-        return res.status(500).json({ error: e});
-    }
+		const matchHistory = await matchesData.getTeamRecords(tournamentId, sportName);
+		const seedsInfo = await poolsData.getAllSeeds(tournamentId, sportName, null);
+
+		let isStage1 = true;
+
+		if (seedsInfo != null && seedsInfo.length > 0) {
+			isStage1 = false;
+		}
+
+		if (user._id.toString() == poolInfo.coordinator) {
+			tournamentCoordinator = true;
+		}
+
+		res.render('partials/seeding_table', {
+			title: 'Seeding Table',
+			shortcode: 'seedingTable',
+			isAuthenticated: req.oidc.isAuthenticated(),
+			role: userRole,
+			matches: matchHistory,
+			stage1: isStage1,
+			tournamentId: tournamentId,
+			sportName: sportName,
+			tournamentCoordinator: tournamentCoordinator,
+			tournamentJoinedArray: tournamentJoinedArray,
+		});
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
-router.get("/:id/:sport", async (req, res) => {
+router.get('/:id/:sport/seedCount', async (req, res) => {
+	const tournamentId = req.params.id;
+	const sportName = req.params.sport;
 
-    let tournamentId = req.params.id;
-    let sportName = req.params.sport;
-    let tournamentCoordinator = false;
-
-    try {
-        let userRole = "";
-    
-        if(req.oidc.isAuthenticated()) {
-            let filterObj = {
-                email: req.oidc.user.name
-            };
-            let projectionObj = {
-                "user_metadata.role": 1,
-            };
-
-            const user = await userData.getUserByEmail(filterObj, projectionObj);
-            userRole = user.user_metadata.role;
-
-            const poolInfo = await poolsData.getPoolInfo(tournamentId);
-
-            if(user._id.toString() == poolInfo.coordinator) {
-                tournamentCoordinator = true;
-            }
-        }
-    
-        const matchHistory = await matchesData.getTeamRecords();
-        const seedsInfo = await poolsData.getAllSeeds();
-
-        let isStage1 = true;
-        if(seedsInfo.length > 0) {
-            isStage1 = false;
-        }
-
-        const poolInfo = await poolsData.getPoolInfo(tournamentId);
-
-        if(user._id.toString() == poolInfo.coordinator) {
-            tournamentCoordinator = true;
-        }
-    
-        res.render("partials/seeding_table", {
-            title: "Seeding Table", 
-            shortcode: 'seedingTable',
-            isAuthenticated: req.oidc.isAuthenticated(),
-            role: userRole,
-            matches: matchHistory,
-            stage1: isStage1,
-            tournamentId: tournamentId,
-            sportName: sportName,
-            tournamentCoordinator: tournamentCoordinator,
-        });
-    } catch (e) {
-
-        return res.status(500).json({ error: e});
-    }
+	try {
+		return res.json(await matchesData.getTeamRecords(tournamentId, sportName));
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
-router.get("/seedCount", async (req, res) => {
+router.post('/:id/:sport/insertSeeds', async (req, res) => {
+	const email = req.oidc.user.name
 
-    try {
-        return res.json(await matchesData.getTeamRecords());
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
+	const tournamentId = req.params.id;
+	const sportName = req.params.sport;
+
+	try {
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+		if (sportInfo.sport == sportName) {
+			if (email == "bhavin.mistry94@gmail.com" || email == "sekwanaa.chia@gmail.com") {
+
+			} else if (sportInfo.schedule.length !== sportInfo.matchHistory.length) {
+				return res.json("You need to submit all scores first")
+			}
+		}
+
+		let numOfSeeds = Math.floor(sportInfo.teams.length * 0.6);
+		let numOfPlayoffTeams = Math.floor((numOfSeeds * 2) / 3);
+		let seeds = req.body.seedsArray;
+
+		for (i = 0; i < seeds.length; i++) {
+			//made it to quarters - gets a bye
+			if (i < numOfSeeds - numOfPlayoffTeams) {
+				seeds[i].currentPlacement = 2;
+			}
+			//eliminated - does not move on to playoffs
+			else if (i >= numOfSeeds) {
+				seeds[i].currentPlacement = 0;
+			}
+			//made it to playoffs
+			else {
+				seeds[i].currentPlacement = 1;
+			}
+		}
+
+		const seedId = await poolsData.seedInsert(seeds, tournamentId, sportName);
+
+		return res.json("success");
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
-router.post("/insertSeeds", async (req, res) => {
-
-    try {
-        const poolInfo = await poolsData.getPoolInfo();
-        let numOfSeeds = Math.floor((poolInfo.numOfTeams)*0.6);
-        let numOfPlayoffTeams = Math.floor((numOfSeeds*2)/3);
-        let seeds = req.body.seedsArray;
-
-        for(i=0; i<seeds.length; i++) {
-            //made it to quarters - gets a bye
-            if(i < numOfSeeds - numOfPlayoffTeams) {
-                seeds[i].currentPlacement = 2;
-            } 
-            //eliminated - does not move on to playoffs
-            else if (i >= numOfSeeds) {
-                seeds[i].currentPlacement = 0;
-            } 
-            //made it to playoffs
-            else {
-                seeds[i].currentPlacement = 1;
-            }
-        }
-
-        const seedId = await poolsData.seedInsert(seeds);
-
-        return res.json(seedId);
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
-});
-
-router.post("/seeds", async (req, res) => {
-
-    try {
-        return res.json(await matchesData.getTeamRecords());
-    } catch (e) {
-        return res.status(500).json({ error: e});
-    }
+router.post('/seeds', async (req, res) => {
+	try {
+		return res.json(await matchesData.getTeamRecords());
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
 });
 
 module.exports = router;

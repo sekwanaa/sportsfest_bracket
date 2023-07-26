@@ -1,5 +1,4 @@
 (function($) {
-    $("#tournamentList").toggleClass("hidden")
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
     
     let editBtn = $("#editTeamsBtn");
@@ -18,31 +17,36 @@
         powerRankingInputs[i].hide()
     }
 
+    submitPowerRankingBtn.addClass("hidden")
     editBtn.click(function (event) {
         count += 1
         if(editBtn.html() === "Cancel") {
             editBtn.html("Edit Teams");
-        }
-        else {
-            editBtn.html("Cancel");
-        }
-        if (count%2==0) { //on second click
-            for (j=0; j<powerRankingInputs.length; j++) {
+            submitPowerRankingBtn.addClass("hidden")
+            for (let j=0; j<powerRankingInputs.length; j++) {
                 currentPowerRankingArr[j].show()
                 powerRankingInputs[j].hide()
             }
-        } else { //on first click
-            for (k=0; k<powerRankingInputs.length; k++) {
+        }
+        else {
+            editBtn.html("Cancel");
+            submitPowerRankingBtn.removeClass("hidden")
+            for (let k=0; k<powerRankingInputs.length-1; k++) {
                 powerRankingInputs[k].show()
+                if (currentPowerRankingArr[k][0].innerHTML == "N/A") {
+                    currentPowerRankingArr[k].hide()
+                    continue
+                }
+                powerRankingInputs[k][0].value = currentPowerRankingArr[k][0].innerHTML
                 currentPowerRankingArr[k].hide()
-            }   
+            }
         }
     });
 
     submitPowerRankingBtn.click((event) => {
         event.preventDefault()
 
-        console.log(window.location.pathname);
+        // console.log(window.location.pathname);
         let teamRankObjArr = []
         let teamRankObj = {
             teamName: "",
@@ -50,12 +54,17 @@
             newPowerRank: null,
         }
 
-        for (i=0; i<powerRankingInputs.length; i++) { //loop through each input entry in the table, if it's 0 skip, else add team name, district, and updated rank to match obj
+        //loop through each input entry in the table, if it's 0 skip, else add team name, district, and updated rank to match obj
+        for (i=0; i<powerRankingInputs.length-1; i++) { 
 
-            if ($("#powerRankingInput"+i).val() == 0) { //if there is no change
-                continue
-            } else { //if there is a change
-                teamRankObj.teamName = $("#email"+i)[0].innerHTML;
+            //if there is no change
+            if (!$("#powerRankingInput"+i).val()) { 
+                continue;
+            } 
+
+            //if there is a change
+            else { 
+                teamRankObj.teamName = $("#teamName"+i)[0].innerHTML;
                 teamRankObj.district = parseInt($("#districtNum"+i)[0].innerHTML);
                 teamRankObj.newPowerRank = parseInt($("#powerRankingInput"+i).val());
                 teamRankObjArr.push(teamRankObj);
@@ -106,9 +115,9 @@
                         continue;
                     } 
                     else {
-                        $('#test_list').append('<div class="info grid-row-name" id="email'+(i-1)+'">'+tmpString[0]+'</div>');
-                        $('#test_list').append('<div class="info grid-row-district" id="districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
-                        $('#test_list').append('<div class="info grid-row-power-ranking" id="powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
+                        $('#all_teams_list_csv').append('<div class="csv_info info grid-row-name" id="csv_teamName'+(i-1)+'">'+tmpString[0]+'</div>');
+                        $('#all_teams_list_csv').append('<div class="csv_info info grid-row-district" id="csv_districtNum'+(i-1)+'">'+tmpString[1]+'</div>');
+                        $('#all_teams_list_csv').append('<div class="csv_info info grid-row-power-ranking" id="csv_powerRanking'+(i-1)+'">'+tmpString[4]+'</div>');               
                     }
                 }
             };
@@ -122,9 +131,9 @@
     uploadCSVButton.click(function(event) {
         event.preventDefault();
         // console.log("click");
-        var teamListTable = $("test_list");
+        var teamListTable = $("all_teams_list_csv");
 
-        var header = $(".header");
+        var header = $(".csv_header");
 
         let teamArray = [];
         let teamObj = {
@@ -137,12 +146,12 @@
             powerRanking: null,  
         }
 
-        for(i=0; i<($(".info").length/header.length); i++) {
-            teamObj.teamName = $("#email" + i)[0].innerHTML;
-            teamObj.district = parseInt($("#districtNum" + i)[0].innerHTML);
+        for(i=0; i<($(".csv_info").length/header.length); i++) {
+            teamObj.teamName = $("#csv_teamName" + i).text();
+            teamObj.district = parseInt($("#csv_districtNum" + i).text());
             teamObj.players = [];
             teamObj.teamCaptain.name = "blank";
-            teamObj.powerRanking = parseInt($("#powerRanking" + i)[0].innerHTML);
+            teamObj.powerRanking = parseInt($("#csv_powerRanking" + i).text());
 
             teamArray.push(teamObj);
 
@@ -156,6 +165,8 @@
                 powerRanking: null,
             }
         }
+
+        // console.log(teamArray);
 
         try {
             let req = {
@@ -187,6 +198,15 @@
         $('#addTeamModal').hide();
     });
 
+    $('#uploadCSVBtn').click(function() {
+        $('#uploadCSVModal').show();
+    });
+    
+    // Hide modal when "X" is clicked
+    $('.close').click(function() {
+        $('#uploadCSVModal').hide();
+    });
+
     addTeamForm.submit(function(event){
         event.preventDefault();
         
@@ -198,12 +218,12 @@
                 data: JSON.stringify({
                     teamArray: {
                         teamName: $("#teamName").val(),
-                        district: $("#district").val(),
+                        district: parseInt($("#district").val()),
                         players: [],
                         teamCaptain: {
                             name: $("#teamCaptain").val(),
                         },
-                        powerRanking: $("#powerRanking").val(),  
+                        powerRanking: parseInt($("#powerRanking").val()),  
                     }
                 })
             };

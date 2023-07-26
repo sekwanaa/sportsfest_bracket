@@ -1,32 +1,32 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const data = require('../data')
+const data = require('../data');
 const userData = data.usersData;
+const teamsData = data.teamsData;
+const poolsData = data.poolsData;
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
+	let email = 'not authenticated';
+	let loggedInUser = {};
+	let userRole = '';
+	let tournamentJoinedArray = [];
 
-    let email = "not authenticated";
-        let loggedInUser = {};
-        let userRole = "";
+	if (req.oidc.isAuthenticated()) {
+		const email = req.oidc.user.name;
 
-        if(req.oidc.isAuthenticated()) {
-            let filterObj = {
-                email: req.oidc.user.name
-            };
-            let projectionObj = {
-                "user_metadata.role": 1,
-            };
+		const user = await userData.getUserByEmail(email);
+		userRole = user.user_metadata.role;
+		const player = await teamsData.getPlayerByUserId(user._id.toString());
+		tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
+	}
 
-            const user = await userData.getUserByEmail(filterObj, projectionObj);
-            userRole = user.user_metadata.role;
-        }
-
-    res.render("partials/report_bug", {
-        title: "Report Bugs", 
-        shortcode: 'reportBug',
-        isAuthenticated: req.oidc.isAuthenticated(),
-        role: userRole,
-    });
+	res.render('partials/report_bug', {
+		title: 'Report Bugs',
+		shortcode: 'reportBug',
+		isAuthenticated: req.oidc.isAuthenticated(),
+		role: userRole,
+		tournamentJoinedArray: tournamentJoinedArray,
+	});
 });
 
 module.exports = router;

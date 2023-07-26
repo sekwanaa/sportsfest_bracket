@@ -36,20 +36,10 @@
                         <input class="edit_inputs" id="shirt_number_input" type="text" placeholder="Update shirt number">
                     </div>
                 </div>
-                <div id="playerTournamentDiv">
-                    <label for="player_tournament">Tournament</label>
-                    {{#if tournament}}
-                        <p id="player_tournament">{{tournament}}</p>
-                    {{else}}
-                        <p id="player_tournament">N/A</p>
-                    {{/if}}
-                </div>
-            </section>
-            <section id="playerInfoBottomRow">
                 <div id="playerPositionDiv">
                     <label for="player_position">Position</label>
-                    {{#if player_position}}
-                        <p id="player_position">{{player_position}}</p>
+                    {{#if position}}
+                        <p id="player_position">{{position}}</p>
                     {{else}}
                         <p id="player_position">N/A</p>
                     {{/if}}
@@ -64,14 +54,6 @@
                         </select>
                     </div>
                 </div>
-                <div id="playerTeamDiv">
-                    <label for="player_team">Team</label>
-                    {{#if hasTeam}}
-                        <p id="player_team">{{teamName}}</p>
-                    {{else}}
-                        <p id="player_team">N/A</p>
-                    {{/if}}
-                </div>
             </section>
         </section>
         <section id="userCardButtons">
@@ -84,111 +66,123 @@
 
     <div id="manageTeamCard" class="dashboardCards">
         <h1 class="cardTitles">Your Current Team</h1>
-        {{#if hasTeam}} {{!-- if they have a team this will display --}}
-            <section id="team_display_card">
-                <section id="teamInfo">
-                    <div>
-                        <label for="teamName">Team Name</label>
-                        <p id="teamName">{{teamName}}</p>
+        {{#unless tournamentJoinedArray}}
+            <section id="joinTournament">
+                    <div id="joinTournamentDiv">
+                        <label for="joinTournamentCodeInput">Tournament Code</label>
+                        <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
+                        <button id="submitTournamentCodeBtn">Submit</button>
                     </div>
-                    <div>
-                        <label for="district">District</label>
-                        <p id="teamDistrict">{{district}}</p>
+                    <button class= "marginY10" id="joinTournamentBtn">Join tournament</button>
+            </section>
+        {{/unless}}
+        
+        {{#if tournamentJoinedArray}}
+            <section id="joinedTournamentsList">
+                <div id="tournaments_joined_list">
+                    <p id="tournamentTitle">Tournaments joined</p>
+                    <br>
+                    <ul>
+                        {{#each tournamentJoinedArray}} 
+                            <li id={{this._id}} class="tournamentLink">{{this.tournamentName}}</li>
+                            {{#each this.sports}}
+                                <p id="{{this._id}}" class="tournamentSport sport_{{../this._id}} hidden">{{this.sport}}</p> 
+                            {{/each}}
+                        {{/each}}
+                    </ul>
+                    <button id="tournaments_joined_back_btn">Back</button>
+                </div>
+                <br>
+                <section id="joinTournament">
+                    <div id="joinTournamentDiv">
+                        <label for="joinTournamentCodeInput">Tournament Code</label>
+                        <br>
+                        <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
+                        <button id="submitTournamentCodeBtn">Submit</button>
                     </div>
-                    <div>
-                        <label for="teamCaptain">Team Captain</label>
-                        <p id="teamCaptain">{{teamCaptain}}</p>
-                    </div>
+                    <button class= "marginY10" id="joinTournamentBtn">Join tournament</button>
                 </section>
-                <section id="teamMembers">
-                    {{#each teamMembers}}
-                        <div class="teamMemberName">
-                            <p id="teamMember{{@index}}">{{this.name}}</p>
-                            {{#if this.code}}<p>{{this.code}}</p>{{/if}}
-                        </div>
-                    {{/each}}   
-                </section>      
             </section>
-
-            <section id="edit_team_display_card">
-                <div>
-                    <div class="editInfoDiv">
-                        <label for="edit_team_name">Team Name :</label>
-                        <input id="edit_team_name"type="text"></input>
-                        {{!-- <button id="submit_team_name_change_btn">Change</button> --}}
-                    </div>
-                    <div class="editInfoDiv">
-                        <label for="edit_districtSelection">District :</label>
-                        <input id="edit_districtSelection" type="text" list="districts" placeholder="District" required>
-                        <datalist id="districts">
-                            <option value="1"></option>
-                            <option value="2"></option>
-                            <option value="3"></option>
-                            <option value="4"></option>
-                            <option value="5"></option>
-                            <option value="6"></option>
-                            <option value="7"></option>
-                            <option value="8"></option>
-                            <option value="9"></option>
-                            <option value="10"></option>
-                            <option value="11"></option>
-                            <option value="12"></option>
-                            <option value="13"></option>
-                        </datalist>
-                    </div>
-                    <div class="editInfoDiv">
-                        <label for="edit_team_captain">Team Captain :</label>
-                        <input id="edit_team_captain" type="text"></input>
-                        {{!-- <button id="submit_team_captain_change_btn">Change</button> --}}
-                    </div>
-                </div>
-                <div id="editTeamMembersDiv">
-                    <label>Team Members</label>
-                    <div id="edit_team_member"></div>
-                    <div id="add_remove_buttons">
-                        <button id="edit_add_more_button" type="button">Add Member</button>
-                        <button id="edit_remove_button" type="button">Remove Member</button>
-                    </div>
-                </div>
-            </section>
-            <section id="edit_submit_buttons">
-                {{#compareRole "captain" role}} {{!-- captains can edit teams --}}
-                    <button id="edit_team_btn">Edit Team</button>
-                {{/compareRole}}
-
-                {{#compareRole "coordinator" role}} {{!-- coordinators can edit teams --}}
-                    <button id="edit_team_btn">Edit Team</button>
-                {{/compareRole}}
-
-                <div id="div_edit_team_submit_btn">
-                    <button id="edit_team_submit_btn">Submit</button>
-                </div>
-            </section>
-
-            {{else}} {{!-- if they don't have a team this will display--}}
-            <section id="noTeamDisplay"> 
-                <p>You don't currently have a team right now</p>
-                <div>
-                    {{#compareRole "coordinator" role}} {{!-- coordinators can create teams --}}
-                        <button type="button" id="create_team_button">Create a Team</button>
-                    {{/compareRole}}
-
-                    {{#compareRole "captain" role}} {{!-- captains can create teams --}}
-                        <button type="button" id="create_team_button">Create a Team</button>
-                    {{/compareRole}}
-
-                    <button type="button" id="join_team_button">Join a Team</button>
-                </div>
+        {{/if}}
+        
+        <div id='manageTeamElement' class="hidden">
+            <div id="noTeamDiv" class="hidden">
+                <div id="team_sport_name"></div>
+                <button type="button" id="create_team_button">Create a Team</button>
+                <button type="button" id="join_team_button">Join a Team</button>
+                
                 <section id="createTeamSection">
                     <div id ="div_join_team_input">
-                        <input id="team_code_input" type="text" placeholder="Team code">
+                        <input id="team_code_input" type="text" placeholder="Player code">
                         <button id="submit_team_code_button" type="submit">Submit</button>
                     </div>
+
                     <form id="teamInputForm" method="post">
                         <div>
-                            <input id="teamName" type="text" placeholder="Team Name" required>
+                            <input id="teamName_form" type="text" placeholder="Team Name" required>
                             <br>
-                            <input id="districtSelection" type="text" list="districts" placeholder="District" required>
+                            <input id="districtSelection_form" type="text" list="districts" placeholder="District" required>
+                            <datalist id="districts_form">
+                                <option value="1"></option>
+                            </datalist>
+                        </div>
+                        <div id="teamMembers_form">
+                            <div>
+                                <label for="teamCaptain_form">Team Captain</label>
+                                <input name="teamCaptain_form" id="teamCaptain_form" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
+                            </div>
+                            <label>Members</label>
+                            <div id="teamMembersList">
+                                <input name="teamMemberName_form1" id="teamMemberName_form1" type="text" placeholder="Team Member Name" required>
+                            </div>
+                        </div>
+                        <div id="add_remove_buttons">
+                            <button id="add_more_button" type="button">Add Member</button>
+                            <button id="remove_button" type="button">Remove Member</button>
+                        </div>
+                        <div>
+                            <button id="submit" type="submit">Submit</button>
+                            <button type="reset">Reset</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <div id="doesHaveTeam" class="hidden">
+                <section id="team_display_card">
+                    <section id="teamInfo">
+                        <div>
+                            <label for="teamName">Team Name</label>
+                            <p id="teamName"></p>
+                        </div>
+                        <div>
+                            <label for="district">District</label>
+                            <p id="teamDistrict"></p>
+                        </div>
+                        <div>
+                            <label for="teamCaptain">Team Captain</label>
+                            <p id="teamCaptain"></p>
+                        </div>
+                    </section>
+                    <section id="teamMembers">
+                        {{!-- {{#each teamMembers}} --}}
+                            <div class="teamMemberName">
+                                {{!-- <p id="teamMember{{@index}}">{{this.name}}</p> --}}
+                                {{!-- {{#if this.code}}<p>{{this.code}}</p>{{/if}} --}}
+                            </div>
+                        {{!-- {{/each}}    --}}
+                    </section>      
+                </section>
+
+                <section id="edit_team_display_card">
+                    <div>
+                        <div class="editInfoDiv">
+                            <label for="edit_team_name">Team Name :</label>
+                            <input id="edit_team_name"type="text"></input>
+                        </div>
+                        <div class="editInfoDiv">
+                            <label for="edit_districtSelection">District :</label>
+                            <input id="edit_districtSelection" type="text" list="districts" placeholder="District" required>
                             <datalist id="districts">
                                 <option value="1"></option>
                                 <option value="2"></option>
@@ -205,34 +199,35 @@
                                 <option value="13"></option>
                             </datalist>
                         </div>
-                        <div id="teamMembers">
-                            <div>
-                                <label for="teamCaptain">Team Captain</label>
-                                <input name="teamCaptain" id="teamCaptain" type="text" placeholder="Team Captain Name" value="{{name}}" required readonly>
-                            </div>
-                            <label>Members</label>
-                            <div id="teamMembersList">
-                                <input name="teamMemberName1" id="teamMemberName1" type="text" placeholder="Team Member Name" required>
-                            </div>
+                        <div class="editInfoDiv">
+                            <label for="edit_team_captain">Team Captain :</label>
+                            <input id="edit_team_captain" type="text"></input>
+                            {{!-- <button id="submit_team_captain_change_btn">Change</button> --}}
                         </div>
+                    </div>
+                    <div id="editTeamMembersDiv">
+                        <label>Team Members</label>
+                        <div id="edit_team_member"></div>
                         <div id="add_remove_buttons">
-                            <button id="add_more_button" type="button">Add Member</button>
-                            <button id="remove_button" type="button">Remove Member</button>
+                            <button id="edit_add_more_button" type="button">Add Member</button>
+                            <button id="edit_remove_button" type="button">Remove Member</button>
                         </div>
-                        <div>
-                            <button id="submit" type="submit">Submit</button>
-                            <button type="reset">Reset</button>
-                        </div>
-                    </form>
+                    </div>
                 </section>
-            </section>
-
-        {{/if}}
+                <section id="edit_submit_buttons">
+                    <button id="edit_team_btn">Edit Team</button>
+                    <div id="div_edit_team_submit_btn">
+                        <button id="edit_team_submit_btn">Submit</button>
+                    </div>
+                </section>
+            </div>
+            <button id="manageTeamElementBackBtn">Back</button>
+        </div>
     </div>
 
     {{!-- Coordinator dashboard --}}
 
-    {{#compareRole "coordinator" role}}
+    {{#if tournamentCoordinator}}
 
     <div class="dashboardCards" id="editUserRoles">
         <h1 class="cardTitles">Edit User Roles</h1>
@@ -268,21 +263,32 @@
             </div> 
         </div>
     </div>
+    <script src="/public/js/role_change.js"></script>
+    {{/if}}
+
 
     <div class="dashboardCards" id="createPool">
-        <h1 class="cardTitles">Create Pool</h1>
-        <div>
+        <h1 class="cardTitles">Create Tournament</h1>
+        <div id="yourTournaments">
             <h3>Your Tournaments</h3>
             {{#each tournamentArray}}
-                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a>
+                <a id="{{this._id}}" href="/tournament/{{#idToString this._id}}{{/idToString}}">{{this.tournamentName}}</a> - {{this.tournamentCode}}
                 </br>
             {{/each}}
             </br>
         </div>
         <div>
-            <button id="createTournamentBtn">Create tournament</button>
-            <div id="submit_tournament_info_div" hidden="true">
-                <button id="submit_tournament_info_button">Submit</button>
+            <div id="review_tournament_info_div" class="hidden">
+                <button id="review_tournament_info_button">Review Tournament</button>
+                <div class='hidden' id="tournament_summary">
+                    <h1>Tournament Summary</h1>
+                    <section id="summaryInfo">
+
+                    </section>
+                    <section id="summaryInfoSports">
+                        
+                    </section>
+                </div>
             </div>
             <div id="createTournamentDiv">
                 <form id="create_tournament_form">
@@ -310,17 +316,12 @@
                 </form>
                 <button id="previous_button">Previous</button>
                 <button id="next_button">Next</button>
+
             </div>
-            <button id="joinTournamentBtn">Join tournament</button>
-            <div id="joinTournamentDiv">
-                <label for="joinTournamentCodeInput">Tournament Code</label>
-                <input id="joinTournamentCodeInput" type="number" placeholder="input team code">
-            </div>
+                <button class= "marginY10" id="createTournamentBtn">Create tournament</button>
+                <button class="hidden" id="submit_tournament_button">Submit</button>
         </div>
     </div>
-    <script src="/public/js/create_pool.js"></script>
-    <script src="/public/js/role_change.js"></script>
-    {{/compareRole}}
 
     <script src="/public/js/team_input.js"></script>
     <script src="/public/js/player_dashboard.js"></script>
