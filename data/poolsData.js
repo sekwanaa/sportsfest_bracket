@@ -472,10 +472,14 @@ let exportedMethods = {
 			if(typeof(allMatches[i].team1) == "number") {
 				allMatches[i].team1 = "BYE";
 				allMatches[i].complete = true;
+				allMatches[i].winner = team2;
+				allMatches[i].loser = team1;
 			}
 			if(typeof(allMatches[i].team2) == "number") {
 				allMatches[i].team2 = "BYE";
 				allMatches[i].complete = true;
+				allMatches[i].winner = team1;
+				allMatches[i].loser = team2;
 			}
 		}
 
