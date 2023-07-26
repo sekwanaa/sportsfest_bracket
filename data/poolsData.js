@@ -361,7 +361,8 @@ let exportedMethods = {
 		let direction = "left";
 		let nextNodeCount = Math.pow(2, row)-1;
 		let lines = Math.pow(2, row)+nextNodeCount;
-
+		field = 0;
+		
 		for(let i=0; i<allMatches.length; i++) {
 			if(row == powers) {
 				break;
@@ -371,15 +372,22 @@ let exportedMethods = {
 				if(direction == "left") {
 					allMatches[i].left = allMatches[nextNodeCount];
 					direction = "right";
+					allMatches[i].field = field;
+					field++;
+					field = field%numOfFields;
 				}
 				else {
 					allMatches[i].right = allMatches[nextNodeCount];
 					direction = "left";
+					allMatches[i].field = field;
+					field++;
+					field = field%numOfFields;
 				}
 				nextNodeCount++;
 			}
 			if(nextNodeCount == lines) {
 				row++;
+				field = 0;
 				nextNodeCount = Math.pow(2, row)-1;
 				lines = Math.pow(2, row)+nextNodeCount;
 			}
@@ -480,6 +488,18 @@ let exportedMethods = {
 				allMatches[i].complete = true;
 				allMatches[i].winner = allMatches[i].team1;
 				allMatches[i].loser = allMatches[i].team2;
+			}
+		}
+
+		//reset fields
+		for(let i=1; i<powers+1; i++) {
+			field = 0;
+			for(let j=0; j<allMatches.length; j++) {
+				if(allMatches[j].gameNum == i && allMatches[j].team1 != "BYE" && allMatches[j].team2 != "BYE") {
+					allMatches[j].field = field+1;
+					field++;
+					field = field%numOfFields;
+				}
 			}
 		}
 
@@ -892,8 +912,6 @@ let exportedMethods = {
 			//end link
 
 			await this.updateBracket(allMatches[0]);
-
-			console.log(allMatches);
 
 			for(let i=0; i<allMatches.length; i++) {
 				let updatePlayoff = await playOffCollection.findOneAndUpdate(
