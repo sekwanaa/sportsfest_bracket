@@ -1110,6 +1110,17 @@ let exportedMethods = {
 		return tmpSeeds;
 	},
 
+	async getPlayOffs(playOffIdArray) {
+		let playOffArr = [];
+
+		const playoffsCollection = await playoffs();
+		for(let i=0; i<playOffIdArray.length; i++) {
+			let playoffGame = await playoffsCollection.findOne({_id: new ObjectId(playOffIdArray[i])});
+			playOffArr.push(playoffGame);
+		}
+		return playOffArr;
+	},
+
 	async getPlayOffTeams(numOfSeeds, startSeed, endSeed, seedIdArray) {
 		let playOffTeamsArray = [];
 		let playOffGame = {};
