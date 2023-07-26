@@ -331,7 +331,6 @@ let exportedMethods = {
 		}
 
 		let bracketRows = powers;
-		let fieldNum = 0;
 		let brackMatch = 0;
 		let allMatches = [];
 		let row = 0;
@@ -345,9 +344,11 @@ let exportedMethods = {
 			gameNum = bracketRows;
 
 			for(let i=0; i<brackMatch; i++) {
-				let match = new playOffMatch(gameNum, "TBD", "TBD", field, false);
+				let match = new playOffMatch(gameNum, "TBD", "TBD", field+1, false);
 				match.nodeNum = nodeNum;
 				nodeNum++;
+				field++;
+				field = field%numOfFields;
 				allMatches.push(match);
 			}
 
@@ -463,6 +464,16 @@ let exportedMethods = {
 					allMatches[i].team2 = allSeedData[j].team;
 				}
 			}
+		}
+
+		//insert each match into playoffs
+		const playoffsCollection = await playoffs();
+
+		for(let i=0; i<allMatches.length; i++) {
+			let insertPlayOffGame = await playoffsCollection.insertOne(allMatches[i]);
+			let playOffId = insertPlayOffGame.insertedId.toString();
+	
+			const insertPlayOffGameId = await this.insertIntoSportPlayOffs(sportInfo._id, playOffId);	
 		}
 
 		return allMatches;
@@ -1275,11 +1286,7 @@ let exportedMethods = {
 		// );
 
 
-		//FIX: COME BACK AND FIX THIS
-
-		const createPlayoffs = await this.insertPlayOff(tournamentId, sportName);
-
-		//END FIX
+		const createPlayoffs = await this.insertPlayoffNew(tournamentId, sportName);
 
 		const incrementStage = await this.incrementStage(tournamentId);
 		

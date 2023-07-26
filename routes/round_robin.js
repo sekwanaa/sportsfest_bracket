@@ -153,7 +153,8 @@ router.post('/:id/:sport/round_robin_complete_test/', async (req, res) => {
 	let sportName = req.params.sport;
 
 	try {
-		const roundRobinComplete = await poolsData.insertPlayoffNew(tournamentId, sportName);
+		const playOffmatches = await poolsData.insertPlayoffNew(tournamentId, sportName);
+		// const insertPlayoffMatches = 
 		return res.json(roundRobinComplete);
 	} catch (e) {
 		return res.status(500).json({ error: e });
