@@ -173,6 +173,7 @@
             };
             $.ajax(req).then(function (res) {
                 // location.reload();
+                rows.push(headers)
                 for (let i = 0; i < table.length; i++) {
                     for (let j = 0; j < table.length; j++) {
                         if (res[j].teamName == $('#teamName' + i)[0].innerHTML) {
