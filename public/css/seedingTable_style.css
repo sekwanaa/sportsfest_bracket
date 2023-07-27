@@ -1,31 +1,32 @@
 body {
-    animation: fadein 1.25s ease-in-out;
+  animation: fadein 1.25s ease-in-out;
 }
 
 button {
-    text-align: center;
-    border-width: 1px;
-    border-radius: 8%;
-    padding: 5px;
-    margin: 10px;
+  text-align: center;
+  border-width: 1px;
+  border-radius: 8%;
+  padding: 5px;
+  margin: 10px;
 }
 
-.header_bar, .seed_info {
-    display: grid;
-    grid-template-columns: 10% 30% 20% 20% 20%;
-    grid-auto-rows: 3em;
-    text-align: center;
+.header_bar,
+.seed_info {
+  display: grid;
+  grid-template-columns: 30% 20% 20% 20%;
+  grid-auto-rows: 3em;
+  text-align: center;
 }
 
 .header_bar {
-    background-color: grey;
-    padding: .5em;
+  background-color: grey;
+  padding: 0.5em;
 }
 
 .seed_information {
-    background-color: lightgrey;
-    max-height: 60vh;
-    overflow-y: scroll;
-    font-size: 18px;
-    padding-top: .5em;
+  background-color: lightgrey;
+  max-height: 60vh;
+  overflow-y: scroll;
+  font-size: 18px;
+  padding-top: 0.5em;
 }

@@ -1,6 +1,7 @@
 (function ($) {
     var baseUrl = window.location.pathname;
     let errorDialog = $('.errorDialog')
+    let downloadCSVButton = $('#downloadCSVButton_seedingTable')
 
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
 
@@ -138,6 +139,60 @@
         event.preventDefault()
         errorDialog.hide()
         submitSeedsBtn.show()
+    })
+
+    downloadCSVButton.click((event) => {
+        event.preventDefault()
+
+        const header = $('.header_bar')
+        let table = $('.seed_info')
+        let tempArr = []
+        let headers = []
+        let rows = []
+        let csvContent = "data:text/csv;charset=utf-8,"
+
+        for (let i = 0; i < header[0].children.length; i++) {
+            if (header[0].children[i].innerHTML.startsWith("Team Name")) {
+                headers.push(header[0].children[i].innerHTML)
+            }
+            if (header[0].children[i].innerHTML.startsWith("Seed #")) {
+                headers.push("Districts")
+                headers.push("Power Ranking")
+            }
+        }
+
+        try {
+            let req = {
+                method: 'POST',
+                url: baseUrl + '/getDistricts',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                })
+            };
+            $.ajax(req).then(function (res) {
+                // location.reload();
+                for (let i = 0; i < table.length; i++) {
+                    for (let j = 0; j < table.length; j++) {
+                        if (res[j].teamName == $('#teamName' + i)[0].innerHTML) {
+                            tempArr.push(res[j].teamName, res[j].district, parseInt($('#seed' + i)[0].innerHTML))
+                            rows.push(tempArr)
+                            tempArr = []
+                        }
+                    }
+                }
+
+                rows.forEach(team => {
+                    let row = team.join(",")
+                    csvContent += row + "\r\n"
+                })
+
+                var encodedUri = encodeURI(csvContent);
+                window.open(encodedUri);
+            });
+        }
+        catch (e) {
+            console.log(e)
+        }
     })
 
 })(window.jQuery);

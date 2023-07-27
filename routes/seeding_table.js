@@ -125,4 +125,26 @@ router.post('/seeds', async (req, res) => {
 	}
 });
 
+router.post('/:id/:sport/getDistricts', async (req, res) => {
+	try {
+		const tournamentId = req.params.id;
+		const sportName = req.params.sport;
+		// return res.json(await matchesData.getTeamRecords());
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+		let teamList = await Promise.all(sportInfo.teams.map(async function (team) {
+			const teamInfo = await teamsData.getAllTeamsByID(team)
+			if (teamInfo) {
+				return {
+					teamName: teamInfo.name,
+					district: teamInfo.district
+				}
+			}
+		}))
+		return res.json(teamList)
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
+});
+
 module.exports = router;
