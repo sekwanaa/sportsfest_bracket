@@ -945,6 +945,20 @@ let exportedMethods = {
 						}
 					}
 				)
+
+				if(allMatches[i].thirdPlace) {
+					let updatePlayoff = await playOffCollection.findOneAndUpdate(
+						{
+							_id: allMatches[i]._id,
+						},
+						{
+							$set: {
+								"thirdPlace.team1": allMatches[i].left.loser,
+								"thirdPlace.team2": allMatches[i].right.loser,
+							}
+						}
+					)
+				}
 			}
 
 			//for each team, update seed collection currentPlacement
