@@ -361,7 +361,8 @@ let exportedMethods = {
 		let direction = "left";
 		let nextNodeCount = Math.pow(2, row)-1;
 		let lines = Math.pow(2, row)+nextNodeCount;
-
+		field = 0;
+		
 		for(let i=0; i<allMatches.length; i++) {
 			if(row == powers) {
 				break;
@@ -371,15 +372,22 @@ let exportedMethods = {
 				if(direction == "left") {
 					allMatches[i].left = allMatches[nextNodeCount];
 					direction = "right";
+					allMatches[i].field = field;
+					field++;
+					field = field%numOfFields;
 				}
 				else {
 					allMatches[i].right = allMatches[nextNodeCount];
 					direction = "left";
+					allMatches[i].field = field;
+					field++;
+					field = field%numOfFields;
 				}
 				nextNodeCount++;
 			}
 			if(nextNodeCount == lines) {
 				row++;
+				field = 0;
 				nextNodeCount = Math.pow(2, row)-1;
 				lines = Math.pow(2, row)+nextNodeCount;
 			}
@@ -472,12 +480,32 @@ let exportedMethods = {
 			if(typeof(allMatches[i].team1) == "number") {
 				allMatches[i].team1 = "BYE";
 				allMatches[i].complete = true;
+				allMatches[i].winner = allMatches[i].team2;
+				allMatches[i].loser = allMatches[i].team1;
 			}
 			if(typeof(allMatches[i].team2) == "number") {
 				allMatches[i].team2 = "BYE";
 				allMatches[i].complete = true;
+				allMatches[i].winner = allMatches[i].team1;
+				allMatches[i].loser = allMatches[i].team2;
 			}
 		}
+
+		//reset fields
+		for(let i=1; i<powers+1; i++) {
+			field = 0;
+			for(let j=0; j<allMatches.length; j++) {
+				if(allMatches[j].gameNum == i && allMatches[j].team1 != "BYE" && allMatches[j].team2 != "BYE") {
+					allMatches[j].field = field+1;
+					field++;
+					field = field%numOfFields;
+				}
+			}
+		}
+
+		//check entire bracket tree and move any teams up if they had a bye
+
+		await this.updateBracket(allMatches[0]);
 
 		//insert each match into playoffs
 		const playoffsCollection = await playoffs();
@@ -490,6 +518,30 @@ let exportedMethods = {
 		}
 
 		return allMatches;
+	},
+
+	async updateBracket(node) {
+		let tmpNode = node;
+
+		if(tmpNode == null) {
+			console.log("fin");
+			return;
+		}
+
+		else {
+			if(tmpNode.left != null) {
+				if(tmpNode.left.winner != null) {
+					tmpNode.team1 = tmpNode.left.winner;
+				}
+				await this.updateBracket(tmpNode.left);
+			}
+			if(tmpNode.right != null) {
+				if(tmpNode.right.winner != null) {
+					tmpNode.team2 = tmpNode.right.winner;
+				}
+				await this.updateBracket(tmpNode.right);
+			}
+		}
 	},
 
 	//method to insert finalized playoff schedule
@@ -799,16 +851,80 @@ let exportedMethods = {
 				if(game.field == fieldNum && game.team1 == team1 && game.team2 == team2) {
 					const updateRoundRobin = await playOffCollection.findOneAndUpdate(
 						{
-							_id: new ObjectId(sportsSchedule[i]),
+							_id: game._id,
 						},
 						{
 							$set: {
 								complete: true,
+								winner: winner,
+								loser: loser,
 							},
 						}
 					)
 					break;					
 				}
+			}
+
+			//update bracket
+			let allMatches = await this.getPlayOffs(sportsSchedule);
+			allMatches.sort((a,b) => a.nodeNum > b.nodeNum ? 1 : a.nodeNum < b.nodeNum ? -1 : 0);
+
+			//link bracket tree
+
+			let row = 1;
+			let direction = "left";
+			let nextNodeCount = Math.pow(2, row)-1;
+			let lines = Math.pow(2, row)+nextNodeCount;
+			let powers = 0;
+
+			while(1) {
+				if(Math.pow(2, powers) > sportInfo.numOfPlayoffTeams) {
+					break;
+				}
+				else {
+					powers++;
+				}
+			}
+
+			for(let i=0; i<allMatches.length; i++) {
+				if(row == powers) {
+					break;
+				}
+	
+				for(let j=0; j<2; j++) {
+					if(direction == "left") {
+						allMatches[i].left = allMatches[nextNodeCount];
+						direction = "right";
+					}
+					else {
+						allMatches[i].right = allMatches[nextNodeCount];
+						direction = "left";
+					}
+					nextNodeCount++;
+				}
+				if(nextNodeCount == lines) {
+					row++;
+					nextNodeCount = Math.pow(2, row)-1;
+					lines = Math.pow(2, row)+nextNodeCount;
+				}
+			}
+
+			//end link
+
+			await this.updateBracket(allMatches[0]);
+
+			for(let i=0; i<allMatches.length; i++) {
+				let updatePlayoff = await playOffCollection.findOneAndUpdate(
+					{
+						_id: allMatches[i]._id,
+					},
+					{
+						$set: {
+							team1: allMatches[i].team1,
+							team2: allMatches[i].team2,
+						}
+					}
+				)
 			}
 
 			//for each team, update seed collection currentPlacement
