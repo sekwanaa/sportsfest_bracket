@@ -145,23 +145,45 @@
         event.preventDefault()
 
         const header = $('.header_bar')
-        let table = $('.seed_info')
-        let tempArr = []
-        let headers = []
+        // let table = $('.seed_info')
+        var seedInfo = $(".seed_information");
+        // let tempArr = []
+        // let headers = []
         let rows = []
         let csvContent = "data:text/csv;charset=utf-8,"
 
-        for (let i = 0; i < header[0].children.length; i++) {
-            if (header[0].children[i].innerHTML.startsWith("Team Name")) {
-                headers.push(header[0].children[i].innerHTML)
+        //for each header name, create a dictionary/object
+        let headerArr = [];
+        let teamArr = null;
+        for(let i=0; i<header[0].children.length; i++) {
+            let headerObj = {
+                name: header[0].children[i].innerHTML,
+                infoArr: [],
             }
-            if (header[0].children[i].innerHTML.startsWith("Seed #")) {
-                headers.push("Districts")
-                headers.push("Players")
-                headers.push("Team Captain")
-                headers.push("Power Ranking")
+            headerArr.push(headerObj);
+            if(headerObj.name == "Team Name") {
+                teamArr = headerObj.infoArr;
             }
         }
+
+        //push data from table into correct array
+        for(let i=0; i<seedInfo[0].children.length; i++) {
+            for(let j=0; j<seedInfo[0].children[i].children.length; j++) {
+                headerArr[j].infoArr.push(seedInfo[0].children[i].children[j].innerHTML);
+            }
+        }
+
+        // for (let i = 0; i < header[0].children.length; i++) {
+        //     if (header[0].children[i].innerHTML.startsWith("Team Name")) {
+        //         headers.push(header[0].children[i].innerHTML)
+        //     }
+        //     if (header[0].children[i].innerHTML.startsWith("Seed #")) {
+        //         headers.push("Districts")
+        //         headers.push("Players")
+        //         headers.push("Team Captain")
+        //         headers.push("Power Ranking")
+        //     }
+        // }
 
         try {
             let req = {
@@ -173,16 +195,24 @@
             };
             $.ajax(req).then(function (res) {
                 // location.reload();
-                rows.push(headers)
-                for (let i = 0; i < table.length; i++) {
-                    for (let j = 0; j < table.length; j++) {
-                        if (res[j].teamName == $('#teamName' + i)[0].innerHTML) {
-                            tempArr.push(res[j].teamName, res[j].district, "N/A", "N/A", parseInt($('#seed' + i)[0].innerHTML))
-                            rows.push(tempArr)
-                            tempArr = []
-                        }
-                    }
-                }
+                
+                rows.push(["Team Name", "District", "Players", "Team Captain", "Power Ranking"])
+
+                for(let i=0; i<teamArr.length; i++) {
+                    let tempArr = [teamArr[i], res[teamArr[i]], "NA", "NA", headerArr[0].infoArr[i]];
+                    rows.push(tempArr);
+                }               
+
+                // rows.push(headers)
+                // for (let i = 0; i < table.length; i++) {
+                //     for (let j = 0; j < table.length; j++) {
+                //         if (res[j].teamName == $('#teamName' + i)[0].innerHTML) {
+                //             tempArr.push(res[j].teamName, res[j].district, "N/A", "N/A", parseInt($('#seed' + i)[0].innerHTML))
+                //             rows.push(tempArr)
+                //             tempArr = []
+                //         }
+                //     }
+                // }
 
                 rows.forEach(team => {
                     let row = team.join(",")
