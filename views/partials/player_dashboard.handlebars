@@ -107,9 +107,11 @@
         
         <div id='manageTeamElement' class="hidden">
             <div id="noTeamDiv" class="hidden">
-                <div id="team_sport_name"></div>
-                <button type="button" id="create_team_button">Create a Team</button>
-                <button type="button" id="join_team_button">Join a Team</button>
+                <div>
+                    <div id="team_sport_name"></div>
+                    <button type="button" id="create_team_button">Create a Team</button>
+                    <button type="button" id="join_team_button">Join a Team</button>
+                </div>
                 
                 <section id="createTeamSection">
                     <div id ="div_join_team_input">
@@ -121,10 +123,24 @@
                         <div>
                             <input id="teamName_form" type="text" placeholder="Team Name" required>
                             <br>
-                            <input id="districtSelection_form" type="text" list="districts" placeholder="District" required>
-                            <datalist id="districts_form">
-                                <option value="1"></option>
-                            </datalist>
+                            <div id="createTeamDistrictDiv">
+                                <label for="districs">District:</label>
+                                <select name="districts" id="districtSelection_form">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                </select> 
+                            </div>
                         </div>
                         <div id="teamMembers_form">
                             <div>
@@ -140,14 +156,13 @@
                             <button id="add_more_button" type="button">Add Member</button>
                             <button id="remove_button" type="button">Remove Member</button>
                         </div>
-                        <div>
+                        <div id="teamInputFormBtns">
                             <button id="submit" type="submit">Submit</button>
                             <button type="reset">Reset</button>
                         </div>
                     </form>
                 </section>
             </div>
-
             <div id="doesHaveTeam" class="hidden">
                 <section id="team_display_card">
                     <section id="teamInfo">
@@ -182,22 +197,21 @@
                         </div>
                         <div class="editInfoDiv">
                             <label for="edit_districtSelection">District :</label>
-                            <input id="edit_districtSelection" type="text" list="districts" placeholder="District" required>
-                            <datalist id="districts">
-                                <option value="1"></option>
-                                <option value="2"></option>
-                                <option value="3"></option>
-                                <option value="4"></option>
-                                <option value="5"></option>
-                                <option value="6"></option>
-                                <option value="7"></option>
-                                <option value="8"></option>
-                                <option value="9"></option>
-                                <option value="10"></option>
-                                <option value="11"></option>
-                                <option value="12"></option>
-                                <option value="13"></option>
-                            </datalist>
+                            <select name="edit_districtSelection" id="edit_districtSelection">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                            </select>
                         </div>
                         <div class="editInfoDiv">
                             <label for="edit_team_captain">Team Captain :</label>
@@ -221,7 +235,9 @@
                     </div>
                 </section>
             </div>
-            <button id="manageTeamElementBackBtn">Back</button>
+            <div id="manageTeamElementBackBtnDiv">
+                <button id="manageTeamElementBackBtn">Back</button>
+            </div>
         </div>
     </div>
 
@@ -250,12 +266,10 @@
                         <div class="grid-row" id="currentRole{{@index}}">{{this.user_metadata.role}}</div> 
                         <div class="grid-row" id="roleChange{{@index}}">
                             <form id="roleChangeForm">
-                                <input list="roles" name="role" id="newRole{{@index}}">
-
-                                <datalist id="roles">
-                                <option value="captain">
-                                <option value="player">
-                                </datalist>
+                                <select id="newRole{{@index}}">
+                                    <option value="assistant">Assistant</option>
+                                    <option value="captain">Captain</option>
+                                </select>
                             </form>
                         </div>
                     {{/each}}
@@ -300,11 +314,10 @@
                         {{/each}}
                         </br>
                         <label for="privacy">Privacy: </label>
-                        <input list="privacy" name="privacy_question" id="privacy_question">
-                        <datalist id="privacy">
-                            <option value="private">
-                            <option value="public">
-                        </datalist>
+                        <select name="privacy" id="privacy_question">
+                            <option value="private">Private</option>
+                            <option value="public">Public</option>
+                        </select>
                         </br>
                         <label for="tournament_name">Tournament Name: </label>
                         <input id="tournament_name" type="text" required></input>

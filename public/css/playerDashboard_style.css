@@ -1,282 +1,317 @@
 /* Universal classes */
 .marginY10 {
-	margin: 10px 0;
+  margin: 10px 0;
 }
 
 .marginY20 {
-	margin: 20px 0;
+  margin: 20px 0;
 }
 
 .marginX10 {
-	margin: 0 10px;
+  margin: 0 10px;
 }
 
 .marginX20 {
-	margin: 0 10px;
+  margin: 0 10px;
 }
 /* universal classes end */
 
 body {
-	background-color: black;
+  background-color: black;
 }
 
 button {
-	padding: 3px;
+  padding: 3px;
 }
 
-
 #manageTeamCard input {
-	margin: 20px 0;
+  margin: 20px 0;
 }
 
 #titleDiv {
-	font-family: titleFont;
-	font-size: 48px;
-	height: 25vh;
-	text-align: center;
-	background-color: var(--textColor);
-	border: 1px solid black;
-	border-radius: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  font-family: titleFont;
+  font-size: 48px;
+  height: 25vh;
+  text-align: center;
+  background-color: var(--textColor);
+  border: 1px solid black;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #dashboard {
-	/* entire card area */
-	display: flex;
-	flex-wrap: wrap;
+  /* entire card area */
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .dashboardCards {
-	/* all cards */
-	min-width: 600px;
-	height: 90vh;
-	flex: 1 1 40%;
-	background-color: var(--textColor);
-	border: 1px solid black;
-	border-radius: 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	position: relative;
+  /* all cards */
+  min-width: 600px;
+  height: 90vh;
+  flex: 1 1 40%;
+  background-color: var(--textColor);
+  border: 1px solid black;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .cardTitles {
-	font-family: mainFont;
-	text-transform: uppercase;
-	font-size: 36px;
-	font-weight: 200;
-	padding: 5px 50px;
-	margin-top: -50px;
-	margin-bottom: 50px;
-	border: 1px solid black;
-	border-radius: 30px;
-	position: absolute;
-	top: 10%;
+  font-family: mainFont;
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 200;
+  padding: 5px 50px;
+  margin-top: -50px;
+  margin-bottom: 50px;
+  border: 1px solid black;
+  border-radius: 30px;
+  position: absolute;
+  top: 10%;
 }
 
 label {
-	font-family: mainFont;
-	text-transform: uppercase;
-	font-size: 18px;
-	font-weight: 800;
-	padding-bottom: 10px;
+  font-family: mainFont;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 800;
+  padding-bottom: 10px;
 }
 
 /* userCard styling */
 
 #userCard > * {
-	padding: 0.5rem;
+  padding: 0.5rem;
 }
 
 #userCard img {
-	width: 150px;
-	height: 150px;
-	border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  border-radius: 30px;
 }
 
 #userCard section#userInfo {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #userCard section#userInfo #player_name {
-	text-transform: uppercase;
-	font-family: titleFont;
+  text-transform: uppercase;
+  font-family: titleFont;
 }
 
 #userCard section#userInfo #player_role {
-	text-transform: uppercase;
-	font-family: mainFont;
-	font-weight: 100;
+  text-transform: uppercase;
+  font-family: mainFont;
+  font-weight: 100;
 }
 
 #userCard section#playerInfo {
-	width: 90%;
+  width: 90%;
 }
 
 #userCard section#playerInfo #playerInfoTopRow {
-	font-family: mainFont;
-	font-size: 12px;
-	width: 100%;
-	margin: 30px 0;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	justify-content: space-between;
+  font-family: mainFont;
+  font-size: 12px;
+  width: 100%;
+  margin: 30px 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #playerInfoTopRow > div {
-	flex: 0 1 30%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
+  flex: 0 1 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #playerInfoTopRow p {
-	font-size: var(--displayedInfoFontSize);
-	width: 100%;
-	height: fit-content;
-	text-align: center;
-	border: 1px solid black;
-	border-radius: 10px;
+  font-size: var(--displayedInfoFontSize);
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 /* userCard styling end */
 
 /* manageTeam styling */
 
-#team_display_card {
-	font-family: mainFont;
-	width: 90%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+#manageTeamElement {
+  width: 50%;
+  font-family: mainFont;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+}
+
+#manageTeamElementBackBtnDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 #team_display_card #teamInfo {
-	width: 100%;
-	margin-bottom: 30px;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
-	align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
 }
 
 #teamInfo div {
-	flex: 0 1 50%;
-	width: 200px;
-	margin-bottom: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  flex: 0 1 50%;
+  width: 200px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #teamInfo p {
-	width: 250px;
-	height: 20px;
-	text-align: center;
-	border: 1px solid black;
-	border-radius: 10px;
+  width: 250px;
+  height: 20px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 #teamMembers {
-	text-align: center;
-	width: 60%;
-	height: 200px;
-	overflow-y: scroll;
-	display: flex;
-	justify-items: center;
-	align-items: center;
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+  text-align: center;
+  width: 60%;
+  height: 200px;
+  overflow-y: scroll;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 #teamMembers::-webkit-scrollbar {
-	/* Hide scrollbar for Chrome, Safari and Opera */
-	display: none;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  display: none;
 }
 
 .teamMemberName {
-	font-size: var(--displayedInfoFontSize);
-	width: 60%;
-	height: fit-content;
-	padding: 5px 10px;
-	margin: 3px 0;
-	color: white;
-	background-color: black;
-	border-radius: 20px;
+  font-size: var(--displayedInfoFontSize);
+  width: 60%;
+  height: fit-content;
+  padding: 5px 10px;
+  margin: 3px 0;
+  color: white;
+  background-color: black;
+  border-radius: 20px;
 }
 
 /* no team styling */
 
-#noTeamDisplay {
-	width: 90%;
-	font-family: mainFont;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+#noTeamDiv {
+  width: 90%;
+  max-height: 300px;
+  font-family: mainFont;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#noTeamDisplay > * {
-	margin-bottom: 20px;
+#team_sport_name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#noTeamDiv > * {
+  margin-bottom: 20px;
 }
 
 .tournamentLink {
-	list-style: none;
+  list-style: none;
 }
 
 .tournamentLink:hover,
 .tournamentSport:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #createTeamSection {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  /* border: 1px solid black; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #createTeamSection input {
-	padding: 5px;
-	margin-bottom: 5px;
-	border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 10px;
 }
 
 #teamInputForm {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
 #teamInputForm div {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div#teamInputFormBtns {
+  flex-direction: row-reverse;
+}
+
+div#createTeamDistrictDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+div#createTeamDistrictDiv > select {
+  padding-left: 10px;
+  margin-left: 20px;
 }
 
 #teamMembers,
 #teamMembers div {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #teamMembersList {
-	max-height: 100px;
-	overflow-y: scroll;
+  max-height: 100px;
+  overflow-y: scroll;
 }
 
 /* no team end */
@@ -284,51 +319,51 @@ label {
 /* edit field styling */
 
 #edit_team_display_card {
-	width: 90%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 section#edit_team_display_card > div {
-	width: 100%;
-	margin-bottom: 30px;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 #editTeamMembersDiv {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .editInfoDiv {
-	display: grid;
-	justify-items: center;
-	align-items: center;
-	grid-template-columns: 50% 50%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-columns: 50% 50%;
 }
 
 #edit_team_member {
-	width: 55%;
-	display: flex;
-	flex-wrap: wrap;
+  width: 55%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #edit_team_display_card input {
-	padding: 5px;
-	margin: 5px 0;
-	border-radius: 10px;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 10px;
 }
 
 #add_remove_buttons {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 #edit_submit_buttons {
-	margin: 10px;
-	display: flex;
+  margin: 10px;
+  display: flex;
 }
 
 /* edit field end */
@@ -337,57 +372,57 @@ section#edit_team_display_card > div {
 /* edit user role styling */
 
 #editUserRoles {
-	font-family: mainFont;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  font-family: mainFont;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #editUserRoles > div {
-	width: 90%;
+  width: 90%;
 }
 
 #users_submit_button_div {
-	margin-bottom: 20px;
-	display: flex;
-	justify-content: space-between;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .gridContainer {
-	width: 100%;
+  width: 100%;
 }
 
 #gridHeader {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .header {
-	flex: 0 1 33%;
-	padding: 10px 0;
-	margin-bottom: 20px;
-	text-align: center;
-	font-family: titleFont;
-	color: white;
-	background-color: black;
-	border-radius: 30px;
+  flex: 0 1 33%;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: titleFont;
+  color: white;
+  background-color: black;
+  border-radius: 30px;
 }
 
 #gridInfo {
-	width: 100%;
-	text-align: center;
-	height: 350px;
-	overflow-y: scroll;
-	display: grid;
-	grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
-	grid-auto-rows: 50px;
+  width: 100%;
+  text-align: center;
+  height: 350px;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+  grid-auto-rows: 50px;
 }
 
 .grid-row {
-	overflow: hidden;
-	width: 100%;
+  overflow: hidden;
+  width: 100%;
 }
 
 /* edit user role end */
@@ -395,8 +430,8 @@ section#edit_team_display_card > div {
 /* create pool styling */
 
 #summaryInfoSports {
-	max-height: 200px;
-	overflow-y: scroll;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 /* .sports_question_summary_div {
