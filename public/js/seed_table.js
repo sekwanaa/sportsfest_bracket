@@ -157,6 +157,8 @@
             }
             if (header[0].children[i].innerHTML.startsWith("Seed #")) {
                 headers.push("Districts")
+                headers.push("Players")
+                headers.push("Team Captain")
                 headers.push("Power Ranking")
             }
         }
@@ -174,7 +176,7 @@
                 for (let i = 0; i < table.length; i++) {
                     for (let j = 0; j < table.length; j++) {
                         if (res[j].teamName == $('#teamName' + i)[0].innerHTML) {
-                            tempArr.push(res[j].teamName, res[j].district, parseInt($('#seed' + i)[0].innerHTML))
+                            tempArr.push(res[j].teamName, res[j].district, "N/A", "N/A", parseInt($('#seed' + i)[0].innerHTML))
                             rows.push(tempArr)
                             tempArr = []
                         }
