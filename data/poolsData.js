@@ -1573,6 +1573,9 @@ let exportedMethods = {
 
 		const teams = await teamData.getAllTeamsByPowerRanking(sportInfo.teams);
 
+		//check if there are teams, throw error if not
+		if(teams.length < 1) throw "there are no teams to create pool play";
+
 		let teamsPerPool = Math.floor(teams.length / numOfFields);
 
 		/* add numOfTeams/numOfCourts to each pool randomly

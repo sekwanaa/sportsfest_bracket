@@ -42,29 +42,36 @@
                 })
             };
             $.ajax(req).then(function (roundRobinArray) {
-                let previousTotalGamesLength = totalGames.html();
-                totalGames.html(roundRobinArray.length);
-
-                if (totalGames.html() > 0) {
-                    for (i = 0; i < previousTotalGamesLength; i++) {
-                        $("#gameNum" + i).remove();
-                        $("#team1Name" + i).remove();
-                        $("#team2Name" + i).remove();
-                        $("#field" + i).remove();
-                        $("#ref1" + i).remove();
-                        $("#ref2" + i).remove();
+                try {
+                    if(!Array.isArray(roundRobinArray)) throw roundRobinArray;
+                    
+                    let previousTotalGamesLength = totalGames.html();
+                    totalGames.html(roundRobinArray.length);
+    
+                    if (totalGames.html() > 0) {
+                        for (i = 0; i < previousTotalGamesLength; i++) {
+                            $("#gameNum" + i).remove();
+                            $("#team1Name" + i).remove();
+                            $("#team2Name" + i).remove();
+                            $("#field" + i).remove();
+                            $("#ref1" + i).remove();
+                            $("#ref2" + i).remove();
+                        }
+                    }
+    
+                    for (i = 0; i < roundRobinArray.length; i++) {
+                        roundRobinGrid.append('<div class="grid-row-name" id="gameNum' + i + '">' + roundRobinArray[i].gameNum + '</div>');
+                        roundRobinGrid.append('<div class="grid-row-name" id="team1Name' + i + '">' + roundRobinArray[i].team1.teamName + '</div>');
+                        roundRobinGrid.append('<div class="grid-row-name" id="team2Name' + i + '">' + roundRobinArray[i].team2.teamName + '</div>');
+                        roundRobinGrid.append('<div class="grid-row-name" id="field' + i + '">' + roundRobinArray[i].field + '</div>');
+                        roundRobinGrid.append('<div class="grid-row-name" id="ref1' + i + '">' + roundRobinArray[i].ref1 + '</div>');
+                        roundRobinGrid.append('<div class="grid-row-name" id="ref2' + i + '">' + roundRobinArray[i].ref2 + '</div>');
                     }
                 }
-
-                for (i = 0; i < roundRobinArray.length; i++) {
-                    roundRobinGrid.append('<div class="grid-row-name" id="gameNum' + i + '">' + roundRobinArray[i].gameNum + '</div>');
-                    roundRobinGrid.append('<div class="grid-row-name" id="team1Name' + i + '">' + roundRobinArray[i].team1.teamName + '</div>');
-                    roundRobinGrid.append('<div class="grid-row-name" id="team2Name' + i + '">' + roundRobinArray[i].team2.teamName + '</div>');
-                    roundRobinGrid.append('<div class="grid-row-name" id="field' + i + '">' + roundRobinArray[i].field + '</div>');
-                    roundRobinGrid.append('<div class="grid-row-name" id="ref1' + i + '">' + roundRobinArray[i].ref1 + '</div>');
-                    roundRobinGrid.append('<div class="grid-row-name" id="ref2' + i + '">' + roundRobinArray[i].ref2 + '</div>');
+                catch(e) {
+                    //send alert to user to explain error
+                    alert(e);
                 }
-
             });
         }
         catch (e) {
