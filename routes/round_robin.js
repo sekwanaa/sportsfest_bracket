@@ -77,7 +77,6 @@ router.post('/:id/:sport/', async (req, res) => {
 		}
 		return res.json(schedule);
 	} catch (e) {
-		console.log(e);
 		return res.json(e);
 		// return res.status(500).json({ error: e });
 	}
