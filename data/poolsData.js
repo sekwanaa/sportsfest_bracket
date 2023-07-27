@@ -349,6 +349,12 @@ let exportedMethods = {
 				nodeNum++;
 				field++;
 				field = field%numOfFields;
+				if(i==0) {
+					let thirdPlaceMatch = new playOffMatch(gameNum, "TBD", "TBD", field+1, false);
+					match.thirdPlace = thirdPlaceMatch;
+					field++;
+					field = field%numOfFields;
+				}
 				allMatches.push(match);
 			}
 
@@ -540,6 +546,20 @@ let exportedMethods = {
 					tmpNode.team2 = tmpNode.right.winner;
 				}
 				await this.updateBracket(tmpNode.right);
+			}
+			if(tmpNode.thirdPlace) {
+				if(tmpNode.left != null) {
+					if(tmpNode.left.loser != null) {
+						tmpNode.thirdPlace.team1 = tmpNode.left.winner;
+					}
+					await this.updateBracket(tmpNode.left);
+				}
+				if(tmpNode.right != null) {
+					if(tmpNode.right.loser != null) {
+						tmpNode.thirdPlace.team2 = tmpNode.right.winner;
+					}
+					await this.updateBracket(tmpNode.right);
+				}
 			}
 		}
 	},
