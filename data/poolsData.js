@@ -349,7 +349,7 @@ let exportedMethods = {
 				nodeNum++;
 				field++;
 				field = field%numOfFields;
-				if(i==0) {
+				if(row==0) {
 					let thirdPlaceMatch = new playOffMatch(gameNum, "TBD", "TBD", field+1, false);
 					match.thirdPlace = thirdPlaceMatch;
 					field++;

@@ -29,6 +29,9 @@ router.get('/:id/:sport', async (req, res) => {
 		for(let i=0; i<playoffArr.length; i++) {
 			let section = playoffArr[i].gameNum-1;
 			bracketSections[section].push(playoffArr[i]);
+			if(playoffArr[i].thirdPlace) {
+				bracketSections[section].push(playoffArr[i].thirdPlace);
+			}
 		}
 
 		let eliminatedTeams = await poolsData.getAllSeeds(tournamentId, sportName, 'eliminated');
