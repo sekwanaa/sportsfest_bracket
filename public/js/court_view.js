@@ -17,7 +17,8 @@
 				.text()
 				.split(' ')[1]
 		);
-		// don't need year because it's in the court view route
+		
+		var gameNum = $("#gameNum" + submitButtonNumber);
 
 		let winner = '';
 		let loser = '';
@@ -42,6 +43,7 @@
 				url: baseUrl,
 				contentType: 'application/json',
 				data: JSON.stringify({
+					gameNum: gameNum,
 					team1: team1,
 					team2: team2,
 					score1: team1Score,

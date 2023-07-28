@@ -4,8 +4,8 @@
     {{#each courtArray}}
     <div class="court">
         <h3 id="court{{this.numOfFields}}">Court {{this.numOfFields}}</h3>
-        <h4>Game Number: {{this.gameNum}}</h4>
-        <br>        
+        <h4 id="gameNum{{this.numOfFields}}">Game Number: {{this.gameNum}}</h4>
+        <br>
         {{#if this.gamesFinished}}
             <h1> No games scheduled </h1>
         {{else}}
