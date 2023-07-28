@@ -825,7 +825,7 @@ let exportedMethods = {
 		return finalizedSeed;
 	},
 
-	async completeMatch(fieldNum, team1, team2, winner, loser, tournamentId, sportName) {
+	async completeMatch(gameNum, fieldNum, team1, team2, winner, loser, tournamentId, sportName) {
 		const poolsCollection = await pools();
 
 		// const stage = await poolsCollection.find({}, {stage: 1});
@@ -882,6 +882,27 @@ let exportedMethods = {
 						}
 					)
 					break;					
+				}
+
+				if(
+					gameNum == 4 && 
+					game.gameNum == 4 &&
+					game.thirdPlace.team1 == team1 &&
+					game.thirdPlace.team2 == team2
+				) {
+					const updateRoundRobin = await playOffCollection.findOneAndUpdate(
+						{
+							_id: game._id,
+						},
+						{
+							$set: {
+								"thirdPlace.complete": true,
+								"thirdPlace.winner": winner,
+								"thirdPlace.loser": loser,
+							},
+						}
+					)
+					break;
 				}
 			}
 

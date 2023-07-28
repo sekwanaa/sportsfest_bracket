@@ -72,7 +72,7 @@ router.get('/:id/:sport', async (req, res) => {
 				courtObj = {};
 			}
 
-			if(courtData != null && courtData.nodeNum == 0) {
+			if(courtData != null && courtData.nodeNum == 0 && courtData.thirdPlace.complete == false) {
 				let thirdPlaceObj = {
 					gameNum: courtData.thirdPlace.gameNum,
 					numOfFields: courtData.thirdPlace.field,

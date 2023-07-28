@@ -30,7 +30,7 @@ let exportedMethods = {
             }
         }
 
-        const completeMatch = await poolsData.completeMatch(newMatch.fieldNum, newMatch.team1, newMatch.team2, newMatch.winner, newMatch.loser, tournamentId, sportName);
+        const completeMatch = await poolsData.completeMatch(newMatch.gameNum, newMatch.fieldNum, newMatch.team1, newMatch.team2, newMatch.winner, newMatch.loser, tournamentId, sportName);
 
         return matchId;
     },
