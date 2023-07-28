@@ -47,22 +47,22 @@ router.get('/:id/:sport', async (req, res) => {
 
 		let courtArray = [];
 		let courtObj = {};
-		let courtData = '';
+		// let courtData = '';
 
 		for (i = 0; i < numOfFields; i++) {
 			let fieldNum = i + 1;
-			courtData = await courtviewData.getCurrentGameData(sportInfo, fieldNum);
+			let courtData = await courtviewData.getCurrentGameData(sportInfo, fieldNum);
 
 			if (courtData != null) {
 				courtObj.gameNum = courtData.gameNum;
-				courtObj.numOfFields = i + 1;
+				// courtObj.numOfFields = i + 1;
+				courtObj.numOfFields = courtData.field;
 				courtObj.teamName1 = courtData.team1;
 				courtObj.teamName2 = courtData.team2;
 				courtObj.ref1 = courtData.ref1;
 				courtObj.ref2 = courtData.ref2;
 				courtArray.push(courtObj);
 				courtObj = {};
-				courtData = '';
 			} else {
 				courtObj.numOfFields = i + 1;
 				courtObj.teamName1 = 'No team scheduled';
@@ -70,11 +70,46 @@ router.get('/:id/:sport', async (req, res) => {
 				courtObj.gamesFinished = true;
 				courtArray.push(courtObj);
 				courtObj = {};
-				courtData = '';
+			}
+
+			if(courtData != null && courtData.nodeNum == 0) {
+				let thirdPlaceObj = {
+					gameNum: courtData.thirdPlace.gameNum,
+					numOfFields: courtData.thirdPlace.field,
+					teamName1: courtData.thirdPlace.team1,
+					teamName2: courtData.thirdPlace.team2,
+					ref1: courtData.thirdPlace.ref1,
+					ref2: courtData.thirdPlace.ref2,
+					// courtArray.push(courtObj);
+				}
+				courtArray.push(thirdPlaceObj);
 			}
 		}
 
-		res.render('partials/court_view', {
+		//check courtArray in case a third place game exists
+
+		let courtCheck = {};
+		let courtCheckArr = {};
+		for(let i=0; i<courtArray.length; i++) {
+			if(courtCheck[courtArray[i].numOfFields]) {
+				courtCheck[courtArray[i].numOfFields] += 1;
+				courtCheckArr[courtArray[i].numOfFields] = 1;
+			}
+			else {
+				courtCheck[courtArray[i].numOfFields] = 1
+			}
+		}
+
+		let keys = Object.keys(courtCheckArr);
+		
+		for(let i=0; i<courtArray.length; i++) {
+			if(keys.includes(courtArray[i].numOfFields.toString()) && courtArray[i].gamesFinished == true) {
+				courtArray.splice(i, 1);
+			}
+		}
+
+
+		return res.render('partials/court_view', {
 			title: 'Current Games by Court',
 			shortcode: 'courtView',
 			isAuthenticated: req.oidc.isAuthenticated(),
