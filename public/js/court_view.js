@@ -18,7 +18,11 @@
 				.split(' ')[1]
 		);
 		
-		var gameNum = $("#gameNum" + submitButtonNumber);
+		var gameNumText = $("#gameNum" + submitButtonNumber);
+
+		gameNumText = gameNumText.text().split("Game Number: ");
+
+		let gameNum = parseInt(gameNumText[1]);
 
 		let winner = '';
 		let loser = '';

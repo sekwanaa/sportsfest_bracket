@@ -73,6 +73,16 @@ let exportedMethods = {
                 // console.log(isMatchComplete);
                 break;
             }
+
+            if(
+                matchInfo.gameNum == 4 && matchArray[i].gameNum == 4 &&
+                matchArray[i].thirdPlace.team1 == matchInfo.team1 &&
+                matchArray[i].thirdPlace.team2 == matchInfo.team2 &&
+                matchArray[i].thirdPlace.field == matchInfo.fieldNum
+            ) {
+                isMatchComplete = matchArray[i].thirdPlace.complete;
+                break;
+            }
         }
         return isMatchComplete;
     },
