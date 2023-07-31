@@ -1936,7 +1936,7 @@ let exportedMethods = {
 	
 					teams.push(tmpArray[i].team1);
 					teams.push(tmpArray[i].team2);
-					if(tmpArray.length == 1 || (teams.includes(nextTeam) && !teams.some(team => previousGamesTeams.includes(team))) || queueCount == queue.length) {
+					if(tmpArray.length == 1 || (teams.includes(nextTeam) && !teams.some(team => previousGamesTeams.includes(team)))) {
 						tmpArray[i].gameNum = gameNum;
 						tmpArray[i].ref1 = (gameNum)%(array.length)+1;
 						tmpArray[i].ref2 = (gameNum)%(array.length)+1;
@@ -1960,9 +1960,8 @@ let exportedMethods = {
 				}
 
 				// //if no games can be inserted, move this team to the end of the queue
-				queue.push(queue[0]);
-				queue.splice(0, 1);
-				queueCount++;
+				// queue.push(queue[0]);
+				// queue.splice(0, 1);
 			}
 
 			for(let i=0; i<queue.length; i++) {
