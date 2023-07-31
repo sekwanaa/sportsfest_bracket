@@ -1924,6 +1924,7 @@ let exportedMethods = {
 
 				//select first team in queue
 				let nextTeam = queue[0];
+				let nextTeam2 = queue[1];
 	
 				//find a game where this team is playing
 				for(let i=0; i<tmpArray.length; i++) {
@@ -1937,21 +1938,26 @@ let exportedMethods = {
 	
 					teams.push(tmpArray[i].team1);
 					teams.push(tmpArray[i].team2);
-					if(tmpArray.length == 1 || (teams.includes(nextTeam) && !teams.some(team => previousGamesTeams.includes(team))) || queueCount == queue.length) {
+					if(tmpArray.length == 1 || ((teams.includes(nextTeam) && teams.includes(nextTeam2)) && !teams.some(team => previousGamesTeams.includes(team))) || queueCount == queue.length) {
 						tmpArray[i].gameNum = gameNum;
 						tmpArray[i].ref1 = (gameNum)%(array.length)+1;
 						tmpArray[i].ref2 = (gameNum)%(array.length)+1;
 						gameNum++;
 	
 						sortedMatches.push(tmpArray[i]);
-	
-						//remove previous positions of teams in queue
-						queue.splice(queue.indexOf(tmpArray[i].team1), 1);
-						queue.splice(queue.indexOf(tmpArray[i].team2), 1);
-	
+
 						//add the two teams to back of queue
-						queue.push(tmpArray[i].team1);
-						queue.push(tmpArray[i].team2);
+						queue.push(queue[0]);
+						queue.push(queue[1]);
+
+						// queue.push(tmpArray[i].team1);
+						// queue.push(tmpArray[i].team2);
+
+						//remove previous positions of teams in queue
+						queue.splice(0, 1);
+						queue.splice(0, 1);
+						// queue.splice(queue.indexOf(tmpArray[i].team1), 1);
+						// queue.splice(queue.indexOf(tmpArray[i].team2), 1);
 	
 						//remove game from array of all games
 						tmpArray.splice(i, 1);
@@ -1959,9 +1965,14 @@ let exportedMethods = {
 						break;
 					}
 					if(i==tmpArray.length-1) {
-						//if no games can be inserted, move this team to the end of the queue
-						queue.push(queue[0]);
-						queue.splice(0, 1);
+						//if no games can be inserted, switch nextTeam2 with queue[2]
+						// queue.push(queue[0]);
+						// queue.splice(0, 1);
+
+						let tmpQueue = queue[1];
+						queue[1] = queue[2];
+						queue[2] = tmpQueue;
+
 						queueCount++;
 					}
 				}
