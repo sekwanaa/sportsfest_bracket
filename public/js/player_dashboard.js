@@ -86,10 +86,10 @@
 	while (teamMember.length != 0) {
 		editTeamMembersDiv.append(
 			'<input id="editTeamMemberInput' +
-				teamMemberCount +
-				'" type="text"></input><id="memberBreak' +
-				teamMemberCount +
-				'" br>'
+			teamMemberCount +
+			'" type="text"></input><id="memberBreak' +
+			teamMemberCount +
+			'" br>'
 		);
 		$('#editTeamMemberInput' + teamMemberCount).val(teamMember.html());
 		teamMemberCount++;
@@ -224,7 +224,7 @@
 			editTeamDisplayCard.show();
 			teamDisplayCard.hide();
 			var teamMemberName = $(".teamMemberName")
-			for (let i=0;i<teamMemberName[0].children.length;i++) {
+			for (let i = 0; i < teamMemberName[0].children.length; i++) {
 				// console.log($('#teamMember' + i)[0].innerHTML.split("-")[0])
 				editTeamMembersDiv.append(
 					'<input id="editTeamMemberInput' + teamMemberCount + '" type="text">'
@@ -291,7 +291,7 @@
 					sportId: sportId,
 				}),
 			};
-			$.ajax(req).then(function (res) {});
+			$.ajax(req).then(function (res) { });
 		} catch (e) {
 			console.log(e);
 		}
@@ -339,12 +339,10 @@
 		event.preventDefault();
 		if (joinTournamentBtn.html() == 'Cancel') {
 			joinTournamentBtn.html('Join tournament');
-			createTournamentBtn.show();
 			joinTournamentDiv.hide();
 			joinedTournamentsList.show()
 		} else {
 			joinTournamentBtn.html('Cancel');
-			createTournamentBtn.hide();
 			joinTournamentDiv.show();
 			joinedTournamentsList.hide()
 			//take current info and put them into input fields
@@ -371,7 +369,7 @@
 					//page reload on submit
 					location.reload()
 				} else {
-					$('#joinTournamentCodeInput').css({"border-color": "red", "color": "red"})
+					$('#joinTournamentCodeInput').css({ "border-color": "red", "color": "red" })
 				}
 			});
 		} catch (e) {
@@ -388,10 +386,10 @@
 		joinTournamentBtn.addClass("hidden")
 		tournamentJoinedBackBtn.removeClass("hidden")
 		tournamentLink.addClass('hidden');
-		
+
 		// tournamentSport.removeClass('hidden');
 
-		var showSportsForTournament = $(".sport_"+event.target.id);
+		var showSportsForTournament = $(".sport_" + event.target.id);
 		showSportsForTournament.removeClass('hidden');
 	});
 
@@ -418,10 +416,10 @@
 		var teamSportName = $('#team_sport_name');
 		teamSportName.append(
 			"<p id='" +
-				event.target.id +
-				"' class='team_sport_name_class'>" +
-				event.target.innerHTML +
-				'</p>'
+			event.target.id +
+			"' class='team_sport_name_class'>" +
+			event.target.innerHTML +
+			'</p>'
 		);
 
 		//check if player has team - POST to checkPlayerTeam
@@ -439,7 +437,7 @@
 			};
 			$.ajax(req).then(function (res) {
 				//populate fields for team on completion
-				if(res != null) {
+				if (res != null) {
 					var hasTeamDiv = $("#doesHaveTeam");
 					var noTeamDiv = $("#noTeamDiv");
 					hasTeamDiv.removeClass("hidden");
@@ -450,18 +448,18 @@
 					var teamCaptain = $("#teamCaptain");
 					var district = $("#teamDistrict");
 					var teamMembersDiv = $(".teamMemberName");
-	
+
 					teamName.text(res.name);
 					teamCaptain.text(res.teamCaptain);
 					district.text(res.district);
-	
+
 					//remove any previous data from team member div
 					teamMembersDiv.empty();
-					
-					for(let i = 0; i < res.players.length; i++) {
-						let x = "<p id='teamMember"+i+"'>"+res.players[i].name
+
+					for (let i = 0; i < res.players.length; i++) {
+						let x = "<p id='teamMember" + i + "'>" + res.players[i].name
 						if (res.players[i].code != null) {
-							x += " - "+res.players[i].code+"</p>"
+							x += " - " + res.players[i].code + "</p>"
 						} else {
 							x += "</p>"
 						}
@@ -513,30 +511,30 @@
 				if (sportsCheckList[i].checked == true) {
 					sportsQuestionsDiv.append(
 						'<div id="sports_questions_' +
-							sportsCheckList[i].value +
-							'" class="sports_questions_class" hidden="true">\
+						sportsCheckList[i].value +
+						'" class="sports_questions_class" hidden="true">\
                 <h3 id="sports_questions_' +
-							sportsCheckList[i].value +
-							'_sport">' +
-							sportsCheckList[i].value +
-							'</h3>\
+						sportsCheckList[i].value +
+						'_sport">' +
+						sportsCheckList[i].value +
+						'</h3>\
                 </br>\
                 <p>How many games will each team play?</p>\
                 <input id="sports_questions_' +
-							sportsCheckList[i].value +
-							'_seedingGames" type="number" required>\
+						sportsCheckList[i].value +
+						'_seedingGames" type="number" required>\
                 <p>How many fields will be used?</p>\
                 <input id="sports_questions_' +
-							sportsCheckList[i].value +
-							'_numOfFields" type="number" required>\
+						sportsCheckList[i].value +
+						'_numOfFields" type="number" required>\
                 <p>How many teams will make it to playoffs?</p>\
                 <input id="sports_questions_' +
-							sportsCheckList[i].value +
-							'_numOfPlayOffTeams" type="number" required>\
+						sportsCheckList[i].value +
+						'_numOfPlayOffTeams" type="number" required>\
 							<p>How many refs per game?</p>\
 							<input id="sports_questions_' +
-							sportsCheckList[i].value +
-							'_numOfRefs" type="number" required>\
+						sportsCheckList[i].value +
+						'_numOfRefs" type="number" required>\
 				</br></br>\
             </div>'
 					);
@@ -545,9 +543,9 @@
 					sportsListArray.push(tmpSportsListItem);
 				}
 			}
-			
+
 			createTournamentArray.push(submitTournamentButton)
-			
+
 			//show first sports question div
 			console.log(createTournamentPageCounter)
 			createTournamentPageCounter++;
@@ -591,31 +589,32 @@
 			reviewTournamentButton.html('Cancel');
 			tournamentSummaryInfo.append(
 				'<h3>Tournament Name</h3>\
-				<p>'+$('#tournament_name').val()+'</p>\
+				<p>'+ $('#tournament_name').val() + '</p>\
 				<br>\
 				<h3>Tournament Privacy</h3>\
-				<p>'+$('#privacy_question').val()+'</p>'
+				<p>'+ $('#privacy_question').val() + '</p>'
 			)
-	
-			for (let i = 0; i<sportsCheckList.length; i++) {
+
+			for (let i = 0; i < sportsCheckList.length; i++) {
 				if (sportsCheckList[i].checked == true) {
 					tournamentSummaryInfoSports.append(
 						'<div class="sports_question_summary_div">\
-						<h3>'+sportsCheckList[i].value+'</h3>\
+						<h3>'+ sportsCheckList[i].value + '</h3>\
 						<h5>How many games will each team play?</h5>\
-						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_seedingGames').val()+'</p>\
+						<p>'+ $('#sports_questions_' + sportsCheckList[i].value + '_seedingGames').val() + '</p>\
 						<h5>How many fields will be used?</h5>\
-						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfFields').val()+'</p>\
+						<p>'+ $('#sports_questions_' + sportsCheckList[i].value + '_numOfFields').val() + '</p>\
 						<h5>How many teams will make it to playoffs?</h5>\
-						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfPlayOffTeams').val()+'</p>\
+						<p>'+ $('#sports_questions_' + sportsCheckList[i].value + '_numOfPlayOffTeams').val() + '</p>\
 						<h5>How many refs per game?</h5>\
-						<p>'+$('#sports_questions_'+sportsCheckList[i].value+'_numOfRefs').val()+'</p>\
+						<p>'+ $('#sports_questions_' + sportsCheckList[i].value + '_numOfRefs').val() + '</p>\
 						</div>'
 					)
-				}}
+				}
+			}
 			tournamentSummary.toggleClass("hidden")
 		}
-		
+
 	})
 
 	//submit tournament info
