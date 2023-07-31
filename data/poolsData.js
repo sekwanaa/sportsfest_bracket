@@ -1981,9 +1981,9 @@ let exportedMethods = {
 			for(let i=0; i<queue.length; i++) {
 				let count = 0;
 				// let maxBackToBackGames = queue.length-2;
-				let maxBackToBackGames = 0;
+				let maxBackToBackGames = 1;
 				if(queue.length < 5) {
-					maxBackToBackGames = 1;
+					maxBackToBackGames = 2;
 				}
 
 				let restartCheck = false;
