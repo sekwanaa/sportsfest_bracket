@@ -878,6 +878,14 @@ let exportedMethods = {
 		else if (stage == 2) {
 			const sportsSchedule = sportInfo.playoffs;
 			const playOffCollection = await playoffs();
+			let incrementWins = null;
+			
+			if(winner == team1) {
+				incrementWins = "team1WinCount";
+			}
+			else {
+				incrementWins = "team2WinCount";
+			}
 
 			for(let i=0; i<sportsSchedule.length; i++) {
 				let game = await playOffCollection.findOne({_id: new ObjectId(sportsSchedule[i])});
@@ -887,13 +895,33 @@ let exportedMethods = {
 							_id: game._id,
 						},
 						{
-							$set: {
-								complete: true,
-								winner: winner,
-								loser: loser,
-							},
+							// $set: {
+							// 	complete: true,
+							// 	winner: winner,
+							// 	loser: loser,
+							// },
+							$inc: {
+								[incrementWins]: 1,
+							}
 						}
 					)
+
+					const match = await playOffCollection.findOne({_id: game._id});
+					if(match.team1WinCount == match.bestOf || match.team2WinCount == match.bestOf) {
+						const updateRoundRobin = await playOffCollection.findOneAndUpdate(
+							{
+								_id: game._id,
+							},
+							{
+								$set: {
+									complete: true,
+									winner: winner,
+									loser: loser,
+								},
+							}
+						)				
+					}
+
 					break;
 				}
 
@@ -904,18 +932,41 @@ let exportedMethods = {
 					game.thirdPlace.team1 == team1 &&
 					game.thirdPlace.team2 == team2
 				) {
+					let incrementFilter = "thirdPlace." + incrementWins;
+					console.log(incrementFilter);
 					const updateRoundRobin = await playOffCollection.findOneAndUpdate(
 						{
 							_id: game._id,
 						},
 						{
-							$set: {
-								"thirdPlace.complete": true,
-								"thirdPlace.winner": winner,
-								"thirdPlace.loser": loser,
-							},
+							// $set: {
+							// 	"thirdPlace.complete": true,
+							// 	"thirdPlace.winner": winner,
+							// 	"thirdPlace.loser": loser,
+							// },
+							$inc: {
+								// "thirdPlace.$[incrementWins]":  1
+								[incrementFilter]: 1,
+							}
 						}
 					)
+
+					const match = await playOffCollection.findOne({_id: game._id});
+					if(match.thirdPlace.team1WinCount == match.thirdPlace.bestOf || match.thirdPlace.team2WinCount == match.thirdPlace.bestOf) {
+						const updateRoundRobin = await playOffCollection.findOneAndUpdate(
+							{
+								_id: game._id,
+							},
+							{
+								$set: {
+									"thirdPlace.complete": true,
+									"thirdPlace.winner": winner,
+									"thirdPlace.loser": loser,
+								},
+							}
+						)				
+					}					
+
 					break;
 				}
 			}

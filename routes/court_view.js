@@ -84,8 +84,8 @@ router.get('/:id/:sport', async (req, res) => {
 					teamName2: courtData.thirdPlace.team2,
 					ref1: courtData.thirdPlace.ref1,
 					ref2: courtData.thirdPlace.ref2,
-					bestOfNum: courtData.team1WinCount + courtData.team2WinCount + 1,
-					bestOf: (courtData.bestOf * 2 -1),
+					bestOfNum: courtData.thirdPlace.team1WinCount + courtData.thirdPlace.team2WinCount + 1,
+					bestOf: (courtData.thirdPlace.bestOf * 2 -1),
 					// courtArray.push(courtObj);
 				}
 				courtArray.push(thirdPlaceObj);
