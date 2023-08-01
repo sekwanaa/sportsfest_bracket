@@ -94,12 +94,17 @@ ul#sportsActiveDropdownMenu.sportsActive {
 
 ul#sportsActiveDropdownMenu li {
   border-radius: 20px;
+  padding: 2px;
   background-color: black;
+  height: clamp(20px, 20px + 1vw, 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 ul#sportsActiveDropdownMenu a {
   font-family: mainFont;
-  font-size: 24px;
+  font-size: clamp(3px, 3px + 1vw, 24px);
   word-spacing: 0.5rem;
   letter-spacing: 0.1rem;
   padding: 2px 10px;
@@ -146,6 +151,7 @@ ul#sportsActiveDropdownMenu a {
 #logoDiv,
 #linkDiv {
   font-family: mainFont;
+  font-size: clamp(10px, 10px + 1vw, 24px);
   padding: 5px 10px;
 }
 

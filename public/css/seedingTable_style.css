@@ -21,12 +21,13 @@ button {
 .header_bar {
   background-color: grey;
   padding: 0.5em;
+  font-size: clamp(5px, 5px + 1vw, 18px);
 }
 
 .seed_information {
   background-color: lightgrey;
   max-height: 60vh;
   overflow-y: scroll;
-  font-size: 18px;
+  font-size: clamp(1rem, 1rem + 5vw, 18px);
   padding-top: 0.5em;
 }

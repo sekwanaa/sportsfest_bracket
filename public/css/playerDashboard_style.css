@@ -30,7 +30,7 @@ button {
 
 #titleDiv {
   font-family: titleFont;
-  font-size: 48px;
+  font-size: clamp(10px, 10px + 5vw, 48px);
   height: 25vh;
   text-align: center;
   background-color: var(--textColor);
@@ -49,7 +49,7 @@ button {
 
 .dashboardCards {
   /* all cards */
-  min-width: 600px;
+  min-width: 300px;
   height: 90vh;
   flex: 1 1 40%;
   background-color: var(--textColor);
@@ -65,7 +65,7 @@ button {
 .cardTitles {
   font-family: mainFont;
   text-transform: uppercase;
-  font-size: 36px;
+  font-size: clamp(1em, 0.1em + 2.5vw, 36px);
   font-weight: 200;
   padding: 5px 50px;
   margin-top: -50px;
