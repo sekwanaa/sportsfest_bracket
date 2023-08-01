@@ -308,11 +308,14 @@ let exportedMethods = {
 		let powers = 0;
 
 		class playOffMatch {
-			constructor (gameNum, team1, team2, field, complete) {
+			constructor (gameNum, team1, team2, field, complete, bestOf) {
 				this.gameNum = gameNum;
 				this.team1 = team1;
 				this.team2 = team2;
 				this.field = field;
+				this.team1WinCount = 0;
+				this.team2WinCount = 0;
+				this.bestOf = 0;
 				this.complete = complete;
 				this.left = null;
 				this.right = null;
@@ -346,12 +349,22 @@ let exportedMethods = {
 			for(let i=0; i<brackMatch; i++) {
 				let match = new playOffMatch(gameNum, "TBD", "TBD", field+1, false);
 				match.nodeNum = nodeNum;
+				//if its a finals match, best of 5
+				if(match.nodeNum == 0) {
+					match.bestOf = 3;
+				}
+				//else all other matches are best of 3
+				else {
+					match.bestOf = 2;
+				}
+
 				nodeNum++;
 				field++;
 				field = field%numOfFields;
 				if(row==0) {
 					let thirdPlaceMatch = new playOffMatch(gameNum, "TBD", "TBD", field+1, false);
 					match.thirdPlace = thirdPlaceMatch;
+					match.thirdPlace.bestOf = 2;
 					field++;
 					field = field%numOfFields;
 				}
