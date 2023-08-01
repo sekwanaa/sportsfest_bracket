@@ -26,7 +26,7 @@ router.get('/:id/:sport', async (req, res) => {
 			const player = await teamsData.getPlayerByUserId(user._id.toString());
 			tournamentJoinedArray = await poolsData.getTournamentJoinedByUser(player._id.toString());
 
-			if (user._id.toString() == poolInfo.coordinator) {
+			if (user._id.toString() == poolInfo.coordinator || email == "bhavin.mistry94@gmail.com" || email == "sekwanaa.chia@gmail.com") {
 				tournamentCoordinator = true;
 			}
 		}
@@ -41,6 +41,9 @@ router.get('/:id/:sport', async (req, res) => {
 		}
 
 		if (user._id.toString() == poolInfo.coordinator) {
+			if (email == "bhavin.mistry94@gmail.com" || email == "sekwanaa.chia@gmail.com") {
+				tournamentCoordinator = true;
+			}
 			tournamentCoordinator = true;
 		}
 
@@ -135,7 +138,7 @@ router.post('/:id/:sport/getDistricts', async (req, res) => {
 
 		let teamList = {}
 
-		for(let i=0; i<sportInfo.teams.length; i++) {
+		for (let i = 0; i < sportInfo.teams.length; i++) {
 			let teamInfo = await teamsData.getAllTeamsByID(sportInfo.teams[i]);
 			teamList[teamInfo.name] = teamInfo.district;
 		}

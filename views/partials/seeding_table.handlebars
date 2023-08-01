@@ -5,7 +5,9 @@
             <button id="downloadCSVButton_seedingTable">Download CSV</button>
         </div>
         {{#if stage1}}
+        {{#if tournamentCoordinator}}
         <button id="seed_submit_button" type="submit">Submit Seeds</button>
+        {{/if}}
         <dialog id="errorDialogSubmitSeeds" class="errorDialog">
             <form method="dialog">
                 <p>Please finish all games before submitting seeds</p>
@@ -38,7 +40,7 @@
             <p id="seed{{@index}}">{{#incrementIndex
                 @index}}{{/incrementIndex}}</p> --}}
             <p id="pointDiff{{#incrementIndex @index}}{{/incrementIndex}}">{{this.pointDifferential}}</p>
-           
+
         </div>
         {{/each}}
     </div>
