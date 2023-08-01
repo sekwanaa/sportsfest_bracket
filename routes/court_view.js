@@ -61,8 +61,10 @@ router.get('/:id/:sport', async (req, res) => {
 				courtObj.teamName2 = courtData.team2;
 				courtObj.ref1 = courtData.ref1;
 				courtObj.ref2 = courtData.ref2;
-				courtObj.bestOfNum = courtData.team1WinCount + courtData.team2WinCount + 1;
-				courtObj.bestOf = (courtData.bestOf * 2 -1);
+				if(courtData.hasOwnProperty("bestOf")) {
+					courtObj.bestOfNum = courtData.team1WinCount + courtData.team2WinCount + 1;
+					courtObj.bestOf = (courtData.bestOf * 2 -1);
+				}
 				courtArray.push(courtObj);
 				courtObj = {};
 			} else {
