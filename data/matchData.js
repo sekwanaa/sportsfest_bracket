@@ -76,7 +76,9 @@ let exportedMethods = {
             }
 
             if(
-                matchInfo.gameNum == 4 && matchArray[i].gameNum == 4 &&
+                // matchInfo.gameNum == 4 && 
+                // matchArray[i].gameNum == 4 &&
+                matchArray[i].hasOwnProperty("thirdPlace") &&
                 matchArray[i].thirdPlace.team1 == matchInfo.team1 &&
                 matchArray[i].thirdPlace.team2 == matchInfo.team2 &&
                 matchArray[i].thirdPlace.field == matchInfo.fieldNum

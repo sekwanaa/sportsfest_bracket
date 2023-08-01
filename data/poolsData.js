@@ -881,12 +881,13 @@ let exportedMethods = {
 							},
 						}
 					)
-					break;					
+					break;
 				}
 
 				if(
-					gameNum == 4 && 
-					game.gameNum == 4 &&
+					// gameNum == 4 && 
+					// game.gameNum == 4 &&
+					game.hasOwnProperty("thirdPlace") &&
 					game.thirdPlace.team1 == team1 &&
 					game.thirdPlace.team2 == team2
 				) {

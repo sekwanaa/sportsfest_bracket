@@ -103,7 +103,7 @@ router.get('/:id/:sport', async (req, res) => {
 		let keys = Object.keys(courtCheckArr);
 		
 		for(let i=0; i<courtArray.length; i++) {
-			if(keys.includes(courtArray[i].numOfFields.toString()) && courtArray[i].gamesFinished == true) {
+			if(keys.includes(courtArray[i].numOfFields.toString()) && courtArray[i].gamesFinished == true || courtArray[i].teamName1 == null || courtArray[i].teamName2 == null) {
 				courtArray.splice(i, 1);
 			}
 		}
