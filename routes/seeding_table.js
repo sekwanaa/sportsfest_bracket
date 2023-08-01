@@ -154,4 +154,16 @@ router.post('/:id/:sport/getDistricts', async (req, res) => {
 	}
 });
 
+router.post('/:id/:sport/update_team_rankings', async (req, res) => {
+	const seedArray = req.body.seedArray;
+	// console.log(seedArray);
+
+	try {
+
+		return res.json("here");
+	} catch (e) {
+		return res.status(500).json({ error: e });
+	}
+});
+
 module.exports = router;

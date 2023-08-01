@@ -6,9 +6,14 @@
     $("#sportsActiveDropdownMenu").toggleClass("hidden sportsActive")
 
     var submitSeedsBtn = null;
+    var submitSeedsRound1Btn = null;
 
     if ($("#seed_submit_button").length > 0) {
         submitSeedsBtn = $("#seed_submit_button");
+    }
+
+    if($("#seed_submit_button_round1").length > 0) {
+        submitSeedsRound1Btn = $("#seed_submit_button_round1");
     }
 
     var refreshSeedTableBtn = $("#refresh_seed_table_button");
@@ -68,6 +73,61 @@
             console.log(e)
         }
     });
+
+    if($("#seed_submit_button_round1").length > 0) {
+        submitSeedsRound1Btn.click(async function(event) {
+            event.preventDefault();
+
+            console.log("pressed");
+
+            let seedCount = 1;
+            let seedArray = [];
+
+            var seed = $("#seed" + seedCount);
+            var teamName = $("#teamName" + seedCount);
+
+            while(teamName.length > 0) {
+                let seedObj = {
+                    team: teamName.html(),
+                    seed: parseInt(seed.html()),
+                }
+
+                seedArray.push(seedObj);
+                seedCount++;
+
+                seed = $("#seed" + seedCount);
+                teamName = $("#teamName" + seedCount);                
+            }
+
+            //submit each seed to be updated in teams
+            try {
+                let req = {
+                    method: 'POST',
+                    url: baseUrl + '/update_team_rankings',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        seedArray: seedArray,
+                    })
+                };
+                $.ajax(req).then(function (res) {
+                    if (!res.startsWith("success")) {
+                        submitSeedsRound1Btn.css({ "color": "red", "border-color": "red" })
+                        errorDialog.show()
+                        errorDialog.css({ "display": "block" })
+                        setTimeout(() => {
+                            submitSeedsRound1Btn.css({ "color": "black", "border-color": "black" })
+                        }, 10000)
+                        submitSeedsRound1Btn.hide()
+                    } else {
+                        location.reload();
+                    }
+                });
+            }
+            catch(e) {
+                console.log(e);
+            }
+        })
+    }
 
     if ($("#seed_submit_button").length > 0) {
         submitSeedsBtn.click(async function (event) {
