@@ -36,6 +36,15 @@ let exportedMethods = {
         else {
             return options.inverse(this);
         }
+    },
+
+    checkTeamName: function(teamName1, teamname2, options) {
+        if(teamName1 == "TBD" || teamname2 == "TBD") {
+            return options.inverse(this);
+        }
+        else {
+            return options.fn(this);
+        }
     }
 }
 

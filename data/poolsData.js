@@ -933,7 +933,6 @@ let exportedMethods = {
 					game.thirdPlace.team2 == team2
 				) {
 					let incrementFilter = "thirdPlace." + incrementWins;
-					console.log(incrementFilter);
 					const updateRoundRobin = await playOffCollection.findOneAndUpdate(
 						{
 							_id: game._id,

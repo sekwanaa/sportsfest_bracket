@@ -22,7 +22,8 @@
             {{! "Input Score"}}
             {{!-- //! should also include any helpers/assistans --}}
             {{#if ../tournamentCoordinator}}
-            
+            {{#checkTeamName this.teamName1 this.teamName2}}
+
             <h3>Submit scores here</h3>
 
             <br>
@@ -47,6 +48,7 @@
             <button class="{{this.numOfFields}}">Submit</button>
 
             </form>
+            {{/checkTeamName}}
             {{/if}}
 
         </div>
