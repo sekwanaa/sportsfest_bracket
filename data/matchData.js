@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const matches = mongoCollections.matches;
 const roundrobin = mongoCollections.roundrobin;
+const playoffs = mongoCollections.playoffs;
 const teamData = require("./teamData");
 const poolsData = require("./poolsData");
 
@@ -40,7 +41,7 @@ let exportedMethods = {
         const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
         const roundRobinCollection = await roundrobin();
-        const playoffCollection = await mongoCollections.playoffs();
+        const playoffCollection = await playoffs();
 
         const poolStage = poolInfo.stage;
 
