@@ -41,9 +41,6 @@ router.get('/:id/:sport', async (req, res) => {
 		}
 
 		if (user._id.toString() == poolInfo.coordinator) {
-			if (email == "bhavin.mistry94@gmail.com" || email == "sekwanaa.chia@gmail.com") {
-				tournamentCoordinator = true;
-			}
 			tournamentCoordinator = true;
 		}
 
