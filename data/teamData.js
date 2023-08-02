@@ -360,6 +360,31 @@ let exportedMethods = {
 		return updatePowerRanking;
 	},
 
+	async updatePowerRankingFromSeed(teamArray, teamIdArray) {
+		const teamsCollection = await teams();
+
+		for(let i=0; i<teamIdArray.length; i++) {
+			let team = await this.getAllTeamsByID(teamIdArray[i]);
+
+			for(let j=0; j<teamArray.length; j++) {
+				if(team.name == teamArray[j].team) {
+					const updatePowerRanking = await teamsCollection.findOneAndUpdate(
+						{
+							_id: team._id,
+						},
+						{
+							$set: {
+								powerRanking: teamArray[j].seed,
+							}
+						}
+					)
+				}
+			}
+		}
+		
+		return;
+	},
+
 	async addTeamToSport(teamId, sportId) {
 		
 		//insert teamId into sport collection
