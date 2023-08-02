@@ -8,6 +8,7 @@
     let currentPowerRankingArr = [];
     var currentPowerRankingDivArr = $(".grid-row-power-ranking"); //gives current power ranking of each team in order of the list
     var uploadCSVButton = $("#upload_csv_button");
+    var downloadCSVTemplateButton = $("#download_csv_template_button");
     var addTeamForm = $("#addTeamForm");
 
 
@@ -187,6 +188,23 @@
         }
     })
 
+    downloadCSVTemplateButton.click(function(event) {
+        event.preventDefault();
+
+        let rows = []
+        let csvContent = "data:text/csv;charset=utf-8,"
+
+        rows.push(["Team Name", "District", "Players", "Team Captain", "Power Ranking"])         
+
+        rows.forEach(team => {
+            let row = team.join(",")
+            csvContent += row + "\r\n"
+        })
+
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+
+    });
 
     // Show add team modal when "Add Team" button is clicked
     $('#addTeamBtn').click(function() {
