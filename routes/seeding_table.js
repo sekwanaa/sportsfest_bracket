@@ -157,14 +157,20 @@ router.post('/:id/:sport/getDistricts', async (req, res) => {
 router.post('/:id/:sport/update_team_rankings', async (req, res) => {
 	const tournamentId = req.params.id;
 	const sportName = req.params.sport;
-	
+
 	const seedArray = req.body.seedArray;
 
 	const poolInfo = await poolsData.getPoolInfo(tournamentId);
 	const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
 	try {
+		//update ranks of teams from seeding table
 		let updatePowerRanking = await teamsData.updatePowerRankingFromSeed(seedArray, sportInfo.teams);
+
+		//delete round robin schedule and matchhistory from sportinfo and move them to new properties
+		let newSeedingRound = await poolsData.resetSeeding(sportInfo);
+
+
 		return res.json(updatePowerRanking);
 	} catch (e) {
 		return res.status(500).json({ error: e });

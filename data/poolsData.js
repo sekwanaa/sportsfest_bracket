@@ -2286,6 +2286,26 @@ let exportedMethods = {
 
 		return;
 	},
+
+	async resetSeeding(sportInfo) {
+		const sportsCollection = await sports();
+
+		const resetSeedingRound = await sportsCollection.findOneAndUpdate(
+			{
+				_id: sportInfo._id,
+			},
+			{
+				$set: {
+					schedule: [],
+					matchHistory: [],
+					schedule1: sportInfo.schedule,
+					matchHistory1: sportInfo.matchHistory,
+				}
+			}
+		)
+
+		return;
+	},
 };
 
 class matchObj {
