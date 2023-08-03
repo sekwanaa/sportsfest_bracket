@@ -1695,8 +1695,6 @@ let exportedMethods = {
 		//check if there are teams, throw error if not
 		if(teams.length < 1) throw "there are no teams to create pool play";
 
-		let teamsPerPool = Math.floor(teams.length / numOfFields);
-
 		//add teams to each pool randomly
 		if(random == true) {
 			let teamsArray = [];
