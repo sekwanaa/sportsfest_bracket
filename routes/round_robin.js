@@ -72,8 +72,12 @@ router.post('/:id/:sport/', async (req, res) => {
 
 		if (req.body.selection == 'roundRobin') {
 			schedule = await poolsData.roundRobinSelection(tournamentId, sportName);
-		} else {
-			schedule = await poolsData.createPoolPlay(tournamentId, sportName);
+		} 
+		else if(req.body.selection == 'poolPlay') {
+			schedule = await poolsData.createPoolPlay(tournamentId, sportName, false);
+		}
+		else {
+			schedule = await poolsData.createPoolPlay(tournamentId, sportName, true)
 		}
 		return res.json(schedule);
 	} catch (e) {

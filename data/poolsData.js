@@ -1662,7 +1662,7 @@ let exportedMethods = {
 		return finals;
 	},
 
-	async createPoolPlay(tournamentId, sportName) {
+	async createPoolPlay(tournamentId, sportName, random) {
 		const poolInfo = await this.getPoolInfo(tournamentId);
 		const sportInfo = await this.getSportInfo(poolInfo.sports, sportName);
 
