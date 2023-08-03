@@ -341,15 +341,22 @@ let exportedMethods = {
 		return updateTeamPlayers;
 	},
 
-	async updatePowerRanking(teamName, district, newPowerRanking, tournamentId, sportId) {
+	async updatePowerRanking(teamName, district, newPowerRanking, teamsArray) {
 		const teamsCollection = await teams();
 
+		let allTeams = {};
+		for(let i=0; i<teamsArray.length; i++) {
+			let teamInfo = await this.getAllTeamsByID(teamsArray[i]);
+			allTeams[teamInfo.name] = teamInfo._id;
+		}
+		
 		
 		//find team by team name and district and update their power ranking
 		const updatePowerRanking = await teamsCollection.findOneAndUpdate(
 			{
-				name: teamName,
-				district: district,
+				// name: teamName,
+				// district: district,
+				_id: allTeams[teamName]
 			},
 			{
 				$set: {

@@ -88,7 +88,15 @@
             };
             $.ajax(req).then(function (res) {
                 //page reload on submit
-                location.reload();
+                console.log(res.status)
+                if(res.status == 200) {
+                    location.reload();
+                }
+                else {
+                    console.log(res.status);
+                    alert(res.error);
+                }
+                
             });
         } 
         catch (e) {

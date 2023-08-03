@@ -135,25 +135,26 @@ router.post('/:id/:sport/batch_import_team', async (req, res) => {
 router.post('/:id/:sport/edit_power_ranking', async (req, res) => {
 
 	const tournamentId = req.params.id;
-	const sportId = req.params.sport;
+	const sportName = req.params.sport;
 
 	try {
 		const newPowerRank = req.body.teamRankObjArr;
-		// console.log(newPowerRank)
+		
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
 
 		for (i = 0; i < newPowerRank.length; i++) {
 			const updatePowerRank = await teamData.updatePowerRanking(
 				newPowerRank[i].teamName,
 				newPowerRank[i].district,
 				newPowerRank[i].newPowerRank,
-				tournamentId,
-				sportId,
+				sportInfo.teams
 			);
 		}
 
-		return res.json('');
+		return res.status(200).json({status: 200});
 	} catch (error) {
-		return res.status(500).json({ error: error });
+		return res.status(500).json({ status: 500, error: error });
 	}
 });
 
