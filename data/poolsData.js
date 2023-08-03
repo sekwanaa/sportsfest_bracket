@@ -1670,24 +1670,19 @@ let exportedMethods = {
 
 		let poolsArray = [];
 
-		let poolsObj = {
-			field: null,
-			teams: [],
-			games: [],
-		};
-
 		// for each court, create 1 pool
 		let field = 1;
 
 		for (i = 0; i < numOfFields; i++) {
-			poolsObj.field = field;
-			poolsArray.push(poolsObj);
-			field++;
-			poolsObj = {
-				field: 'null',
+			let poolsObj = {
+				field: null,
 				teams: [],
 				games: [],
 			};
+
+			poolsObj.field = field;
+			poolsArray.push(poolsObj);
+			field++;
 		}
 
 		const teams = await teamData.getAllTeamsByPowerRanking(sportInfo.teams);
@@ -1714,8 +1709,25 @@ let exportedMethods = {
 
 		// add teams to each pool by powerranking
 		else {
-			for (let i = 0; i < teams.length; i++) {
-				poolsArray[i % numOfFields].teams.push(teams[i]);
+			//check if day 1 seeds exist - if true, send extra teams to bottom seed 1 pools
+			let day1SeedsExist = sportInfo.hasOwnProperty("schedule1");
+			if(day1SeedsExist == true) {
+				let leftOverTeams = teams.length % numOfFields;
+				for (let i = 0; i < teams.length-leftOverTeams; i++) {
+					poolsArray[i % numOfFields].teams.push(teams[i]);
+				}
+
+				let poolIndex = 1;
+				for(let i=teams.length-leftOverTeams; i<teams.length; i++) {
+					//push teams into pools in backwards pool order
+					poolsArray[numOfFields-poolIndex].teams.push(teams[i]);
+					poolIndex++;
+				}
+			}
+			else {
+				for (let i = 0; i < teams.length; i++) {
+					poolsArray[i % numOfFields].teams.push(teams[i]);
+				}
 			}
 		}
 
