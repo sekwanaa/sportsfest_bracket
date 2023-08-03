@@ -1697,6 +1697,29 @@ let exportedMethods = {
 
 		let teamsPerPool = Math.floor(teams.length / numOfFields);
 
+		//add teams to each pool randomly
+		if(random == true) {
+			let teamsArray = [];
+			for(let i=0; i<teams.length; i++) {
+				teamsArray.push(teams[i]);
+			}
+
+			let fieldIndex = 0;
+			while(teamsArray.length>0) {
+				let teamIndex = Math.floor(Math.random() *teamsArray.length);
+
+				poolsArray[fieldIndex % numOfFields].teams.push(teamsArray[teamIndex]);
+				teamsArray.splice(teamIndex, 1);
+				fieldIndex++;
+			}
+		}
+
+		// add teams to each pool by powerranking
+		else {
+			for (let i = 0; i < teams.length; i++) {
+				poolsArray[i % numOfFields].teams.push(teams[i]);
+			}
+		}
 		/* add numOfTeams/numOfCourts to each pool randomly
         let teamIndex = Math.floor(Math.random()*teams.length);
         let tmpTeamArray = teams;
@@ -1714,14 +1737,6 @@ let exportedMethods = {
         }
 
         */
-
-		// add numOfTeams/numOfCourts to each pool by powerranking
-
-		for (i = 0; i < teams.length; i++) {
-			poolsArray[i % numOfFields].teams.push(teams[i]);
-		}
-
-		//end numOfTeams/numOfCourts to each pool by powerranking
 
 		// teamMatchAgainstCount = 0;
 
