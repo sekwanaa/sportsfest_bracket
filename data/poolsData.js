@@ -2155,7 +2155,9 @@ let exportedMethods = {
 				_id: sportId,
 			},
 			{
-				numOfPlayoffTeams: numOfPlayoffTeams,
+				$set: {
+					numOfPlayoffTeams: numOfPlayoffTeams,
+				}				
 			}
 		)
 

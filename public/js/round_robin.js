@@ -10,6 +10,8 @@
     var poolSelection = $("#pool_algorithm_input");
     var baseUrl = window.location.pathname;
     let errorDialog = $('.errorDialog')
+    var editPlayoffTeamsBtn = $("#edit_playoff_teams");
+    var submitPlayoffTeamsBtn = $("#submit_playoff_teams");
 
     if ($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn = $("#completeRoundRobinButton");
@@ -175,4 +177,58 @@
             console.log(e)
         }
     });
+
+    //method to initiate updating the playoff teams
+    editPlayoffTeamsBtn.click(function (event) {
+        event.preventDefault();
+
+        var playoffTeamsInputField = $("#numOfPlayoffTeams");
+        
+
+        if(editPlayoffTeamsBtn.html() == "Edit") {
+            editPlayoffTeamsBtn.html("Cancel");
+            submitPlayoffTeamsBtn.attr("disabled", false);
+            playoffTeamsInputField.attr("readonly", false);
+        }
+        else {
+            editPlayoffTeamsBtn.html("Edit");
+            submitPlayoffTeamsBtn.attr("disabled", true);
+            playoffTeamsInputField.attr("readonly", true);            
+        }
+    });
+
+    //method to update the number of playoff teams
+    submitPlayoffTeamsBtn.click(function (event) {
+        event.preventDefault();
+
+        var playoffTeamsInputField = $("#numOfPlayoffTeams");
+        playoffTeamsInputField.attr("readonly", true);
+
+        editPlayoffTeamsBtn.attr("hidden", false);
+        submitPlayoffTeamsBtn.attr("hidden", true);
+
+        try {
+            let req = {
+                method: 'POST',
+                url: baseUrl + '/update_playoff_teams',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    numOfPlayOffTeams: parseInt(playoffTeamsInputField.val()),
+                })
+            };
+            $.ajax(req).then(function (res) {
+                if(res.status == 200) {
+                    location.reload();
+                }
+                else {
+                    console.log("failed");
+                }                
+            });
+        }
+        catch (e) {
+            console.log(e)
+        }
+    });
+
+
 })(window.jQuery);
