@@ -178,4 +178,25 @@ router.post('/:id/:sport/round_robin_complete_test/', async (req, res) => {
 });
 //end testing
 
+//post method to update the numOfPlayOffTeams from Round Robin Page
+router.post('/:id/:sport/update_playoff_teams/', async (req, res) => {
+	let tournamentId = req.params.id;
+	let sportName = req.params.sport;
+
+	let numOfPlayoffTeams = req.body.numOfPlayOffTeams;
+
+	try {
+		const poolInfo = await poolsData.getPoolInfo(tournamentId);
+		const sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+
+		const updatePlayoffTeams = await poolsData.updateNumOfPlayoffTeams(sportInfo._id, numOfPlayoffTeams);
+
+		return res.status(200).json({status: 200});
+	}
+
+	catch(e) {
+		return res.status(500).json({error: e});
+	}
+});
+
 module.exports = router;

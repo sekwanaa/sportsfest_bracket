@@ -2146,6 +2146,21 @@ let exportedMethods = {
 
 		return;
 	},
+
+	async updateNumOfPlayoffTeams(sportId, numOfPlayoffTeams) {
+		const sportsCollection = await sports();
+
+		const updatePlayoffTeams = await sportsCollection.findOneAndUpdate(
+			{
+				_id: sportId,
+			},
+			{
+				numOfPlayoffTeams: numOfPlayoffTeams,
+			}
+		)
+
+		return;
+	},
 };
 
 class matchObj {
