@@ -18,14 +18,6 @@
     generaterrBtn.click(function (event) {
 
         let selection = poolSelection.val();
-        // console.log(window.location.pathname);
-
-        // let url = window.location.pathname.split("/");
-
-        // console.log(url);
-
-        // let id = url[2];
-        // let sport = url[3];
 
         if (generaterrBtn.html() == "Create Schedule") {
             generaterrBtn.html("Refresh Schedule");
@@ -37,8 +29,6 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     selection: selection,
-                    // id: id,
-                    // sport: sport,
                 })
             };
             $.ajax(req).then(function (roundRobinArray) {
@@ -82,8 +72,6 @@
     if ($("#completeRoundRobinButton").length > 0) {
         completeRoundRobinBtn.click(function (event) {
             event.preventDefault();
-
-            // console.log(window.location.pathname + '/round_robin_schedule')
 
             try {
                 let req = {
@@ -168,8 +156,6 @@
             matchArray.push(matchObj);
             matchObj = {};
         }
-
-        // console.log(window.location.pathname + '/round_robin_schedule')
 
         try {
             let req = {
