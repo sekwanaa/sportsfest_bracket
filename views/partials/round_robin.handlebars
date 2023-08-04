@@ -19,6 +19,10 @@
         <section id="completeBtnRow">
             <p id="totalGames" value="{{rounds.length}}">{{rounds.length}}</p>
             {{#if isStage1}}
+            <label for="numOfPlayoffTeams">Number Of Playoff Teams</label>
+            <input id="numOfPlayoffTeams" value="{{numOfPlayOffTeams}}"readonly></input>
+            <button id="edit_playoff_teams">Edit</button>
+            <button id="submit_playoff_teams" hidden>Submit</button>
             <button id="completeRoundRobinButton" type="submit">Complete Round
                 Robin</button>
             <dialog id="errorDialogCompleteRoundRobin" class="errorDialog">

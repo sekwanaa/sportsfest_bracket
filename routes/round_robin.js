@@ -15,6 +15,7 @@ router.get('/:id/:sport', async (req, res) => {
 	let tournamentCoordinator = false;
 	let sportName = req.params.sport;
 	let tournamentJoinedArray = [];
+	let numOfPlayOffTeams = null;
 
 	try {
 		if (req.oidc.isAuthenticated()) {
@@ -35,6 +36,8 @@ router.get('/:id/:sport', async (req, res) => {
 			}
 
 			let poolInfo = await poolsData.getPoolInfo(tournamentId);
+			let sportInfo = await poolsData.getSportInfo(poolInfo.sports, sportName);
+			numOfPlayOffTeams = sportInfo.numOfPlayoffTeams;
 
 			if (poolInfo.stage > 1) {
 				isStage1 = false;
@@ -57,6 +60,7 @@ router.get('/:id/:sport', async (req, res) => {
 			sportName: sportName,
 			tournamentCoordinator: tournamentCoordinator,
 			tournamentJoinedArray: tournamentJoinedArray,
+			numOfPlayOffTeams: numOfPlayOffTeams,
 		});
 	} catch (e) {
 		return res.status(500).json({ error: e });
